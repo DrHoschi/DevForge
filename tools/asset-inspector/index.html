@@ -1,79 +1,40 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Asset Inspector</title>
-  <style>
-    :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0f141b;color:#eef3f8}
-    *{box-sizing:border-box} body{margin:0;min-height:100vh;background:linear-gradient(180deg,#111821,#0a0f15)}
-    header{padding:20px;max-width:1180px;margin:auto} h1{margin:0 0 6px;font-size:28px} p{color:#9fb0c2}
-    main{max-width:1180px;margin:auto;padding:0 20px 32px;display:grid;grid-template-columns:320px 1fr;gap:16px}
-    .panel{background:#161f29;border:1px solid #293646;border-radius:14px;padding:14px}.drop{border:2px dashed #46617c;border-radius:12px;padding:22px;text-align:center;background:#111923}.drop.drag{border-color:#78b7ff}
-    input,button{font:inherit} button{padding:8px 12px;border-radius:8px;border:1px solid #3d5368;background:#203042;color:#fff;cursor:pointer}
-    .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}.metric{padding:12px;border-radius:10px;background:#101821;border:1px solid #263545}.metric b{display:block;font-size:12px;color:#8ea2b6;margin-bottom:4px}.metric span{font-size:18px}
-    canvas{max-width:100%;max-height:420px;display:block;margin:auto;background-image:linear-gradient(45deg,#1c2631 25%,transparent 25%),linear-gradient(-45deg,#1c2631 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1c2631 75%),linear-gradient(-45deg,transparent 75%,#1c2631 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0}
-    table{width:100%;border-collapse:collapse;margin-top:10px}td,th{padding:8px;border-bottom:1px solid #293646;text-align:left;font-size:13px}th{color:#8ea2b6}
-    .ok{color:#70d6a3}.warn{color:#ffd166}.bad{color:#ff7b7b}.muted{color:#8ea2b6}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-    @media(max-width:850px){main{grid-template-columns:1fr}}
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Asset Inspector</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0f141b;color:#eef3f8}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(180deg,#111821,#0a0f15)}header{padding:20px;max-width:1180px;margin:auto}h1{margin:0 0 6px;font-size:28px}p{color:#9fb0c2}main{max-width:1180px;margin:auto;padding:0 20px 32px;display:grid;grid-template-columns:320px 1fr;gap:16px}.panel{background:#161f29;border:1px solid #293646;border-radius:14px;padding:14px}.drop{border:2px dashed #46617c;border-radius:12px;padding:22px;text-align:center;background:#111923}.drop.drag{border-color:#78b7ff}input,button{font:inherit}button{padding:8px 12px;border-radius:8px;border:1px solid #3d5368;background:#203042;color:#fff;cursor:pointer}.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}.metric{padding:12px;border-radius:10px;background:#101821;border:1px solid #263545}.metric b{display:block;font-size:12px;color:#8ea2b6;margin-bottom:4px}.metric span{font-size:18px}canvas{max-width:100%;max-height:420px;display:block;margin:auto;background-image:linear-gradient(45deg,#1c2631 25%,transparent 25%),linear-gradient(-45deg,#1c2631 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1c2631 75%),linear-gradient(-45deg,transparent 75%,#1c2631 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0}table{width:100%;border-collapse:collapse;margin-top:10px}td,th{padding:8px;border-bottom:1px solid #293646;text-align:left;font-size:13px}th{color:#8ea2b6}.ok{color:#70d6a3}.warn{color:#ffd166}.bad{color:#ff7b7b}.muted{color:#8ea2b6}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.badge{display:inline-block;padding:3px 7px;border-radius:999px;font-weight:700;font-size:11px}.badge.ok{background:#163326}.badge.warn{background:#403617}.badge.bad{background:#431d21}.clickrow{cursor:pointer}.clickrow:hover{background:#1d2935}@media(max-width:850px){main{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-<header><h1>Asset Inspector</h1><p>Technische Prüfung für Bilder, Texturen und Sprite-Assets direkt im Browser.</p></header>
+<header><h1>Asset Inspector</h1><p>Einzel- und Batch-Prüfung für Bilder, Texturen, Sprites und Atlas-JSON.</p></header>
 <main>
-  <section class="panel">
-    <div id="drop" class="drop">
-      <p><b>Datei hier ablegen</b></p>
-      <p class="muted">oder</p>
-      <input id="file" type="file" accept="image/*,.json">
-    </div>
-    <div class="row" style="margin-top:12px"><button id="clear">Zurücksetzen</button></div>
-    <p class="muted" style="font-size:12px">Aktuell: PNG/JPEG/WebP/GIF und andere browserlesbare Bildformate. JSON wird als Textdatei geprüft.</p>
-  </section>
-  <section>
-    <div id="summary" class="panel"><p class="muted">Noch kein Asset geladen.</p></div>
-    <div id="preview" class="panel" style="margin-top:16px;display:none"><canvas id="canvas"></canvas></div>
-    <div id="checks" class="panel" style="margin-top:16px;display:none"></div>
-  </section>
+<section class="panel">
+<div id="drop" class="drop"><p><b>Dateien oder Ordner hier ablegen</b></p><p class="muted">oder</p><input id="file" type="file" multiple accept="image/*,.json"></div>
+<div class="row" style="margin-top:12px"><button id="clear">Zurücksetzen</button><button id="export" disabled>Report als JSON</button></div>
+<p class="muted" style="font-size:12px">Mehrfachauswahl wird als Batch analysiert. Unterstützt werden browserlesbare Bilder und JSON.</p>
+</section>
+<section>
+<div id="summary" class="panel"><p class="muted">Noch keine Assets geladen.</p></div>
+<div id="batch" class="panel" style="margin-top:16px;display:none"></div>
+<div id="preview" class="panel" style="margin-top:16px;display:none"><canvas id="canvas"></canvas></div>
+<div id="checks" class="panel" style="margin-top:16px;display:none"></div>
+</section>
 </main>
 <script>
-const fileInput=document.querySelector('#file'),drop=document.querySelector('#drop'),summary=document.querySelector('#summary'),preview=document.querySelector('#preview'),checks=document.querySelector('#checks'),canvas=document.querySelector('#canvas'),ctx=canvas.getContext('2d');
-const fmtBytes=n=>n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(2)+' MB';
-const isPow2=n=>n>0&&(n&(n-1))===0;
-function reset(){summary.innerHTML='<p class="muted">Noch kein Asset geladen.</p>';preview.style.display='none';checks.style.display='none';ctx.clearRect(0,0,canvas.width,canvas.height);fileInput.value='';}
-function row(label,value){return `<div class="metric"><b>${label}</b><span>${value}</span></div>`}
-function check(cls,title,text){return `<tr><td class="${cls}">${cls==='ok'?'PASS':cls==='warn'?'HINWEIS':'PRÜFEN'}</td><td><b>${title}</b><br><span class="muted">${text}</span></td></tr>`}
-async function inspect(file){
-  if(!file)return;
-  const ext=(file.name.split('.').pop()||'').toLowerCase();
-  if(file.type==='application/json'||ext==='json'){
-    const text=await file.text(); let valid=true,obj=null; try{obj=JSON.parse(text)}catch(e){valid=false}
-    summary.innerHTML=`<div class="metrics">${row('Datei',file.name)}${row('Typ',file.type||'JSON')}${row('Dateigröße',fmtBytes(file.size))}${row('JSON',valid?'gültig':'ungültig')}</div>`;
-    preview.style.display='none'; checks.style.display='block';
-    let html='<h2>Prüfungen</h2><table>';
-    html+=valid?check('ok','JSON Syntax','Datei konnte vollständig geparst werden.'):check('bad','JSON Syntax','Die Datei enthält ungültiges JSON.');
-    if(valid){const frames=obj?.frames;const count=Array.isArray(frames)?frames.length:(frames&&typeof frames==='object'?Object.keys(frames).length:0);html+=count?check('ok','Atlas-Frames',`${count} Frame-Einträge erkannt.`):check('warn','Atlas-Struktur','Keine typische frames-Struktur erkannt.`'.replace('`',''));}
-    checks.innerHTML=html+'</table>';return;
-  }
-  const url=URL.createObjectURL(file); const img=new Image();
-  img.onload=()=>{
-    const w=img.naturalWidth,h=img.naturalHeight,aspect=(w/h).toFixed(3),pixels=w*h;
-    canvas.width=w;canvas.height=h;ctx.clearRect(0,0,w,h);ctx.drawImage(img,0,0);
-    let alpha=false,alphaPct=0; try{const data=ctx.getImageData(0,0,w,h).data;let transparent=0;for(let i=3;i<data.length;i+=4){if(data[i]<255)transparent++;}alpha=transparent>0;alphaPct=(transparent/(data.length/4)*100).toFixed(2);}catch(e){}
-    summary.innerHTML=`<div class="metrics">${row('Datei',file.name)}${row('Format',file.type||ext.toUpperCase())}${row('Abmessungen',w+' × '+h+' px')}${row('Seitenverhältnis',aspect)}${row('Pixel',pixels.toLocaleString('de-DE'))}${row('Dateigröße',fmtBytes(file.size))}${row('Transparenz',alpha?alphaPct+' %':'keine erkannt')}${row('Power-of-two',isPow2(w)&&isPow2(h)?'ja':'nein')}</div>`;
-    preview.style.display='block';checks.style.display='block';
-    let html='<h2>Prüfungen</h2><table>';
-    html+=w<=4096&&h<=4096?check('ok','Texturgröße','Beide Seiten liegen bei maximal 4096 px.'):check('warn','Texturgröße','Mindestens eine Seite liegt über 4096 px; Speicherbedarf und Zielplattform prüfen.');
-    html+=isPow2(w)&&isPow2(h)?check('ok','Power-of-two','Breite und Höhe sind Zweierpotenzen.'):check('warn','Power-of-two','Für viele moderne Workflows kein Muss, aber bei Mipmaps, älteren GPUs oder bestimmten Engines relevant.');
-    html+=alpha?check('ok','Alpha-Kanal','Teiltransparente oder transparente Pixel wurden erkannt.'):check('ok','Alpha-Kanal','Keine Transparenz erkannt.');
-    html+=file.size<=2*1024*1024?check('ok','Dateigröße','Datei liegt bei höchstens 2 MB.'):check('warn','Dateigröße','Über 2 MB; für viele einzelne Assets ggf. komprimieren oder Zielauflösung prüfen.');
-    html+=(w===h)?check('ok','Quadratische Textur','Quadratisches Format erkannt.'):check('warn','Seitenverhältnis','Nicht quadratisch; für Sprites meist okay, für bestimmte Textur- oder Atlas-Workflows prüfen.');
-    if(w>=2048||h>=2048)html+=check('warn','Atlas-Hinweis','Großes Asset: Bei Atlas-Nutzung Padding, Bleeding und maximale Atlasgröße prüfen.');
-    checks.innerHTML=html+'</table>'; URL.revokeObjectURL(url);
-  };
-  img.onerror=()=>{summary.innerHTML='<p class="bad">Bild konnte vom Browser nicht gelesen werden.</p>';URL.revokeObjectURL(url)}; img.src=url;
-}
-fileInput.addEventListener('change',e=>inspect(e.target.files[0]));
-['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));drop.addEventListener('drop',e=>inspect(e.dataTransfer.files[0]));document.querySelector('#clear').addEventListener('click',reset);
+const fileInput=document.querySelector('#file'),drop=document.querySelector('#drop'),summary=document.querySelector('#summary'),batch=document.querySelector('#batch'),preview=document.querySelector('#preview'),checks=document.querySelector('#checks'),canvas=document.querySelector('#canvas'),ctx=canvas.getContext('2d'),exportBtn=document.querySelector('#export');
+const fmtBytes=n=>n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(2)+' MB',isPow2=n=>n>0&&(n&(n-1))===0,esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let results=[];
+function reset(){results=[];summary.innerHTML='<p class="muted">Noch keine Assets geladen.</p>';batch.style.display=preview.style.display=checks.style.display='none';ctx.clearRect(0,0,canvas.width,canvas.height);fileInput.value='';exportBtn.disabled=true}
+function metric(label,value){return `<div class="metric"><b>${label}</b><span>${value}</span></div>`}
+function severityClass(n){return n==='ERROR'?'bad':n==='WARN'?'warn':'ok'}
+async function analyzeImage(file){return new Promise(resolve=>{const url=URL.createObjectURL(file),img=new Image();img.onload=()=>{const w=img.naturalWidth,h=img.naturalHeight;const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(img,0,0);let alpha=false,alphaPct=0;try{const d=x.getImageData(0,0,w,h).data;let t=0;for(let i=3;i<d.length;i+=4)if(d[i]<255)t++;alpha=t>0;alphaPct=+(t/(d.length/4)*100).toFixed(2)}catch(e){}let issues=[];if(w>4096||h>4096)issues.push('Mindestens eine Seite > 4096 px');if(!isPow2(w)||!isPow2(h))issues.push('Nicht Power-of-two');if(file.size>2*1024*1024)issues.push('Datei > 2 MB');if(w>=2048||h>=2048)issues.push('Großes Asset: Atlas-Padding/Bleeding prüfen');const severity=(w>8192||h>8192||file.size>10*1024*1024)?'ERROR':issues.length?'WARN':'OK';URL.revokeObjectURL(url);resolve({name:file.name,type:file.type||'Bild',kind:'image',size:file.size,width:w,height:h,aspect:+(w/h).toFixed(3),alpha,alphaPct,pow2:isPow2(w)&&isPow2(h),severity,issues,file})};img.onerror=()=>{URL.revokeObjectURL(url);resolve({name:file.name,type:file.type||'Bild',kind:'image',size:file.size,severity:'ERROR',issues:['Bild konnte nicht gelesen werden'],file})};img.src=url})}
+async function analyzeJson(file){let obj=null,valid=true;try{obj=JSON.parse(await file.text())}catch(e){valid=false}const frames=valid?obj?.frames:null,count=Array.isArray(frames)?frames.length:(frames&&typeof frames==='object'?Object.keys(frames).length:0);const issues=[];if(!valid)issues.push('Ungültige JSON-Syntax');else if(!count)issues.push('Keine typische frames-Struktur erkannt');return {name:file.name,type:file.type||'JSON',kind:'json',size:file.size,valid,frames:count,severity:!valid?'ERROR':issues.length?'WARN':'OK',issues,file}}
+async function analyze(file){const ext=(file.name.split('.').pop()||'').toLowerCase();return(file.type==='application/json'||ext==='json')?analyzeJson(file):analyzeImage(file)}
+async function inspectFiles(files){const arr=[...files].filter(f=>f.size>=0);if(!arr.length)return;summary.innerHTML='<p class="muted">Analyse läuft …</p>';results=[];for(const f of arr)results.push(await analyze(f));renderBatch();selectResult(0);exportBtn.disabled=false}
+function renderBatch(){const ok=results.filter(r=>r.severity==='OK').length,warn=results.filter(r=>r.severity==='WARN').length,bad=results.filter(r=>r.severity==='ERROR').length,totalSize=results.reduce((a,r)=>a+r.size,0);summary.innerHTML=`<div class="metrics">${metric('Dateien',results.length)}${metric('Gesamtgröße',fmtBytes(totalSize))}${metric('OK',ok)}${metric('Hinweise',warn)}${metric('Fehler',bad)}</div>`;batch.style.display='block';batch.innerHTML='<h2>Batch-Ergebnis</h2><table><thead><tr><th>Status</th><th>Datei</th><th>Typ</th><th>Abmessungen / Frames</th><th>Größe</th><th>Hinweise</th></tr></thead><tbody>'+results.map((r,i)=>`<tr class="clickrow" data-i="${i}"><td><span class="badge ${severityClass(r.severity)}">${r.severity}</span></td><td>${esc(r.name)}</td><td>${esc(r.kind)}</td><td>${r.kind==='image'&&r.width?r.width+' × '+r.height+' px':r.kind==='json'?(r.frames+' Frames'):'—'}</td><td>${fmtBytes(r.size)}</td><td>${esc(r.issues.join('; ')||'keine')}</td></tr>`).join('')+'</tbody></table>';batch.querySelectorAll('[data-i]').forEach(tr=>tr.onclick=()=>selectResult(+tr.dataset.i))}
+function selectResult(i){const r=results[i];if(!r)return;checks.style.display='block';checks.innerHTML='<h2>Detailprüfung</h2><table>'+`<tr><th>Datei</th><td>${esc(r.name)}</td></tr><tr><th>Status</th><td class="${severityClass(r.severity)}">${r.severity}</td></tr><tr><th>Hinweise</th><td>${esc(r.issues.join('; ')||'keine')}</td></tr>`+(r.kind==='image'?`<tr><th>Abmessungen</th><td>${r.width||'—'} × ${r.height||'—'} px</td></tr><tr><th>Seitenverhältnis</th><td>${r.aspect??'—'}</td></tr><tr><th>Alpha</th><td>${r.alpha?r.alphaPct+' %':'keine erkannt'}</td></tr><tr><th>Power-of-two</th><td>${r.pow2?'ja':'nein'}</td></tr>`:`<tr><th>JSON gültig</th><td>${r.valid?'ja':'nein'}</td></tr><tr><th>Atlas-Frames</th><td>${r.frames||0}</td></tr>` )+'</table>';if(r.kind==='image'&&r.width){preview.style.display='block';const url=URL.createObjectURL(r.file),img=new Image();img.onload=()=>{canvas.width=img.naturalWidth;canvas.height=img.naturalHeight;ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0);URL.revokeObjectURL(url)};img.src=url}else preview.style.display='none'}
+fileInput.addEventListener('change',e=>inspectFiles(e.target.files));['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));drop.addEventListener('drop',e=>inspectFiles(e.dataTransfer.files));document.querySelector('#clear').onclick=reset;exportBtn.onclick=()=>{const clean=results.map(({file,...r})=>r),blob=new Blob([JSON.stringify({generatedAt:new Date().toISOString(),results:clean},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='asset-inspector-report.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 </script>
 </body></html>
