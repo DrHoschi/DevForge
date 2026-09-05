@@ -9,84 +9,109 @@ DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktuelle
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- GitHub Pages: `https://drhoschi.github.io/DevForge/`
 - Aktueller Entwicklungsbranch: `df-02d3-approved-motion-history`
 - Aktueller Prompt-Builder-Stand: `DF-02D.3R`
 
 ## AKTUELLER ARBEITSAUFTRAG – POSE REFERENCE LIBRARY EXPERIMENT
-Vor weiteren Carrier-FR3-Versuchen wird eine neutrale visuelle Pose-Referenzbibliothek aufgebaut und getestet.
+Vor weiteren Carrier-Tests wird eine neutrale visuelle Pose-Referenzbibliothek aufgebaut und getestet.
 
 ### VERBINDLICHER POSE-DUMMY / PARAMETRISIERUNGSFIGUR
-Für die Erstellung aller Pose-Referenzen wird ab jetzt immer dieselbe neutrale technische Mannequin-Figur verwendet, entsprechend der vom Nutzer freigegebenen visuellen Referenz:
+Immer dieselbe neutrale technische Mannequin-Figur verwenden:
 - glattes, gesichtsloses humanoides 3D-Mannequin;
 - neutral hellgrau/beige, matte bis leicht satinierte Oberfläche;
-- klar segmentierte Gelenke an Schulter, Ellenbogen, Handgelenk, Hüfte, Knie und Sprunggelenk;
-- vereinfachte anatomische Menschenproportionen, weder muskulös überzeichnet noch stilisiert/cartoonhaft;
+- klar segmentierte Schulter-, Ellenbogen-, Handgelenk-, Hüft-, Knie- und Sprunggelenke;
+- vereinfachte natürliche Menschenproportionen;
 - glatter ovaler Kopf ohne Gesicht, Haare oder Identitätsmerkmale;
-- vereinfachter Brustkorb, Taille/Becken, Ober-/Unterarme, Hände, Ober-/Unterschenkel und neutrale fuß-/schuhartige Füße;
-- saubere technische 3D-Visualisierung mit weicher neutraler Beleuchtung, sodass Gelenkwinkel und Silhouette eindeutig lesbar sind.
+- keine Kleidung und kein Character-Equipment.
 
-Diese Figur ist ausdrücklich **KEIN Character Design und KEIN Spielcharakter**. Sie ist ausschließlich eine **technische Parametrisierungs-/Posefigur für DevForge**. Ihre Aufgabe ist nur, Pose, Gelenkwinkel, Gewichtsverlagerung, Körperhöhe, Arm-/Beinbewegung und Silhouette eindeutig visuell zu codieren. Sie darf niemals als Vorlage für Gesicht, Körperdesign, Kleidung, Materialien, Equipment oder Stil des späteren Characters interpretiert werden.
+Die Figur ist ausschließlich technische Pose-/Parametrisierungsfigur. Sie bestimmt nur Pose, Gelenkwinkel, Gewichtsverlagerung, Körperhöhe, Arm-/Beinbewegung und Silhouette. Sie darf niemals Character-Design, Gesicht, Kleidung, Material oder Equipment des späteren Spielcharacters bestimmen.
 
-Wenn später im Prompt Builder eine Pose Reference ausgewählt wird, bedeutet die Mannequin-Abbildung ausschließlich: `übernimm diese Körperpose / Articulation`. Der eigentliche Character kommt weiterhin vollständig aus der Authoritative Character Reference bzw. dem Sequence Appearance Anchor.
+## GLOBALER WALK-KAMERA-/RICHTUNGSVERTRAG – SE
+Dieser Vertrag gilt unverändert für FR1 bis FR8 und ist wichtiger als eine einzelne Beinbeschreibung:
+- Bewegungsrichtung des Körpers bleibt in ALLEN acht Frames exakt `SE`.
+- Kopf, Brustkorb, Becken und Füße bleiben grundsätzlich entlang derselben SE-Bewegungsachse orientiert.
+- Die Figur darf in FR5–FR8 NICHT umdrehen, seitlich wegdrehen oder plötzlich aus einer anderen Azimutrichtung laufen.
+- Kamera bleibt in ALLEN Frames dieselbe feste 45°-Top-Down-Gameplay-Kamera: gleiche Kameraposition, Azimut, Elevation, Projektion, Framing und Scale.
+- Ein Wechsel von LEFT zu RIGHT als führendem Bein ist ausschließlich eine Änderung der Körperartikulation innerhalb derselben SE-Bewegungsrichtung; er ist KEINE Kameraspiegelung und KEINE Richtungsänderung.
+- FR5 ist deshalb NICHT das horizontal gespiegelte Gesamtbild von FR1. Es ist derselbe nach SE gerichtete Körper unter derselben Kamera, aber mit vertauschter Schrittphase der anatomischen Gliedmaßen.
+- Anatomisches LEFT/RIGHT wird immer aus Sicht der Figur definiert, niemals aus der Bildschirmposition.
 
-### Kameravertrag der Posefigur
-- feste 45°-Top-Down-Gameplay-Kamera passend zum Animationssystem;
-- Richtung und Kamera werden pro Pose-Asset eindeutig benannt;
-- gleiche Mannequin-Proportionen, Kamerahöhe/-neigung, Scale, Framing und Root-Position innerhalb einer Richtungsserie;
-- keine dramatische Perspektive, kein wechselndes Objektiv, keine freie Illustration;
-- Pose muss primär in der für den Generator relevanten Gameplay-Ansicht eindeutig lesbar sein.
+## WALK-SE – AUSFÜHRLICHER PHASENVERTRAG
 
-### Produktionsformat einer Pose
-Für die eigentliche Tool-Parametrisierung zählt die einzelne Mannequin-Pose, nicht ein dekoratives Informationsposter. Ein Übersichts-/Dokumentationsblatt kann zusätzlich existieren, aber die im Prompt Builder verwendete Pose Reference soll möglichst nur die neutrale Figur in der festgelegten Gameplay-Kamera zeigen, groß, sauber und eindeutig. Keine Character-Details und keine automatisch erfundenen Nachbarframes.
+### FR1 – Contact L
+Zweck: erster klarer linker Fersenkontakt / maximale linke Schrittauslage.
+- Anatomisches LEFT leg ist das führende Bein.
+- LEFT hip ist nach vorn geführt; LEFT knee nahezu gestreckt, aber natürlich weich.
+- LEFT lower leg zeigt nach vorn/unten; LEFT heel/foot erreicht den Boden vor dem Körper.
+- Anatomisches RIGHT leg liegt klar hinter dem Becken als trailing leg.
+- RIGHT heel darf angehoben sein; hinteres Bein ist gestreckt bzw. in natürlicher Abstoß-/Nachlaufposition.
+- Becken befindet sich zwischen den beiden Füßen; große, klar lesbare Schrittweite.
+- Torso bleibt nach SE ausgerichtet und leicht natürlich nach vorn geneigt.
+- Opposing arm swing: bei LEFT leg forward ist RIGHT arm forward und LEFT arm rear.
+- Verboten: rechte Beinführung, neutrale/passende Beinstellung, gedrehter Körper, andere Laufrichtung.
 
-### WALK – geplanter 8-Frame-Loop
-1. FR1 `Contact L`: LEFT foot forward/contact, RIGHT leg rear, opposing arm swing.
-2. FR2 `Down L`: LEFT support/loading, body down, RIGHT heel/knee advances.
-3. FR3 `Passing L`: RIGHT leg passes planted LEFT beneath pelvis; kompakte Passing-Silhouette.
-4. FR4 `Up / Right Swing`: RIGHT leg swings forward, LEFT heel rises, body high.
-5. FR5 `Contact R`: RIGHT foot forward/contact, LEFT leg rear; Gegenphase zu FR1.
-6. FR6 `Down R`: RIGHT support/loading, body down, LEFT heel/knee advances.
-7. FR7 `Passing R`: LEFT leg passes planted RIGHT beneath pelvis.
-8. FR8 `Up / Left Swing`: LEFT leg swings forward, RIGHT heel rises; Übergang zurück zu FR1.
+### FR2 – Down L
+Zweck: Gewicht wird nach dem linken Kontakt aufgenommen; niedrigster/komprimierter früher Stützpunkt.
+- LEFT foot bleibt vorn auf dem Boden und wird zum belasteten Support Foot.
+- LEFT knee beugt sich sichtbar stärker als in FR1.
+- Becken/Torso sinken gegenüber FR1 sichtbar ab; Körperhöhe ist niedriger.
+- Körpergewicht bewegt sich über das LEFT support leg.
+- RIGHT trailing heel löst sich deutlich; RIGHT knee beginnt nach vorn unter den Körper zu reisen.
+- RIGHT foot ist noch NICHT am linken Bein vorbeigeschwungen und noch NICHT als neuer Contact weit vorn.
+- Schrittweite wird gegenüber FR1 bereits kompakter.
+- Armbewegung schreitet kontinuierlich von FR1 weiter; keine plötzlich neue Armphase.
+- Kopf/Brust/Becken bleiben exakt nach SE orientiert.
+- Verboten: FR1 nahezu unverändert kopieren; Passing schon vollständig erreichen; Laufrichtung drehen.
 
-FR5–FR8 sind die anatomisch korrekte Gegenhälfte und dürfen nicht einfach FR1–FR4 mit derselben Beinbelegung wiederholen.
+### FR3 – Passing L
+Zweck: rechtes Schwungbein passiert das belastete linke Standbein unter dem Körper.
+- LEFT leg ist weiterhin das Support/Stance Leg.
+- LEFT foot liegt ungefähr unter bzw. leicht hinter dem Becken, nicht weit als Contact-Fuß voraus.
+- RIGHT hip/knee haben sich klar nach vorn bewegt.
+- RIGHT knee befindet sich unter bzw. leicht vor dem Becken und passiert in der Projektion das LEFT leg.
+- RIGHT foot ist angehoben und befindet sich nahe am LEFT support foot in der projizierten Bildschirmgeometrie.
+- Silhouette ist kompakt: KEIN Fuß weit vorne und gleichzeitig anderer Fuß weit hinten.
+- Torso kehrt aus der abgesenkten FR2-Position Richtung mittlere Höhe zurück.
+- Arm swing passiert ebenfalls seine mittlere Übergangsphase.
+- Kopf/Brust/Becken bleiben exakt nach SE ausgerichtet.
+- Verboten: Contact-/Stride-Silhouette wie FR1; unveränderte FR2-Beingeometrie; Richtungswechsel.
 
-### Richtungen / Spiegelstrategie
-Jede akzeptierte einzelne Master-Pose wird zusätzlich als exakt gespiegelte Richtungsvariante geführt, sofern geometrisch sinnvoll. Anatomische LEFT/RIGHT-Semantik bleibt beim Spiegeln erhalten.
+### FR4 – Up / Right Swing
+Zweck: rechtes Schwungbein verlässt Passing und erreicht die hohe Vorwärtsschwungphase kurz vor dem rechten Contact.
+- LEFT leg bleibt noch das letzte Support Leg.
+- LEFT heel hebt sich zunehmend; LEFT leg beginnt hinter den Körper zu geraten.
+- RIGHT thigh/knee sind klar VOR dem Becken.
+- RIGHT foot ist vom Boden gelöst und schwingt nach vorn; noch kein endgültiger rechter Bodenkontakt.
+- Becken/Torso befinden sich höher als in FR2/FR3; Up-Phase klar lesbar.
+- Schritt öffnet sich wieder, diesmal mit RIGHT leg als kommendem führenden Bein.
+- Opposing arm swing nähert sich der Gegenphase zu FR1: LEFT arm bewegt sich nach vorn, RIGHT arm nach hinten.
+- Kopf/Brust/Becken bleiben exakt nach SE ausgerichtet.
+- Verboten: rechten Fuß bereits als langen belasteten Contact darstellen; Körper/Kamera spiegeln; Richtung ändern.
 
-Spiegelpaare:
-- SE ↔ SW
-- E ↔ W
-- NE ↔ NW
-- N ↔ S
+## ABLEITUNGSREGEL FÜR FR5–FR8
+FR5–FR8 sind keine frei neu beschriebenen Posen. Sie sind die zweite Hälfte desselben kontinuierlichen Walk-Cycles und werden streng aus FR1–FR4 abgeleitet, während Kamera und SE-Facing unverändert bleiben:
 
-### EXAKTE BEDEUTUNG EINES POSE-AUFTRAGS IM CHAT
-Wenn der Nutzer z. B. sagt `Erstelle mir die Pose ... FR1: linkes Bein vorne – Contact L`, bedeutet dies:
-1. ausschließlich die oben definierte neutrale DevForge-Mannequin-Parametrisierungsfigur verwenden;
-2. keinen Carrier und keinen finalen Character erzeugen;
-3. genau die benannte Pose erzeugen, keine erfundenen weiteren Frames;
-4. primär eine einzelne große Gameplay-Ansicht in der aktuell geforderten Richtung/Kamera erstellen;
-5. die passende Spiegelvariante als zweite Richtungsfassung derselben anatomischen Pose mitführen;
-6. LEFT/RIGHT bezeichnet immer die Anatomie der Figur, nicht links/rechts auf dem Bildschirm;
-7. erst nach visueller Freigabe zur nächsten Pose weitergehen.
+- `FR5 Contact R` = gait-phase counterpart von FR1 Contact L: RIGHT leg übernimmt exakt die funktionale Rolle des LEFT leg aus FR1; LEFT leg übernimmt die trailing Rolle des RIGHT leg. Gleichzeitig LEFT arm forward / RIGHT arm rear. Kopf, Brust, Becken, Bewegungsachse und Kamera bleiben wie FR1 nach SE.
+- `FR6 Down R` = counterpart von FR2 Down L: RIGHT foot/support leg trägt und knickt ein; Körper sinkt; LEFT heel löst sich und LEFT knee beginnt nach vorn zu reisen. Facing/Kamera unverändert SE.
+- `FR7 Passing R` = counterpart von FR3 Passing L: RIGHT bleibt Support; LEFT knee/foot passieren unter dem Becken nach vorn; kompakte Passing-Silhouette. Facing/Kamera unverändert SE.
+- `FR8 Up / Left Swing` = counterpart von FR4 Up / Right Swing: LEFT thigh/knee/foot schwingen klar vor das Becken, RIGHT heel hebt sich/trailing; Körper hoch. Diese Pose bereitet unmittelbar FR1 Contact L vor. Facing/Kamera unverändert SE.
 
-### Aktueller enger Testumfang
-1. WALK / SE / FR1 + SW-Spiegelvariante mit der verbindlichen Mannequin-Figur erstellen und freigeben.
-2. Danach FR2 + Spiegelvariante.
-3. Danach FR3 + Spiegelvariante.
-4. Danach diese drei Pose-Referenzen als `POSE REFERENCE AUTHORITY` in den Prompt Builder integrieren.
-5. Carrier WALK SE FR3 erneut generieren und prüfen.
-6. Nur bei erfolgreichem Grundtest FR4–FR8 und weitere Richtungen vervollständigen.
+### Harte Gegenphasen-Regel
+Für die zweite Zyklushälfte werden NUR die funktionalen Rollen der anatomischen Gliedmaßen L↔R vertauscht. NIEMALS das komplette Bild spiegeln, NIEMALS die Kamera spiegeln und NIEMALS den Character-Facing-Vektor ändern. Die gedachte Vorwärtsachse durch Kopf → Brust → Becken bleibt FR1 bis FR8 identisch.
 
-## Referenzrollen im späteren Prompt Builder
-- `POSE REFERENCE / MANNEQUIN` = ausschließlich Pose, Articulation, Gewichtsverlagerung und Silhouette.
-- `AUTHORITATIVE CHARACTER REFERENCE` = Identität, Anatomie/Proportionen des echten Characters, Kleidung, Equipment, permanentes Design.
-- `FRAME 01 SEQUENCE APPEARANCE ANCHOR` = akzeptierter konkreter Sequenzlook.
-- `APPROVED MOTION HISTORY` = chronologische Bewegungsprogression.
+## SEPARATE RICHTUNGS-SPIEGELUNG
+Die geplante SE↔SW-Spiegelvariante ist ein anderer Vorgang als FR1↔FR5. Erst nachdem eine SE-Pose korrekt freigegeben ist, kann daraus separat eine SW-Richtungsfassung entstehen. Diese Richtungsfassung darf nicht mit dem Links-/Rechts-Phasenwechsel des Walk-Cycles verwechselt werden.
 
-## Später vorgemerkt
-Nach erfolgreichem WALK-Grundtest Pose Library projektübergreifend erweitern, u. a. RUN, PICK UP / PUT DOWN, SIT / SITTING und weitere Gameplay-/Arbeitsposen.
+Geplante Richtungspaare: SE↔SW, E↔W, NE↔NW, N↔S.
 
-## Technischer nächster DevForge-Schritt
-Nach Freigabe SE/SW-FR1 bis FR3 Prompt Builder um echte `Pose Reference`-Auswahl/Einbettung erweitern. Pose Reference erhält höchste Autorität ausschließlich für Gelenkstellung/Silhouette; sie darf niemals das Character-Design beeinflussen.
+## AKTUELLER TESTSTATUS
+- FR1 Contact L: als Posegrundlage akzeptiert.
+- FR2 Down L: als Posegrundlage akzeptiert.
+- FR3 Passing L: als Posegrundlage akzeptiert.
+- FR4 Up / Right Swing: als Posegrundlage akzeptiert.
+- erster FR5-Versuch: FAIL, wiederholte FR1-artige Beinbelegung.
+- zweiter FR5-Versuch: FAIL, rechte Gegenphase erkennbar, aber Facing/Bewegungsrichtung/Körperorientierung nicht ausreichend konsistent zu FR1–FR4.
+- Nächster zulässiger Pose-Schritt: FR5 Contact R erneut erzeugen, diesmal unter dem globalen SE-Facing-Vertrag und der harten Gegenphasen-Regel. FR6–FR8 erst nach FR5-PASS.
+
+## Späterer Prompt-Builder
+Pose Reference = höchste Autorität ausschließlich für Articulation/Pose. Character Reference = Character-Design/Identität. FR1 Sequence Appearance Anchor = konkreter Sequenzlook. Approved Motion History = chronologische Bewegungsprogression.
