@@ -1,51 +1,48 @@
 const dirs=['N','NE','E','SE','S','SW','W','NW'];
-let active='SE';
+const animations={
+  IDLE:{fps:4,loop:true,frames:[
+    {name:'Neutral',pose:'Stable standing pose. Weight centered. Arms relaxed. Chest at neutral resting position.'},
+    {name:'Inhale',pose:'Same standing pose with a very small natural inhale: chest and shoulders rise subtly. Feet remain planted.'},
+    {name:'Neutral',pose:'Return precisely to the neutral standing pose. No foot movement.'},
+    {name:'Exhale',pose:'Very small natural exhale: chest and shoulders settle subtly below neutral before looping back.'}
+  ]},
+  WALK:{fps:8,loop:true,frames:[
+    {name:'L Contact',pose:'Left foot forward at ground contact, right foot behind. Opposite arm swing. Clear beginning of the step.'},
+    {name:'L Down',pose:'Weight transfers onto the left leg. Body lowers slightly. Right heel lifts.'},
+    {name:'Passing L',pose:'Right leg passes the planted left leg. Torso returns toward mid height. Natural opposing arm swing.'},
+    {name:'R Up',pose:'Right leg swings forward. Left heel begins to rise. Body reaches the slight high point of the stride.'},
+    {name:'R Contact',pose:'Right foot forward at ground contact, left foot behind. Mirror the gait phase, not character asymmetries.'},
+    {name:'R Down',pose:'Weight transfers onto the right leg. Body lowers slightly. Left heel lifts.'},
+    {name:'Passing R',pose:'Left leg passes the planted right leg. Torso returns toward mid height. Natural opposing arm swing.'},
+    {name:'L Up',pose:'Left leg swings forward. Right heel begins to rise. Body reaches the slight high point and loops to frame 01.'}
+  ]},
+  'WALK + CARRY':{fps:8,loop:true,frames:[
+    {name:'L Contact',pose:'Left foot forward at contact. Walking cycle begins while the backpack/load remains securely aligned to the torso.'},
+    {name:'L Down',pose:'Weight transfers left. Slight body compression. Load follows with only subtle believable secondary motion.'},
+    {name:'Passing L',pose:'Right leg passes. Keep hands, straps and carried equipment consistent and stable.'},
+    {name:'R Up',pose:'Right leg swings forward. Slight high point. No load shape change or slipping.'},
+    {name:'R Contact',pose:'Right foot forward at contact. Preserve all character and load asymmetries exactly.'},
+    {name:'R Down',pose:'Weight transfers right. Slight compression. Controlled secondary load motion only.'},
+    {name:'Passing R',pose:'Left leg passes. Backpack/load remains attached to the same anchors.'},
+    {name:'L Up',pose:'Left leg swings forward and prepares the seamless return to frame 01.'}
+  ]}
+};
+let activeDir='SE',activeFrame=0;
 const $=id=>document.getElementById(id);
-const fields=['project','assetType','subject','task','customTask','cameraAngle','viewCount','identity','notes'];
-
-function buildDirections(){
-  $('directions').innerHTML='';
-  dirs.forEach(d=>{const b=document.createElement('button');b.className='dir'+(d===active?' active':'');b.textContent=d;b.onclick=()=>{active=d;buildDirections();render();};$('directions').appendChild(b)});
-}
-
-function buildCamera(){
-  const c=$('camera');c.innerHTML='<div class="center"><span>ASSET</span></div>';
-  dirs.forEach((d,i)=>{const r=document.createElement('div');r.className='ray'+(d===active?' active':'');r.style.transform=`rotate(${i*45-90}deg)`;r.innerHTML=`<span style="transform:rotate(${90-i*45}deg)">${d}</span>`;c.appendChild(r)});
-}
-
-function state(){
-  const task=$('task').value==='Custom' ? ($('customTask').value.trim()||'CUSTOM') : $('task').value;
-  return {project:$('project').value,projectName:$('project').selectedOptions[0].text,assetType:$('assetType').value,subject:$('subject').value.trim()||'Unnamed Asset',task,cameraAngle:$('cameraAngle').value,viewCount:$('viewCount').value,direction:active,identity:$('identity').value.trim(),notes:$('notes').value.trim(),generator:'DevForge Prompt Builder',schemaVersion:'df-prompt-0.1'};
-}
-
-function prompt(s){
-  const siedler=s.project==='siedler-mini';
-  const heading=siedler?`SIEDLER-MINIGAME ${s.assetType.toUpperCase()} GENERATION / ${s.viewCount.toUpperCase()} ${s.cameraAngle} TOP-DOWN GAMEPLAY VIEW`:`${s.assetType.toUpperCase()} GENERATION REFERENCE`;
-  const camera=siedler?`Use the exact fixed ${s.cameraAngle} top-down gameplay camera established for the Siedler-Minigame. This is NOT a new camera setup. Keep camera height, projection, framing, scale and visual gameplay readability consistent across every generated view.`:`Use a consistent ${s.cameraAngle} top-down camera across all requested views.`;
-  const direction=`CURRENT DIRECTION: ${s.direction}\nInterpret ${s.direction} as the subject's gameplay-facing / movement direction while the camera remains fixed.`;
-  const output=s.viewCount==='single view'?`Generate one clean production reference for direction ${s.direction}.`:`Generate a complete ${s.viewCount} set with consistent subject identity, camera, scale, lighting and framing. The direction set is: ${dirs.join(', ')}.`;
-  return `${heading}\n\nCreate a production-ready generation reference based on the supplied reference material and the specification below.\n\n1. PROJECT\n${s.projectName}\n\n2. ASSET\nTYPE: ${s.assetType}\nSUBJECT: ${s.subject}\n\n3. TASK / ANIMATION\n${s.task}\n\n4. IDENTITY / REFERENCE CONTRACT\n${s.identity}\n\n5. CAMERA CONTRACT\n${camera}\n\n6. DIRECTION CONTRACT\n${direction}\n\n7. OUTPUT CONTRACT\n${output}\nMaintain exact consistency between directions. Do not mirror identifying asymmetries incorrectly. Do not change equipment, clothing, materials, proportions or design between views unless explicitly required by the task.\n\n8. QUALITY RULES\nClear readable silhouette. Stable proportions. Stable scale. Stable camera. Stable lighting. No unintended perspective drift. No redesign. No extra objects unless explicitly required by the task.\n${s.notes?`\n9. ADDITIONAL REQUIREMENTS\n${s.notes}\n`:''}\nThe supplied references are authoritative. When a reference conflicts with a generic assumption, follow the supplied reference.`;
-}
-
-function render(){
-  buildCamera();
-  const s=state(),p=prompt(s);
-  $('output').textContent=p;
-  $('cameraMeta').textContent=`${s.cameraAngle} top-down / fixed`;
-  $('directionMeta').textContent=s.direction;
-  $('assetMeta').textContent=`${s.assetType}: ${s.subject}`;
-  $('taskMeta').textContent=s.task;
-  $('sheetMeta').innerHTML=`<div><b>Projekt</b><br>${s.projectName}</div><div><b>Asset</b><br>${s.assetType}: ${s.subject}</div><div><b>Task</b><br>${s.task}</div><div><b>Kamera / Richtung</b><br>${s.cameraAngle} / ${s.direction}</div>`;
-  $('sheetPrompt').textContent=p;
-}
-
-function download(name,text,type){const blob=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),0)}
+function character(){return $('character').value==='custom'?($('customCharacter').value.trim()||'Custom Character'):$('character').value}
+function anim(){return animations[$('animation').value]}
+function buildDirections(){ $('directions').innerHTML=''; dirs.forEach(d=>{const b=document.createElement('button');b.className='dir'+(d===activeDir?' active':'');b.textContent=d;b.onclick=()=>{activeDir=d;render()};$('directions').appendChild(b)}) }
+function buildTimeline(){const a=anim();if(activeFrame>=a.frames.length)activeFrame=0;$('timeline').style.gridTemplateColumns=`repeat(${a.frames.length},minmax(52px,1fr))`;$('timeline').innerHTML='';a.frames.forEach((f,i)=>{const b=document.createElement('button');b.className='frame'+(i===activeFrame?' active':'');b.innerHTML=`${String(i+1).padStart(2,'0')}<small>${f.name}</small>`;b.onclick=()=>{activeFrame=i;render()};$('timeline').appendChild(b)});$('pose').innerHTML=`<b>Frame ${activeFrame+1}/${a.frames.length} – ${a.frames[activeFrame].name}</b><br>${a.frames[activeFrame].pose}<br><small>${a.fps} FPS preset · ${a.loop?'seamless loop':'one-shot'}</small>`}
+function buildMatrix(){const a=anim();let h='<table><thead><tr><th>Dir</th>'+a.frames.map((_,i)=>`<th>${String(i+1).padStart(2,'0')}</th>`).join('')+'</tr></thead><tbody>';dirs.forEach(d=>{h+=`<tr><th>${d}</th>`+a.frames.map((_,i)=>`<td><button class="cell${d===activeDir&&i===activeFrame?' active':''}" data-d="${d}" data-f="${i}">${d}${String(i+1).padStart(2,'0')}</button></td>`).join('')+'</tr>'});h+='</tbody></table>';$('matrix').innerHTML=h;$('matrix').querySelectorAll('.cell').forEach(b=>b.onclick=()=>{activeDir=b.dataset.d;activeFrame=Number(b.dataset.f);render()})}
+function state(){const a=anim(),f=a.frames[activeFrame];return {project:$('project').value,projectName:$('project').selectedOptions[0].text,assetType:'Character',character:character(),animation:$('animation').value,direction:activeDir,frameIndex:activeFrame+1,frameCount:a.frames.length,frameName:f.name,pose:f.pose,fps:a.fps,loop:a.loop,camera:'45° fixed top-down gameplay camera',output:'PNG with transparent background',spriteCell:'isolated character inside a clean transparent sprite cell',identity:$('identity').value.trim(),notes:$('notes').value.trim(),schemaVersion:'df-character-animation-0.2'} }
+function prompt(s){return `SIEDLER-MINIGAME CHARACTER ANIMATION GENERATION PACKAGE\n\nCHARACTER: ${s.character}\nANIMATION: ${s.animation}\nDIRECTION: ${s.direction}\nFRAME: ${String(s.frameIndex).padStart(2,'0')} / ${String(s.frameCount).padStart(2,'0')} – ${s.frameName}\n\n1. CHARACTER IDENTITY CONTRACT\n${s.identity}\n\n2. CAMERA CONTRACT\nUse the exact same fixed 45° top-down gameplay camera for every frame and every direction. Camera position, projection, framing, character scale and ground-space orientation must not drift. The camera never rotates with the character.\n\n3. DIRECTION CONTRACT\nThe character faces / moves toward gameplay direction ${s.direction}. Preserve the fixed camera. Do not achieve direction changes by incorrectly mirroring identifying asymmetries, equipment or clothing details.\n\n4. ANIMATION CONTRACT\nAnimation: ${s.animation}. This is frame ${s.frameIndex} of ${s.frameCount} in a ${s.loop?'seamless looping':'non-looping'} sequence at the ${s.fps} FPS reference preset.\nExact pose for this frame: ${s.pose}\nThe neighboring frames belong to one continuous motion. Keep body proportions, stride length, root position logic, clothing, backpack and equipment consistent so the complete sequence can play smoothly without popping.\n\n5. OUTPUT CONTRACT\nGenerate the character as an isolated production sprite on a genuinely transparent background (alpha). No scenery, no room, no colored backdrop, no opaque gradient and no decorative ground plane inside the sprite cell. A small consistent contact shadow may only be used if explicitly required later. Keep sufficient transparent padding around the complete silhouette for atlas cropping.\nLabels, frame numbers or sheet metadata are allowed only OUTSIDE the actual transparent sprite cell and must never overlap the character pixels or become part of the cropped sprite.\n\n6. FRAME CONSISTENCY\nKeep the same canvas scale, character center/reference anchor and camera framing across all frames. Do not resize the character between frames. Do not redesign the backpack. Do not add carried goods yet; the current Carrier baseline uses the existing backpack only.\n\n7. PRODUCTION GOAL\nThis frame must be suitable for assembly into a sprite atlas and playback with the other frames of ${s.animation}. The final motion must read clearly at gameplay size and form a continuous animation when frames are shown in order.${s.notes?`\n\n8. ADDITIONAL REQUIREMENTS\n${s.notes}`:''}\n\nThe supplied visual references are authoritative. If a generic assumption conflicts with them, follow the references.`}
+function render(){buildDirections();buildTimeline();buildMatrix();const s=state(),p=prompt(s);$('output').textContent=p;$('sheetMeta').innerHTML=`<div><b>Character</b><br>${s.character}</div><div><b>Animation</b><br>${s.animation}</div><div><b>Direction / Frame</b><br>${s.direction} / ${s.frameIndex} of ${s.frameCount}</div><div><b>Output</b><br>Transparent PNG · 45° fixed</div>`;$('sheetPrompt').textContent=p}
 function slug(v){return v.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'asset'}
-
-$('copy').onclick=async()=>{await navigator.clipboard.writeText(prompt(state()));const old=$('copy').textContent;$('copy').textContent='Kopiert ✓';setTimeout(()=>$('copy').textContent=old,1100)};
-$('txt').onclick=()=>{const s=state();download(`${slug(s.projectName)}_${slug(s.subject)}_${slug(s.task)}_${s.direction}.txt`,prompt(s),'text/plain;charset=utf-8')};
-$('json').onclick=()=>{const s=state();download(`${slug(s.projectName)}_${slug(s.subject)}_${slug(s.task)}_${s.direction}.json`,JSON.stringify({...s,prompt:prompt(s)},null,2),'application/json;charset=utf-8')};
+function download(name,text,type){const blob=new Blob([text],{type}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),0)}
+function filename(s,ext){return `${slug(s.projectName)}_${slug(s.character)}_${slug(s.animation)}_${s.direction}_f${String(s.frameIndex).padStart(2,'0')}.${ext}`}
+$('copy').onclick=async()=>{await navigator.clipboard.writeText(prompt(state()));const o=$('copy').textContent;$('copy').textContent='Kopiert ✓';setTimeout(()=>$('copy').textContent=o,1000)};
+$('txt').onclick=()=>{const s=state();download(filename(s,'txt'),prompt(s),'text/plain;charset=utf-8')};
+$('json').onclick=()=>{const s=state();const a=anim();const pkg={...s,prompt:prompt(s),directionSet:dirs,animationFrames:a.frames.map((f,i)=>({frame:i+1,...f})),generationMatrix:dirs.flatMap(d=>a.frames.map((f,i)=>({direction:d,frame:i+1,frameName:f.name,jobId:`${slug(s.character)}_${slug(s.animation)}_${d}_f${String(i+1).padStart(2,'0')}`})))};download(filename(s,'json'),JSON.stringify(pkg,null,2),'application/json;charset=utf-8')};
 $('pdf').onclick=()=>window.print();
-fields.forEach(id=>$(id).addEventListener('input',render));
-$('project').addEventListener('change',()=>{if($('project').value==='siedler-mini'){$('cameraAngle').value='45°';$('viewCount').value='8 directions';}render()});
-buildDirections();render();
+['project','character','customCharacter','animation','identity','notes'].forEach(id=>$(id).addEventListener('input',()=>{if(id==='animation')activeFrame=0;render()}));
+render();
