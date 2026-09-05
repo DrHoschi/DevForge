@@ -1,4 +1,5 @@
 const tools = [
+  { id: 'pose-renderer', title: 'Deterministic Pose Renderer', text: 'DF-02E.2 Test-Surface: neutrale Mannequin-Testpose deterministisch unter einer festen orthografischen 45°-Top-Down-Gameplay-Kamera darstellen.', href: 'tools/pose-renderer/', status: 'DF-02E.2 TEST' },
   { id: 'sprite-lab', title: 'Sprite Lab', text: 'Sprites/Sprite-Sheets laden, Frames zeichnen, Pivot/Anchor und Scale bearbeiten sowie Atlas-JSON importieren/exportieren.', href: 'tools/sprite-lab/', status: 'EINSATZBEREIT' },
   { id: 'atlas-builder', title: 'Atlas Builder', text: 'Atlas-Funktionen sind bewusst mit dem Sprite Lab zusammengeführt: Frames definieren, Metadaten prüfen und JSON exportieren.', href: 'tools/atlas-builder/', status: 'EINSATZBEREIT' },
   { id: 'animation-tester', title: 'Animation Tester', text: 'Sprite-Animationen projektunabhängig mit FPS, Loop/Ping-Pong, Bewegungswegen, 8 Richtungen und Debug-Overlays testen.', href: 'tools/animation-tester/', status: 'EINSATZBEREIT' },
