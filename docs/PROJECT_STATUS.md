@@ -33,18 +33,18 @@ FR1 und FR2 sind als bisherige Sequenzreferenzen brauchbar. Mehrere FR3-Versuche
 Vor weiteren Carrier-FR3-Versuchen wird eine neutrale visuelle Pose-Referenzbibliothek aufgebaut und getestet.
 
 ### Grundprinzip
-Die Referenzaufgaben werden strikt getrennt:
 - `AUTHORITATIVE CHARACTER REFERENCE` = permanentes Character-Design / Identität / Anatomie / Kleidung / Equipment.
-- `FRAME 01 SEQUENCE APPEARANCE ANCHOR` = akzeptierter Look dieser konkreten generierten Sequenz, insbesondere feine Gesichtsausprägung, Renderlook, Licht, Kamera und Scale.
+- `FRAME 01 SEQUENCE APPEARANCE ANCHOR` = akzeptierter Look der generierten Sequenz.
 - `APPROVED MOTION HISTORY` = zeitliche Bewegungsprogression bereits freigegebener Frames.
-- `POSE REFERENCE` = autoritative Gelenkstellung, Körperhaltung und Silhouette des Ziel-Frames. Sie enthält absichtlich kein Character-Design.
+- `POSE REFERENCE` = autoritative Gelenkstellung, Körperhaltung und Silhouette des Ziel-Frames; kein Character-Design.
 
 ### Pose-Referenz-Design
-- neutrales graues 3D-Mannequin, keine Kleidung, keine Materialien des Zielcharacters, keine Identitätsmerkmale;
+- immer derselbe bereits etablierte neutrale graue 3D-Mannequin-Charakter als Pose-Dummy;
+- keine Kleidung, keine Zielcharacter-Materialien, keine Identitätsmerkmale;
 - exakt standardisierte 45°-Top-Down-Gameplay-Kamera;
-- pro Pose eine einzelne klar lesbare Produktionsreferenz;
+- pro Frame eine einzelne, groß und klar lesbare Produktionspose – KEIN neues 8-Frame-Übersichtsboard als Produktionsreferenz;
 - gleiche Mannequin-Proportionen, Kamera, Scale, Framing und Root über die komplette Bibliothek;
-- Pose Reference darf ausschließlich Articulation/Pose bestimmen und niemals Character-Design übertragen.
+- Pose Reference bestimmt ausschließlich Articulation/Pose.
 
 ### WALK – geplanter 8-Frame-Loop
 1. FR1 `Contact L`: LEFT foot forward/contact, RIGHT leg rear, opposing arm swing.
@@ -54,48 +54,52 @@ Die Referenzaufgaben werden strikt getrennt:
 5. FR5 `Contact R`: RIGHT foot forward/contact, LEFT leg rear; klare Gegenphase zu FR1.
 6. FR6 `Down R`: RIGHT support/loading, body down, LEFT heel/knee advances.
 7. FR7 `Passing R`: LEFT leg passes planted RIGHT beneath pelvis.
-8. FR8 `Up / Left Swing`: LEFT leg swings forward, RIGHT heel rises; bereitet den sauberen Loop zurück zu FR1 vor.
+8. FR8 `Up / Left Swing`: LEFT leg swings forward, RIGHT heel rises; bereitet Loop zurück zu FR1 vor.
 
-Wichtig: FR5–FR8 dürfen NICHT dieselbe Beingeometrie wie FR1–FR4 wiederholen. Sie sind die anatomisch korrekte Gegenhälfte des Walk-Cycles.
+FR5–FR8 sind die anatomisch korrekte Gegenhälfte und dürfen nicht einfach FR1–FR4 mit derselben Beinbelegung wiederholen.
 
 ### Richtungen / Spiegelstrategie
-Pose-Assets werden zunächst einzeln kontrolliert erzeugt. Zu jeder akzeptierten Master-Pose soll unmittelbar eine exakt gespiegelte Richtungsvariante erzeugt/gespeichert werden, sofern die Richtungsgeometrie spiegelbar ist. Ziel ist, mit einer Pose-Erstellung direkt zwei Himmelsrichtungen abzudecken. Anatomische LEFT/RIGHT-Semantik bleibt beim Spiegeln erhalten und darf nicht allein wegen der Bildschirmseite umbenannt werden.
+Jede akzeptierte einzelne Master-Pose wird zusätzlich als exakt gespiegelte Richtungsvariante geführt, sofern geometrisch sinnvoll. Damit entstehen mit einer Pose-Erstellung direkt zwei Richtungsassets. Anatomische LEFT/RIGHT-Semantik bleibt erhalten.
 
-Geplante Spiegelpaare für die Bibliothek:
+Spiegelpaare:
 - SE ↔ SW
 - E ↔ W
 - NE ↔ NW
 - N ↔ S
 
-### Aktueller enger Testumfang
-Noch NICHT alle Animationen und Richtungen bauen. Zuerst ausschließlich WALK und zunächst die ersten drei Zielposen:
-1. `WALK / SE / FR1` als einzelne Pose-Referenz erstellen und visuell freigeben; passende gespiegelte Variante gleich mitführen.
-2. Danach `WALK / SE / FR2` + Spiegelvariante.
-3. Danach `WALK / SE / FR3` + Spiegelvariante.
-4. Diese drei Pose-Referenzen in den Prompt Builder als neue `POSE REFERENCE AUTHORITY` integrieren/auswählbar machen.
-5. Carrier WALK SE FR3 erneut generieren und prüfen, ob die visuelle Passing-Pose zuverlässig übernommen wird.
-6. Nur bei erfolgreichem Grundtest WALK FR4–FR8 und danach weitere Richtungen vervollständigen.
+### EXAKTE BEDEUTUNG EINES POSE-AUFTRAGS IM CHAT
+Wenn der Nutzer z. B. sagt:
+`Erstelle mir die Pose mit unserem neutralen Charakter, was du vorher schon verwendet hast. FR1: linkes Bein vorne – Contact L`
 
-### Bedienziel für einen neuen Chat
-Wenn der Nutzer sinngemäß nur sagt `Erstell mir die Pose`, ist der Repository-Status zuerst zu lesen. Solange dieser Arbeitsauftrag aktuell ist, bedeutet dies: die exakt nächste noch nicht freigegebene neutrale WALK-Pose aus obiger Reihenfolge erzeugen, in der festgelegten 45°-Gameplay-Perspektive, mit korrekter Walk-Mechanik und der passenden gespiegelten Richtungsvariante. Keine Carrier-Generierung und keinen späteren Frame vorziehen, solange die betreffende Pose nicht visuell freigegeben wurde.
+dann ist damit ausdrücklich gemeint:
+1. KEIN Carrier und kein finaler Spielcharakter.
+2. Den bereits etablierten neutralen grauen 3D-Mannequin-Pose-Dummy verwenden.
+3. Genau EINE einzelne Zielpose groß und eindeutig erzeugen, nicht acht ähnliche Frames auf einem Board.
+4. Aktuelle Masterrichtung zunächst SE in der festen 45°-Top-Down-Gameplay-Kamera.
+5. Bei FR1 Contact L: anatomisches LEFT leg/foot eindeutig vorne und im Bodenkontakt; anatomisches RIGHT leg eindeutig hinten; natürliche gegensinnige Armbewegung.
+6. Zusätzlich die geometrisch exakt gespiegelte Gegenrichtungsvariante SW derselben anatomischen Pose mitführen/erzeugen; Spiegelung ändert die Bildschirmseite, aber NICHT die anatomische LEFT/RIGHT-Bedeutung.
+7. Keine neue Pose erfinden, keine nächste Frame-Phase vorziehen und keine Übersichtsseite mit automatisch halluzinierten FR2–FR8 erzeugen.
+8. Erst nach visueller Freigabe dieses Posepaares wird FR2 erstellt.
+
+Diese Regel gilt entsprechend für spätere explizit benannte Frames: Der Nutzer benennt Frame/Pose; ChatGPT erzeugt genau diese einzelne Pose mit dem neutralen Mannequin und ihrer Spiegelvariante.
+
+### Aktueller enger Testumfang
+1. WALK / SE / FR1 + gespiegelte SW-Variante erstellen und visuell freigeben.
+2. Danach WALK / SE / FR2 + SW.
+3. Danach WALK / SE / FR3 + SW.
+4. Erst dann diese Pose-Referenzen als `POSE REFERENCE AUTHORITY` in den Prompt Builder integrieren.
+5. Carrier WALK SE FR3 erneut generieren und Passing-Pose testen.
+6. Nur bei erfolgreichem Grundtest FR4–FR8 und weitere Richtungen vervollständigen.
 
 ## Spätere Pose-Bibliothek – nur vorgemerkt
-Wenn der WALK-Grundtest funktioniert, soll das System dauerhaft projektübergreifend genutzt und schrittweise erweitert werden, u. a. für:
-- RUN
-- PICK UP / PUT DOWN
-- SIT / SITTING
-- weitere wichtige Gameplay-/Arbeitsposen
-
-Die Bibliothek bleibt erweiterbar; diese Animationen werden jetzt noch nicht implementiert.
+Bei erfolgreichem WALK-Grundtest dauerhaft projektübergreifend erweitern, u. a. RUN, PICK UP / PUT DOWN, SIT / SITTING und weitere Gameplay-/Arbeitsposen. Jetzt noch nicht implementieren.
 
 ## Verbindliche Produktionsprinzipien
-- Keine Carrier-FR4+-Produktion, solange der neue Pose-Reference-Grundtest mit FR3 nicht PASS ist.
-- Ein FAIL-Frame wird nicht als neue freigegebene Sequenzbasis verwendet.
+- Keine Carrier-FR4+-Produktion vor PASS des Pose-Reference-FR3-Grundtests.
 - Pose Reference = Pose/Articulation Authority, nicht Character-Design.
 - Character Reference = permanentes Design/Identität.
-- FR1 = akzeptierter Sequence Appearance Anchor.
+- FR1 = Sequence Appearance Anchor.
 - Approved Motion History = chronologische Bewegungsprogression.
-- Einzel-PNGs bleiben Source Assets; Atlas erst nach freigegebenen Frames.
 
 ## Technischer nächster DevForge-Schritt
-Nach Erstellung/Freigabe von SE-FR1 bis SE-FR3 (+ Spiegelvarianten) Prompt Builder um eine echte `Pose Reference`-Auswahl/Einbettung erweitern. Pose Reference erhält höchste Autorität für Gelenkstellung/Silhouette; Character Reference und Sequence Appearance Anchor behalten ihre jeweiligen nicht-posenbezogenen Zuständigkeiten.
+Nach Freigabe SE/SW-FR1 bis FR3 Prompt Builder um echte `Pose Reference`-Auswahl/Einbettung erweitern. Pose Reference erhält höchste Autorität für Gelenkstellung/Silhouette.
