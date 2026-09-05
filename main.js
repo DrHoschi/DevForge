@@ -1,5 +1,5 @@
 const tools = [
-  { id: 'prompt-builder', title: 'Prompt Builder', text: 'Character Animation Generation Packages mit Authoritative Character Reference und Previous Approved Frame Reference für kontrollierte Sequenzkontinuität.', href: 'tools/prompt-builder/', status: 'DF-02C · TESTBEREIT' },
+  { id: 'prompt-builder', title: 'Prompt Builder', text: 'Character Animation Generation Packages mit Authoritative Character Reference, Previous Approved Frame, Key Poses, Motion Deltas sowie Identity-/Render-/Camera-Locks.', href: 'tools/prompt-builder/', status: 'DF-02D.2 · TESTBEREIT' },
   { id: 'sprite-lab', title: 'Sprite Lab', text: 'Sprites/Sprite-Sheets laden, Frames zeichnen, Pivot/Anchor und Scale bearbeiten sowie Atlas-JSON importieren/exportieren.', href: 'tools/sprite-lab/', status: 'EINSATZBEREIT' },
   { id: 'atlas-builder', title: 'Atlas Builder', text: 'Atlas-Funktionen sind bewusst mit dem Sprite Lab zusammengeführt: Frames definieren, Metadaten prüfen und JSON exportieren.', href: 'tools/atlas-builder/', status: 'EINSATZBEREIT' },
   { id: 'animation-tester', title: 'Animation Tester', text: 'Einzelne Produktionsframes vor dem Atlas als Loop prüfen – mit FPS, gemeinsamem Bottom-Center-Anchor, Frame-Stepping und Onion-Skin; alternativ Manifest aus dem Projekt-Repository laden.', href: 'tools/animation-tester/', status: 'DF-02C · FRAME REVIEW' },
