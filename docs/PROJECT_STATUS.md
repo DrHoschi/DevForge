@@ -9,9 +9,9 @@ DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktuelle
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-02e1-deterministic-mannequin-skeleton-contract`
+- Aktueller Entwicklungsbranch: `df-02e3-walk-se-fr1-fr4`
 - Aktueller Prompt-Builder-Stand: `DF-02D.3R`
-- Neuer Testpfad: `tools/pose-renderer/`
+- Aktueller Pose-Renderer-Teststand: `DF-02E.3`
 
 # ENTSCHEIDUNG: DETERMINISTIC POSE REFERENCE FOUNDATION
 
@@ -40,58 +40,67 @@ Umgesetzt:
 
 ## Umgesetzt
 - technischer Renderer unter `tools/pose-renderer/`;
-- `neutral-test-v1.json` als einzige explizite Testpose;
 - feste orthografische Projektion;
 - feste Kamera: yaw 45°, elevation 45°;
 - fester 720×720 logical canvas;
 - deterministische Projektion expliziter 3D-Joint-Koordinaten;
 - technische SVG-Mannequin-Darstellung ohne generative Bild-KI;
 - fester Root-/Canvas-Bezug;
-- Projection Snapshot im UI für Regression;
-- dokumentierter E.2-Vertrag und Acceptance Checklist.
+- Projection Snapshot im UI für Regression.
 
-## Harte E.2-Grenze
-Noch NICHT enthalten:
-- WALK FR1–FR8;
-- Pose-Editor oder Slider;
-- Animation/Playback;
-- Counterphase-Ableitung;
-- mehrere Richtungen/Kameras;
-- Prompt-Builder-Bridge;
-- finaler Character-Render.
-
-## E.2 Acceptance Gate
-Code-/Scope-Kriterien:
-1. eine Neutral-/Testpose בלבד: PASS
-2. feste orthografische 45°-Kamera: PASS
-3. feste Canvas-/Scale-Basis: PASS
-4. explizite numerische Joint-Daten: PASS
-5. kein generatives Pose-Raten: PASS
-6. Projection Snapshot vorhanden: PASS
-7. keine WALK-/Editor-/Animation-Funktion vorgezogen: PASS
-
-Geräte-/Browserprüfung auf iPhone/Safari:
+## Geräte-/Browserprüfung auf iPhone/Safari
 - Testseite DF-02E.2 erreichbar: PASS
 - Neutralpose sichtbar und vollständig im Canvas: PASS
 - 45°-Gameplay-Ansicht plausibel: PASS
 - Root/Scale nach Seiten-Reload stabil: PASS
 - gleiche Figur nach Reload reproduziert: PASS
-- keine sichtbare LEFT/RIGHT-Verwechslung in der Neutralpose: PASS
 
 **DF-02E.2: PASS / READY TO FREEZE**
 
+# DF-02E.3 – WALK SE Pose Set FR1–FR4 – TEST-READY
+
+## Umgesetzt
+- neuer Entwicklungsbranch `df-02e3-walk-se-fr1-fr4`;
+- Datenvertrag `tools/pose-renderer/walk-se-fr1-fr4.v1.json`;
+- vier explizite, deterministische Posen: FR1 Contact L, FR2 Down L, FR3 Passing L, FR4 Up / Right Swing;
+- gleiche eingefrorene E.2-Kamera für alle vier Posen;
+- Root bleibt `[0,0,0]` und darf horizontal nicht wandern;
+- explizite Beinrollen je Frame;
+- explizite Pelvishöhe je Frame;
+- UI-Umschaltung FR1–FR4 ohne Animation/Interpolation;
+- Projection Snapshot wird pro ausgewählter Pose aktualisiert;
+- Vertrag dokumentiert in `docs/DF-02E3_WALK_SE_POSE_SET_FR1_FR4.md`.
+
+## Beabsichtigte Phase
+- FR1: LEFT Contact, RIGHT Trailing
+- FR2: LEFT Support/Down, RIGHT Trailing und beginnend vorwärts
+- FR3: LEFT Support, RIGHT Passing/Swing unter dem Becken
+- FR4: LEFT Support, RIGHT klarer Vorwärtsschwung / Up
+
+## E.3 Acceptance Gate – noch offen
+Auf iPhone/Safari nacheinander FR1, FR2, FR3 und FR4 auswählen und prüfen:
+1. vier klar unterschiedliche chronologische WALK-Phasen;
+2. Kamera/Facing/Scale/Root bleiben stabil;
+3. FR2 sichtbar niedriger als FR1;
+4. FR3 liest sich als Passing und nicht als Contact-Wiederholung;
+5. FR4 zeigt das rechte Bein klar weiter vorne und in der Luft;
+6. Reload reproduziert dieselbe gewählte Poseprojektion nach erneuter Auswahl;
+7. keine FR5–FR8-/Counterphase-Funktion vorhanden.
+
+**DF-02E.3 bleibt bis zum Geräte-PASS TEST-READY, nicht FROZEN.**
+
 # NÄCHSTER ZULÄSSIGER SCHRITT
 
-Als nächstes folgt **DF-02E.3 – WALK SE Pose Set FR1–FR4**. Dabei werden erstmals die vier ersten WALK-SE-Phasen als explizite deterministische Joint-/Pose-Daten auf dem eingefrorenen E.1/E.2-Vertrag definiert und nacheinander visuell geprüft.
+Jetzt ausschließlich **DF-02E.3 Gerätetest** auf dem Entwicklungsbranch `df-02e3-walk-se-fr1-fr4`.
 
-E.3 darf noch NICHT:
-- FR5–FR8 unabhängig definieren;
+Noch NICHT zulässig:
+- FR5–FR8 definieren;
 - Counterphase-Ableitung implementieren;
 - Pose-Editor/Slider hinzufügen;
 - weitere Richtungen/Kameras einführen;
 - Prompt-Builder-Bridge integrieren.
 
-FR5–FR8 bleiben ausschließlich Aufgabe von DF-02E.4 und werden dort deterministisch aus FR1–FR4 abgeleitet.
+Erst nach E.3 PASS folgt **DF-02E.4 – Deterministic Counterphase Derivation FR5–FR8**.
 
 ## Scope-Grenze bis DF-02E.6
 Keine RUN-, PICK-UP-/PUT-DOWN-/SIT-Posebibliothek, keine vollständigen acht Himmelsrichtungen, kein allgemeiner Animationseditor und keine weiteren generativen Mannequin-WALK-Versuche.
