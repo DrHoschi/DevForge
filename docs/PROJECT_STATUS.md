@@ -12,106 +12,123 @@ DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktuelle
 - Aktueller Entwicklungsbranch: `df-02d3-approved-motion-history`
 - Aktueller Prompt-Builder-Stand: `DF-02D.3R`
 
-## AKTUELLER ARBEITSAUFTRAG – POSE REFERENCE LIBRARY EXPERIMENT
-Vor weiteren Carrier-Tests wird eine neutrale visuelle Pose-Referenzbibliothek aufgebaut und getestet.
+# ENTSCHEIDUNG: DETERMINISTIC POSE REFERENCE FOUNDATION
 
-### VERBINDLICHER POSE-DUMMY / PARAMETRISIERUNGSFIGUR
-Immer dieselbe neutrale technische Mannequin-Figur verwenden:
-- glattes, gesichtsloses humanoides 3D-Mannequin;
-- neutral hellgrau/beige, matte bis leicht satinierte Oberfläche;
-- klar segmentierte Schulter-, Ellenbogen-, Handgelenk-, Hüft-, Knie- und Sprunggelenke;
-- vereinfachte natürliche Menschenproportionen;
-- glatter ovaler Kopf ohne Gesicht, Haare oder Identitätsmerkmale;
-- keine Kleidung und kein Character-Equipment.
+Der bisherige Versuch, technische Pose-Referenzen ausschließlich über generative Bild-Prompts zu erzeugen, ist für die endgültige Posebibliothek beendet.
 
-Die Figur ist ausschließlich technische Pose-/Parametrisierungsfigur. Sie bestimmt nur Pose, Gelenkwinkel, Gewichtsverlagerung, Körperhöhe, Arm-/Beinbewegung und Silhouette. Sie darf niemals Character-Design, Gesicht, Kleidung, Material oder Equipment des späteren Spielcharacters bestimmen.
+## Befund aus dem WALK-SE-Test
+Die Versuche FR1–FR6 haben gezeigt:
+- Die neutrale Mannequin-Darstellung eignet sich visuell sehr gut als Pose Reference.
+- Textbeschreibungen können einzelne Phasen plausibel erzeugen, garantieren aber keine anatomisch deterministische LEFT/RIGHT-Gelenkbelegung.
+- Besonders bei der zweiten Zyklushälfte kann das Bildmodell trotz korrekter Beschriftung wieder eine falsche Beinphase darstellen.
+- FR5 konnte nach mehreren Versuchen funktional korrekt als rechte Gegenphase erzeugt werden; FR6 scheiterte jedoch erneut trotz expliziter FR2→FR6-Gegenphasenregel.
+- Damit ist nachgewiesen, dass weiteres Prompt-Tuning allein keine ausreichend reproduzierbare technische Posebibliothek liefert.
 
-## GLOBALER WALK-KAMERA-/RICHTUNGSVERTRAG – SE
-Dieser Vertrag gilt unverändert für FR1 bis FR8 und ist wichtiger als eine einzelne Beinbeschreibung:
-- Bewegungsrichtung des Körpers bleibt in ALLEN acht Frames exakt `SE`.
-- Kopf, Brustkorb, Becken und Füße bleiben grundsätzlich entlang derselben SE-Bewegungsachse orientiert.
-- Die Figur darf in FR5–FR8 NICHT umdrehen, seitlich wegdrehen oder plötzlich aus einer anderen Azimutrichtung laufen.
-- Kamera bleibt in ALLEN Frames dieselbe feste 45°-Top-Down-Gameplay-Kamera: gleiche Kameraposition, Azimut, Elevation, Projektion, Framing und Scale.
-- Ein Wechsel von LEFT zu RIGHT als führendem Bein ist ausschließlich eine Änderung der Körperartikulation innerhalb derselben SE-Bewegungsrichtung; er ist KEINE Kameraspiegelung und KEINE Richtungsänderung.
-- FR5 ist deshalb NICHT das horizontal gespiegelte Gesamtbild von FR1. Es ist derselbe nach SE gerichtete Körper unter derselben Kamera, aber mit vertauschter Schrittphase der anatomischen Gliedmaßen.
-- Anatomisches LEFT/RIGHT wird immer aus Sicht der Figur definiert, niemals aus der Bildschirmposition.
+## Verbindliche Konsequenz
+FR7 wird NICHT mehr generativ erzeugt. Es werden vorerst keine weiteren generativen Mannequin-WALK-Frames produziert.
 
-## WALK-SE – AUSFÜHRLICHER PHASENVERTRAG
+DevForge wird stattdessen auf eine **deterministische Pose-Referenz** umgestellt. Die Posebibliothek muss künftig aus kontrollierbarer Gelenk-/Skelettgeometrie entstehen. Die technische Pose darf nicht vom Bildmodell frei interpretiert werden.
 
-### FR1 – Contact L
-Zweck: erster klarer linker Fersenkontakt / maximale linke Schrittauslage.
-- Anatomisches LEFT leg ist das führende Bein.
-- LEFT hip ist nach vorn geführt; LEFT knee nahezu gestreckt, aber natürlich weich.
-- LEFT lower leg zeigt nach vorn/unten; LEFT heel/foot erreicht den Boden vor dem Körper.
-- Anatomisches RIGHT leg liegt klar hinter dem Becken als trailing leg.
-- RIGHT heel darf angehoben sein; hinteres Bein ist gestreckt bzw. in natürlicher Abstoß-/Nachlaufposition.
-- Becken befindet sich zwischen den beiden Füßen; große, klar lesbare Schrittweite.
-- Torso bleibt nach SE ausgerichtet und leicht natürlich nach vorn geneigt.
-- Opposing arm swing: bei LEFT leg forward ist RIGHT arm forward und LEFT arm rear.
-- Verboten: rechte Beinführung, neutrale/passende Beinstellung, gedrehter Körper, andere Laufrichtung.
+## Zielmodell der deterministischen Posefigur
+Die bisher visuell etablierte neutrale Figur bleibt das gewünschte Erscheinungsbild der technischen Parametrisierungsfigur:
+- gesichtsloses neutrales humanoides Mannequin;
+- klar erkennbare Körpersegmente/Gelenke;
+- keine Kleidung, keine Character-Identität, kein Equipment;
+- ausschließlich technische Visualisierung von Pose und Silhouette.
 
-### FR2 – Down L
-Zweck: Gewicht wird nach dem linken Kontakt aufgenommen; niedrigster/komprimierter früher Stützpunkt.
-- LEFT foot bleibt vorn auf dem Boden und wird zum belasteten Support Foot.
-- LEFT knee beugt sich sichtbar stärker als in FR1.
-- Becken/Torso sinken gegenüber FR1 sichtbar ab; Körperhöhe ist niedriger.
-- Körpergewicht bewegt sich über das LEFT support leg.
-- RIGHT trailing heel löst sich deutlich; RIGHT knee beginnt nach vorn unter den Körper zu reisen.
-- RIGHT foot ist noch NICHT am linken Bein vorbeigeschwungen und noch NICHT als neuer Contact weit vorn.
-- Schrittweite wird gegenüber FR1 bereits kompakter.
-- Armbewegung schreitet kontinuierlich von FR1 weiter; keine plötzlich neue Armphase.
-- Kopf/Brust/Becken bleiben exakt nach SE orientiert.
-- Verboten: FR1 nahezu unverändert kopieren; Passing schon vollständig erreichen; Laufrichtung drehen.
+Neu ist: Die Pose wird nicht mehr primär durch einen Bildprompt definiert, sondern durch kontrollierte Poseparameter bzw. Gelenktransformationen. Das Renderbild ist nur noch die deterministische Visualisierung dieser Daten.
 
-### FR3 – Passing L
-Zweck: rechtes Schwungbein passiert das belastete linke Standbein unter dem Körper.
-- LEFT leg ist weiterhin das Support/Stance Leg.
-- LEFT foot liegt ungefähr unter bzw. leicht hinter dem Becken, nicht weit als Contact-Fuß voraus.
-- RIGHT hip/knee haben sich klar nach vorn bewegt.
-- RIGHT knee befindet sich unter bzw. leicht vor dem Becken und passiert in der Projektion das LEFT leg.
-- RIGHT foot ist angehoben und befindet sich nahe am LEFT support foot in der projizierten Bildschirmgeometrie.
-- Silhouette ist kompakt: KEIN Fuß weit vorne und gleichzeitig anderer Fuß weit hinten.
-- Torso kehrt aus der abgesenkten FR2-Position Richtung mittlere Höhe zurück.
-- Arm swing passiert ebenfalls seine mittlere Übergangsphase.
-- Kopf/Brust/Becken bleiben exakt nach SE ausgerichtet.
-- Verboten: Contact-/Stride-Silhouette wie FR1; unveränderte FR2-Beingeometrie; Richtungswechsel.
+## Erforderlicher Pose-Datenvertrag
+Eine Pose muss mindestens reproduzierbar festlegen können:
+- Root-/Pelvis-Position und Körperhöhe;
+- Torso-Neigung und -Rotation;
+- Head/Facing-Orientierung;
+- LEFT/RIGHT shoulder rotation;
+- LEFT/RIGHT elbow flexion;
+- LEFT/RIGHT hip rotation/flexion;
+- LEFT/RIGHT knee flexion;
+- LEFT/RIGHT ankle/foot orientation;
+- Support-/Swing-/Contact-Rolle jedes Beins;
+- feste Bewegungsrichtung;
+- feste Kamera-/Projektionsparameter.
 
-### FR4 – Up / Right Swing
-Zweck: rechtes Schwungbein verlässt Passing und erreicht die hohe Vorwärtsschwungphase kurz vor dem rechten Contact.
-- LEFT leg bleibt noch das letzte Support Leg.
-- LEFT heel hebt sich zunehmend; LEFT leg beginnt hinter den Körper zu geraten.
-- RIGHT thigh/knee sind klar VOR dem Becken.
-- RIGHT foot ist vom Boden gelöst und schwingt nach vorn; noch kein endgültiger rechter Bodenkontakt.
-- Becken/Torso befinden sich höher als in FR2/FR3; Up-Phase klar lesbar.
-- Schritt öffnet sich wieder, diesmal mit RIGHT leg als kommendem führenden Bein.
-- Opposing arm swing nähert sich der Gegenphase zu FR1: LEFT arm bewegt sich nach vorn, RIGHT arm nach hinten.
-- Kopf/Brust/Becken bleiben exakt nach SE ausgerichtet.
-- Verboten: rechten Fuß bereits als langen belasteten Contact darstellen; Körper/Kamera spiegeln; Richtung ändern.
+Gleiche Poseparameter + gleiche Kamera müssen immer dieselbe Poseprojektion ergeben.
 
-## ABLEITUNGSREGEL FÜR FR5–FR8
-FR5–FR8 sind keine frei neu beschriebenen Posen. Sie sind die zweite Hälfte desselben kontinuierlichen Walk-Cycles und werden streng aus FR1–FR4 abgeleitet, während Kamera und SE-Facing unverändert bleiben:
+## WALK SE – deterministisch aufzubauende 8 Frames
+Die fachliche Phasenfolge bleibt:
+1. FR1 `Contact L` – LEFT vorne/contact, RIGHT trailing.
+2. FR2 `Down L` – LEFT loaded support, Körper abgesenkt, RIGHT beginnt vorzuziehen.
+3. FR3 `Passing L` – RIGHT passiert LEFT unter dem Becken.
+4. FR4 `Up / Right Swing` – RIGHT schwingt vor, Körper hoch.
+5. FR5 `Contact R` – RIGHT vorne/contact, LEFT trailing.
+6. FR6 `Down R` – RIGHT loaded support, Körper abgesenkt, LEFT beginnt vorzuziehen.
+7. FR7 `Passing R` – LEFT passiert RIGHT unter dem Becken.
+8. FR8 `Up / Left Swing` – LEFT schwingt vor, Körper hoch und bereitet FR1 vor.
 
-- `FR5 Contact R` = gait-phase counterpart von FR1 Contact L: RIGHT leg übernimmt exakt die funktionale Rolle des LEFT leg aus FR1; LEFT leg übernimmt die trailing Rolle des RIGHT leg. Gleichzeitig LEFT arm forward / RIGHT arm rear. Kopf, Brust, Becken, Bewegungsachse und Kamera bleiben wie FR1 nach SE.
-- `FR6 Down R` = counterpart von FR2 Down L: RIGHT foot/support leg trägt und knickt ein; Körper sinkt; LEFT heel löst sich und LEFT knee beginnt nach vorn zu reisen. Facing/Kamera unverändert SE.
-- `FR7 Passing R` = counterpart von FR3 Passing L: RIGHT bleibt Support; LEFT knee/foot passieren unter dem Becken nach vorn; kompakte Passing-Silhouette. Facing/Kamera unverändert SE.
-- `FR8 Up / Left Swing` = counterpart von FR4 Up / Right Swing: LEFT thigh/knee/foot schwingen klar vor das Becken, RIGHT heel hebt sich/trailing; Körper hoch. Diese Pose bereitet unmittelbar FR1 Contact L vor. Facing/Kamera unverändert SE.
+## Harte Symmetrie-/Ableitungsregel
+FR5–FR8 werden geometrisch aus FR1–FR4 abgeleitet, nicht unabhängig neu erfunden:
+- FR5 = FR1 mit funktionalem anatomischem L↔R-Phasentausch.
+- FR6 = FR2 mit funktionalem anatomischem L↔R-Phasentausch.
+- FR7 = FR3 mit funktionalem anatomischem L↔R-Phasentausch.
+- FR8 = FR4 mit funktionalem anatomischem L↔R-Phasentausch.
 
-### Harte Gegenphasen-Regel
-Für die zweite Zyklushälfte werden NUR die funktionalen Rollen der anatomischen Gliedmaßen L↔R vertauscht. NIEMALS das komplette Bild spiegeln, NIEMALS die Kamera spiegeln und NIEMALS den Character-Facing-Vektor ändern. Die gedachte Vorwärtsachse durch Kopf → Brust → Becken bleibt FR1 bis FR8 identisch.
+Dabei bleiben Root-System, SE-Bewegungsachse, Kamera, Projektion, Scale und Framing identisch. Dies ist ein Gelenk-/Phasentausch und ausdrücklich KEINE Spiegelung des Gesamtbildes.
 
-## SEPARATE RICHTUNGS-SPIEGELUNG
-Die geplante SE↔SW-Spiegelvariante ist ein anderer Vorgang als FR1↔FR5. Erst nachdem eine SE-Pose korrekt freigegeben ist, kann daraus separat eine SW-Richtungsfassung entstehen. Diese Richtungsfassung darf nicht mit dem Links-/Rechts-Phasenwechsel des Walk-Cycles verwechselt werden.
+## Richtungsableitung
+Richtungsvarianten werden ebenfalls deterministisch aus Pose-/Kameradaten abgeleitet. Eine SE→SW-Variante soll nicht erneut generativ erraten werden. Spiegel-/Rotationsregeln müssen mathematisch reproduzierbar sein und anatomische LEFT/RIGHT-Semantik erhalten.
 
-Geplante Richtungspaare: SE↔SW, E↔W, NE↔NW, N↔S.
+## Rolle im Prompt Builder
+Der Prompt Builder soll später nicht nur ein frei generiertes Posebild kennen, sondern eine Pose Reference aus dem deterministischen Pose-System auswählen können. Für den finalen Character-Generator wird daraus eine saubere visuelle Pose Reference gerendert/eingebettet.
 
-## AKTUELLER TESTSTATUS
-- FR1 Contact L: als Posegrundlage akzeptiert.
-- FR2 Down L: als Posegrundlage akzeptiert.
-- FR3 Passing L: als Posegrundlage akzeptiert.
-- FR4 Up / Right Swing: als Posegrundlage akzeptiert.
-- erster FR5-Versuch: FAIL, wiederholte FR1-artige Beinbelegung.
-- zweiter FR5-Versuch: FAIL, rechte Gegenphase erkennbar, aber Facing/Bewegungsrichtung/Körperorientierung nicht ausreichend konsistent zu FR1–FR4.
-- Nächster zulässiger Pose-Schritt: FR5 Contact R erneut erzeugen, diesmal unter dem globalen SE-Facing-Vertrag und der harten Gegenphasen-Regel. FR6–FR8 erst nach FR5-PASS.
+Referenzrollen bleiben getrennt:
+- `DETERMINISTIC POSE REFERENCE` = Pose, Gelenkstellung, Gewichtsverlagerung, Silhouette.
+- `AUTHORITATIVE CHARACTER REFERENCE` = Identität, Character-Anatomie/Proportionen, Kleidung, Equipment, permanentes Design.
+- `FRAME 01 SEQUENCE APPEARANCE ANCHOR` = konkreter akzeptierter Sequenzlook.
+- `APPROVED MOTION HISTORY` = chronologische Bewegungsprogression.
 
-## Späterer Prompt-Builder
-Pose Reference = höchste Autorität ausschließlich für Articulation/Pose. Character Reference = Character-Design/Identität. FR1 Sequence Appearance Anchor = konkreter Sequenzlook. Approved Motion History = chronologische Bewegungsprogression.
+Die neutrale Posefigur darf weiterhin niemals Character-Design auf den finalen Character übertragen.
+
+## Status der bisherigen generativen Posebilder
+Die bisher erzeugten Mannequin-Bilder sind ausschließlich Explorations-/Designreferenzen. Sie zeigen das gewünschte Darstellungsprinzip und halfen bei der Definition der Walk-Phasen, sind aber NICHT die endgültige technische Posebibliothek und dürfen nicht als geometrisch autoritative Datenbasis behandelt werden.
+
+Insbesondere:
+- FR1–FR4: visuell brauchbare Explorationsreferenzen, aber noch nicht deterministisch.
+- FR5: letzter Versuch funktional brauchbar, aber weiterhin nur generative Explorationsreferenz.
+- FR6: FAIL; auch die verschärfte FR2→FR6-Promptregel erzeugte keine verlässlich kontrollierte Gegenphase.
+- FR7/FR8: nicht mehr generativ fortsetzen.
+
+# NÄCHSTER ZULÄSSIGER ENTWICKLUNGSSCHRITT
+
+Nicht weiter Bilder prompten.
+
+Als nächstes wird ein kleiner DevForge-Implementierungsblock für die **Deterministic Pose Reference Foundation** definiert und umgesetzt. Er soll zunächst nur das Minimum liefern, um WALK / SE / FR1–FR8 geometrisch kontrolliert darzustellen.
+
+Empfohlene Staffelung:
+
+### DF-02E.1 – Deterministic Mannequin Skeleton Contract
+Nur technisches Skelett-/Joint-Modell, anatomische LEFT/RIGHT-Namen, Parent-Hierarchie, Root/Pelvis und feste Poseparameter definieren. Noch kein Pose-Editor und keine Animation.
+
+### DF-02E.2 – Fixed 45° Gameplay Pose Renderer
+Das neutrale Mannequin aus deterministischen Joint-Daten unter einer festen 45°-Top-Down-Gameplay-Kamera darstellen. Gleiche Daten müssen gleiche Projektion ergeben.
+
+### DF-02E.3 – WALK SE Pose Set FR1–FR4
+Die ersten vier Walk-Phasen als explizite kontrollierte Poseparameter definieren und visuell prüfen.
+
+### DF-02E.4 – Deterministic Counterphase Derivation FR5–FR8
+FR5–FR8 algorithmisch aus FR1–FR4 durch anatomischen L↔R-Rollentausch ableiten. Keine unabhängige Neuerstellung.
+
+### DF-02E.5 – Pose Reference Export / Prompt Builder Bridge
+Aus einer ausgewählten deterministischen Pose eine saubere Pose-Reference-Grafik erzeugen und im bestehenden Prompt Builder als `POSE REFERENCE AUTHORITY` einbetten.
+
+### DF-02E.6 – Carrier FR3 Validation Gate
+Erst danach Carrier WALK SE FR3 erneut mit Character Reference + Sequence Appearance Anchor + Approved Motion History + deterministischer FR3 Pose Reference erzeugen. Prüfen, ob Passing-Pose und Character-Kontinuität gleichzeitig PASS erreichen.
+
+## Scope-Grenze
+Bis DF-02E.6 PASS:
+- keine RUN-Posebibliothek;
+- keine PICK-UP/PUT-DOWN/SIT-Bibliothek;
+- keine vollständigen acht Himmelsrichtungen;
+- kein allgemeiner Animationseditor;
+- keine weiteren generativen Mannequin-WALK-Versuche.
+
+Zuerst muss WALK / SE als deterministischer Proof of Concept funktionieren.
