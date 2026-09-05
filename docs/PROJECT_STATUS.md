@@ -9,126 +9,76 @@ DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktuelle
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-02d3-approved-motion-history`
+- Aktueller Entwicklungsbranch: `df-02e1-deterministic-mannequin-skeleton-contract`
 - Aktueller Prompt-Builder-Stand: `DF-02D.3R`
 
 # ENTSCHEIDUNG: DETERMINISTIC POSE REFERENCE FOUNDATION
 
-Der bisherige Versuch, technische Pose-Referenzen ausschließlich über generative Bild-Prompts zu erzeugen, ist für die endgültige Posebibliothek beendet.
+Der generative Mannequin-Ansatz ist für die endgültige technische Posebibliothek beendet. Die endgültige Pose Reference wird künftig aus kontrollierten Joint-/Skeleton-Daten erzeugt.
 
-## Befund aus dem WALK-SE-Test
-Die Versuche FR1–FR6 haben gezeigt:
-- Die neutrale Mannequin-Darstellung eignet sich visuell sehr gut als Pose Reference.
-- Textbeschreibungen können einzelne Phasen plausibel erzeugen, garantieren aber keine anatomisch deterministische LEFT/RIGHT-Gelenkbelegung.
-- Besonders bei der zweiten Zyklushälfte kann das Bildmodell trotz korrekter Beschriftung wieder eine falsche Beinphase darstellen.
-- FR5 konnte nach mehreren Versuchen funktional korrekt als rechte Gegenphase erzeugt werden; FR6 scheiterte jedoch erneut trotz expliziter FR2→FR6-Gegenphasenregel.
-- Damit ist nachgewiesen, dass weiteres Prompt-Tuning allein keine ausreichend reproduzierbare technische Posebibliothek liefert.
+## DF-02E – Staffelung
+1. DF-02E.1 – Deterministic Mannequin Skeleton Contract
+2. DF-02E.2 – Fixed 45° Gameplay Pose Renderer
+3. DF-02E.3 – WALK SE Pose Set FR1–FR4
+4. DF-02E.4 – Deterministic Counterphase Derivation FR5–FR8
+5. DF-02E.5 – Pose Reference Export / Prompt Builder Bridge
+6. DF-02E.6 – Carrier FR3 Validation Gate
 
-## Verbindliche Konsequenz
-FR7 wird NICHT mehr generativ erzeugt. Es werden vorerst keine weiteren generativen Mannequin-WALK-Frames produziert.
+# DF-02E.1 – IMPLEMENTED / CONTRACT ONLY
 
-DevForge wird stattdessen auf eine **deterministische Pose-Referenz** umgestellt. Die Posebibliothek muss künftig aus kontrollierbarer Gelenk-/Skelettgeometrie entstehen. Die technische Pose darf nicht vom Bildmodell frei interpretiert werden.
+## Umgesetzt
+- neuer Branch `df-02e1-deterministic-mannequin-skeleton-contract`;
+- verbindlicher technischer Contract: `docs/DF-02E1_DETERMINISTIC_MANNEQUIN_SKELETON_CONTRACT.md`;
+- maschinenlesbare Skelettdefinition: `tools/prompt-builder/mannequin-skeleton.v1.json`;
+- stabile Joint-Hierarchie und stabile Joint-IDs;
+- anatomisches LEFT/RIGHT eindeutig aus Figurensicht definiert;
+- Root/Pelvis-Verantwortung getrennt;
+- lokale Pose-Transforms als Position + Rotation definiert;
+- feste technische Mannequin-Proportionen definiert;
+- semantische Beinrollen CONTACT / SUPPORT / SWING / TRAILING definiert;
+- explizite anatomische Counterphase-Paare L↔R definiert;
+- Kamera bewusst NICHT Teil des Skeleton Contracts; sie folgt erst in DF-02E.2.
 
-## Zielmodell der deterministischen Posefigur
-Die bisher visuell etablierte neutrale Figur bleibt das gewünschte Erscheinungsbild der technischen Parametrisierungsfigur:
-- gesichtsloses neutrales humanoides Mannequin;
-- klar erkennbare Körpersegmente/Gelenke;
-- keine Kleidung, keine Character-Identität, kein Equipment;
-- ausschließlich technische Visualisierung von Pose und Silhouette.
+## Verbindliche Skeleton-Grenze
+DF-02E.1 enthält absichtlich noch KEINEN Renderer, keinen Pose-Editor, keinen IK-Solver, keine konkreten WALK-Winkel, keine automatische Counterphase-Ableitung und keine PNG-/PDF-Ausgabe.
 
-Neu ist: Die Pose wird nicht mehr primär durch einen Bildprompt definiert, sondern durch kontrollierte Poseparameter bzw. Gelenktransformationen. Das Renderbild ist nur noch die deterministische Visualisierung dieser Daten.
+Die stabilen Joint-IDs sind:
+`root`, `pelvis`, `spineLower`, `spineUpper`, `neck`, `head`, `clavicleL`, `shoulderL`, `elbowL`, `wristL`, `handL`, `clavicleR`, `shoulderR`, `elbowR`, `wristR`, `handR`, `hipL`, `kneeL`, `ankleL`, `footL`, `toeL`, `hipR`, `kneeR`, `ankleR`, `footR`, `toeR`.
 
-## Erforderlicher Pose-Datenvertrag
-Eine Pose muss mindestens reproduzierbar festlegen können:
-- Root-/Pelvis-Position und Körperhöhe;
-- Torso-Neigung und -Rotation;
-- Head/Facing-Orientierung;
-- LEFT/RIGHT shoulder rotation;
-- LEFT/RIGHT elbow flexion;
-- LEFT/RIGHT hip rotation/flexion;
-- LEFT/RIGHT knee flexion;
-- LEFT/RIGHT ankle/foot orientation;
-- Support-/Swing-/Contact-Rolle jedes Beins;
-- feste Bewegungsrichtung;
-- feste Kamera-/Projektionsparameter.
+Counterphase-Paare sind ausschließlich anatomische Joint-Paare. Der spätere FR1→FR5- bzw. FR2→FR6-Wechsel ist ausdrücklich KEINE Bildspiegelung und darf Facing oder Kamera nicht ändern.
 
-Gleiche Poseparameter + gleiche Kamera müssen immer dieselbe Poseprojektion ergeben.
+## Acceptance Gate DF-02E.1
+PASS-Kriterien:
+1. stabile Joint-Hierarchie/IDs: PASS
+2. feste anatomische LEFT/RIGHT-Semantik: PASS
+3. stabile technische Proportionen: PASS
+4. deterministisches lokales Transform-Schema: PASS
+5. Root/Pelvis-Aufgaben getrennt: PASS
+6. Counterphase Joint-Pair Map vorhanden: PASS
+7. kein Renderer/Editor/Animationsumfang vorgezogen: PASS
 
-## WALK SE – deterministisch aufzubauende 8 Frames
-Die fachliche Phasenfolge bleibt:
-1. FR1 `Contact L` – LEFT vorne/contact, RIGHT trailing.
-2. FR2 `Down L` – LEFT loaded support, Körper abgesenkt, RIGHT beginnt vorzuziehen.
-3. FR3 `Passing L` – RIGHT passiert LEFT unter dem Becken.
-4. FR4 `Up / Right Swing` – RIGHT schwingt vor, Körper hoch.
-5. FR5 `Contact R` – RIGHT vorne/contact, LEFT trailing.
-6. FR6 `Down R` – RIGHT loaded support, Körper abgesenkt, LEFT beginnt vorzuziehen.
-7. FR7 `Passing R` – LEFT passiert RIGHT unter dem Becken.
-8. FR8 `Up / Left Swing` – LEFT schwingt vor, Körper hoch und bereitet FR1 vor.
+**DF-02E.1: PASS / READY TO FREEZE**
 
-## Harte Symmetrie-/Ableitungsregel
-FR5–FR8 werden geometrisch aus FR1–FR4 abgeleitet, nicht unabhängig neu erfunden:
-- FR5 = FR1 mit funktionalem anatomischem L↔R-Phasentausch.
-- FR6 = FR2 mit funktionalem anatomischem L↔R-Phasentausch.
-- FR7 = FR3 mit funktionalem anatomischem L↔R-Phasentausch.
-- FR8 = FR4 mit funktionalem anatomischem L↔R-Phasentausch.
+# NÄCHSTER ZULÄSSIGER SCHRITT
 
-Dabei bleiben Root-System, SE-Bewegungsachse, Kamera, Projektion, Scale und Framing identisch. Dies ist ein Gelenk-/Phasentausch und ausdrücklich KEINE Spiegelung des Gesamtbildes.
+## DF-02E.2 – Fixed 45° Gameplay Pose Renderer
+Auf dem eingefrorenen Skeleton Contract einen minimalen deterministischen Renderer bauen, der die neutrale technische Mannequin-Figur aus Joint-Daten unter exakt einer festen 45°-Top-Down-Gameplay-Kamera darstellt.
 
-## Richtungsableitung
-Richtungsvarianten werden ebenfalls deterministisch aus Pose-/Kameradaten abgeleitet. Eine SE→SW-Variante soll nicht erneut generativ erraten werden. Spiegel-/Rotationsregeln müssen mathematisch reproduzierbar sein und anatomische LEFT/RIGHT-Semantik erhalten.
+E.2 darf zunächst ausschließlich:
+- `mannequin-skeleton.v1.json` laden;
+- eine definierte Neutral-/Testpose aus Joint-Transforms darstellen;
+- dieselben Joint-Daten immer identisch projizieren;
+- feste Kamera, gleiche Scale und gleichen Root verwenden;
+- anatomische LEFT/RIGHT-Seiten visuell unterscheidbar/debugbar halten.
 
-## Rolle im Prompt Builder
-Der Prompt Builder soll später nicht nur ein frei generiertes Posebild kennen, sondern eine Pose Reference aus dem deterministischen Pose-System auswählen können. Für den finalen Character-Generator wird daraus eine saubere visuelle Pose Reference gerendert/eingebettet.
+E.2 darf noch NICHT:
+- WALK FR1–FR8 definieren;
+- Pose-Editor/Slider bereitstellen;
+- Counterphase automatisch erzeugen;
+- mehrere Richtungen/Kameras anbieten;
+- Prompt Builder Pose-Export integrieren.
 
-Referenzrollen bleiben getrennt:
-- `DETERMINISTIC POSE REFERENCE` = Pose, Gelenkstellung, Gewichtsverlagerung, Silhouette.
-- `AUTHORITATIVE CHARACTER REFERENCE` = Identität, Character-Anatomie/Proportionen, Kleidung, Equipment, permanentes Design.
-- `FRAME 01 SEQUENCE APPEARANCE ANCHOR` = konkreter akzeptierter Sequenzlook.
-- `APPROVED MOTION HISTORY` = chronologische Bewegungsprogression.
+Erst wenn der feste Renderer reproduzierbar PASS ist, folgt DF-02E.3 mit den tatsächlichen WALK-SE-Posedaten FR1–FR4.
 
-Die neutrale Posefigur darf weiterhin niemals Character-Design auf den finalen Character übertragen.
-
-## Status der bisherigen generativen Posebilder
-Die bisher erzeugten Mannequin-Bilder sind ausschließlich Explorations-/Designreferenzen. Sie zeigen das gewünschte Darstellungsprinzip und halfen bei der Definition der Walk-Phasen, sind aber NICHT die endgültige technische Posebibliothek und dürfen nicht als geometrisch autoritative Datenbasis behandelt werden.
-
-Insbesondere:
-- FR1–FR4: visuell brauchbare Explorationsreferenzen, aber noch nicht deterministisch.
-- FR5: letzter Versuch funktional brauchbar, aber weiterhin nur generative Explorationsreferenz.
-- FR6: FAIL; auch die verschärfte FR2→FR6-Promptregel erzeugte keine verlässlich kontrollierte Gegenphase.
-- FR7/FR8: nicht mehr generativ fortsetzen.
-
-# NÄCHSTER ZULÄSSIGER ENTWICKLUNGSSCHRITT
-
-Nicht weiter Bilder prompten.
-
-Als nächstes wird ein kleiner DevForge-Implementierungsblock für die **Deterministic Pose Reference Foundation** definiert und umgesetzt. Er soll zunächst nur das Minimum liefern, um WALK / SE / FR1–FR8 geometrisch kontrolliert darzustellen.
-
-Empfohlene Staffelung:
-
-### DF-02E.1 – Deterministic Mannequin Skeleton Contract
-Nur technisches Skelett-/Joint-Modell, anatomische LEFT/RIGHT-Namen, Parent-Hierarchie, Root/Pelvis und feste Poseparameter definieren. Noch kein Pose-Editor und keine Animation.
-
-### DF-02E.2 – Fixed 45° Gameplay Pose Renderer
-Das neutrale Mannequin aus deterministischen Joint-Daten unter einer festen 45°-Top-Down-Gameplay-Kamera darstellen. Gleiche Daten müssen gleiche Projektion ergeben.
-
-### DF-02E.3 – WALK SE Pose Set FR1–FR4
-Die ersten vier Walk-Phasen als explizite kontrollierte Poseparameter definieren und visuell prüfen.
-
-### DF-02E.4 – Deterministic Counterphase Derivation FR5–FR8
-FR5–FR8 algorithmisch aus FR1–FR4 durch anatomischen L↔R-Rollentausch ableiten. Keine unabhängige Neuerstellung.
-
-### DF-02E.5 – Pose Reference Export / Prompt Builder Bridge
-Aus einer ausgewählten deterministischen Pose eine saubere Pose-Reference-Grafik erzeugen und im bestehenden Prompt Builder als `POSE REFERENCE AUTHORITY` einbetten.
-
-### DF-02E.6 – Carrier FR3 Validation Gate
-Erst danach Carrier WALK SE FR3 erneut mit Character Reference + Sequence Appearance Anchor + Approved Motion History + deterministischer FR3 Pose Reference erzeugen. Prüfen, ob Passing-Pose und Character-Kontinuität gleichzeitig PASS erreichen.
-
-## Scope-Grenze
-Bis DF-02E.6 PASS:
-- keine RUN-Posebibliothek;
-- keine PICK-UP/PUT-DOWN/SIT-Bibliothek;
-- keine vollständigen acht Himmelsrichtungen;
-- kein allgemeiner Animationseditor;
-- keine weiteren generativen Mannequin-WALK-Versuche.
-
-Zuerst muss WALK / SE als deterministischer Proof of Concept funktionieren.
+## Scope-Grenze bis DF-02E.6
+Keine RUN-, PICK-UP-/PUT-DOWN-/SIT-Posebibliothek, keine vollständigen acht Himmelsrichtungen, kein allgemeiner Animationseditor und keine weiteren generativen Mannequin-WALK-Versuche.
