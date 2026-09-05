@@ -36,10 +36,10 @@ Umgesetzt:
 - Counterphase-Paare
 - keine Kamera-/Renderer-Logik vorgezogen
 
-# DF-02E.2 – IMPLEMENTED / TEST-READY
+# DF-02E.2 – PASS / READY TO FREEZE
 
 ## Umgesetzt
-- neuer technischer Renderer unter `tools/pose-renderer/`;
+- technischer Renderer unter `tools/pose-renderer/`;
 - `neutral-test-v1.json` als einzige explizite Testpose;
 - feste orthografische Projektion;
 - feste Kamera: yaw 45°, elevation 45°;
@@ -70,13 +70,28 @@ Code-/Scope-Kriterien:
 6. Projection Snapshot vorhanden: PASS
 7. keine WALK-/Editor-/Animation-Funktion vorgezogen: PASS
 
-**DF-02E.2: IMPLEMENTED / TEST-READY**
+Geräte-/Browserprüfung auf iPhone/Safari:
+- Testseite DF-02E.2 erreichbar: PASS
+- Neutralpose sichtbar und vollständig im Canvas: PASS
+- 45°-Gameplay-Ansicht plausibel: PASS
+- Root/Scale nach Seiten-Reload stabil: PASS
+- gleiche Figur nach Reload reproduziert: PASS
+- keine sichtbare LEFT/RIGHT-Verwechslung in der Neutralpose: PASS
 
-Der finale E.2-PASS benötigt jetzt ausschließlich noch die visuelle Geräte-/Browserprüfung der Testseite: gleiche Pose nach Reload, plausible 45°-Ansicht, stabiler Root/Scale und keine sichtbare LEFT/RIGHT-Verwechslung.
+**DF-02E.2: PASS / READY TO FREEZE**
 
 # NÄCHSTER ZULÄSSIGER SCHRITT
 
-Zuerst DF-02E.2 auf der veröffentlichten Testseite visuell prüfen. Bei PASS wird E.2 eingefroren. Erst danach folgt **DF-02E.3 – WALK SE Pose Set FR1–FR4** mit expliziten deterministischen Posedaten.
+Als nächstes folgt **DF-02E.3 – WALK SE Pose Set FR1–FR4**. Dabei werden erstmals die vier ersten WALK-SE-Phasen als explizite deterministische Joint-/Pose-Daten auf dem eingefrorenen E.1/E.2-Vertrag definiert und nacheinander visuell geprüft.
+
+E.3 darf noch NICHT:
+- FR5–FR8 unabhängig definieren;
+- Counterphase-Ableitung implementieren;
+- Pose-Editor/Slider hinzufügen;
+- weitere Richtungen/Kameras einführen;
+- Prompt-Builder-Bridge integrieren.
+
+FR5–FR8 bleiben ausschließlich Aufgabe von DF-02E.4 und werden dort deterministisch aus FR1–FR4 abgeleitet.
 
 ## Scope-Grenze bis DF-02E.6
 Keine RUN-, PICK-UP-/PUT-DOWN-/SIT-Posebibliothek, keine vollständigen acht Himmelsrichtungen, kein allgemeiner Animationseditor und keine weiteren generativen Mannequin-WALK-Versuche.
