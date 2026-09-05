@@ -1,23 +1,9 @@
 const tools = [
-  { id: 'prompt-builder', title: 'Prompt Builder', text: 'Projektbezogene Master-Prompts für Figuren, Gebäude, Ressourcen, Icons und weitere Assets zusammenstellen – inklusive Kamera-/Richtungsvorschau und TXT/JSON/PDF-Datenblatt-Export.', href: 'tools/prompt-builder/', status: 'DF-01 · TESTBEREIT' },
+  { id: 'prompt-builder', title: 'Prompt Builder', text: 'Character Animation Generation Packages mit Authoritative Character Reference und Previous Approved Frame Reference für kontrollierte Sequenzkontinuität.', href: 'tools/prompt-builder/', status: 'DF-02C · TESTBEREIT' },
   { id: 'sprite-lab', title: 'Sprite Lab', text: 'Sprites/Sprite-Sheets laden, Frames zeichnen, Pivot/Anchor und Scale bearbeiten sowie Atlas-JSON importieren/exportieren.', href: 'tools/sprite-lab/', status: 'EINSATZBEREIT' },
   { id: 'atlas-builder', title: 'Atlas Builder', text: 'Atlas-Funktionen sind bewusst mit dem Sprite Lab zusammengeführt: Frames definieren, Metadaten prüfen und JSON exportieren.', href: 'tools/atlas-builder/', status: 'EINSATZBEREIT' },
-  { id: 'animation-tester', title: 'Animation Tester', text: 'Sprite-Animationen projektunabhängig mit FPS, Loop/Ping-Pong, Bewegungswegen, 8 Richtungen und Debug-Overlays testen.', href: 'tools/animation-tester/', status: 'EINSATZBEREIT' },
+  { id: 'animation-tester', title: 'Animation Tester', text: 'Einzelne Produktionsframes vor dem Atlas als Loop prüfen – mit FPS, gemeinsamem Bottom-Center-Anchor, Frame-Stepping und Onion-Skin; alternativ Manifest aus dem Projekt-Repository laden.', href: 'tools/animation-tester/', status: 'DF-02C · FRAME REVIEW' },
   { id: 'asset-inspector', title: 'Asset Inspector', text: 'Bilder, Texturen, Sprites und Atlas-JSON technisch prüfen: Größe, Seitenverhältnis, Alpha, Dateigröße, Power-of-two und typische Atlas-Risiken.', href: 'tools/asset-inspector/', status: 'EINSATZBEREIT' },
   { id: 'parameter-playground', title: 'Parameter Playground', text: 'Parameter verändern und Auswirkungen unmittelbar sichtbar machen.', href: null, status: 'VORBEREITET' }
 ];
-
-const grid = document.querySelector('#toolGrid');
-
-for (const tool of tools) {
-  const article = document.createElement('article');
-  article.className = 'tool';
-  article.dataset.tool = tool.id;
-  article.innerHTML = `
-    <h2>${tool.title}</h2>
-    <p>${tool.text}</p>
-    ${tool.href ? `<p><a href="${tool.href}">Werkzeug öffnen →</a></p>` : ''}
-    <span class="status">${tool.status}</span>
-  `;
-  grid.appendChild(article);
-}
+const grid=document.querySelector('#toolGrid');for(const tool of tools){const article=document.createElement('article');article.className='tool';article.dataset.tool=tool.id;article.innerHTML=`<h2>${tool.title}</h2><p>${tool.text}</p>${tool.href?`<p><a href="${tool.href}">Werkzeug öffnen →</a></p>`:''}<span class="status">${tool.status}</span>`;grid.appendChild(article)}
