@@ -1,0 +1,85 @@
+{
+  "schema": "devforge.mannequin-skeleton.v1",
+  "id": "devforge.mannequin.v1",
+  "coordinateSystem": {
+    "handedness": "right",
+    "upAxis": "+Y",
+    "forwardAxis": "+Z",
+    "anatomicalRightAxis": "+X"
+  },
+  "jointIds": [
+    "root", "pelvis", "spineLower", "spineUpper", "neck", "head",
+    "clavicleL", "shoulderL", "elbowL", "wristL", "handL",
+    "clavicleR", "shoulderR", "elbowR", "wristR", "handR",
+    "hipL", "kneeL", "ankleL", "footL", "toeL",
+    "hipR", "kneeR", "ankleR", "footR", "toeR"
+  ],
+  "parents": {
+    "root": null,
+    "pelvis": "root",
+    "spineLower": "pelvis",
+    "spineUpper": "spineLower",
+    "neck": "spineUpper",
+    "head": "neck",
+    "clavicleL": "spineUpper",
+    "shoulderL": "clavicleL",
+    "elbowL": "shoulderL",
+    "wristL": "elbowL",
+    "handL": "wristL",
+    "clavicleR": "spineUpper",
+    "shoulderR": "clavicleR",
+    "elbowR": "shoulderR",
+    "wristR": "elbowR",
+    "handR": "wristR",
+    "hipL": "pelvis",
+    "kneeL": "hipL",
+    "ankleL": "kneeL",
+    "footL": "ankleL",
+    "toeL": "footL",
+    "hipR": "pelvis",
+    "kneeR": "hipR",
+    "ankleR": "kneeR",
+    "footR": "ankleR",
+    "toeR": "footR"
+  },
+  "counterphasePairs": [
+    ["clavicleL", "clavicleR"],
+    ["shoulderL", "shoulderR"],
+    ["elbowL", "elbowR"],
+    ["wristL", "wristR"],
+    ["handL", "handR"],
+    ["hipL", "hipR"],
+    ["kneeL", "kneeR"],
+    ["ankleL", "ankleR"],
+    ["footL", "footR"],
+    ["toeL", "toeR"]
+  ],
+  "centralJoints": ["root", "pelvis", "spineLower", "spineUpper", "neck", "head"],
+  "segmentLengths": {
+    "pelvisToSpineLower": 0.18,
+    "spineLowerToSpineUpper": 0.26,
+    "spineUpperToNeck": 0.16,
+    "neckToHead": 0.16,
+    "shoulderWidth": 0.38,
+    "upperArm": 0.28,
+    "lowerArm": 0.27,
+    "hand": 0.12,
+    "hipWidth": 0.24,
+    "upperLeg": 0.43,
+    "lowerLeg": 0.42,
+    "foot": 0.24
+  },
+  "transformContract": {
+    "joint": {
+      "position": "[x,y,z] local normalized units",
+      "rotationDeg": "[x,y,z] local Euler degrees; fixed order supplied by renderer"
+    },
+    "root": {
+      "position": [0, 0, 0],
+      "horizontalTranslationAllowed": false,
+      "facingDegRequired": true
+    },
+    "jointScaleAnimated": false
+  },
+  "legRoles": ["CONTACT", "SUPPORT", "SWING", "TRAILING"]
+}
