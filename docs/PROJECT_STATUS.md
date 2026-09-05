@@ -9,9 +9,9 @@ DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktuelle
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-02e3-walk-se-fr1-fr4`
+- Aktueller Entwicklungsbranch: `df-02e4-walk-se-counterphase-fr5-fr8`
 - Aktueller Prompt-Builder-Stand: `DF-02D.3R`
-- Aktueller Pose-Renderer-Teststand: `DF-02E.3R`
+- Aktueller Pose-Renderer-Teststand: `DF-02E.4`
 
 # ENTSCHEIDUNG: DETERMINISTIC POSE REFERENCE FOUNDATION
 
@@ -38,82 +38,96 @@ Umgesetzt:
 
 # DF-02E.2 – PASS / READY TO FREEZE
 
-## Umgesetzt
-- technischer Renderer unter `tools/pose-renderer/`;
+Umgesetzt und auf iPhone/Safari geprüft:
 - feste orthografische Projektion;
-- feste Kamera: yaw 45°, elevation 45°;
-- fester 720×720 logical canvas;
-- deterministische Projektion expliziter 3D-Joint-Koordinaten;
-- technische SVG-Mannequin-Darstellung ohne generative Bild-KI;
-- fester Root-/Canvas-Bezug;
-- Projection Snapshot im UI für Regression.
-
-## Geräte-/Browserprüfung auf iPhone/Safari
-- Testseite DF-02E.2 erreichbar: PASS
-- Neutralpose sichtbar und vollständig im Canvas: PASS
-- 45°-Gameplay-Ansicht plausibel: PASS
-- Root/Scale nach Seiten-Reload stabil: PASS
-- gleiche Figur nach Reload reproduziert: PASS
+- Kamera yaw 45° / elevation 45°;
+- 720×720 logical canvas;
+- deterministische Joint-Projektion;
+- stabiler Root-/Scale-Bezug nach Reload;
+- keine generative Pose-Schätzung.
 
 **DF-02E.2: PASS / READY TO FREEZE**
 
-# DF-02E.3 – WALK SE Pose Set FR1–FR4 – TEST-READY
+# DF-02E.3 / DF-02E.3R – WALK SE FR1–FR4 – PASS / READY TO FREEZE
 
-## Umgesetzt
-- Entwicklungsbranch `df-02e3-walk-se-fr1-fr4`;
-- Datenvertrag `tools/pose-renderer/walk-se-fr1-fr4.v1.json`;
-- vier explizite, deterministische Posen: FR1 Contact L, FR2 Down L, FR3 Passing L, FR4 Up / Right Swing;
-- gleiche eingefrorene E.2-Kamera für alle vier Posen;
-- Root bleibt `[0,0,0]` und darf horizontal nicht wandern;
-- explizite Beinrollen je Frame;
-- explizite Pelvishöhe je Frame;
-- UI-Umschaltung FR1–FR4 ohne Animation/Interpolation;
-- Projection Snapshot wird pro ausgewählter Pose aktualisiert;
-- Vertrag dokumentiert in `docs/DF-02E3_WALK_SE_POSE_SET_FR1_FR4.md`.
+Die erste E.3-Geometrie wurde nach dem Tablet-Test in E.3R ausschließlich auf Pose-/Joint-Ebene verfeinert. Renderer, Kamera, Skeleton, Root-Policy und Projektion blieben unverändert.
 
-## Beabsichtigte Phase
-- FR1: LEFT Contact, RIGHT Trailing
-- FR2: LEFT Support/Down, RIGHT Trailing und beginnend vorwärts
-- FR3: LEFT Support, RIGHT Passing/Swing unter dem Becken
-- FR4: LEFT Support, RIGHT klarer Vorwärtsschwung / Up
+Bestätigter Stand:
+- FR1 – Contact L;
+- FR2 – Down L;
+- FR3 – Passing L;
+- FR4 – Up / Right Swing;
+- natürliche kompaktere Schrittlänge;
+- FR2 sichtbar, aber moderat niedriger;
+- FR3 klar als Passing lesbar;
+- FR4 klarer rechter Vorwärtsschwung ohne Überstride;
+- chronologische Folge FR1 → FR2 → FR3 → FR4 auf Tablet/Safari plausibel;
+- Kamera/Facing/Scale/Root stabil.
 
-# DF-02E.3R – WALK Pose Geometry Refinement – TEST-READY
+**DF-02E.3R: PASS / READY TO FREEZE**
 
-Der erste Tablet-Test bestätigte die deterministische Phasentrennung, zeigte aber noch zu große Schrittlängen und zu starke vertikale/seitliche Ausschläge. Deshalb wurde E.3 nicht eingefroren.
+# DF-02E.4 – Deterministic Counterphase Derivation FR5–FR8 – TEST-READY
 
-## Erlaubte Änderung in E.3R
-Ausschließlich Pose-/Joint-Geometrie in `tools/pose-renderer/walk-se-fr1-fr4.v1.json` wurde verfeinert. Renderer-Code, Kamera, Skeleton, Root-Policy, UI, Projektion und E.2-Vertrag bleiben unangetastet.
+## Ziel
+Die zweite Hälfte des WALK-Zyklus darf nicht manuell neu gezeichnet oder generativ interpretiert werden. Sie wird deterministisch aus der freigegebenen FR1–FR4-Quellgeometrie abgeleitet.
 
-## Geometrische Korrekturen
-- FR1: Contact-Schrittlänge reduziert; Arme etwas weniger extrem ausgelenkt.
-- FR2: Pelvis-Absenkung von 0.96 auf 0.98 reduziert; Support-/Trailing-Beine kompakter; weniger extremes Einsacken.
-- FR3: Passing-Geometrie enger unter dem Becken; Stand- und Swing-Fuß näher zusammen; weiterhin klar von Contact getrennt.
-- FR4: Pelvishöhe von 1.06 auf 1.04 reduziert; rechter Vorwärtsschwung und Armgegenbewegung weniger weit ausladend.
+## Verbindliche Ableitung
+- FR5 = FR1 → Contact R
+- FR6 = FR2 → Down R
+- FR7 = FR3 → Passing R
+- FR8 = FR4 → Up / Left Swing
 
-## E.3R Acceptance Gate – offen
-Auf Tablet/Safari erneut FR1–FR4 nacheinander prüfen:
-1. alle vier Posen bleiben klar unterscheidbar und chronologisch lesbar;
-2. FR1 wirkt wie natürlicher WALK Contact, nicht wie RUN/Überstride;
-3. FR2 ist sichtbar niedriger als FR1, aber nicht übermäßig zusammengesackt;
-4. FR3 ist eine kompakte echte Passing-Phase;
-5. FR4 zeigt rechten Vorwärtsschwung, ohne übergroße Spreizung;
-6. Kamera/Facing/Scale/Root bleiben unverändert;
-7. FR5–FR8 und Counterphase bleiben weiterhin nicht implementiert.
+## Algorithmischer Vertrag
+Für jedes Quellframe FR1–FR4:
+1. zentrale Joints (`root`, pelvis/spine/head) bleiben geometrisch unverändert;
+2. jedes anatomische L/R-Joint-Paar wird gegeneinander getauscht;
+3. beim Tausch wird die lokale X-Komponente gespiegelt (`x := -x`), damit die aus der Gegenseite übernommene Pose wieder auf der korrekten anatomischen Körperseite liegt;
+4. Y und Z bleiben erhalten – insbesondere bleibt die Vorwärtsachse +Z / SE unverändert;
+5. Beinrollen werden L↔R getauscht;
+6. Pelvishöhe, Root, Kamera, Scale und Timing bleiben identisch zum Quellframe;
+7. FR5–FR8 besitzen keine manuell gepflegten separaten Joint-Datensätze.
 
-**DF-02E.3R bleibt bis zum erneuten Geräte-PASS TEST-READY, nicht FROZEN.**
+Damit gilt:
+- FR5 ist geometrisch die echte Gegenphase von FR1, nicht eine neue Interpretation;
+- FR6 ist die echte Gegenphase von FR2;
+- FR7 ist die echte Gegenphase von FR3;
+- FR8 ist die echte Gegenphase von FR4.
+
+## Umsetzung
+- neuer Entwicklungsbranch `df-02e4-walk-se-counterphase-fr5-fr8`;
+- `deriveCounterphase(source)` in `tools/pose-renderer/app.js`;
+- feste Counterphase-Paarliste für Arme und Beine;
+- Ableitungsmetadaten `derivedFrom` + `COUNTERPHASE_LR_SWAP_AND_X_MIRROR_V1`;
+- Renderer zeigt jetzt FR1–FR8;
+- FR5–FR8 werden im UI als abgeleitete Frames kenntlich gemacht;
+- Projection Snapshot zeigt Quelle und Derivationsmethode;
+- keinerlei manueller FR5–FR8-Pose-Datensatz hinzugefügt.
+
+## E.4 Acceptance Gate – offen
+Auf Tablet/Safari prüfen:
+1. FR5 ist klare rechte Contact-Gegenphase zu FR1;
+2. FR6 entspricht FR2 mit rechter Support-/Down-Seite;
+3. FR7 ist Passing R und keine Wiederholung von FR3;
+4. FR8 zeigt linken Vorwärtsschwung und führt plausibel zurück zu FR1;
+5. FR1↔FR5, FR2↔FR6, FR3↔FR7, FR4↔FR8 besitzen jeweils gleiche Pelvishöhe/Schrittdynamik bei vertauschter Anatomieseite;
+6. Facing bleibt in allen acht Frames +Z / SE; keine Kamera-/Richtungs-Spiegelung;
+7. Root bleibt `[0,0,0]`;
+8. Reload erzeugt dieselben abgeleiteten Projektionen erneut.
+
+**DF-02E.4 bleibt bis zum Geräte-PASS TEST-READY, nicht FROZEN.**
 
 # NÄCHSTER ZULÄSSIGER SCHRITT
 
-Jetzt ausschließlich **DF-02E.3R Gerätetest** auf `df-02e3-walk-se-fr1-fr4`.
+Jetzt ausschließlich **DF-02E.4 Gerätetest** auf `df-02e4-walk-se-counterphase-fr5-fr8`.
 
 Noch NICHT zulässig:
-- FR5–FR8 definieren;
-- Counterphase-Ableitung implementieren;
+- FR5–FR8 manuell nachkorrigieren;
 - Pose-Editor/Slider hinzufügen;
 - weitere Richtungen/Kameras einführen;
-- Prompt-Builder-Bridge integrieren.
+- Prompt-Builder-Bridge integrieren;
+- Carrier erneut generieren.
 
-Erst nach E.3R PASS folgt **DF-02E.4 – Deterministic Counterphase Derivation FR5–FR8**.
+Erst nach E.4 PASS folgt **DF-02E.5 – Pose Reference Export / Prompt Builder Bridge**.
 
 ## Scope-Grenze bis DF-02E.6
 Keine RUN-, PICK-UP-/PUT-DOWN-/SIT-Posebibliothek, keine vollständigen acht Himmelsrichtungen, kein allgemeiner Animationseditor und keine weiteren generativen Mannequin-WALK-Versuche.
