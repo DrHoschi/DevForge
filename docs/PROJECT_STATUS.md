@@ -13,53 +13,47 @@ DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktuelle
 - Aktueller Entwicklungsbranch: `df-02d3-approved-motion-history`
 - Aktueller Prompt-Builder-Stand: `DF-02D.3R`
 
-### Siedler Mini – Asset-Testprojekt
-- Repository: `DrHoschi/siedler-mini`
-- Asset-Staging-Branch: `asset-carrier-animation-staging`
-- WALK-Test: 8 FPS, Loop, Bottom-Center-Anchor
-
-## Bisherige DF-02 Entwicklung
-- DF-02B: Authoritative Character Reference eingebettet.
-- DF-02C: Previous Approved Frame / Sequenzkontinuität.
-- DF-02D: Key Pose + Mandatory Motion Delta.
-- DF-02D.1: Zielpose hat Vorrang vor der Pose des Previous Frame.
-- DF-02D.2: Identity-/Render-/Camera-/Scale-/Root-Locks verstärkt.
-- DF-02D.3R: Approved Motion History mit festen Einzel-Slots FR1…FR(N-1); FR1 ist Sequence Appearance Anchor, alle Vorgängerframes bilden Temporal Motion History.
-
-## Aktueller Befund Carrier WALK / SE
-FR1 und FR2 sind als bisherige Sequenzreferenzen brauchbar. Mehrere FR3-Versuche zeigen jedoch trotz Textvertrag und Motion History wieder eine Contact-/Stride-ähnliche Pose statt einer eindeutig lesbaren Passing-Pose. Daraus folgt: Text + Character Reference + Motion History reichen für zuverlässige Gelenkgeometrie nicht aus.
-
 ## AKTUELLER ARBEITSAUFTRAG – POSE REFERENCE LIBRARY EXPERIMENT
 Vor weiteren Carrier-FR3-Versuchen wird eine neutrale visuelle Pose-Referenzbibliothek aufgebaut und getestet.
 
-### Grundprinzip
-- `AUTHORITATIVE CHARACTER REFERENCE` = permanentes Character-Design / Identität / Anatomie / Kleidung / Equipment.
-- `FRAME 01 SEQUENCE APPEARANCE ANCHOR` = akzeptierter Look der generierten Sequenz.
-- `APPROVED MOTION HISTORY` = zeitliche Bewegungsprogression bereits freigegebener Frames.
-- `POSE REFERENCE` = autoritative Gelenkstellung, Körperhaltung und Silhouette des Ziel-Frames; kein Character-Design.
+### VERBINDLICHER POSE-DUMMY / PARAMETRISIERUNGSFIGUR
+Für die Erstellung aller Pose-Referenzen wird ab jetzt immer dieselbe neutrale technische Mannequin-Figur verwendet, entsprechend der vom Nutzer freigegebenen visuellen Referenz:
+- glattes, gesichtsloses humanoides 3D-Mannequin;
+- neutral hellgrau/beige, matte bis leicht satinierte Oberfläche;
+- klar segmentierte Gelenke an Schulter, Ellenbogen, Handgelenk, Hüfte, Knie und Sprunggelenk;
+- vereinfachte anatomische Menschenproportionen, weder muskulös überzeichnet noch stilisiert/cartoonhaft;
+- glatter ovaler Kopf ohne Gesicht, Haare oder Identitätsmerkmale;
+- vereinfachter Brustkorb, Taille/Becken, Ober-/Unterarme, Hände, Ober-/Unterschenkel und neutrale fuß-/schuhartige Füße;
+- saubere technische 3D-Visualisierung mit weicher neutraler Beleuchtung, sodass Gelenkwinkel und Silhouette eindeutig lesbar sind.
 
-### Pose-Referenz-Design
-- immer derselbe bereits etablierte neutrale graue 3D-Mannequin-Charakter als Pose-Dummy;
-- keine Kleidung, keine Zielcharacter-Materialien, keine Identitätsmerkmale;
-- exakt standardisierte 45°-Top-Down-Gameplay-Kamera;
-- pro Frame eine einzelne, groß und klar lesbare Produktionspose – KEIN neues 8-Frame-Übersichtsboard als Produktionsreferenz;
-- gleiche Mannequin-Proportionen, Kamera, Scale, Framing und Root über die komplette Bibliothek;
-- Pose Reference bestimmt ausschließlich Articulation/Pose.
+Diese Figur ist ausdrücklich **KEIN Character Design und KEIN Spielcharakter**. Sie ist ausschließlich eine **technische Parametrisierungs-/Posefigur für DevForge**. Ihre Aufgabe ist nur, Pose, Gelenkwinkel, Gewichtsverlagerung, Körperhöhe, Arm-/Beinbewegung und Silhouette eindeutig visuell zu codieren. Sie darf niemals als Vorlage für Gesicht, Körperdesign, Kleidung, Materialien, Equipment oder Stil des späteren Characters interpretiert werden.
+
+Wenn später im Prompt Builder eine Pose Reference ausgewählt wird, bedeutet die Mannequin-Abbildung ausschließlich: `übernimm diese Körperpose / Articulation`. Der eigentliche Character kommt weiterhin vollständig aus der Authoritative Character Reference bzw. dem Sequence Appearance Anchor.
+
+### Kameravertrag der Posefigur
+- feste 45°-Top-Down-Gameplay-Kamera passend zum Animationssystem;
+- Richtung und Kamera werden pro Pose-Asset eindeutig benannt;
+- gleiche Mannequin-Proportionen, Kamerahöhe/-neigung, Scale, Framing und Root-Position innerhalb einer Richtungsserie;
+- keine dramatische Perspektive, kein wechselndes Objektiv, keine freie Illustration;
+- Pose muss primär in der für den Generator relevanten Gameplay-Ansicht eindeutig lesbar sein.
+
+### Produktionsformat einer Pose
+Für die eigentliche Tool-Parametrisierung zählt die einzelne Mannequin-Pose, nicht ein dekoratives Informationsposter. Ein Übersichts-/Dokumentationsblatt kann zusätzlich existieren, aber die im Prompt Builder verwendete Pose Reference soll möglichst nur die neutrale Figur in der festgelegten Gameplay-Kamera zeigen, groß, sauber und eindeutig. Keine Character-Details und keine automatisch erfundenen Nachbarframes.
 
 ### WALK – geplanter 8-Frame-Loop
 1. FR1 `Contact L`: LEFT foot forward/contact, RIGHT leg rear, opposing arm swing.
 2. FR2 `Down L`: LEFT support/loading, body down, RIGHT heel/knee advances.
-3. FR3 `Passing L`: RIGHT leg passes planted LEFT beneath pelvis; kompakte Passing-Silhouette, kein langer Contact-Schritt.
-4. FR4 `Up / Right Swing`: RIGHT leg swings clearly forward, LEFT heel rises, body high.
-5. FR5 `Contact R`: RIGHT foot forward/contact, LEFT leg rear; klare Gegenphase zu FR1.
+3. FR3 `Passing L`: RIGHT leg passes planted LEFT beneath pelvis; kompakte Passing-Silhouette.
+4. FR4 `Up / Right Swing`: RIGHT leg swings forward, LEFT heel rises, body high.
+5. FR5 `Contact R`: RIGHT foot forward/contact, LEFT leg rear; Gegenphase zu FR1.
 6. FR6 `Down R`: RIGHT support/loading, body down, LEFT heel/knee advances.
 7. FR7 `Passing R`: LEFT leg passes planted RIGHT beneath pelvis.
-8. FR8 `Up / Left Swing`: LEFT leg swings forward, RIGHT heel rises; bereitet Loop zurück zu FR1 vor.
+8. FR8 `Up / Left Swing`: LEFT leg swings forward, RIGHT heel rises; Übergang zurück zu FR1.
 
 FR5–FR8 sind die anatomisch korrekte Gegenhälfte und dürfen nicht einfach FR1–FR4 mit derselben Beinbelegung wiederholen.
 
 ### Richtungen / Spiegelstrategie
-Jede akzeptierte einzelne Master-Pose wird zusätzlich als exakt gespiegelte Richtungsvariante geführt, sofern geometrisch sinnvoll. Damit entstehen mit einer Pose-Erstellung direkt zwei Richtungsassets. Anatomische LEFT/RIGHT-Semantik bleibt erhalten.
+Jede akzeptierte einzelne Master-Pose wird zusätzlich als exakt gespiegelte Richtungsvariante geführt, sofern geometrisch sinnvoll. Anatomische LEFT/RIGHT-Semantik bleibt beim Spiegeln erhalten.
 
 Spiegelpaare:
 - SE ↔ SW
@@ -68,38 +62,31 @@ Spiegelpaare:
 - N ↔ S
 
 ### EXAKTE BEDEUTUNG EINES POSE-AUFTRAGS IM CHAT
-Wenn der Nutzer z. B. sagt:
-`Erstelle mir die Pose mit unserem neutralen Charakter, was du vorher schon verwendet hast. FR1: linkes Bein vorne – Contact L`
-
-dann ist damit ausdrücklich gemeint:
-1. KEIN Carrier und kein finaler Spielcharakter.
-2. Den bereits etablierten neutralen grauen 3D-Mannequin-Pose-Dummy verwenden.
-3. Genau EINE einzelne Zielpose groß und eindeutig erzeugen, nicht acht ähnliche Frames auf einem Board.
-4. Aktuelle Masterrichtung zunächst SE in der festen 45°-Top-Down-Gameplay-Kamera.
-5. Bei FR1 Contact L: anatomisches LEFT leg/foot eindeutig vorne und im Bodenkontakt; anatomisches RIGHT leg eindeutig hinten; natürliche gegensinnige Armbewegung.
-6. Zusätzlich die geometrisch exakt gespiegelte Gegenrichtungsvariante SW derselben anatomischen Pose mitführen/erzeugen; Spiegelung ändert die Bildschirmseite, aber NICHT die anatomische LEFT/RIGHT-Bedeutung.
-7. Keine neue Pose erfinden, keine nächste Frame-Phase vorziehen und keine Übersichtsseite mit automatisch halluzinierten FR2–FR8 erzeugen.
-8. Erst nach visueller Freigabe dieses Posepaares wird FR2 erstellt.
-
-Diese Regel gilt entsprechend für spätere explizit benannte Frames: Der Nutzer benennt Frame/Pose; ChatGPT erzeugt genau diese einzelne Pose mit dem neutralen Mannequin und ihrer Spiegelvariante.
+Wenn der Nutzer z. B. sagt `Erstelle mir die Pose ... FR1: linkes Bein vorne – Contact L`, bedeutet dies:
+1. ausschließlich die oben definierte neutrale DevForge-Mannequin-Parametrisierungsfigur verwenden;
+2. keinen Carrier und keinen finalen Character erzeugen;
+3. genau die benannte Pose erzeugen, keine erfundenen weiteren Frames;
+4. primär eine einzelne große Gameplay-Ansicht in der aktuell geforderten Richtung/Kamera erstellen;
+5. die passende Spiegelvariante als zweite Richtungsfassung derselben anatomischen Pose mitführen;
+6. LEFT/RIGHT bezeichnet immer die Anatomie der Figur, nicht links/rechts auf dem Bildschirm;
+7. erst nach visueller Freigabe zur nächsten Pose weitergehen.
 
 ### Aktueller enger Testumfang
-1. WALK / SE / FR1 + gespiegelte SW-Variante erstellen und visuell freigeben.
-2. Danach WALK / SE / FR2 + SW.
-3. Danach WALK / SE / FR3 + SW.
-4. Erst dann diese Pose-Referenzen als `POSE REFERENCE AUTHORITY` in den Prompt Builder integrieren.
-5. Carrier WALK SE FR3 erneut generieren und Passing-Pose testen.
+1. WALK / SE / FR1 + SW-Spiegelvariante mit der verbindlichen Mannequin-Figur erstellen und freigeben.
+2. Danach FR2 + Spiegelvariante.
+3. Danach FR3 + Spiegelvariante.
+4. Danach diese drei Pose-Referenzen als `POSE REFERENCE AUTHORITY` in den Prompt Builder integrieren.
+5. Carrier WALK SE FR3 erneut generieren und prüfen.
 6. Nur bei erfolgreichem Grundtest FR4–FR8 und weitere Richtungen vervollständigen.
 
-## Spätere Pose-Bibliothek – nur vorgemerkt
-Bei erfolgreichem WALK-Grundtest dauerhaft projektübergreifend erweitern, u. a. RUN, PICK UP / PUT DOWN, SIT / SITTING und weitere Gameplay-/Arbeitsposen. Jetzt noch nicht implementieren.
+## Referenzrollen im späteren Prompt Builder
+- `POSE REFERENCE / MANNEQUIN` = ausschließlich Pose, Articulation, Gewichtsverlagerung und Silhouette.
+- `AUTHORITATIVE CHARACTER REFERENCE` = Identität, Anatomie/Proportionen des echten Characters, Kleidung, Equipment, permanentes Design.
+- `FRAME 01 SEQUENCE APPEARANCE ANCHOR` = akzeptierter konkreter Sequenzlook.
+- `APPROVED MOTION HISTORY` = chronologische Bewegungsprogression.
 
-## Verbindliche Produktionsprinzipien
-- Keine Carrier-FR4+-Produktion vor PASS des Pose-Reference-FR3-Grundtests.
-- Pose Reference = Pose/Articulation Authority, nicht Character-Design.
-- Character Reference = permanentes Design/Identität.
-- FR1 = Sequence Appearance Anchor.
-- Approved Motion History = chronologische Bewegungsprogression.
+## Später vorgemerkt
+Nach erfolgreichem WALK-Grundtest Pose Library projektübergreifend erweitern, u. a. RUN, PICK UP / PUT DOWN, SIT / SITTING und weitere Gameplay-/Arbeitsposen.
 
 ## Technischer nächster DevForge-Schritt
-Nach Freigabe SE/SW-FR1 bis FR3 Prompt Builder um echte `Pose Reference`-Auswahl/Einbettung erweitern. Pose Reference erhält höchste Autorität für Gelenkstellung/Silhouette.
+Nach Freigabe SE/SW-FR1 bis FR3 Prompt Builder um echte `Pose Reference`-Auswahl/Einbettung erweitern. Pose Reference erhält höchste Autorität ausschließlich für Gelenkstellung/Silhouette; sie darf niemals das Character-Design beeinflussen.
