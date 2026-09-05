@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "df-atlas-0.1",
+  "character": "carrier",
+  "animation": "walk",
+  "image": "carrier_walk.png",
+  "camera": "45deg-fixed-top-down",
+  "cell": { "width": 256, "height": 256 },
+  "padding": 16,
+  "anchor": { "type": "bottom-center", "x": 0.5, "y": 1.0 },
+  "directions": ["N", "NE", "E", "SE", "S", "SW", "W", "NW"],
+  "frameCount": 8,
+  "fpsReference": 8,
+  "atlas": { "columns": 8, "rows": 8, "width": 2048, "height": 2048 },
+  "cells": [
+    { "direction": "N", "frame": 1, "row": 0, "column": 0, "x": 0, "y": 0, "width": 256, "height": 256, "source": "carrier_walk_n_f01.png" },
+    { "direction": "N", "frame": 2, "row": 0, "column": 1, "x": 256, "y": 0, "width": 256, "height": 256, "source": "carrier_walk_n_f02.png" },
+    { "direction": "SE", "frame": 1, "row": 3, "column": 0, "x": 0, "y": 768, "width": 256, "height": 256, "source": "carrier_walk_se_f01.png" },
+    { "direction": "S", "frame": 1, "row": 4, "column": 0, "x": 0, "y": 1024, "width": 256, "height": 256, "source": "carrier_walk_s_f01.png" },
+    { "direction": "NW", "frame": 8, "row": 7, "column": 7, "x": 1792, "y": 1792, "width": 256, "height": 256, "source": "carrier_walk_nw_f08.png" }
+  ],
+  "note": "Sample records only. A production metadata file contains all 64 WALK cells in deterministic row/column order."
+}
