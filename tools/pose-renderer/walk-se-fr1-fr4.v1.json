@@ -1,0 +1,55 @@
+{
+  "schema": "devforge.walk-pose-set.v1",
+  "id": "walk-se-fr1-fr4-v1",
+  "animation": "WALK",
+  "direction": "SE",
+  "facingAxis": "+Z",
+  "cameraContract": "df-02e2.fixed-45-orthographic.v1",
+  "rootPolicy": {"position":[0,0,0],"horizontalTranslationAllowed":false},
+  "poses": [
+    {
+      "id":"FR1","name":"Contact L","phase":"CONTACT_L","pelvisHeight":1.02,
+      "roles":{"left":"CONTACT","right":"TRAILING"},
+      "joints":{
+        "root":[0,0,0],"pelvis":[0,1.02,0],"spineLower":[0,1.20,0.01],"spineUpper":[0,1.46,0.03],"neck":[0,1.62,0.04],"head":[0,1.82,0.05],
+        "clavicleL":[-0.13,1.49,0.01],"shoulderL":[-0.25,1.47,0.00],"elbowL":[-0.34,1.22,-0.10],"wristL":[-0.35,0.98,-0.18],"handL":[-0.35,0.86,-0.22],
+        "clavicleR":[0.13,1.49,0.05],"shoulderR":[0.25,1.47,0.08],"elbowR":[0.34,1.23,0.18],"wristR":[0.35,0.99,0.27],"handR":[0.35,0.87,0.31],
+        "hipL":[-0.12,1.00,0.05],"kneeL":[-0.12,0.58,0.24],"ankleL":[-0.12,0.15,0.39],"footL":[-0.12,0.05,0.44],"toeL":[-0.12,0.05,0.60],
+        "hipR":[0.12,1.00,-0.04],"kneeR":[0.12,0.61,-0.21],"ankleR":[0.12,0.18,-0.34],"footR":[0.12,0.10,-0.36],"toeR":[0.12,0.06,-0.20]
+      }
+    },
+    {
+      "id":"FR2","name":"Down L","phase":"DOWN_L","pelvisHeight":0.96,
+      "roles":{"left":"SUPPORT","right":"TRAILING"},
+      "joints":{
+        "root":[0,0,0],"pelvis":[0,0.96,0.04],"spineLower":[0,1.14,0.06],"spineUpper":[0,1.40,0.09],"neck":[0,1.56,0.10],"head":[0,1.76,0.11],
+        "clavicleL":[-0.13,1.43,0.06],"shoulderL":[-0.25,1.41,0.04],"elbowL":[-0.34,1.18,-0.07],"wristL":[-0.35,0.94,-0.14],"handL":[-0.35,0.82,-0.18],
+        "clavicleR":[0.13,1.43,0.10],"shoulderR":[0.25,1.41,0.13],"elbowR":[0.34,1.18,0.21],"wristR":[0.35,0.95,0.28],"handR":[0.35,0.83,0.32],
+        "hipL":[-0.12,0.94,0.08],"kneeL":[-0.12,0.51,0.25],"ankleL":[-0.12,0.13,0.34],"footL":[-0.12,0.05,0.38],"toeL":[-0.12,0.05,0.54],
+        "hipR":[0.12,0.94,0.00],"kneeR":[0.12,0.58,-0.12],"ankleR":[0.12,0.23,-0.26],"footR":[0.12,0.14,-0.28],"toeR":[0.12,0.08,-0.10]
+      }
+    },
+    {
+      "id":"FR3","name":"Passing L","phase":"PASSING_L","pelvisHeight":1.00,
+      "roles":{"left":"SUPPORT","right":"SWING"},
+      "joints":{
+        "root":[0,0,0],"pelvis":[0,1.00,0.07],"spineLower":[0,1.18,0.09],"spineUpper":[0,1.44,0.11],"neck":[0,1.60,0.12],"head":[0,1.80,0.13],
+        "clavicleL":[-0.13,1.47,0.10],"shoulderL":[-0.25,1.45,0.11],"elbowL":[-0.34,1.21,0.02],"wristL":[-0.35,0.97,-0.04],"handL":[-0.35,0.85,-0.07],
+        "clavicleR":[0.13,1.47,0.12],"shoulderR":[0.25,1.45,0.12],"elbowR":[0.34,1.21,0.18],"wristR":[0.35,0.97,0.22],"handR":[0.35,0.85,0.24],
+        "hipL":[-0.12,0.98,0.10],"kneeL":[-0.12,0.56,0.13],"ankleL":[-0.12,0.14,0.16],"footL":[-0.12,0.05,0.18],"toeL":[-0.12,0.05,0.34],
+        "hipR":[0.12,0.98,0.08],"kneeR":[0.12,0.66,0.12],"ankleR":[0.12,0.37,0.18],"footR":[0.12,0.29,0.22],"toeR":[0.12,0.27,0.36]
+      }
+    },
+    {
+      "id":"FR4","name":"Up / Right Swing","phase":"UP_RIGHT_SWING","pelvisHeight":1.06,
+      "roles":{"left":"SUPPORT","right":"SWING"},
+      "joints":{
+        "root":[0,0,0],"pelvis":[0,1.06,0.08],"spineLower":[0,1.24,0.10],"spineUpper":[0,1.50,0.12],"neck":[0,1.66,0.13],"head":[0,1.86,0.14],
+        "clavicleL":[-0.13,1.53,0.13],"shoulderL":[-0.25,1.51,0.15],"elbowL":[-0.34,1.27,0.20],"wristL":[-0.35,1.03,0.23],"handL":[-0.35,0.91,0.24],
+        "clavicleR":[0.13,1.53,0.11],"shoulderR":[0.25,1.51,0.09],"elbowR":[0.34,1.27,-0.01],"wristR":[0.35,1.03,-0.08],"handR":[0.35,0.91,-0.11],
+        "hipL":[-0.12,1.04,0.07],"kneeL":[-0.12,0.62,-0.02],"ankleL":[-0.12,0.20,-0.08],"footL":[-0.12,0.08,-0.05],"toeL":[-0.12,0.05,0.11],
+        "hipR":[0.12,1.04,0.11],"kneeR":[0.12,0.73,0.28],"ankleR":[0.12,0.48,0.43],"footR":[0.12,0.41,0.48],"toeR":[0.12,0.39,0.62]
+      }
+    }
+  ]
+}
