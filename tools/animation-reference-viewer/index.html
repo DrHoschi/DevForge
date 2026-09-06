@@ -15,24 +15,30 @@
     .empty{position:absolute;inset:0;display:grid;place-items:center;padding:28px;text-align:center;color:#aeb7c4;pointer-events:none}.empty.hidden{display:none}
     .controls{padding:14px;border-top:1px solid #2c313b;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.file{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none}
     .btn{border:1px solid #4a5568;background:#222731;color:#fff;border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer}.btn.primary{background:#f3f4f6;color:#111318;border-color:#f3f4f6}.btn:disabled{opacity:.45;cursor:not-allowed}
-    .status{font-size:13px;color:#aeb7c4}.side{padding:15px}.side h2{font-size:16px;margin:0 0 12px}.facts{display:grid;gap:9px}.fact{display:grid;grid-template-columns:112px 1fr;gap:9px;padding:9px 0;border-bottom:1px solid #292e37;font-size:13px}.fact b{color:#aeb7c4;font-weight:600}.ok{color:#8de0ad}.warn{color:#ffd27d}.bad{color:#ff9f9f}.note{margin-top:14px;padding:11px;border:1px solid #343a46;border-radius:10px;color:#b8c0cc;font-size:13px;line-height:1.45}
+    .status{font-size:13px;color:#aeb7c4}.timeline{width:100%;padding:0 14px 16px;border-top:1px solid #2c313b}.timeline-head{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0 8px;color:#c8d0dc;font-size:13px}.timeline-time{font-variant-numeric:tabular-nums;font-weight:700}.timeline input[type=range]{width:100%;accent-color:#f3f4f6;touch-action:none}.timeline-meta{display:flex;justify-content:space-between;gap:10px;margin-top:6px;color:#8f99a8;font-size:12px;font-variant-numeric:tabular-nums}
+    .side{padding:15px}.side h2{font-size:16px;margin:0 0 12px}.facts{display:grid;gap:9px}.fact{display:grid;grid-template-columns:112px 1fr;gap:9px;padding:9px 0;border-bottom:1px solid #292e37;font-size:13px}.fact b{color:#aeb7c4;font-weight:600}.ok{color:#8de0ad}.warn{color:#ffd27d}.bad{color:#ff9f9f}.note{margin-top:14px;padding:11px;border:1px solid #343a46;border-radius:10px;color:#b8c0cc;font-size:13px;line-height:1.45}
     .error{display:none;margin-top:12px;padding:10px;border:1px solid #6d3a3a;background:#2a1717;border-radius:10px;color:#ffb6b6;font-size:13px}.error.show{display:block}
   </style>
 </head>
 <body>
   <main class="page">
-    <div class="top"><a class="back" href="../../">← DevForge</a><span class="badge">DF-02F.2 · TESTBUILD</span></div>
+    <div class="top"><a class="back" href="../../">← DevForge</a><span class="badge">DF-02F.3 · TESTBUILD</span></div>
     <h1>Animated 3D Reference Viewer</h1>
-    <p class="sub">Runtime-Intake für eine echte geriggte FBX-Animation. Dieser Schritt beweist nur Laden, sichtbares Modell/Rig, Clip-Wiedergabe und In-Place-Verhalten – noch ohne Timeline, Richtungswahl oder Pose-Bookmarks.</p>
+    <p class="sub">Echte geriggte FBX-Animation mit Play/Pause und präzisem Timeline-Scrubbing. Dieser Schritt dient ausschließlich der Auswahl einer beliebigen Clip-Position – noch ohne Richtungswahl oder Pose-Bookmarks.</p>
 
     <section class="layout">
       <div class="panel">
-        <div id="viewer" class="viewer"><div id="empty" class="empty">Noch kein FBX geladen.<br>Für den DF-02F.2-Gerätetest <b>X Bot@Standard Walk 2.fbx</b> auswählen.</div></div>
+        <div id="viewer" class="viewer"><div id="empty" class="empty">Noch kein FBX geladen.<br>Für den DF-02F.3-Gerätetest den Standard-Walk mit Skin und In-Place auswählen.</div></div>
         <div class="controls">
           <input id="fileInput" class="file" type="file" accept=".fbx,application/octet-stream" />
           <button id="loadButton" class="btn primary" type="button">Standard-Walk-FBX auswählen</button>
           <button id="playButton" class="btn" type="button" disabled>Pause</button>
           <span id="runtimeStatus" class="status">Warte auf Asset …</span>
+        </div>
+        <div class="timeline">
+          <div class="timeline-head"><strong>Animation Timeline</strong><span id="timelineTime" class="timeline-time">0.000 / 0.000 s</span></div>
+          <input id="timeline" type="range" min="0" max="1000" step="1" value="0" disabled aria-label="Animation Timeline" />
+          <div class="timeline-meta"><span>0 %</span><span id="timelinePercent">0.0 %</span><span>100 %</span></div>
         </div>
       </div>
 
@@ -47,7 +53,7 @@
           <div class="fact"><b>In Place</b><span id="fInPlace">–</span></div>
           <div class="fact"><b>Root X/Z</b><span id="fRoot">–</span></div>
         </div>
-        <div class="note">Die Vorschaukamera ist in F.2 nur eine feste technische Ansicht. Verbindliche Isometrie-, Front-/Seiten- und 8-Richtungs-Presets gehören erst zu DF-02F.4.</div>
+        <div class="note">Beim Ziehen der Timeline pausiert die Animation automatisch und zeigt exakt die gewählte Clip-Position. Kamera-/Facing-Presets gehören weiterhin erst zu DF-02F.4; Pose-Bookmarks erst zu DF-02F.5.</div>
         <div id="error" class="error"></div>
       </aside>
     </section>
@@ -56,6 +62,6 @@
   <script type="importmap">
     {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
   </script>
-  <script type="module" src="./app.js?v=df-02f2-1"></script>
+  <script type="module" src="./app.js?v=df-02f3-1"></script>
 </body>
 </html>
