@@ -1,84 +1,12 @@
 <!doctype html>
-<html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>DevForge · Animated 3D Reference Viewer</title>
-  <style>
-    :root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#101216;color:#f4f6f8}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#101216}button,input{font:inherit}
-    .page{max-width:1100px;margin:0 auto;padding:18px}.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
-    .badge{display:inline-flex;padding:6px 10px;border:1px solid #4a5568;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.04em}.back{color:#d8dee9;text-decoration:none}
-    h1{font-size:clamp(22px,5vw,34px);margin:8px 0 4px}.sub{margin:0;color:#aeb7c4;line-height:1.45}
-    .layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,.8fr);gap:14px;margin-top:16px}@media(max-width:820px){.layout{grid-template-columns:1fr}}
-    .panel{background:#171a20;border:1px solid #2c313b;border-radius:14px;overflow:hidden}.viewer{position:relative;min-height:520px;background:#0c0e12}.viewer canvas{display:block;width:100%;height:100%;min-height:520px}
-    .empty{position:absolute;inset:0;display:grid;place-items:center;padding:28px;text-align:center;color:#aeb7c4;pointer-events:none}.empty.hidden{display:none}
-    .controls{padding:14px;border-top:1px solid #2c313b;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.file{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none}
-    .btn{border:1px solid #4a5568;background:#222731;color:#fff;border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer;min-height:44px}.btn.primary{background:#f3f4f6;color:#111318;border-color:#f3f4f6}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.active{outline:2px solid #f3f4f6;outline-offset:1px}
-    .status{font-size:13px;color:#aeb7c4}.timeline{width:100%;padding:0 14px 16px;border-top:1px solid #2c313b}.timeline-head{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0 8px;color:#c8d0dc;font-size:13px}.timeline-time{font-variant-numeric:tabular-nums;font-weight:700}.timeline input[type=range]{width:100%;accent-color:#f3f4f6;touch-action:none}.timeline-meta{display:flex;justify-content:space-between;gap:10px;margin-top:6px;color:#8f99a8;font-size:12px;font-variant-numeric:tabular-nums}
-    .presets{padding:14px;border-top:1px solid #2c313b;display:grid;gap:14px}.preset-group h3{margin:0 0 8px;font-size:14px;color:#d8dee9}.preset-row{display:flex;gap:8px;flex-wrap:wrap}.preset-row .btn{min-width:52px;padding:9px 11px}.preset-readout{display:flex;gap:12px;flex-wrap:wrap;color:#9ca6b5;font-size:12px}.preset-readout b{color:#e4e8ee}
-    .side{padding:15px}.side h2{font-size:16px;margin:0 0 12px}.facts{display:grid;gap:9px}.fact{display:grid;grid-template-columns:112px 1fr;gap:9px;padding:9px 0;border-bottom:1px solid #292e37;font-size:13px}.fact b{color:#aeb7c4;font-weight:600}.ok{color:#8de0ad}.warn{color:#ffd27d}.bad{color:#ff9f9f}.note{margin-top:14px;padding:11px;border:1px solid #343a46;border-radius:10px;color:#b8c0cc;font-size:13px;line-height:1.45}
-    .error{display:none;margin-top:12px;padding:10px;border:1px solid #6d3a3a;background:#2a1717;border-radius:10px;color:#ffb6b6;font-size:13px}.error.show{display:block}
-  </style>
-</head>
-<body>
-  <main class="page">
-    <div class="top"><a class="back" href="../../">← DevForge</a><span class="badge">DF-02F.4R · TESTBUILD</span></div>
-    <h1>Animated 3D Reference Viewer</h1>
-    <p class="sub">Echte geriggte FBX-Animation mit Timeline, fester Gameplay-Isometrie und semantisch ausgerichteten 8-Richtungs-Facings. Noch ohne Pose-Bookmarks oder Prompt-Builder-Bridge.</p>
-
-    <section class="layout">
-      <div class="panel">
-        <div id="viewer" class="viewer"><div id="empty" class="empty">Noch kein FBX geladen.<br>Für den DF-02F.4R-Gerätetest den Standard-Walk mit Skin und In-Place auswählen.</div></div>
-        <div class="controls">
-          <input id="fileInput" class="file" type="file" accept=".fbx,application/octet-stream" />
-          <button id="loadButton" class="btn primary" type="button">Standard-Walk-FBX auswählen</button>
-          <button id="playButton" class="btn" type="button" disabled>Pause</button>
-          <span id="runtimeStatus" class="status">Warte auf Asset …</span>
-        </div>
-        <div class="timeline">
-          <div class="timeline-head"><strong>Animation Timeline</strong><span id="timelineTime" class="timeline-time">0.000 / 0.000 s</span></div>
-          <input id="timeline" type="range" min="0" max="1000" step="1" value="0" disabled aria-label="Animation Timeline" />
-          <div class="timeline-meta"><span>0 %</span><span id="timelinePercent">0.0 %</span><span>100 %</span></div>
-        </div>
-        <div class="presets">
-          <div class="preset-group">
-            <h3>Gameplay Facing · feste isometrische Kamera</h3>
-            <div id="facingButtons" class="preset-row">
-              <button class="btn active" data-facing="N" type="button">N</button><button class="btn" data-facing="NE" type="button">NE</button><button class="btn" data-facing="E" type="button">E</button><button class="btn" data-facing="SE" type="button">SE</button>
-              <button class="btn" data-facing="S" type="button">S</button><button class="btn" data-facing="SW" type="button">SW</button><button class="btn" data-facing="W" type="button">W</button><button class="btn" data-facing="NW" type="button">NW</button>
-            </div>
-          </div>
-          <div class="preset-group">
-            <h3>Kameraansicht</h3>
-            <div id="cameraButtons" class="preset-row">
-              <button class="btn active" data-camera="ISO" type="button">Gameplay Iso</button><button class="btn" data-camera="FRONT" type="button">Front</button><button class="btn" data-camera="BACK" type="button">Hinten</button><button class="btn" data-camera="LEFT" type="button">Links</button><button class="btn" data-camera="RIGHT" type="button">Rechts</button><button class="btn" data-camera="TOP" type="button">Oben</button>
-            </div>
-          </div>
-          <div class="preset-readout"><span>Facing: <b id="facingReadout">N</b></span><span>Kamera: <b id="cameraReadout">GAMEPLAY_ISO_45</b></span></div>
-        </div>
-      </div>
-
-      <aside class="panel side">
-        <h2>Runtime Intake</h2>
-        <div class="facts">
-          <div class="fact"><b>Datei</b><span id="fFile">–</span></div>
-          <div class="fact"><b>Mesh</b><span id="fMesh">–</span></div>
-          <div class="fact"><b>Skeleton</b><span id="fSkeleton">–</span></div>
-          <div class="fact"><b>Animation</b><span id="fAnim">–</span></div>
-          <div class="fact"><b>Clip-Dauer</b><span id="fDuration">–</span></div>
-          <div class="fact"><b>In Place</b><span id="fInPlace">–</span></div>
-          <div class="fact"><b>Root X/Z</b><span id="fRoot">–</span></div>
-        </div>
-        <div class="note"><b>DF-02F.4R Direction Contract:</b> N = vom Betrachter weg / nach oben im Spielbild, S = zum Betrachter / nach unten, E = nach rechts, W = nach links; Diagonalen entsprechend dazwischen. Kamera, Animation und 45°-Schritte bleiben unverändert. Front/Hinten/Links/Rechts/Oben sind getrennte technische Kameraansichten.</div>
-        <div id="error" class="error"></div>
-      </aside>
-    </section>
-  </main>
-
-  <script type="importmap">
-    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
-  </script>
-  <script type="module" src="./app.js?v=df-02f4r-1"></script>
-</body>
-</html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>DevForge · Animated 3D Reference Viewer</title><style>
+:root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#101216;color:#f4f6f8}*{box-sizing:border-box}body{margin:0;background:#101216}button,input{font:inherit}.page{max-width:1100px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.badge{padding:6px 10px;border:1px solid #4a5568;border-radius:999px;font-size:12px;font-weight:700}.back{color:#d8dee9;text-decoration:none}h1{font-size:clamp(22px,5vw,34px);margin:12px 0 4px}.sub{color:#aeb7c4;line-height:1.45;margin:0}.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,.8fr);gap:14px;margin-top:16px}@media(max-width:820px){.layout{grid-template-columns:1fr}}.panel{background:#171a20;border:1px solid #2c313b;border-radius:14px;overflow:hidden}.viewer{position:relative;min-height:520px;background:#0c0e12}.viewer canvas{display:block;width:100%;height:100%;min-height:520px}.empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#aeb7c4}.empty.hidden{display:none}.controls,.presets,.bookmarks{padding:14px;border-top:1px solid #2c313b}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.file{position:absolute;width:1px;height:1px;opacity:0}.btn{border:1px solid #4a5568;background:#222731;color:#fff;border-radius:10px;padding:10px 13px;font-weight:700;min-height:44px}.btn.primary{background:#f3f4f6;color:#111318}.btn:disabled{opacity:.45}.btn.active{outline:2px solid #f3f4f6;outline-offset:1px}.status{font-size:13px;color:#aeb7c4}.timeline{padding:0 14px 16px;border-top:1px solid #2c313b}.timeline-head{display:flex;justify-content:space-between;padding:12px 0 8px;color:#c8d0dc;font-size:13px}.timeline input{width:100%;accent-color:#f3f4f6;touch-action:none}.timeline-meta{display:flex;justify-content:space-between;margin-top:6px;color:#8f99a8;font-size:12px}.presets{display:grid;gap:14px}.preset-group h3,.bookmarks h3{margin:0 0 8px;font-size:14px}.preset-row,.bookmark-actions{display:flex;gap:8px;flex-wrap:wrap}.preset-row .btn{min-width:52px}.preset-readout{display:flex;gap:12px;flex-wrap:wrap;color:#9ca6b5;font-size:12px}.preset-readout b{color:#e4e8ee}.bookmark-actions input{min-width:120px;flex:1;background:#101318;color:#fff;border:1px solid #4a5568;border-radius:10px;padding:10px}.bookmark-list{display:grid;gap:8px;margin-top:12px}.bookmark{border:1px solid #343a46;border-radius:10px;padding:10px;display:flex;justify-content:space-between;gap:10px;align-items:center}.bookmark-main{min-width:0}.bookmark-main b{display:block}.bookmark-main span{display:block;color:#aeb7c4;font-size:12px;margin-top:3px;overflow-wrap:anywhere}.bookmark .btn{min-height:36px;padding:6px 9px}.side{padding:15px}.side h2{font-size:16px;margin:0 0 12px}.facts{display:grid;gap:9px}.fact{display:grid;grid-template-columns:112px 1fr;gap:9px;padding:9px 0;border-bottom:1px solid #292e37;font-size:13px}.fact b{color:#aeb7c4}.ok{color:#8de0ad}.warn{color:#ffd27d}.bad{color:#ff9f9f}.note{margin-top:14px;padding:11px;border:1px solid #343a46;border-radius:10px;color:#b8c0cc;font-size:13px;line-height:1.45}.error{display:none}.error.show{display:block;color:#ffb6b6;margin-top:12px}
+</style></head><body><main class="page">
+<div class="top"><a class="back" href="../../">← DevForge</a><span class="badge">DF-02F.5 · TESTBUILD</span></div><h1>Animated 3D Reference Viewer</h1><p class="sub">Animation, Zeitpunkt, Gameplay-Facing und Kamera als reproduzierbare Pose-Referenz festhalten.</p>
+<section class="layout"><div class="panel"><div id="viewer" class="viewer"><div id="empty" class="empty">Noch kein FBX geladen.<br>Standard-Walk mit Skin und In-Place auswählen.</div></div>
+<div class="controls"><input id="fileInput" class="file" type="file" accept=".fbx,application/octet-stream"><button id="loadButton" class="btn primary">Standard-Walk-FBX auswählen</button><button id="playButton" class="btn" disabled>Pause</button><span id="runtimeStatus" class="status">Warte auf Asset …</span></div>
+<div class="timeline"><div class="timeline-head"><strong>Animation Timeline</strong><span id="timelineTime">0.000 / 0.000 s</span></div><input id="timeline" type="range" min="0" max="1000" step="1" value="0" disabled><div class="timeline-meta"><span>0 %</span><span id="timelinePercent">0.0 %</span><span>100 %</span></div></div>
+<div class="presets"><div class="preset-group"><h3>Gameplay Facing · feste isometrische Kamera</h3><div class="preset-row"><button class="btn active" data-facing="N">N</button><button class="btn" data-facing="NE">NE</button><button class="btn" data-facing="E">E</button><button class="btn" data-facing="SE">SE</button><button class="btn" data-facing="S">S</button><button class="btn" data-facing="SW">SW</button><button class="btn" data-facing="W">W</button><button class="btn" data-facing="NW">NW</button></div></div><div class="preset-group"><h3>Kameraansicht</h3><div class="preset-row"><button class="btn active" data-camera="ISO">Gameplay Iso</button><button class="btn" data-camera="FRONT">Front</button><button class="btn" data-camera="BACK">Hinten</button><button class="btn" data-camera="LEFT">Links</button><button class="btn" data-camera="RIGHT">Rechts</button><button class="btn" data-camera="TOP">Oben</button></div></div><div class="preset-readout"><span>Facing: <b id="facingReadout">N</b></span><span>Kamera: <b id="cameraReadout">GAMEPLAY_ISO_45</b></span></div></div>
+<div class="bookmarks"><h3>Pose Bookmark / Reference Capture</h3><div class="bookmark-actions"><input id="bookmarkName" value="FR1" aria-label="Referenzname"><button id="saveBookmark" class="btn primary" disabled>Aktuelle Pose speichern</button></div><div id="bookmarkList" class="bookmark-list"><span class="status">Noch keine Referenz gespeichert.</span></div></div></div>
+<aside class="panel side"><h2>Runtime Intake</h2><div class="facts"><div class="fact"><b>Datei</b><span id="fFile">–</span></div><div class="fact"><b>Mesh</b><span id="fMesh">–</span></div><div class="fact"><b>Skeleton</b><span id="fSkeleton">–</span></div><div class="fact"><b>Animation</b><span id="fAnim">–</span></div><div class="fact"><b>Clip-Dauer</b><span id="fDuration">–</span></div><div class="fact"><b>In Place</b><span id="fInPlace">–</span></div><div class="fact"><b>Root X/Z</b><span id="fRoot">–</span></div></div><div class="note"><b>F.5-Vertrag:</b> Ein Bookmark speichert Quell-Datei, Clip, exakte Clip-Zeit, normalisierte Position, Facing und Kamera. „Laden“ stellt diese Auswahl reproduzierbar wieder her. Noch kein Bildexport und keine Prompt-Builder-Verbindung.</div><div id="error" class="error"></div></aside></section></main>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script><script type="module" src="./app.js?v=df-02f5-1"></script></body></html>
