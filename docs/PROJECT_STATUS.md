@@ -9,30 +9,16 @@ DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktuelle
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-02f2-animated-3d-preview-runtime-intake`
+- Aktueller Entwicklungsbranch: `df-02f3-animation-timeline-scrubbing`
 - Aktueller Prompt-Builder-Stand: `DF-02D.3R`
 - Historischer Pose-Renderer-Prototyp: `DF-02E.1–E.4`
-- Aktueller Entwicklungsblock: `DF-02F.2`
+- Aktueller Entwicklungsblock: `DF-02F.3`
 
 # ARCHITEKTURENTSCHEIDUNG: ECHTE 3D-ANIMATION ALS POSEQUELLE
 
-Die in DF-02E entwickelte deterministische Mannequin-/Joint-Pose-Lösung bleibt als dokumentierter Prototyp im Repository erhalten, wird aber nicht zur langfristigen Produktionsquelle ausgebaut.
+Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie; Kamera, Facing, Referenzzeitpunkt und spätere Ausgabe werden von DevForge kontrolliert.
 
-Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation selbst liefert die Bewegungsgeometrie. Kamera, Facing, Referenzzeitpunkt und spätere Ausgabe werden von DevForge kontrolliert.
-
-Spätere Referenzframes werden nicht mehr als manuell erfundene Skelettgeometrie gepflegt, sondern als Bookmarks innerhalb einer echten Animation ausgewählt.
-
-# DF-02E – Prototypischer Stand
-
-- DF-02E.1: **PASS / PROTOTYPE COMPLETE**
-- DF-02E.2: **PASS / PROTOTYPE COMPLETE**
-- DF-02E.3 / E.3R: **PASS / PROTOTYPE COMPLETE**
-- DF-02E.4: **PASS / PROTOTYPE COMPLETE / SUPERSEDED FOR PRODUCTION BY DF-02F**
-
-Nicht fortsetzen:
-- DF-02E.5 auf Basis künstlicher Mannequin-Posen;
-- weitere manuell definierte WALK-Posen;
-- weitere Richtungen auf Basis des alten Pose-Renderers.
+DF-02E.1–E.4 bleiben als dokumentierter Prototyp erhalten, sind aber nicht mehr die geplante Produktionsquelle.
 
 # DF-02F – 3D Animation Reference Viewer Foundation
 
@@ -49,64 +35,70 @@ Geplante Staffelung:
 Vertrag:
 `docs/DF-02F1_ANIMATED_3D_REFERENCE_ASSET_CONTRACT.md`
 
-Erste Testquelle:
-`X Bot@Standard Walk 2.fbx`
-
-Bestätigter F.1-Vertrag:
+Bestätigt:
 - echtes 3D-Modell/Rig/Animation als zukünftige Posequelle;
-- Model, Rig und Animation getrennte Verantwortungen;
 - Reference Preview verlangt In-Place-Verhalten;
 - Animation, Facing und Camera bleiben getrennt;
-- FR1–FR8 werden später als Zeit-/Frame-Bookmarks behandelt;
-- DF-02E bleibt dokumentierter Prototyp.
+- spätere FR1–FR8 werden als Zeit-/Frame-Bookmarks behandelt.
 
-# DF-02F.2 – Animated 3D Preview / Runtime Asset Intake – IMPLEMENTED / DEVICE TEST REQUIRED
+# DF-02F.2 – PASS / READY TO FREEZE
 
-Dokument:
-`docs/DF-02F2_ANIMATED_3D_PREVIEW_RUNTIME_INTAKE.md`
+Gerätetest auf iPhone/Safari mit Standard-Walk-FBX mit Skin und In-Place erfolgreich.
 
-Neues Werkzeug:
-`tools/animation-reference-viewer/`
+Bestätigt:
+- sichtbares Character-Mesh wird geladen;
+- 2 Meshes, beide skinned;
+- Skeleton/Rig wird erkannt;
+- 129 Bones erkannt;
+- 2 Animation Clips erkannt;
+- erster Clip läuft im Browser;
+- getestete Clip-Dauer 1.033 s;
+- In-Place PASS mit horizontaler Drift 0.0000;
+- Root X/Z bleibt 0.000 / 0.000;
+- Play/Pause funktioniert;
+- FBX mit Skin ist für die sichtbare Mannequin-Vorschau geeignet.
+
+**DF-02F.2: PASS / READY TO FREEZE**
+
+# DF-02F.3 – Animation Timeline / Scrubbing – IMPLEMENTED / DEVICE TEST REQUIRED
+
+Branch:
+`df-02f3-animation-timeline-scrubbing`
 
 Umgesetzt:
-- Three.js-basierte 3D-Runtime-Vorschau;
-- binärer FBX-Intake über Browser File Picker;
-- `FBXLoader`;
-- automatische Erkennung von Mesh, Skinned Mesh, Skeleton/Bones und Animation Clips;
-- automatische Wiedergabe des ersten Clips;
-- Play/Pause für den Intake-Test;
-- feste technische Vorschaukamera;
-- Mesh-/Skeleton-/Clip-/Dauer-Diagnose;
-- horizontale In-Place-Diagnose über Root/Hips zwischen Clip-Anfang und Clip-Ende;
-- aktuelle Root-X/Z-Anzeige;
-- SkeletonHelper nur als Diagnose-Fallback bei Motion-only-Dateien;
-- DevForge-Startseite enthält einen eigenen Animated-3D-Reference-Viewer-Eintrag.
+- bestehender F.2-FBX-Intake unverändert weiterverwendet;
+- Timeline-Slider über den vollständigen aktiven Clip;
+- aktuelle Zeit und Clip-Gesamtdauer in Sekunden;
+- normalisierte Position in Prozent;
+- laufende Animation aktualisiert die Timeline live;
+- Ziehen der Timeline pausiert automatisch;
+- gewählte Timeline-Position wird direkt auf den AnimationMixer angewendet;
+- Play/Pause bzw. Weiter funktioniert nach dem Scrubben;
+- keine Kamera-/Direction-Logik vorgezogen;
+- keine FR1–FR8-Bookmarks vorgezogen.
 
-Wichtig:
-Die bereitgestellte binäre FBX liegt in diesem Schritt noch nicht als Repository-Asset vor. Für den F.2-Gerätetest wird exakt die Originaldatei `X Bot@Standard Walk 2.fbx` lokal über den File Picker geladen. Eine dauerhafte Asset-Ablage oder Konvertierungsarchitektur wird erst nach erfolgreichem Runtime-Intake festgelegt.
-
-## DF-02F.2 Acceptance Gate – offen
+## DF-02F.3 Acceptance Gate
 Auf iPhone/iPad/Safari prüfen:
-1. Viewer öffnet;
-2. `X Bot@Standard Walk 2.fbx` lässt sich auswählen;
-3. sichtbares Character-Mesh erscheint oder Motion-only wird eindeutig diagnostiziert;
-4. Bones/Skeleton werden erkannt;
-5. Animation Clip wird erkannt und läuft;
-6. Figur wandert global nicht nach vorne;
-7. Play/Pause funktioniert;
-8. Reload + erneutes Laden funktioniert reproduzierbar.
+1. Standard-Walk-FBX mit Skin/In-Place lädt wie unter F.2;
+2. Timeline läuft synchron zur Animation mit;
+3. Pause hält Figur und Timeline stabil an;
+4. Slider lässt sich per Touch frei vor/zurück bewegen;
+5. während des Scrubbens springt die Figur unmittelbar auf die gewählte Pose;
+6. Zeit- und Prozentanzeige entsprechen der Sliderposition;
+7. nach Scrubben startet `Weiter` von der gewählten Stelle aus;
+8. In-Place/Root-Verhalten bleibt unverändert.
 
 # NÄCHSTER ZULÄSSIGER SCHRITT
 
-Jetzt ausschließlich **DF-02F.2 Gerätetest** auf Branch:
-`df-02f2-animated-3d-preview-runtime-intake`
+Jetzt ausschließlich **DF-02F.3 Gerätetest** auf Branch:
+`df-02f3-animation-timeline-scrubbing`
 
 Noch NICHT zulässig:
-- Timeline/Scrubbing;
-- FR1–FR8 Bookmarks;
-- Camera-/Direction-Presets;
-- freie Pose-Manipulation;
+- Camera-/Facing-Presets;
+- N/NE/E/SE/S/SW/W/NW;
+- FR1–FR8 Bookmark-System;
+- freie Bone-/Pose-Manipulation;
 - Prompt-Builder-Bridge;
 - weitere Animationen parallel integrieren.
 
-Bei PASS folgt **DF-02F.3 – Animation Timeline / Scrubbing**.
+Bei PASS folgt **DF-02F.4 – Camera & Facing Presets**.
