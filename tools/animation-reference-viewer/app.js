@@ -57,7 +57,10 @@ let currentFacing = 'N';
 let currentCamera = 'ISO';
 const clock = new THREE.Clock();
 
-const facingAngles = { N:0, NE:-45, E:-90, SE:-135, S:180, SW:135, W:90, NW:45 };
+// DF-02F.4R Gameplay Direction Contract:
+// N = away/up-screen, S = toward/down-screen, E = screen-right, W = screen-left.
+// The camera and the eight existing 45-degree rotations stay unchanged; only their semantic labels are aligned.
+const facingAngles = { N:-135, NE:180, E:135, SE:90, S:45, SW:0, W:-45, NW:-90 };
 const cameraPresets = {
   ISO: { id:'GAMEPLAY_ISO_45', dir:new THREE.Vector3(1, 1, 1).normalize() },
   FRONT: { id:'TECH_FRONT', dir:new THREE.Vector3(0, 0, 1) },
