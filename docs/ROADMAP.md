@@ -1,11 +1,11 @@
 # DevForge – Master Roadmap & Entwicklungsgrenzen
 
-Stand: 2026-09-05
+Stand: 2026-09-06
 
 ## 1. Vision
 DevForge soll eine projektübergreifende Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets werden. Der Prompt Builder ist nur der erste Einstiegspunkt. Langfristig soll DevForge wiederverwendbare Asset-Definitionen, Referenzen, Generierungsverträge, Vorschau/Review, Freigaben, technische Prüfung, Atlas-/Metadaten-Erzeugung und kontrollierte Übergabe in Ziel-Repositories verbinden.
 
-Der aktuelle Carrier-WALK ist der erste reale Referenzprozess. Neue Funktionen werden bevorzugt aus echten Produktionsproblemen abgeleitet statt als theoretische All-in-one-Lösung vorgebaut.
+Der aktuelle Character-Animationsworkflow ist der erste reale Referenzprozess. Neue Funktionen werden bevorzugt aus echten Produktionsproblemen abgeleitet statt als theoretische All-in-one-Lösung vorgebaut.
 
 ## 2. Zielarchitektur
 DevForge soll schrittweise folgende Ebenen abdecken:
@@ -19,6 +19,7 @@ DevForge soll schrittweise folgende Ebenen abdecken:
 ### B – Asset Library
 Asset-Katalog mit getrennten Asset-Arten:
 - Characters
+- 3D Character / Rig / Animation Sources
 - Buildings
 - Resources / Rohstoffe
 - Goods / Waren
@@ -40,6 +41,7 @@ Jeder Datensatz kann Authoritative References, Identitäts-/Designregeln, Varian
 - klare Prioritäts-/Konfliktregeln zwischen Referenzen und veränderlichen Eigenschaften
 
 ### D – Preview & Review Layer
+- animierte 3D-Referenzvorschau
 - Einzelbildprüfung
 - Direction-Vergleich
 - Animation Timeline
@@ -69,14 +71,15 @@ Jeder Datensatz kann Authoritative References, Identitäts-/Designregeln, Varian
 - Atlas/Runtime-Artefakte erst nach Review-Gate erzeugen
 
 ## 3. Aktuelle Module
-- Prompt Builder – aktiv in Entwicklung
+- Prompt Builder – vorhanden / weiterer Ausbau nach bewiesenem Reference-Workflow
 - Animation Tester – Standalone Frames/Manifest, FPS, Loop, Step, Onion-Skin, Bottom-Center-Anchor
+- Pose Renderer – DF-02E-Prototyp, nicht mehr geplante Produktionsquelle
 - Sprite Lab – vorhanden
 - Atlas Builder – vorhanden; Produktionsintegration noch nicht freigegeben
 - Asset Inspector – vorhanden
 - Parameter Playground – vorbereitet
 
-## 4. Character Animation Contract – bisherige Entwicklung
+## 4. Character Animation Contract – Entwicklung
 
 ### DF-01 – Prompt Builder Foundation
 Projektübergreifende Basis mit Projekt-Presets, Asset-Typen, Kamera/Richtung, editierbaren Contracts sowie TXT/JSON/PDF.
@@ -87,41 +90,53 @@ Character-Auswahl, IDLE/WALK/WALK+CARRY, Frame-/Pose-Definitionen, 8 Richtungen,
 ### DF-02B – Authoritative Character Reference
 Visuelle Character-Referenz wird direkt eingebettet und ist autoritativ für Identität und permanentes Design.
 
-### DF-02B.1 – Mobile Reference Import Fix
-Robuster iPhone/Safari-Import, Vorschau, Status, PDF-Gate und Cache-Busting.
-
 ### DF-02C – Sequence Reference Contract
-Ab FR2 wird der unmittelbar vorherige APPROVED Frame als Previous Approved Frame eingebettet. Animation Tester wurde für Einzelbildsequenzen erweitert.
+Previous Approved Frame als Sequenzreferenz.
 
 ### DF-02D – Key Pose / Motion Delta Contract
-WALK erhält harte Key Poses und Mandatory Motion Deltas, damit echte Bewegungsprogression entsteht.
+Versuch, WALK-Pose und Bewegungsprogression rein über Generierungscontracts zuverlässig zu kontrollieren.
 
-### DF-02D.1 – Previous Frame Pose Override Fix
-Target Pose / Motion Delta gewinnt für animierte Gelenke. Previous Frame darf die Pose nicht einfrieren.
+### DF-02E – Deterministic Mannequin Pose Prototype
+Technischer Prototyp mit kontrolliertem Skeleton, fester 45°-Kamera, FR1–FR4 und deterministisch abgeleiteter Gegenphase FR5–FR8.
 
-### DF-02D.2 – Identity & Render Lock Reinforcement
-Status: `IMPLEMENTED / TEST PENDING`.
-Pose-Freiheit bleibt erhalten; Identität, Anatomie/Proportionen, permanentes Design, Kleidung, Rucksack, Materialien, Renderstil, Licht, Kamera, Scale und Root werden hart stabilisiert. Final PASS = POSE PASS + CONTINUITY PASS.
+Ergebnis: technisch reproduzierbar, aber nicht als langfristige Produktionsquelle ausgewählt. DF-02E.1–E.4 bleiben dokumentiert und erhalten.
 
-## 5. Aktuelles Gate – Carrier WALK / SE
-- FR1 L Contact: PASS / APPROVED
-- FR2 L Down: PASS / APPROVED
-- FR3 Passing L: alter Versuch erreichte Pose/Motion, aber nicht ausreichende Identity/Render-Continuity; nicht freigegeben
-- nächster Test: FR3 mit DF-02D.2 erneut gegen APPROVED FR2
+### DF-02F – 3D Animation Reference Viewer Foundation
+Neue Produktionsrichtung: echte geriggte 3D-Animationsclips liefern die Bewegungsgeometrie. DevForge kontrolliert Preview, Zeitposition, Facing, Camera und spätere Reference-Ausgabe.
 
-Bei FAIL wird nur die konkret fehlerhafte Contract-Seite nachgeschärft. FR4 darf erst nach freigegebenem FR3 beginnen.
+Staffelung:
+1. DF-02F.1 – Animated 3D Reference Asset Contract
+2. DF-02F.2 – Animated 3D Preview / Runtime Asset Intake
+3. DF-02F.3 – Animation Timeline / Scrubbing
+4. DF-02F.4 – Camera & Facing Presets
+5. DF-02F.5 – Pose Bookmark / Reference Capture
+6. DF-02F.6 – Prompt Builder / Reference Export Bridge
 
-Danach: FR4 R Up → FR5 R Contact → FR6 R Down → FR7 Passing R → FR8 L Up. Jeder Frame einzeln prüfen und nur APPROVED weiterketten.
+## 5. Aktuelles Gate
+Aktueller Entwicklungsblock:
+**DF-02F.1 – Animated 3D Reference Asset Contract**
 
-Nach FR8: vollständige 8-Frame-Sequenz bei 8 FPS im Animation Tester prüfen, einschließlich Onion-Skin, Root/Scale, Silhouettenwechsel und Loop FR8→FR1.
+Erste Testquelle:
+`X Bot@Standard Walk 2.fbx`
 
-## 6. Skalierung nach WALK/SE
-Erst nach vollständigem WALK/SE PASS:
-- übrige 7 Richtungen
-- Direction-Consistency und echte Asymmetrien prüfen
-- vollständigen 8×8 WALK-Satz abnehmen
-- danach Batch-Erzeugung priorisieren
-- IDLE und weitere Animationen auf demselben Contract-System aufbauen
+Grundprinzip:
+- echte Animation statt manuell erfundener Pose-Geometrie;
+- In-Place für stabile Reference Preview;
+- Model, Rig und Clip technisch unterscheidbar;
+- Animation, Facing und Camera getrennte Verantwortungen;
+- spätere FR1–FR8 sind Bookmarks innerhalb des Clips.
+
+Nach DF-02F.1 PASS folgt ausschließlich DF-02F.2.
+
+## 6. 2D- und 3D-Wiederverwendung
+Der 3D-Reference-Workflow wird bewusst so angelegt, dass dieselben Animationsquellen später für unterschiedliche Ziele dienen können:
+- 2D-Sprite-/Bildreferenzen;
+- acht Gameplay-Richtungen;
+- Prompt-/Generation-Referenzen;
+- 3D-Animation-Review;
+- spätere 3D-Projekte und Runtime-Handoffs, sofern Rig/Retargeting kompatibel ist.
+
+DevForge soll keine künstlich getrennte 2D-Posebibliothek aufbauen, wenn dieselbe Bewegungsquelle direkt aus einer echten 3D-Animation reproduzierbar gewonnen werden kann.
 
 ## 7. Animationen / Character Packages – spätere Ausbaustufe
 Vorgesehene Animationstypen können u. a. sein:
@@ -138,7 +153,7 @@ Vorgesehene Animationstypen können u. a. sein:
 - PUSH / PULL
 - weitere beruf-/projektbezogene Aktionen
 
-Nicht jede Animation wird sofort implementiert. Für jede neue Animation werden zuerst Framezahl, Key Poses, Motion Deltas, Attachments und Acceptance-Kriterien definiert.
+Nicht jede Animation wird sofort integriert. Erst muss der Standard-Walk den kompletten DF-02F-Reference-Workflow beweisen. Danach werden weitere Clips einzeln aufgenommen und geprüft.
 
 ## 8. Attachment-/Resource-Prinzip
 Character-Basisanimation und transportierte/benutzte Gegenstände bleiben möglichst getrennt. Ressourcen, Waren und Werkzeuge sollen eigene Assets sein und nur über definierte Attachments/Kompositionen verbunden werden. Dadurch können gleiche Character-Animationen mit unterschiedlichen Waren/Werkzeugen wiederverwendet werden.
@@ -153,10 +168,13 @@ Fachlich vorbereitet:
 - Atlas erst nach Source-Review
 - Character und Attachments bleiben strukturell getrennt
 
+DF-03 bleibt nachgelagert, bis der neue DF-02F-Reference-Workflow belastbar ist.
+
 ## 10. Asset Library / Referenzverwaltung
-Später soll DevForge Authoritative References nicht jedes Mal nur als temporären Upload behandeln, sondern als wiederverwendbare Asset-Datensätze verwalten können. Geplant sind:
+Später soll DevForge Authoritative References und 3D-Animationsquellen nicht jedes Mal nur als temporären Upload behandeln, sondern als wiederverwendbare Asset-Datensätze verwalten können. Geplant sind:
 - Asset-ID / Name / Typ / Projektzuordnung
 - eine oder mehrere Authoritative References
+- Model-/Rig-/Animation-Source
 - Style-/Identity-/Material-Contracts
 - Kamera-/Richtungsregeln
 - Varianten und Zustände
@@ -188,7 +206,7 @@ Automatische Prüfungen unterstützen das Review; sie ersetzen nicht automatisch
 ### DevForge
 `DrHoschi/DevForge`
 Default: `main`
-Aktueller Entwicklungsbranch: `df-02d2-identity-render-lock-reinforcement`
+Aktueller Entwicklungsbranch: `df-02f1-animated-3d-reference-asset-contract`
 
 ### Siedler Mini
 `DrHoschi/siedler-mini`
@@ -201,19 +219,20 @@ Naming: `carrier_walk_se_f01.png` … `carrier_walk_se_f08.png`
 Weitere Zielprojekte werden erst verbindlich eingetragen, wenn konkrete DevForge-Handoff-Pfade festgelegt sind.
 
 ## 14. Nicht vorziehen
-Solange WALK/SE nicht belastbar ist, nicht parallel beginnen mit:
-- allen Richtungen gleichzeitig
-- vielen weiteren Character-Animationen
-- komplexer Attachment-Engine
-- automatischer Generierungs-API
-- finalem automatischem Atlas-Packing
-- großer persistenter Asset-Datenbank
-
-Die Punkte bleiben geplant, werden aber erst aktiviert, wenn die darunterliegende Produktionskette bewiesen ist.
+Bis der Standard-Walk den DF-02F-Workflow beweist, nicht parallel beginnen mit:
+- vielen weiteren Mixamo-/externen Animationen;
+- vollständiger Animation Library;
+- acht Richtungen vor dem Camera-/Facing-Block;
+- Bookmark-System vor Timeline/Scrubbing;
+- Prompt-Builder-Bridge vor Reference Capture;
+- komplexer Attachment-Engine;
+- automatischer Generierungs-API;
+- finalem automatischem Atlas-Packing;
+- großer persistenter Asset-Datenbank.
 
 ## 15. Git-/Dokumentations-Arbeitsweise
 - kleine, klar benannte DF-Blöcke
-- ein beobachtetes Problem pro Fix-Block
+- ein beobachtetes Problem pro Fix-/Contract-Block
 - vor Änderung aktuellen Branch/Status prüfen
 - keine funktionierenden Contracts nebenbei umbauen
 - sichtbare Build-Kennung
