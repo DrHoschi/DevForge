@@ -3,32 +3,38 @@
 Stand: 2026-09-06
 
 ## Zweck
-DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktueller Schwerpunkt ist die reproduzierbare Auswahl echter 3D-Animationsposen und deren direkte Verwendung als visuelle Pose-Referenz für die Character-Bildgenerierung.
+DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets. Der aktuelle Character-Animationsworkflow dient als erster realer Referenzprozess.
 
-## Repositories
-### DevForge
+## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-02f6-prompt-builder-pose-reference-bridge`
+- Aktueller Reconciliation-Branch: `df-02f6r4-explicit-pose-geometry-control`
 - Historischer Prompt-Builder-Stand: `DF-02D.3R`
 - Historischer Pose-Renderer-Prototyp: `DF-02E.1–E.4`
-- Aktueller Entwicklungsblock: `DF-02F.6R.3`
+- Aktueller abgeschlossener Implementierungsstand: `DF-02F.6R.4`
+- Aktuelles Gate: `DF-02F.6R.4 – Documentation / Status Reconciliation`
 
-# ARCHITEKTURENTSCHEIDUNG: ECHTE 3D-ANIMATION ALS POSEQUELLE
-Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie. Timeline, Facing, Kamera und Referenzzeitpunkt werden in DevForge kontrolliert. Für die Bildgenerierung gilt ab F.6: Character Reference definiert Identität/Design; Pose Reference definiert Körperhaltung und Ansicht.
+# Architekturentscheidung: echte 3D-Animation als Posequelle
+Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie. Timeline, Facing, Kamera und Referenzzeitpunkt werden in DevForge kontrolliert.
 
-# DF-02F – 3D Animation Reference Viewer Foundation
-1. DF-02F.1 – Animated 3D Reference Asset Contract – PASS
-2. DF-02F.2 – Animated 3D Preview / Runtime Asset Intake – PASS
-3. DF-02F.3 / F.3R – Animation Timeline / Scrubbing – PASS
-4. DF-02F.4 / F.4R – Camera & Facing Presets / Semantic Alignment – PASS
-5. DF-02F.5 – Pose Bookmark / Reference Capture – PASS
-6. DF-02F.6 – Prompt Builder / Pose Reference Bridge – PARTIAL / RETEST REQUIRED
-7. DF-02F.6R.1 – Pose Fidelity Contract Reinforcement – FAIL
-8. DF-02F.6R.2 – Pose-dominant PDF Transfer Contract – FAIL
-9. DF-02F.6R.3 – Direct Visual Pose Handoff – IMPLEMENTED / FR01 RETEST REQUIRED
+Für den Generation-Handoff gilt:
+- Character Reference definiert Identität und permanentes Design.
+- Pose/Geometry Control definiert Körperhaltung und Ansicht.
+- Action-Namen wie `WALK` sind Metadaten und dürfen keine alternative generische Körpergeometrie erzeugen.
 
-# DF-02F.4R – PASS
+# DF-02F – 3D Animation Reference Viewer / Generation Bridge
+1. `DF-02F.1 – Animated 3D Reference Asset Contract` – PASS
+2. `DF-02F.2 – Animated 3D Preview / Runtime Asset Intake` – PASS
+3. `DF-02F.3 / F.3R – Animation Timeline / Scrubbing` – PASS
+4. `DF-02F.4 / F.4R – Camera & Facing Presets / Semantic Alignment` – PASS
+5. `DF-02F.5 – Pose Bookmark / Reference Capture` – PASS
+6. `DF-02F.6 – Prompt Builder / Pose Reference Bridge` – implemented, external generation fidelity not proven
+7. `DF-02F.6R.1 – Pose Fidelity Contract Reinforcement` – FAIL
+8. `DF-02F.6R.2 – Pose-dominant PDF Transfer Contract` – FAIL
+9. `DF-02F.6R.3 – Direct Visual Pose Handoff` – implemented, insufficiently deterministic in external generation test
+10. `DF-02F.6R.4 – Explicit Pose Geometry Control` – IMPLEMENTED; external generation limit remains
+
+# DF-02F.4R – Direction Contract
 Verbindlicher Gameplay-Direction-Contract:
 - N = vom Betrachter weg / nach oben im Spielbild
 - S = zum Betrachter / nach unten
@@ -36,61 +42,90 @@ Verbindlicher Gameplay-Direction-Contract:
 - W = nach links im Spielbild
 - Diagonalen entsprechend dazwischen
 
-Die feste orthografische Gameplay-Kamera, Animation und 45°-Schritte bleiben davon getrennt.
+Feste orthografische Gameplay-Kamera, Animation und 45°-Facing-Schritte bleiben getrennte Verantwortungen.
 
-# DF-02F.5 – PASS
+# DF-02F.5 – Pose Bookmark / Reference Capture
 Gerätetest bestätigt:
-- Pose-Bookmarks lassen sich aus dem echten Animation-Clip speichern;
-- Referenzen können beliebig benannt werden;
-- Zeit/Prozent, Facing und Kamera werden gemeinsam festgehalten;
-- gespeicherte Zustände lassen sich wieder aufrufen;
+- Pose-Bookmarks lassen sich aus dem echten Animation-Clip speichern.
+- Referenzen können frei benannt werden.
+- Zeit/Prozent, Facing und Kamera werden gemeinsam festgehalten.
+- gespeicherte Zustände lassen sich reproduzierbar wieder aufrufen.
 - der Workflow ist nicht auf FR01–FR08 begrenzt.
 
-# DF-02F.6R.1 / R.2 – FAIL
-Die beiden Retests zeigen, dass reine Verschärfung des PDF-/Prompt-Vertrags nicht genügt. Beobachtet wurden weiterhin:
-- Kamera driftet in Richtung einer normalen 3/4-Charakteransicht;
-- FR01/FR02 werden teilweise auf generische WALK-Beingeometrie normalisiert;
-- selbst bei pose-dominanter PDF-Seite wird die eingebettete Mannequinreferenz nicht zuverlässig als direkte visuelle Control-Geometrie behandelt.
+# DF-02F.6R.1–R.3 – Erkenntnisse
+R.1 und R.2 zeigten, dass verschärfte Prompt- oder PDF-Verträge die Pose nicht ausreichend deterministisch auf die externe Bildgenerierung übertragen.
 
-Folgerung:
-Nicht weiter unspezifisch Prompttext verlängern. Der Generation-Handoff muss die Pose als eigenständige Bilddatei direkt übergeben.
+R.3 trennte deshalb den Generation-Handoff in direkte Artefakte:
+- Pose-Control als eigenständiges Bild,
+- Character Identity Image,
+- kurzer Handoff-Text.
 
-# DF-02F.6R.3 – Direct Visual Pose Handoff
-Implementiert:
-- PDF bleibt Review-/Traceability-Dokument und ist nicht mehr primärer Generation-Input;
-- aus der Authoritative Pose Reference wird ein eigenständiges `POSE_CONTROL.png` erzeugt;
-- automatischer pose-dominanter Crop erkennt den sichtbaren Mannequin-Bereich auf dunklem Hintergrund und behält einen Sicherheitsrand;
-- die Character Reference wird separat als Identity Image exportiert;
-- ein kurzer `HANDOFF.txt` beschreibt ausschließlich den direkten Bild-zu-Bild-Pose-Transfer;
-- Animation/Action (`WALK`) bleibt Metadatum und darf keine Körpergeometrie erzeugen;
-- Generation-Handoff besteht verbindlich aus genau drei Artefakten: Pose Control PNG + Character Identity Image + Handoff TXT;
-- JSON/PDF bleiben Dokumentations-/Nachvollziehbarkeitsartefakte;
-- UI zeigt den erzeugten Pose-Control-Crop samt Crop-Größe und ungefährer Motivbelegung vor dem Export an.
+PDF/JSON bleiben Review-/Traceability-Artefakte und sind nicht die primäre Pose-Steuerung.
 
-Build:
-`DF-02F.6R.3 · TESTBUILD`
+Auch der direkte visuelle Handoff beseitigte die beobachtete Normalisierung auf generische WALK-Geometrie nicht zuverlässig.
 
-Schema:
-`df-character-pose-0.2f6r3`
+# DF-02F.6R.4 – Explicit Pose Geometry Control
+R.4 ergänzt die visuelle Pose Control um explizite maschinenlesbarere Körpergeometrie.
 
-## R.3 Retest Gate
-Zunächst ausschließlich FR01 testen.
+Implementiert auf dem aktuellen Branch:
+- eigener Geometry-Control-Editor im Prompt Builder;
+- definierte Gelenkpunkte für Kopf, Nacken, Becken, Schultern, Ellbogen, Handgelenke, Hüften, Knie, Knöchel und Zehen;
+- sichtbare Knochen-/Achsenverbindungen zwischen den Gelenkpunkten;
+- Punkte können auf der geladenen Pose-Referenz gesetzt und korrigiert werden;
+- Undo/Clear für die Geometrieannotation;
+- Export der annotierten Kontrollgrafik als PNG;
+- normalisierte Gelenkkoordinaten als strukturierte Geometriedaten;
+- Mannequin-/Posebild bleibt die visuelle Autorität; die Geometrieannotation ergänzt sie, ersetzt sie aber nicht.
 
-Verbindlicher Testablauf:
-1. gleiche Carrier Character Reference laden;
-2. FR01 Authoritative Pose Reference laden;
-3. erzeugten Pose-Control-Crop visuell prüfen: vollständiger Körper/Füße, kein abgeschnittener Arm/Boot, deutlich weniger unnötiger schwarzer Leerraum;
-4. exakt drei Generation-Artefakte exportieren: `*_POSE_CONTROL.png`, `*_IDENTITY.*`, `*_HANDOFF.txt`;
-5. diese drei Artefakte gemeinsam für die neue FR01-Generierung verwenden; das PDF nicht als Generation-Input verwenden.
+## R.4 Ergebnis / bekannte Grenze
+R.4 verbessert die Explizitheit des Generation-Handoffs, löst aber die zentrale externe Grenze nicht zuverlässig: Die verwendete Bildgenerierung übernimmt selbst explizite Pose-/Skeleton-Kontrolle nicht deterministisch genug für die benötigte Frame-genaue Character-Animation.
 
-PASS-Kriterien FR01:
-- Kamera/Azimuth/Elevation entsprechen sichtbar der Mannequin-Pose-Reference;
-- Beingeometrie, Kniebiegung, Fußabstand, Fußhöhe/Kontakt und Schrittphase entsprechen sichtbar der Pose Control;
-- Upper Body / Arme / Kopf bleiben posegetreu;
-- Carrier-Identität und permanentes Design bleiben erhalten;
-- kein Rückfall auf eine generische WALK-Pose.
+Diese Grenze liegt nach aktuellem Erkenntnisstand hinter der reproduzierbaren Pose-Auswahl in DevForge. Deshalb wird DF-02F nicht weiter durch unspezifische Prompt-Verstärkung aufgebläht.
 
-Bei PASS folgt FR02. Bei FAIL wird nicht FR02 getestet; dann wird gezielt geprüft, ob Direct Image Handoff selbst noch zu wenig Kontrolle bietet oder ob die Pose-Control-Grafik zusätzlich Skeleton-/Silhouetteninformationen benötigt.
+Der ungelöste externe Generation-Handoff blockiert den unabhängigen Ausbau von DevForge als Review-, Prüf- und Asset-Produktionswerkzeug nicht.
 
-# NÄCHSTER ZULÄSSIGER SCHRITT
-Ausschließlich DF-02F.6R.3 FR01-Gerätetest mit den drei direkten Handoff-Artefakten. Noch kein FR02.
+# DF-02F.6R.4 – Documentation / Status Reconciliation Gate
+Dieses Gate verändert ausschließlich Repository-Dokumentation.
+
+Erlaubt:
+- `docs/PROJECT_STATUS.md`
+- `docs/ROADMAP.md`
+- `README.md`
+
+Nicht erlaubt:
+- Produktionslogik
+- Prompt-Builder-Code
+- UI-/JavaScript-Änderungen
+- Atlas-/Sprite-Logik
+- neue Asset-Persistenz
+
+PASS-Kriterium:
+- alle drei Dokumente beschreiben denselben tatsächlichen R.4-Stand;
+- kein Dokument bezeichnet einen älteren DF-02F-Block als aktuellen Entwicklungsstand;
+- der nächste unabhängige Block ist eindeutig definiert.
+
+# Nächster unabhängiger Entwicklungsblock
+Nach PASS dieses Reconciliation-Gates wird ein eigener Branch von der reconciliierten Baseline erstellt für:
+
+## DF-04 – Asset Review Foundation
+### DF-04A – Source / Result Compare View
+Ziel von DF-04A:
+Eine autoritative Source-/Control-Referenz und das daraus entstandene Resultat gleichzeitig reproduzierbar anzeigen und visuell vergleichen können.
+
+Scope DF-04A:
+- zwei Bilder laden;
+- Source / Control links;
+- Result rechts;
+- stabile gemeinsame Vergleichsansicht.
+
+Explizit noch nicht Teil von DF-04A:
+- Overlay / Onion-Skin / Difference View;
+- automatisches Pose-Scoring;
+- KI-Bewertung;
+- Asset-Datenbank oder persistente Asset Library;
+- Atlas-Umbau oder Atlas-Produktion.
+
+Overlay / Onion-Skin ist frühestens ein eigener nachfolgender Block, z. B. `DF-04B`.
+
+# Nächster zulässiger Schritt
+Reconciliation-Diff prüfen. Erst bei PASS wird ein separater DF-04A-Branch angelegt.
