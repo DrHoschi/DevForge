@@ -1,133 +1,109 @@
 # DevForge – Project Status
 
-Stand: 2026-09-05
+Stand: 2026-09-06
 
 ## Zweck
-DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktueller Schwerpunkt ist die reproduzierbare Vorbereitung, Generierung und Prüfung von Character-Animationsframes.
+DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktueller Schwerpunkt ist die reproduzierbare Vorbereitung, Auswahl und spätere Übergabe von Character-Animationsreferenzen.
 
 ## Repositories
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-02e4-walk-se-counterphase-fr5-fr8`
+- Aktueller Entwicklungsbranch: `df-02f1-animated-3d-reference-asset-contract`
 - Aktueller Prompt-Builder-Stand: `DF-02D.3R`
-- Aktueller Pose-Renderer-Teststand: `DF-02E.4`
+- Historischer Pose-Renderer-Prototyp: `DF-02E.1–E.4`
+- Aktueller Entwicklungsblock: `DF-02F.1`
 
-# ENTSCHEIDUNG: DETERMINISTIC POSE REFERENCE FOUNDATION
+# ARCHITEKTURENTSCHEIDUNG: ECHTE 3D-ANIMATION ALS POSEQUELLE
 
-Der generative Mannequin-Ansatz ist für die endgültige technische Posebibliothek beendet. Die endgültige Pose Reference wird künftig aus kontrollierten Joint-/Skeleton-Daten erzeugt.
+Die in DF-02E entwickelte deterministische Mannequin-/Joint-Pose-Lösung bleibt als dokumentierter Prototyp im Repository erhalten, wird aber nicht zur langfristigen Produktionsquelle ausgebaut.
 
-## DF-02E – Staffelung
-1. DF-02E.1 – Deterministic Mannequin Skeleton Contract
-2. DF-02E.2 – Fixed 45° Gameplay Pose Renderer
-3. DF-02E.3 – WALK SE Pose Set FR1–FR4
-4. DF-02E.4 – Deterministic Counterphase Derivation FR5–FR8
-5. DF-02E.5 – Pose Reference Export / Prompt Builder Bridge
-6. DF-02E.6 – Carrier FR3 Validation Gate
+Ab DF-02F soll DevForge echte geriggte 3D-Animationsquellen verwenden. Die Animation selbst liefert die Bewegungsgeometrie. Kamera, Facing, Referenzzeitpunkt und spätere Ausgabe werden von DevForge kontrolliert.
 
-# DF-02E.1 – PASS / READY TO FREEZE
+Damit werden spätere Referenzframes nicht mehr als manuell erfundene Skelettgeometrie gepflegt, sondern als Bookmarks innerhalb einer echten Animation ausgewählt.
 
-Umgesetzt:
-- `docs/DF-02E1_DETERMINISTIC_MANNEQUIN_SKELETON_CONTRACT.md`
-- `tools/prompt-builder/mannequin-skeleton.v1.json`
-- stabile Joint-Hierarchie und Joint-IDs
-- anatomisches LEFT/RIGHT aus Figurensicht
-- Root/Pelvis-Verantwortung
-- Counterphase-Paare
-- keine Kamera-/Renderer-Logik vorgezogen
+# DF-02E – Prototypischer Stand
 
-# DF-02E.2 – PASS / READY TO FREEZE
+## DF-02E.1 – Deterministic Mannequin Skeleton Contract
+**PASS / PROTOTYPE COMPLETE**
 
-Umgesetzt und auf iPhone/Safari geprüft:
-- feste orthografische Projektion;
-- Kamera yaw 45° / elevation 45°;
-- 720×720 logical canvas;
-- deterministische Joint-Projektion;
-- stabiler Root-/Scale-Bezug nach Reload;
-- keine generative Pose-Schätzung.
+## DF-02E.2 – Fixed 45° Gameplay Pose Renderer
+**PASS / PROTOTYPE COMPLETE**
 
-**DF-02E.2: PASS / READY TO FREEZE**
+## DF-02E.3 / E.3R – WALK SE FR1–FR4
+**PASS / PROTOTYPE COMPLETE**
 
-# DF-02E.3 / DF-02E.3R – WALK SE FR1–FR4 – PASS / READY TO FREEZE
+## DF-02E.4 – Deterministic Counterphase Derivation FR5–FR8
+Der Gerätevergleich FR1–FR8 hat die deterministische Gegenphasen-Ableitung technisch bestätigt. Der Block wird nicht weiter zur Produktionsposebibliothek ausgebaut, weil die Architektur anschließend bewusst auf echte 3D-Animationen umgestellt wurde.
 
-Die erste E.3-Geometrie wurde nach dem Tablet-Test in E.3R ausschließlich auf Pose-/Joint-Ebene verfeinert. Renderer, Kamera, Skeleton, Root-Policy und Projektion blieben unverändert.
+**DF-02E.4: PASS / PROTOTYPE COMPLETE / SUPERSEDED FOR PRODUCTION BY DF-02F**
 
-Bestätigter Stand:
-- FR1 – Contact L;
-- FR2 – Down L;
-- FR3 – Passing L;
-- FR4 – Up / Right Swing;
-- natürliche kompaktere Schrittlänge;
-- FR2 sichtbar, aber moderat niedriger;
-- FR3 klar als Passing lesbar;
-- FR4 klarer rechter Vorwärtsschwung ohne Überstride;
-- chronologische Folge FR1 → FR2 → FR3 → FR4 auf Tablet/Safari plausibel;
-- Kamera/Facing/Scale/Root stabil.
+Nicht fortsetzen:
+- DF-02E.5 Pose Reference Export / Prompt Builder Bridge auf Basis der künstlichen Mannequin-Posen;
+- weitere manuell definierte WALK-Posen;
+- weitere Richtungen auf Basis des alten Pose-Renderers.
 
-**DF-02E.3R: PASS / READY TO FREEZE**
+# DF-02F – 3D Animation Reference Viewer Foundation
 
-# DF-02E.4 – Deterministic Counterphase Derivation FR5–FR8 – TEST-READY
+Ziel: echte 3D-Animationen als autoritative Bewegungsquelle nutzen und daraus reproduzierbar 2D-/3D-Referenzen auswählen.
 
-## Ziel
-Die zweite Hälfte des WALK-Zyklus darf nicht manuell neu gezeichnet oder generativ interpretiert werden. Sie wird deterministisch aus der freigegebenen FR1–FR4-Quellgeometrie abgeleitet.
+Geplante Staffelung:
+1. DF-02F.1 – Animated 3D Reference Asset Contract
+2. DF-02F.2 – Animated 3D Preview / Runtime Asset Intake
+3. DF-02F.3 – Animation Timeline / Scrubbing
+4. DF-02F.4 – Camera & Facing Presets
+5. DF-02F.5 – Pose Bookmark / Reference Capture
+6. DF-02F.6 – Prompt Builder / Reference Export Bridge
 
-## Verbindliche Ableitung
-- FR5 = FR1 → Contact R
-- FR6 = FR2 → Down R
-- FR7 = FR3 → Passing R
-- FR8 = FR4 → Up / Left Swing
+Die Staffelung bleibt klein. Keine spätere Funktion wird vorgezogen, solange der darunterliegende Block nicht bewiesen ist.
 
-## Algorithmischer Vertrag
-Für jedes Quellframe FR1–FR4:
-1. zentrale Joints (`root`, pelvis/spine/head) bleiben geometrisch unverändert;
-2. jedes anatomische L/R-Joint-Paar wird gegeneinander getauscht;
-3. beim Tausch wird die lokale X-Komponente gespiegelt (`x := -x`), damit die aus der Gegenseite übernommene Pose wieder auf der korrekten anatomischen Körperseite liegt;
-4. Y und Z bleiben erhalten – insbesondere bleibt die Vorwärtsachse +Z / SE unverändert;
-5. Beinrollen werden L↔R getauscht;
-6. Pelvishöhe, Root, Kamera, Scale und Timing bleiben identisch zum Quellframe;
-7. FR5–FR8 besitzen keine manuell gepflegten separaten Joint-Datensätze.
+# DF-02F.1 – Animated 3D Reference Asset Contract – IMPLEMENTED / REVIEW READY
 
-Damit gilt:
-- FR5 ist geometrisch die echte Gegenphase von FR1, nicht eine neue Interpretation;
-- FR6 ist die echte Gegenphase von FR2;
-- FR7 ist die echte Gegenphase von FR3;
-- FR8 ist die echte Gegenphase von FR4.
+Vertrag:
+`docs/DF-02F1_ANIMATED_3D_REFERENCE_ASSET_CONTRACT.md`
 
-## Umsetzung
-- neuer Entwicklungsbranch `df-02e4-walk-se-counterphase-fr5-fr8`;
-- `deriveCounterphase(source)` in `tools/pose-renderer/app.js`;
-- feste Counterphase-Paarliste für Arme und Beine;
-- Ableitungsmetadaten `derivedFrom` + `COUNTERPHASE_LR_SWAP_AND_X_MIRROR_V1`;
-- Renderer zeigt jetzt FR1–FR8;
-- FR5–FR8 werden im UI als abgeleitete Frames kenntlich gemacht;
-- Projection Snapshot zeigt Quelle und Derivationsmethode;
-- keinerlei manueller FR5–FR8-Pose-Datensatz hinzugefügt.
+Erste bereitgestellte Testquelle:
+`X Bot@Standard Walk 2.fbx`
 
-## E.4 Acceptance Gate – offen
-Auf Tablet/Safari prüfen:
-1. FR5 ist klare rechte Contact-Gegenphase zu FR1;
-2. FR6 entspricht FR2 mit rechter Support-/Down-Seite;
-3. FR7 ist Passing R und keine Wiederholung von FR3;
-4. FR8 zeigt linken Vorwärtsschwung und führt plausibel zurück zu FR1;
-5. FR1↔FR5, FR2↔FR6, FR3↔FR7, FR4↔FR8 besitzen jeweils gleiche Pelvishöhe/Schrittdynamik bei vertauschter Anatomieseite;
-6. Facing bleibt in allen acht Frames +Z / SE; keine Kamera-/Richtungs-Spiegelung;
-7. Root bleibt `[0,0,0]`;
-8. Reload erzeugt dieselben abgeleiteten Projektionen erneut.
+Am bereitgestellten File technisch bestätigt:
+- binäres FBX;
+- FBX-Version 7700;
+- 392192 Byte;
+- Mixamo-Skeleton `mixamorig:*` vorhanden;
+- Hips/Spine/Head/Arme/Hände/Beine/Füße vorhanden;
+- AnimationStack / AnimationLayer vorhanden.
 
-**DF-02E.4 bleibt bis zum Geräte-PASS TEST-READY, nicht FROZEN.**
+Vom Nutzer als In-Place-Export bereitgestellt.
+
+Wichtig: Noch nicht als bewiesen markieren, ob das FBX selbst ein renderbares Character-Mesh/Material enthält. Das wird erst im Runtime-Asset-Intake technisch geprüft. Falls es ein Motion-only-FBX ist, muss DF-02F.2 sauber entscheiden, ob ein separates kompatibles Character-Mesh gekoppelt wird.
+
+## Verbindliche F.1-Grenzen
+- echtes 3D-Modell/Rig/Animation ist die zukünftige Posequelle;
+- Model, Rig und Animation sind getrennte Verantwortungen;
+- globale horizontale Root-Fortbewegung ist in Reference Preview nicht zulässig;
+- natürliche lokale Hips-/Körperbewegung bleibt erhalten;
+- Animation, Facing und Camera bleiben getrennt;
+- FR1–FR8 werden später als Zeit-/Frame-Bookmarks betrachtet;
+- DF-02E bleibt als Prototyp erhalten;
+- noch kein Viewer, keine Timeline, keine Direction-Presets und kein Prompt-Builder-Umbau.
 
 # NÄCHSTER ZULÄSSIGER SCHRITT
 
-Jetzt ausschließlich **DF-02E.4 Gerätetest** auf `df-02e4-walk-se-counterphase-fr5-fr8`.
+Zuerst **DF-02F.1 Review / PASS** gegen den neuen Vertrag.
+
+Nach PASS folgt ausschließlich:
+**DF-02F.2 – Animated 3D Preview / Runtime Asset Intake**
+
+DF-02F.2 soll erstmals klären und beweisen:
+- ob die aktuelle FBX ein sichtbares Mesh enthält oder nur Rig/Animation;
+- welches browserfähige Runtime-Format verwendet wird;
+- wie Model + Rig + Clip geladen und abgespielt werden;
+- dass die Figur in-place an stabiler Weltposition bleibt.
 
 Noch NICHT zulässig:
-- FR5–FR8 manuell nachkorrigieren;
-- Pose-Editor/Slider hinzufügen;
-- weitere Richtungen/Kameras einführen;
-- Prompt-Builder-Bridge integrieren;
-- Carrier erneut generieren.
-
-Erst nach E.4 PASS folgt **DF-02E.5 – Pose Reference Export / Prompt Builder Bridge**.
-
-## Scope-Grenze bis DF-02E.6
-Keine RUN-, PICK-UP-/PUT-DOWN-/SIT-Posebibliothek, keine vollständigen acht Himmelsrichtungen, kein allgemeiner Animationseditor und keine weiteren generativen Mannequin-WALK-Versuche.
+- Timeline-Scrubber;
+- FR1–FR8 Bookmark-System;
+- acht Gameplay-Richtungen;
+- freie Pose-Manipulation;
+- Prompt-Builder-Bridge;
+- RUN/PICK-UP/WORK usw. parallel integrieren.
