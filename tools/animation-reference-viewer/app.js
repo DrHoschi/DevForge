@@ -23,7 +23,6 @@ const fields = {
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0c0e12);
-
 const camera = new THREE.PerspectiveCamera(35, 1, 0.01, 1000);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -37,14 +36,10 @@ key.position.set(4, 7, 5);
 key.castShadow = true;
 scene.add(key);
 
-const floor = new THREE.Mesh(
-  new THREE.PlaneGeometry(20, 20),
-  new THREE.MeshStandardMaterial({ color: 0x171b22, roughness: 1 })
-);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshStandardMaterial({ color: 0x171b22, roughness: 1 }));
 floor.rotation.x = -Math.PI / 2;
 floor.receiveShadow = true;
 scene.add(floor);
-
 const grid = new THREE.GridHelper(10, 20, 0x3b424f, 0x252a33);
 grid.position.y = 0.002;
 scene.add(grid);
@@ -61,15 +56,8 @@ let rootProbe = null;
 let rootReference = new THREE.Vector3();
 const clock = new THREE.Clock();
 
-function setFact(el, text, kind = '') {
-  el.textContent = text;
-  el.className = kind;
-}
-
-function setError(message = '') {
-  errorBox.textContent = message;
-  errorBox.classList.toggle('show', Boolean(message));
-}
+function setFact(el, text, kind = '') { el.textContent = text; el.className = kind; }
+function setError(message = '') { errorBox.textContent = message; errorBox.classList.toggle('show', Boolean(message)); }
 
 function resize() {
   const w = viewer.clientWidth;
@@ -89,10 +77,7 @@ function resetTimeline() {
 }
 
 function updateTimelineUI(time = 0) {
-  if (!clip || clip.duration <= 0) {
-    resetTimeline();
-    return;
-  }
+  if (!clip || clip.duration <= 0) { resetTimeline(); return; }
   const duration = clip.duration;
   const localTime = Math.max(0, Math.min(time, duration));
   const normalized = duration > 0 ? localTime / duration : 0;
@@ -123,9 +108,7 @@ function disposeCurrent() {
 }
 
 function analyze(model) {
-  let meshCount = 0;
-  let skinnedCount = 0;
-  let boneCount = 0;
+  let meshCount = 0, skinnedCount = 0, boneCount = 0;
   model.traverse(obj => {
     if (obj.isMesh) meshCount += 1;
     if (obj.isSkinnedMesh) skinnedCount += 1;
@@ -136,11 +119,7 @@ function analyze(model) {
 
 function fitCamera(model) {
   const box = new THREE.Box3().setFromObject(model);
-  if (box.isEmpty()) {
-    camera.position.set(3, 2.5, 4);
-    camera.lookAt(0, 1, 0);
-    return;
-  }
+  if (box.isEmpty()) { camera.position.set(3, 2.5, 4); camera.lookAt(0, 1, 0); return; }
   const size = box.getSize(new THREE.Vector3());
   const center = box.getCenter(new THREE.Vector3());
   const height = Math.max(size.y, 1);
@@ -153,8 +132,7 @@ function fitCamera(model) {
 }
 
 function locateRoot(model) {
-  const candidates = ['mixamorig:Hips', 'Hips', 'mixamorig:Root', 'Root'];
-  for (const name of candidates) {
+  for (const name of ['mixamorig:Hips', 'Hips', 'mixamorig:Root', 'Root']) {
     const found = model.getObjectByName(name);
     if (found) return found;
   }
@@ -191,11 +169,20 @@ function seekNormalized(normalized) {
   if (!mixer || !clip || !action) return;
   const n = Math.max(0, Math.min(normalized, 1));
   const target = n >= 1 ? Math.max(0, clip.duration - 0.000001) : clip.duration * n;
-  setPlaying(false);
-  mixer.setTime(target);
+
+  // Three.js does not evaluate a paused AnimationAction when AnimationMixer.setTime()
+  // is used. Evaluate the requested action time while active, then freeze that pose.
+  playing = false;
+  action.paused = false;
+  action.time = target;
+  mixer.update(0);
+  action.paused = true;
+  playButton.textContent = 'Weiter';
+
   currentModel?.updateMatrixWorld(true);
   updateTimelineUI(target);
   runtimeStatus.textContent = `Position gewählt · ${(n * 100).toFixed(1)} %`;
+  clock.getDelta();
 }
 
 async function loadFBX(file) {
@@ -216,7 +203,6 @@ async function loadFBX(file) {
     const loader = new FBXLoader();
     const model = loader.parse(buffer, '');
     model.name = file.name;
-
     const stats = analyze(model);
     setFact(fields.mesh, stats.meshCount > 0 ? `${stats.meshCount} Mesh${stats.meshCount === 1 ? '' : 'es'} (${stats.skinnedCount} skinned)` : 'KEIN sichtbares Mesh', stats.meshCount > 0 ? 'ok' : 'bad');
     setFact(fields.skeleton, stats.boneCount > 0 ? `${stats.boneCount} Bones` : 'keine Bones erkannt', stats.boneCount > 0 ? 'ok' : 'bad');
@@ -264,7 +250,8 @@ async function loadFBX(file) {
       playButton.textContent = 'Pause';
       playButton.disabled = false;
       timeline.disabled = false;
-      mixer.setTime(0);
+      action.time = 0;
+      mixer.update(0);
       updateTimelineUI(0);
     } else {
       setFact(fields.inPlace, 'nicht prüfbar', 'warn');
@@ -275,7 +262,6 @@ async function loadFBX(file) {
     model.updateMatrixWorld(true);
     rootReference.copy(rootProbe.getWorldPosition(new THREE.Vector3()));
     setFact(fields.root, `${rootReference.x.toFixed(3)} / ${rootReference.z.toFixed(3)}`);
-
     empty.classList.add('hidden');
     runtimeStatus.textContent = stats.meshCount > 0 && clip ? 'Runtime-Intake geladen · Animation läuft' : 'Asset geladen · Intake-Hinweise rechts prüfen';
   } catch (err) {
@@ -287,17 +273,10 @@ async function loadFBX(file) {
 }
 
 loadButton.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', () => {
-  const file = fileInput.files?.[0];
-  if (file) loadFBX(file);
-});
-playButton.addEventListener('click', () => {
-  if (!action) return;
-  setPlaying(!playing);
-});
-timeline.addEventListener('input', () => {
-  seekNormalized(Number(timeline.value) / 1000);
-});
+fileInput.addEventListener('change', () => { const file = fileInput.files?.[0]; if (file) loadFBX(file); });
+playButton.addEventListener('click', () => { if (action) setPlaying(!playing); });
+timeline.addEventListener('input', () => seekNormalized(Number(timeline.value) / 1000));
+timeline.addEventListener('change', () => seekNormalized(Number(timeline.value) / 1000));
 
 function animate() {
   requestAnimationFrame(animate);
