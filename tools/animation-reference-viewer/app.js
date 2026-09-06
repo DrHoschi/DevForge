@@ -8,6 +8,9 @@ const loadButton = document.querySelector('#loadButton');
 const playButton = document.querySelector('#playButton');
 const runtimeStatus = document.querySelector('#runtimeStatus');
 const errorBox = document.querySelector('#error');
+const timeline = document.querySelector('#timeline');
+const timelineTime = document.querySelector('#timelineTime');
+const timelinePercent = document.querySelector('#timelinePercent');
 const fields = {
   file: document.querySelector('#fFile'),
   mesh: document.querySelector('#fMesh'),
@@ -78,16 +81,37 @@ function resize() {
 new ResizeObserver(resize).observe(viewer);
 resize();
 
+function resetTimeline() {
+  timeline.disabled = true;
+  timeline.value = '0';
+  timelineTime.textContent = '0.000 / 0.000 s';
+  timelinePercent.textContent = '0.0 %';
+}
+
+function updateTimelineUI(time = 0) {
+  if (!clip || clip.duration <= 0) {
+    resetTimeline();
+    return;
+  }
+  const duration = clip.duration;
+  const localTime = Math.max(0, Math.min(time, duration));
+  const normalized = duration > 0 ? localTime / duration : 0;
+  timeline.value = String(Math.round(normalized * 1000));
+  timelineTime.textContent = `${localTime.toFixed(3)} / ${duration.toFixed(3)} s`;
+  timelinePercent.textContent = `${(normalized * 100).toFixed(1)} %`;
+}
+
 function disposeCurrent() {
-  if (!currentModel) return;
-  origin.remove(currentModel);
-  currentModel.traverse(obj => {
-    if (obj.geometry) obj.geometry.dispose?.();
-    if (obj.material) {
-      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-      mats.forEach(mat => mat.dispose?.());
-    }
-  });
+  if (currentModel) {
+    origin.remove(currentModel);
+    currentModel.traverse(obj => {
+      if (obj.geometry) obj.geometry.dispose?.();
+      if (obj.material) {
+        const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+        mats.forEach(mat => mat.dispose?.());
+      }
+    });
+  }
   if (skeletonHelper) origin.remove(skeletonHelper);
   currentModel = null;
   skeletonHelper = null;
@@ -95,6 +119,7 @@ function disposeCurrent() {
   action = null;
   clip = null;
   rootProbe = null;
+  resetTimeline();
 }
 
 function analyze(model) {
@@ -153,6 +178,26 @@ function testInPlace(model, animationClip) {
   return { supported: true, drift: Math.hypot(b.x - a.x, b.z - a.z) };
 }
 
+function setPlaying(nextPlaying) {
+  if (!action) return;
+  playing = nextPlaying;
+  action.paused = !playing;
+  playButton.textContent = playing ? 'Pause' : 'Weiter';
+  runtimeStatus.textContent = playing ? 'Animation läuft' : 'Animation pausiert';
+  clock.getDelta();
+}
+
+function seekNormalized(normalized) {
+  if (!mixer || !clip || !action) return;
+  const n = Math.max(0, Math.min(normalized, 1));
+  const target = n >= 1 ? Math.max(0, clip.duration - 0.000001) : clip.duration * n;
+  setPlaying(false);
+  mixer.setTime(target);
+  currentModel?.updateMatrixWorld(true);
+  updateTimelineUI(target);
+  runtimeStatus.textContent = `Position gewählt · ${(n * 100).toFixed(1)} %`;
+}
+
 async function loadFBX(file) {
   setError('');
   runtimeStatus.textContent = 'FBX wird gelesen …';
@@ -200,10 +245,7 @@ async function loadFBX(file) {
 
     model.updateMatrixWorld(true);
     const box = new THREE.Box3().setFromObject(model);
-    if (!box.isEmpty()) {
-      const minY = box.min.y;
-      model.position.y -= minY;
-    }
+    if (!box.isEmpty()) model.position.y -= box.min.y;
     model.updateMatrixWorld(true);
     fitCamera(model);
 
@@ -217,11 +259,16 @@ async function loadFBX(file) {
       mixer = new THREE.AnimationMixer(model);
       action = mixer.clipAction(clip);
       action.play();
+      action.setLoop(THREE.LoopRepeat, Infinity);
       playing = true;
       playButton.textContent = 'Pause';
       playButton.disabled = false;
+      timeline.disabled = false;
+      mixer.setTime(0);
+      updateTimelineUI(0);
     } else {
       setFact(fields.inPlace, 'nicht prüfbar', 'warn');
+      resetTimeline();
     }
 
     rootProbe = locateRoot(model);
@@ -246,16 +293,19 @@ fileInput.addEventListener('change', () => {
 });
 playButton.addEventListener('click', () => {
   if (!action) return;
-  playing = !playing;
-  action.paused = !playing;
-  playButton.textContent = playing ? 'Pause' : 'Weiter';
-  runtimeStatus.textContent = playing ? 'Animation läuft' : 'Animation pausiert';
+  setPlaying(!playing);
+});
+timeline.addEventListener('input', () => {
+  seekNormalized(Number(timeline.value) / 1000);
 });
 
 function animate() {
   requestAnimationFrame(animate);
   const dt = Math.min(clock.getDelta(), 0.05);
-  if (mixer && playing) mixer.update(dt);
+  if (mixer && playing) {
+    mixer.update(dt);
+    updateTimelineUI(action?.time || 0);
+  }
   if (currentModel && rootProbe) {
     currentModel.updateMatrixWorld(true);
     const p = rootProbe.getWorldPosition(new THREE.Vector3());
