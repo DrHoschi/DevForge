@@ -14,21 +14,22 @@
     .panel{background:#171a20;border:1px solid #2c313b;border-radius:14px;overflow:hidden}.viewer{position:relative;min-height:520px;background:#0c0e12}.viewer canvas{display:block;width:100%;height:100%;min-height:520px}
     .empty{position:absolute;inset:0;display:grid;place-items:center;padding:28px;text-align:center;color:#aeb7c4;pointer-events:none}.empty.hidden{display:none}
     .controls{padding:14px;border-top:1px solid #2c313b;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.file{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none}
-    .btn{border:1px solid #4a5568;background:#222731;color:#fff;border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer}.btn.primary{background:#f3f4f6;color:#111318;border-color:#f3f4f6}.btn:disabled{opacity:.45;cursor:not-allowed}
+    .btn{border:1px solid #4a5568;background:#222731;color:#fff;border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer;min-height:44px}.btn.primary{background:#f3f4f6;color:#111318;border-color:#f3f4f6}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.active{outline:2px solid #f3f4f6;outline-offset:1px}
     .status{font-size:13px;color:#aeb7c4}.timeline{width:100%;padding:0 14px 16px;border-top:1px solid #2c313b}.timeline-head{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0 8px;color:#c8d0dc;font-size:13px}.timeline-time{font-variant-numeric:tabular-nums;font-weight:700}.timeline input[type=range]{width:100%;accent-color:#f3f4f6;touch-action:none}.timeline-meta{display:flex;justify-content:space-between;gap:10px;margin-top:6px;color:#8f99a8;font-size:12px;font-variant-numeric:tabular-nums}
+    .presets{padding:14px;border-top:1px solid #2c313b;display:grid;gap:14px}.preset-group h3{margin:0 0 8px;font-size:14px;color:#d8dee9}.preset-row{display:flex;gap:8px;flex-wrap:wrap}.preset-row .btn{min-width:52px;padding:9px 11px}.preset-readout{display:flex;gap:12px;flex-wrap:wrap;color:#9ca6b5;font-size:12px}.preset-readout b{color:#e4e8ee}
     .side{padding:15px}.side h2{font-size:16px;margin:0 0 12px}.facts{display:grid;gap:9px}.fact{display:grid;grid-template-columns:112px 1fr;gap:9px;padding:9px 0;border-bottom:1px solid #292e37;font-size:13px}.fact b{color:#aeb7c4;font-weight:600}.ok{color:#8de0ad}.warn{color:#ffd27d}.bad{color:#ff9f9f}.note{margin-top:14px;padding:11px;border:1px solid #343a46;border-radius:10px;color:#b8c0cc;font-size:13px;line-height:1.45}
     .error{display:none;margin-top:12px;padding:10px;border:1px solid #6d3a3a;background:#2a1717;border-radius:10px;color:#ffb6b6;font-size:13px}.error.show{display:block}
   </style>
 </head>
 <body>
   <main class="page">
-    <div class="top"><a class="back" href="../../">← DevForge</a><span class="badge">DF-02F.3R · TESTBUILD</span></div>
+    <div class="top"><a class="back" href="../../">← DevForge</a><span class="badge">DF-02F.4 · TESTBUILD</span></div>
     <h1>Animated 3D Reference Viewer</h1>
-    <p class="sub">Echte geriggte FBX-Animation mit Play/Pause und präzisem Timeline-Scrubbing. Dieser Schritt dient ausschließlich der Auswahl einer beliebigen Clip-Position – noch ohne Richtungswahl oder Pose-Bookmarks.</p>
+    <p class="sub">Echte geriggte FBX-Animation mit Timeline, fester Gameplay-Isometrie und reproduzierbaren Facing-/Technikansichten. Noch ohne Pose-Bookmarks oder Prompt-Builder-Bridge.</p>
 
     <section class="layout">
       <div class="panel">
-        <div id="viewer" class="viewer"><div id="empty" class="empty">Noch kein FBX geladen.<br>Für den DF-02F.3R-Gerätetest den Standard-Walk mit Skin und In-Place auswählen.</div></div>
+        <div id="viewer" class="viewer"><div id="empty" class="empty">Noch kein FBX geladen.<br>Für den DF-02F.4-Gerätetest den Standard-Walk mit Skin und In-Place auswählen.</div></div>
         <div class="controls">
           <input id="fileInput" class="file" type="file" accept=".fbx,application/octet-stream" />
           <button id="loadButton" class="btn primary" type="button">Standard-Walk-FBX auswählen</button>
@@ -39,6 +40,22 @@
           <div class="timeline-head"><strong>Animation Timeline</strong><span id="timelineTime" class="timeline-time">0.000 / 0.000 s</span></div>
           <input id="timeline" type="range" min="0" max="1000" step="1" value="0" disabled aria-label="Animation Timeline" />
           <div class="timeline-meta"><span>0 %</span><span id="timelinePercent">0.0 %</span><span>100 %</span></div>
+        </div>
+        <div class="presets">
+          <div class="preset-group">
+            <h3>Gameplay Facing · feste isometrische Kamera</h3>
+            <div id="facingButtons" class="preset-row">
+              <button class="btn active" data-facing="N" type="button">N</button><button class="btn" data-facing="NE" type="button">NE</button><button class="btn" data-facing="E" type="button">E</button><button class="btn" data-facing="SE" type="button">SE</button>
+              <button class="btn" data-facing="S" type="button">S</button><button class="btn" data-facing="SW" type="button">SW</button><button class="btn" data-facing="W" type="button">W</button><button class="btn" data-facing="NW" type="button">NW</button>
+            </div>
+          </div>
+          <div class="preset-group">
+            <h3>Kameraansicht</h3>
+            <div id="cameraButtons" class="preset-row">
+              <button class="btn active" data-camera="ISO" type="button">Gameplay Iso</button><button class="btn" data-camera="FRONT" type="button">Front</button><button class="btn" data-camera="BACK" type="button">Hinten</button><button class="btn" data-camera="LEFT" type="button">Links</button><button class="btn" data-camera="RIGHT" type="button">Rechts</button><button class="btn" data-camera="TOP" type="button">Oben</button>
+            </div>
+          </div>
+          <div class="preset-readout"><span>Facing: <b id="facingReadout">N</b></span><span>Kamera: <b id="cameraReadout">GAMEPLAY_ISO_45</b></span></div>
         </div>
       </div>
 
@@ -53,7 +70,7 @@
           <div class="fact"><b>In Place</b><span id="fInPlace">–</span></div>
           <div class="fact"><b>Root X/Z</b><span id="fRoot">–</span></div>
         </div>
-        <div class="note">Beim Ziehen der Timeline pausiert die Animation automatisch und zeigt exakt die gewählte Clip-Position. Kamera-/Facing-Presets gehören weiterhin erst zu DF-02F.4; Pose-Bookmarks erst zu DF-02F.5.</div>
+        <div class="note">Facing dreht nur die Figur auf der Weltachse; die Gameplay-Kamera bleibt unverändert. Front/Hinten/Links/Rechts/Oben sind getrennte technische Kameraansichten. Pose-Bookmarks folgen erst in DF-02F.5.</div>
         <div id="error" class="error"></div>
       </aside>
     </section>
@@ -62,6 +79,6 @@
   <script type="importmap">
     {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
   </script>
-  <script type="module" src="./app.js?v=df-02f3r-1"></script>
+  <script type="module" src="./app.js?v=df-02f4-1"></script>
 </body>
 </html>
