@@ -12,7 +12,7 @@ DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktuelle
 - Aktueller Entwicklungsbranch: `df-02f3-animation-timeline-scrubbing`
 - Aktueller Prompt-Builder-Stand: `DF-02D.3R`
 - Historischer Pose-Renderer-Prototyp: `DF-02E.1–E.4`
-- Aktueller Entwicklungsblock: `DF-02F.3`
+- Aktueller Entwicklungsblock: `DF-02F.3R`
 
 # ARCHITEKTURENTSCHEIDUNG: ECHTE 3D-ANIMATION ALS POSEQUELLE
 
@@ -60,37 +60,62 @@ Bestätigt:
 
 **DF-02F.2: PASS / READY TO FREEZE**
 
-# DF-02F.3 – Animation Timeline / Scrubbing – IMPLEMENTED / DEVICE TEST REQUIRED
+# DF-02F.3 / DF-02F.3R – Animation Timeline / Scrubbing – DEVICE RETEST REQUIRED
 
 Branch:
 `df-02f3-animation-timeline-scrubbing`
 
+## F.3 Erstimplementierung
 Umgesetzt:
-- bestehender F.2-FBX-Intake unverändert weiterverwendet;
 - Timeline-Slider über den vollständigen aktiven Clip;
 - aktuelle Zeit und Clip-Gesamtdauer in Sekunden;
 - normalisierte Position in Prozent;
 - laufende Animation aktualisiert die Timeline live;
-- Ziehen der Timeline pausiert automatisch;
-- gewählte Timeline-Position wird direkt auf den AnimationMixer angewendet;
-- Play/Pause bzw. Weiter funktioniert nach dem Scrubben;
+- Ziehen der Timeline soll automatisch pausieren;
 - keine Kamera-/Direction-Logik vorgezogen;
 - keine FR1–FR8-Bookmarks vorgezogen.
 
-## DF-02F.3 Acceptance Gate
-Auf iPhone/iPad/Safari prüfen:
-1. Standard-Walk-FBX mit Skin/In-Place lädt wie unter F.2;
-2. Timeline läuft synchron zur Animation mit;
-3. Pause hält Figur und Timeline stabil an;
-4. Slider lässt sich per Touch frei vor/zurück bewegen;
-5. während des Scrubbens springt die Figur unmittelbar auf die gewählte Pose;
-6. Zeit- und Prozentanzeige entsprechen der Sliderposition;
-7. nach Scrubben startet `Weiter` von der gewählten Stelle aus;
-8. In-Place/Root-Verhalten bleibt unverändert.
+## Beobachtung Gerätetest
+Auf iPhone/Safari:
+- Pause funktioniert;
+- Animation hält korrekt an;
+- Timeline ließ sich anschließend zwar bedienen, die gewählte Pose wurde aber nicht sichtbar auf das Modell angewendet.
+
+Ursache:
+Die erste F.3-Seek-Logik pausierte die `AnimationAction`, bevor `AnimationMixer.setTime()` die neue Position auswertete. Eine pausierte Action wird dabei nicht zuverlässig neu ausgewertet; dadurch änderte sich die sichtbare Pose beim Scrubben nicht.
+
+## DF-02F.3R – Paused Scrub Evaluation Fix
+Gezielt korrigiert:
+- beim Seek wird `playing = false` gesetzt;
+- die Action wird für genau die Pose-Auswertung kurz aktiv gehalten;
+- `action.time` wird direkt auf die gewünschte Clip-Zeit gesetzt;
+- `mixer.update(0)` wertet diese Pose sofort aus;
+- danach wird die Action wieder pausiert;
+- `Weiter` startet anschließend von dieser Position;
+- zusätzlich reagieren `input` und `change` auf die Timeline;
+- Cache-Busting auf `df-02f3r-1` erhöht.
+
+Unverändert:
+- FBX-Intake;
+- Mesh/Skeleton/Clip-Erkennung;
+- In-Place-Vertrag;
+- Kamera;
+- keine Direction-Presets;
+- keine Pose-Bookmarks.
+
+## DF-02F.3R Acceptance Gate
+Auf iPhone/iPad/Safari erneut prüfen:
+1. Standard-Walk-FBX lädt wie bisher;
+2. Pause hält Figur und Timeline an;
+3. Slider lässt sich per Touch vor/zurück bewegen;
+4. die Figur wechselt während des Verschiebens unmittelbar auf die gewählte Zwischenpose;
+5. Zeit- und Prozentanzeige folgen der Sliderposition;
+6. `Weiter` läuft von der gewählten Stelle weiter;
+7. In-Place/Root bleibt unverändert.
 
 # NÄCHSTER ZULÄSSIGER SCHRITT
 
-Jetzt ausschließlich **DF-02F.3 Gerätetest** auf Branch:
+Jetzt ausschließlich **DF-02F.3R Gerätetest** auf Branch:
 `df-02f3-animation-timeline-scrubbing`
 
 Noch NICHT zulässig:
