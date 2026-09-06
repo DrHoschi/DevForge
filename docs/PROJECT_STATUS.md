@@ -3,100 +3,92 @@
 Stand: 2026-09-06
 
 ## Zweck
-DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktueller Schwerpunkt ist die reproduzierbare Vorbereitung, Auswahl und spätere Übergabe von Character-Animationsreferenzen aus echten geriggten 3D-Animationsquellen.
+DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktueller Schwerpunkt ist die reproduzierbare Auswahl echter 3D-Animationsposen und deren direkte Verwendung als visuelle Pose-Referenz für die Character-Bildgenerierung.
 
 ## Repositories
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-02f4-camera-facing-presets`
-- Aktueller Prompt-Builder-Stand: `DF-02D.3R`
+- Aktueller Entwicklungsbranch: `df-02f6-prompt-builder-pose-reference-bridge`
+- Historischer Prompt-Builder-Stand: `DF-02D.3R`
 - Historischer Pose-Renderer-Prototyp: `DF-02E.1–E.4`
-- Aktueller Entwicklungsblock: `DF-02F.4`
+- Aktueller Entwicklungsblock: `DF-02F.6`
 
 # ARCHITEKTURENTSCHEIDUNG: ECHTE 3D-ANIMATION ALS POSEQUELLE
-Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie; Kamera, Facing, Referenzzeitpunkt und spätere Ausgabe werden von DevForge kontrolliert. DF-02E.1–E.4 bleiben als dokumentierter Prototyp erhalten, sind aber nicht mehr die geplante Produktionsquelle.
+Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie. Timeline, Facing, Kamera und Referenzzeitpunkt werden in DevForge kontrolliert. Für die Bildgenerierung gilt ab F.6: Character Reference definiert Identität/Design; Pose Reference definiert Körperhaltung und Ansicht.
 
 # DF-02F – 3D Animation Reference Viewer Foundation
-1. DF-02F.1 – Animated 3D Reference Asset Contract
-2. DF-02F.2 – Animated 3D Preview / Runtime Asset Intake
-3. DF-02F.3 – Animation Timeline / Scrubbing
-4. DF-02F.4 – Camera & Facing Presets
-5. DF-02F.5 – Pose Bookmark / Reference Capture
-6. DF-02F.6 – Prompt Builder / Reference Export Bridge
+1. DF-02F.1 – Animated 3D Reference Asset Contract – PASS
+2. DF-02F.2 – Animated 3D Preview / Runtime Asset Intake – PASS
+3. DF-02F.3 / F.3R – Animation Timeline / Scrubbing – PASS
+4. DF-02F.4 / F.4R – Camera & Facing Presets / Semantic Alignment – PASS
+5. DF-02F.5 – Pose Bookmark / Reference Capture – PASS
+6. DF-02F.6 – Prompt Builder / Pose Reference Bridge – IMPLEMENTED / DEVICE TEST REQUIRED
 
-# DF-02F.1 – PASS / READY TO FREEZE
-Bestätigt:
-- echtes 3D-Modell/Rig/Animation als zukünftige Posequelle;
-- Reference Preview verlangt In-Place-Verhalten;
-- Animation, Facing und Camera bleiben getrennt;
-- spätere FR1–FR8 werden als Zeit-/Frame-Bookmarks behandelt.
+# DF-02F.4R – PASS
+Verbindlicher Gameplay-Direction-Contract:
+- N = vom Betrachter weg / nach oben im Spielbild
+- S = zum Betrachter / nach unten
+- E = nach rechts im Spielbild
+- W = nach links im Spielbild
+- Diagonalen entsprechend dazwischen
 
-# DF-02F.2 – PASS / READY TO FREEZE
-Gerätetest iPhone/Safari erfolgreich:
-- sichtbares Character-Mesh;
-- 2 Meshes, beide skinned;
-- 129 Bones;
-- 2 Animation Clips;
-- Clip-Wiedergabe im Browser;
-- getestete Clip-Dauer 1.033 s;
-- In-Place PASS mit horizontaler Drift 0.0000;
-- Root X/Z 0.000 / 0.000;
-- Play/Pause funktioniert.
+Die feste orthografische Gameplay-Kamera, Animation und 45°-Schritte bleiben davon getrennt.
 
-# DF-02F.3 / DF-02F.3R – PASS / READY TO FREEZE
-Gerätetest iPhone/Safari nach F.3R erfolgreich:
-- Pause/Weiter funktioniert;
-- Timeline lässt sich per Touch frei vor/zurück bewegen;
-- Figur folgt der gewählten Clip-Position unmittelbar;
-- Zeit-/Prozentanzeige folgt dem Slider;
-- Weiter startet von der gewählten Stelle;
-- In-Place-Verhalten bleibt unverändert.
+# DF-02F.5 – PASS
+Gerätetest bestätigt:
+- Pose-Bookmarks lassen sich aus dem echten Animation-Clip speichern;
+- Referenzen können beliebig benannt werden;
+- Zeit/Prozent, Facing und Kamera werden gemeinsam festgehalten;
+- gespeicherte Zustände lassen sich wieder aufrufen;
+- der Workflow ist nicht auf FR01–FR08 begrenzt.
 
-**DF-02F.3R: PASS / READY TO FREEZE**
+Sampling-Entscheidung:
+- Frame-/Referenzanzahl bleibt frei;
+- für WALK ist ein 10%-Sampling (0%, 10%, … 90%) ein sinnvolles Start-Preset;
+- 100% wird bei einem geschlossenen Loop nicht als zusätzlicher Frame benötigt, da es wieder dem Startzustand entspricht;
+- die 10%-Positionen sind Ausgangspunkte, keine Zwangsregel; einzelne Referenzen dürfen visuell auf andere Prozentwerte verschoben werden.
 
-# DF-02F.4 – Camera & Facing Presets – IMPLEMENTED / DEVICE TEST REQUIRED
+# DF-02F.6 – Prompt Builder / Pose Reference Bridge – IMPLEMENTED / DEVICE TEST REQUIRED
 Branch:
-`df-02f4-camera-facing-presets`
+`df-02f6-prompt-builder-pose-reference-bridge`
 
-Umgesetzt:
-- Viewer verwendet für Produktions-/Referenzansichten jetzt eine orthografische Kamera;
-- festes `GAMEPLAY_ISO_45`-Preset;
-- acht reproduzierbare Facing-Presets: `N`, `NE`, `E`, `SE`, `S`, `SW`, `W`, `NW`;
-- Facing dreht ausschließlich die Figur/World-Origin um die Y-Achse; Animation und Timeline bleiben unverändert;
-- technische Kameraansichten getrennt von Facing: `FRONT`, `BACK`, `LEFT`, `RIGHT`, `TOP`;
-- aktives Facing und aktives Kamera-Preset werden sichtbar angezeigt;
-- Timeline/Scrubbing aus F.3R bleibt erhalten;
-- keine Pose-Bookmarks und keine Prompt-Builder-Bridge vorgezogen.
+Der bisherige DF-02D.3R-Prompt-Builder wurde für diesen Workflow bewusst vereinfacht.
 
-## Verbindlicher F.4-Vertrag
-- Gameplay-Richtung und Kamera sind getrennte Zustände;
-- die acht Gameplay-Richtungen entstehen aus derselben Animation durch feste Yaw-Schritte von 45°;
-- `N = 0°`, `NE = -45°`, `E = -90°`, `SE = -135°`, `S = 180°`, `SW = 135°`, `W = 90°`, `NW = 45°` relativ zur importierten Basisorientierung;
-- die Gameplay-Kamera bleibt beim Wechsel der Facing-Richtung unverändert;
-- technische Front-/Seiten-/Top-Ansichten verändern das Facing nicht;
-- keine freie Orbit-Kamera ist Bestandteil von F.4.
+Neu:
+- freie Referenz-ID statt fester FR01–FR08-Timeline;
+- Authoritative Character Reference als erste Bildquelle;
+- Authoritative Pose Reference als zweite Bildquelle;
+- keine Approved Motion History;
+- keine Previous Approved Frames;
+- keine Direction × Frame Matrix;
+- keine textuell erfundenen WALK-Key-Poses/Motion-Deltas als Posequelle;
+- keine Abhängigkeit von einer vorgegebenen Frame-Anzahl;
+- Character Reference definiert Identität, Anatomie/Proportionen, Kleidung, Materialien und permanente Designdetails;
+- Pose Reference definiert exakte Körperhaltung, Facing, Gameplay-Kamera, Projektion, Framing, Scale und Root-/Foot-Position;
+- Prompt enthält eine harte Konfliktregel: das Mannequin/3D-Modell der Pose Reference darf nicht als Character Design übernommen werden;
+- TXT- und JSON-Package-Export bleiben vorhanden.
 
-## DF-02F.4 Acceptance Gate
+## DF-02F.6 Acceptance Gate
 Auf iPhone/iPad/Safari prüfen:
-1. FBX lädt und Timeline funktioniert weiterhin;
-2. `N → NE → E → SE → S → SW → W → NW` dreht die Figur jeweils reproduzierbar um 45°;
-3. beim Facing-Wechsel bleibt die Gameplay-Kamera unverändert;
-4. gewählte Timeline-Pose bleibt beim Richtungswechsel erhalten;
-5. `Gameplay Iso` zeigt eine feste orthografische isometrische Ansicht;
-6. Front/Hinten/Links/Rechts/Oben wechseln nur die Kameraansicht;
-7. Rückkehr zu `Gameplay Iso` reproduziert dieselbe Ansicht;
-8. In-Place/Root bleibt stabil.
+1. Prompt Builder öffnet als `DF-02F.6 · TESTBUILD`;
+2. Character Reference lässt sich laden und wird angezeigt;
+3. Pose Reference lässt sich separat laden und wird angezeigt;
+4. Referenz-ID akzeptiert beliebige Werte wie FR01, FR10 oder freie Namen;
+5. Generierungsauftrag nennt ausschließlich Character Reference und Pose Reference als visuelle Autoritäten;
+6. keine Previous-Frame-/Motion-History-Anforderung erscheint mehr;
+7. Prompt kopieren funktioniert;
+8. TXT/JSON-Export funktioniert;
+9. mit Character Reference + einer aus dem 3D-Viewer gewonnenen Pose Reference lässt sich ein erster echter Generierungstest durchführen.
 
 # NÄCHSTER ZULÄSSIGER SCHRITT
-Jetzt ausschließlich **DF-02F.4 Gerätetest** auf Branch:
-`df-02f4-camera-facing-presets`
+Jetzt ausschließlich **DF-02F.6 Gerätetest / erster echter Character-Pose-Generationstest** auf Branch:
+`df-02f6-prompt-builder-pose-reference-bridge`
 
-Noch NICHT zulässig:
-- FR1–FR8 Bookmark-System;
-- Referenzbild-Capture/Export;
-- freie Bone-/Pose-Manipulation;
-- Prompt-Builder-Bridge;
-- weitere Animationen parallel integrieren.
+Noch nicht erweitern:
+- automatische Übergabe von Viewer-Bookmarks ohne Bilddatei;
+- zusätzliche Animation-Library-Verwaltung;
+- freie Bone-Manipulation;
+- Atlas-Automatisierung.
 
-Bei PASS folgt **DF-02F.5 – Pose Bookmark / Reference Capture**.
+Bei PASS folgt ein DF-02F Abschluss-/Regression-Gate und danach die Entscheidung, wie Pose-Referenzbilder dauerhaft aus dem Viewer exportiert/übergeben werden.
