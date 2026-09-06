@@ -1,4 +1,5 @@
 const tools = [
+  { id: 'source-result-compare', title: 'Source / Result Compare View', text: 'Autoritative Source-/Control-Referenz und Result gleichzeitig in einer stabilen Review-Ansicht vergleichen.', href: 'tools/source-result-compare/', status: 'DF-04A · TESTBUILD 1' },
   { id: 'prompt-builder', title: 'Prompt Builder', text: 'Character-Referenz plus exakte Pose-Referenz zu einem schlanken Generation Package verbinden. Keine Previous Frames, keine Motion-History und keine Begrenzung auf acht Frames.', href: 'tools/prompt-builder/', status: 'DF-02F.6 · TESTBEREIT' },
   { id: 'animation-reference-viewer', title: 'Animated 3D Reference Viewer', text: 'Echte geriggte FBX-Animationen laden, scrubben, Richtungen/Kamera festlegen und beliebige Pose-Bookmarks als Referenzen speichern.', href: 'tools/animation-reference-viewer/', status: 'DF-02F.5 · PASS' },
   { id: 'pose-renderer', title: 'Deterministic Pose Renderer', text: 'Historischer DF-02E-Prototyp für deterministische technische Mannequin-Posen. Ab DF-02F nicht mehr die geplante Produktionsquelle.', href: 'tools/pose-renderer/', status: 'DF-02E.4 · PROTOTYP' },
