@@ -1,7 +1,7 @@
 # DF-02F.1 – Animated 3D Reference Asset Contract
 
 Stand: 2026-09-06
-Status: DRAFT / IMPLEMENTED FOR REVIEW
+Status: PASS / READY TO FREEZE
 
 ## 1. Ziel
 DF-02F.1 ersetzt die bisherige Idee manuell gepflegter technischer Mannequin-Posen als zukünftige Produktionsquelle durch echte geriggte 3D-Animationsquellen.
@@ -130,15 +130,17 @@ Dieselben freigegebenen 3D-Animationsquellen sollen später nutzbar sein für:
 - spätere 3D-Projekte bzw. Runtime-Handoffs, sofern deren Ziel-Rig/Retargeting-Vertrag kompatibel ist.
 
 ## 10. Acceptance Gate DF-02F.1
-PASS, wenn:
-1. die neue 3D-Animationsquelle als zukünftige Produktionsbasis dokumentiert ist;
-2. Model, Rig und Animation fachlich getrennt definiert sind;
-3. In-Place/Root-Verhalten verbindlich festgelegt ist;
-4. Animation, Facing und Kamera getrennte Verantwortungen besitzen;
-5. DF-02E.1–E.4 ausdrücklich als Prototyp erhalten bleiben;
-6. noch keine Viewer-, Timeline-, Direction- oder Prompt-Builder-Funktion vorgezogen wurde.
+PASS bestätigt:
+1. die neue 3D-Animationsquelle ist als zukünftige Produktionsbasis dokumentiert;
+2. Model, Rig und Animation sind fachlich getrennt definiert;
+3. In-Place/Root-Verhalten ist verbindlich festgelegt;
+4. Animation, Facing und Kamera besitzen getrennte Verantwortungen;
+5. DF-02E.1–E.4 bleiben ausdrücklich als Prototyp erhalten;
+6. es wurde keine Viewer-, Timeline-, Direction- oder Prompt-Builder-Funktion vorgezogen.
 
-Nächster Block nach PASS:
+**DF-02F.1: PASS / READY TO FREEZE**
+
+Nächster Block:
 **DF-02F.2 – Animated 3D Preview / Runtime Asset Intake**
 
 Dort wird erstmals geprüft und umgesetzt, wie die bereitgestellte Quelle als echtes animiertes 3D-Modell im Browser dargestellt wird.
