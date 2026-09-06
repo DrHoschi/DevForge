@@ -8,11 +8,14 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Reconciliation-Branch: `df-02f6r4-explicit-pose-geometry-control`
+- Aktueller Entwicklungsbranch: `df-04a-source-result-compare-view`
+- Reconciliierte Baseline: `64110d0bbdc6a78a959497f2a619d809e9038d66`
+- DF-04A Contract-Commit: `12e7aa97e263681ac055d394be5f27dd9b48510a`
 - Historischer Prompt-Builder-Stand: `DF-02D.3R`
 - Historischer Pose-Renderer-Prototyp: `DF-02E.1–E.4`
-- Aktueller abgeschlossener Implementierungsstand: `DF-02F.6R.4`
-- Aktuelles Gate: `DF-02F.6R.4 – Documentation / Status Reconciliation`
+- Abgeschlossener DF-02F-Stand: `DF-02F.6R.4`
+- Aktueller Entwicklungsblock: `DF-04A – Source / Result Compare View`
+- Aktuelles Gate: `DF-04A · TESTBUILD 1 – Gerätetest erforderlich`
 
 # Architekturentscheidung: echte 3D-Animation als Posequelle
 Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie. Timeline, Facing, Kamera und Referenzzeitpunkt werden in DevForge kontrolliert.
@@ -34,98 +37,65 @@ Für den Generation-Handoff gilt:
 9. `DF-02F.6R.3 – Direct Visual Pose Handoff` – implemented, insufficiently deterministic in external generation test
 10. `DF-02F.6R.4 – Explicit Pose Geometry Control` – IMPLEMENTED; external generation limit remains
 
-# DF-02F.4R – Direction Contract
-Verbindlicher Gameplay-Direction-Contract:
-- N = vom Betrachter weg / nach oben im Spielbild
-- S = zum Betrachter / nach unten
-- E = nach rechts im Spielbild
-- W = nach links im Spielbild
-- Diagonalen entsprechend dazwischen
-
-Feste orthografische Gameplay-Kamera, Animation und 45°-Facing-Schritte bleiben getrennte Verantwortungen.
-
-# DF-02F.5 – Pose Bookmark / Reference Capture
-Gerätetest bestätigt:
-- Pose-Bookmarks lassen sich aus dem echten Animation-Clip speichern.
-- Referenzen können frei benannt werden.
-- Zeit/Prozent, Facing und Kamera werden gemeinsam festgehalten.
-- gespeicherte Zustände lassen sich reproduzierbar wieder aufrufen.
-- der Workflow ist nicht auf FR01–FR08 begrenzt.
-
-# DF-02F.6R.1–R.3 – Erkenntnisse
-R.1 und R.2 zeigten, dass verschärfte Prompt- oder PDF-Verträge die Pose nicht ausreichend deterministisch auf die externe Bildgenerierung übertragen.
-
-R.3 trennte deshalb den Generation-Handoff in direkte Artefakte:
-- Pose-Control als eigenständiges Bild,
-- Character Identity Image,
-- kurzer Handoff-Text.
-
-PDF/JSON bleiben Review-/Traceability-Artefakte und sind nicht die primäre Pose-Steuerung.
-
-Auch der direkte visuelle Handoff beseitigte die beobachtete Normalisierung auf generische WALK-Geometrie nicht zuverlässig.
-
-# DF-02F.6R.4 – Explicit Pose Geometry Control
-R.4 ergänzt die visuelle Pose Control um explizite maschinenlesbarere Körpergeometrie.
-
-Implementiert auf dem aktuellen Branch:
-- eigener Geometry-Control-Editor im Prompt Builder;
-- definierte Gelenkpunkte für Kopf, Nacken, Becken, Schultern, Ellbogen, Handgelenke, Hüften, Knie, Knöchel und Zehen;
-- sichtbare Knochen-/Achsenverbindungen zwischen den Gelenkpunkten;
-- Punkte können auf der geladenen Pose-Referenz gesetzt und korrigiert werden;
-- Undo/Clear für die Geometrieannotation;
-- Export der annotierten Kontrollgrafik als PNG;
-- normalisierte Gelenkkoordinaten als strukturierte Geometriedaten;
-- Mannequin-/Posebild bleibt die visuelle Autorität; die Geometrieannotation ergänzt sie, ersetzt sie aber nicht.
-
-## R.4 Ergebnis / bekannte Grenze
+# DF-02F.6R.4 – bekannte Grenze
 R.4 verbessert die Explizitheit des Generation-Handoffs, löst aber die zentrale externe Grenze nicht zuverlässig: Die verwendete Bildgenerierung übernimmt selbst explizite Pose-/Skeleton-Kontrolle nicht deterministisch genug für die benötigte Frame-genaue Character-Animation.
 
-Diese Grenze liegt nach aktuellem Erkenntnisstand hinter der reproduzierbaren Pose-Auswahl in DevForge. Deshalb wird DF-02F nicht weiter durch unspezifische Prompt-Verstärkung aufgebläht.
+Diese Grenze blockiert den unabhängigen Ausbau von DevForge als Review-, Prüf- und Asset-Produktionswerkzeug nicht.
 
-Der ungelöste externe Generation-Handoff blockiert den unabhängigen Ausbau von DevForge als Review-, Prüf- und Asset-Produktionswerkzeug nicht.
+# DF-04 – Asset Review Foundation
+DF-04 schafft unabhängige Review-Bausteine, mit denen erzeugte oder bearbeitete Assets gegen autoritative Quellen und Controls geprüft werden können.
 
-# DF-02F.6R.4 – Documentation / Status Reconciliation Gate
-Dieses Gate verändert ausschließlich Repository-Dokumentation.
+## DF-04A – Source / Result Compare View
+Contract:
+`docs/DF-04A_SOURCE_RESULT_COMPARE_VIEW_CONTRACT.md`
 
-Erlaubt:
-- `docs/PROJECT_STATUS.md`
-- `docs/ROADMAP.md`
-- `README.md`
+### Implementiert in TESTBUILD 1
+- eigenständiges Tool unter `tools/source-result-compare/`;
+- zwei vollständig getrennte lokale Bildinputs;
+- `Source / Control` bleibt links bzw. auf schmalen Geräten oben;
+- `Result` bleibt rechts bzw. auf schmalen Geräten unten;
+- beide Bilder können gleichzeitig sichtbar bleiben;
+- Ersetzen einer Seite verändert die jeweils andere Seite nicht;
+- proportionaler Bild-Fit mit `object-fit: contain`, ohne Cropping oder Stretching;
+- stabil begrenzte Vergleichsflächen für unterschiedliche Bildabmessungen und Seitenverhältnisse;
+- klare Leerzustände je Slot;
+- Dateiname und natürliche Pixelabmessungen werden rein informativ angezeigt;
+- responsive Ein-Spalten-Darstellung auf schmalen Geräten bei unveränderter Rollenreihenfolge;
+- sichtbare Build-Kennung `DF-04A · TESTBUILD 1`;
+- Cache-Busting für den neuen Tool-Build und den DevForge-Toolindex.
 
-Nicht erlaubt:
-- Produktionslogik
-- Prompt-Builder-Code
-- UI-/JavaScript-Änderungen
-- Atlas-/Sprite-Logik
-- neue Asset-Persistenz
-
-PASS-Kriterium:
-- alle drei Dokumente beschreiben denselben tatsächlichen R.4-Stand;
-- kein Dokument bezeichnet einen älteren DF-02F-Block als aktuellen Entwicklungsstand;
-- der nächste unabhängige Block ist eindeutig definiert.
-
-# Nächster unabhängiger Entwicklungsblock
-Nach PASS dieses Reconciliation-Gates wird ein eigener Branch von der reconciliierten Baseline erstellt für:
-
-## DF-04 – Asset Review Foundation
-### DF-04A – Source / Result Compare View
-Ziel von DF-04A:
-Eine autoritative Source-/Control-Referenz und das daraus entstandene Resultat gleichzeitig reproduzierbar anzeigen und visuell vergleichen können.
-
-Scope DF-04A:
-- zwei Bilder laden;
-- Source / Control links;
-- Result rechts;
-- stabile gemeinsame Vergleichsansicht.
-
-Explizit noch nicht Teil von DF-04A:
-- Overlay / Onion-Skin / Difference View;
-- automatisches Pose-Scoring;
+### Explizit nicht implementiert
+- Overlay;
+- Onion-Skin;
+- Difference View;
+- Blend-Slider;
+- synchrones Pan/Zoom;
+- automatische Registrierung/Ausrichtung;
+- Pose-/Skeleton-Scoring;
 - KI-Bewertung;
-- Asset-Datenbank oder persistente Asset Library;
-- Atlas-Umbau oder Atlas-Produktion.
+- automatische PASS/FAIL-Entscheidung;
+- Persistenz / Asset Library;
+- Review-Notizen / Approve / Reject;
+- technische Alpha-/Bounds-/Scale-Prüfung;
+- Atlas-Funktionen;
+- Änderungen an DF-02F-Generation-Handoff oder Prompt Builder.
 
-Overlay / Onion-Skin ist frühestens ein eigener nachfolgender Block, z. B. `DF-04B`.
+## DF-04A Gerätetest – verbindlich
+DF-04A bleibt bis zum realen Gerätetest `TESTBUILD`, nicht PASS.
+
+Zu prüfen:
+1. Auf der DevForge-Startseite erscheint `Source / Result Compare View` mit sichtbarer Kennung `DF-04A · TESTBUILD 1`.
+2. Tool öffnen.
+3. Source-/Control-Bild laden und prüfen, dass es vollständig und unverzerrt sichtbar ist.
+4. Result-Bild mit anderem Seitenverhältnis laden und prüfen, dass beide Bilder gleichzeitig stabil sichtbar bleiben.
+5. Nur das Result ersetzen und prüfen, dass die Source unverändert geladen bleibt.
+6. Nur die Source ersetzen und prüfen, dass das Result unverändert geladen bleibt.
+7. Auf schmalem iPhone-/iPad-Viewport prüfen: Source bleibt oben, Result darunter.
+8. Prüfen, dass weder Cropping noch Stretching auftritt.
+9. Prüfen, dass keine ausgeschlossene DF-04B-/Scoring-/Persistenz-/Atlas-Funktion vorhanden ist.
+
+## PASS-Kriterien
+PASS erst, wenn alle Punkte des Gerätetests bestätigt sind und kein Scope-Blocker vorliegt.
 
 # Nächster zulässiger Schritt
-Reconciliation-Diff prüfen. Erst bei PASS wird ein separater DF-04A-Branch angelegt.
+Ausschließlich `DF-04A · TESTBUILD 1` auf dem Zielgerät testen. Noch kein DF-04B und keine weitere Review-Funktion vorziehen.
