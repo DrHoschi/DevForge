@@ -3,26 +3,21 @@
 Stand: 2026-09-06
 
 ## Zweck
-DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktueller Schwerpunkt ist die reproduzierbare Vorbereitung, Auswahl und spätere Übergabe von Character-Animationsreferenzen.
+DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktueller Schwerpunkt ist die reproduzierbare Vorbereitung, Auswahl und spätere Übergabe von Character-Animationsreferenzen aus echten geriggten 3D-Animationsquellen.
 
 ## Repositories
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-02f3-animation-timeline-scrubbing`
+- Aktueller Entwicklungsbranch: `df-02f4-camera-facing-presets`
 - Aktueller Prompt-Builder-Stand: `DF-02D.3R`
 - Historischer Pose-Renderer-Prototyp: `DF-02E.1–E.4`
-- Aktueller Entwicklungsblock: `DF-02F.3R`
+- Aktueller Entwicklungsblock: `DF-02F.4`
 
 # ARCHITEKTURENTSCHEIDUNG: ECHTE 3D-ANIMATION ALS POSEQUELLE
-
-Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie; Kamera, Facing, Referenzzeitpunkt und spätere Ausgabe werden von DevForge kontrolliert.
-
-DF-02E.1–E.4 bleiben als dokumentierter Prototyp erhalten, sind aber nicht mehr die geplante Produktionsquelle.
+Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie; Kamera, Facing, Referenzzeitpunkt und spätere Ausgabe werden von DevForge kontrolliert. DF-02E.1–E.4 bleiben als dokumentierter Prototyp erhalten, sind aber nicht mehr die geplante Produktionsquelle.
 
 # DF-02F – 3D Animation Reference Viewer Foundation
-
-Geplante Staffelung:
 1. DF-02F.1 – Animated 3D Reference Asset Contract
 2. DF-02F.2 – Animated 3D Preview / Runtime Asset Intake
 3. DF-02F.3 – Animation Timeline / Scrubbing
@@ -31,10 +26,6 @@ Geplante Staffelung:
 6. DF-02F.6 – Prompt Builder / Reference Export Bridge
 
 # DF-02F.1 – PASS / READY TO FREEZE
-
-Vertrag:
-`docs/DF-02F1_ANIMATED_3D_REFERENCE_ASSET_CONTRACT.md`
-
 Bestätigt:
 - echtes 3D-Modell/Rig/Animation als zukünftige Posequelle;
 - Reference Preview verlangt In-Place-Verhalten;
@@ -42,88 +33,70 @@ Bestätigt:
 - spätere FR1–FR8 werden als Zeit-/Frame-Bookmarks behandelt.
 
 # DF-02F.2 – PASS / READY TO FREEZE
-
-Gerätetest auf iPhone/Safari mit Standard-Walk-FBX mit Skin und In-Place erfolgreich.
-
-Bestätigt:
-- sichtbares Character-Mesh wird geladen;
+Gerätetest iPhone/Safari erfolgreich:
+- sichtbares Character-Mesh;
 - 2 Meshes, beide skinned;
-- Skeleton/Rig wird erkannt;
-- 129 Bones erkannt;
-- 2 Animation Clips erkannt;
-- erster Clip läuft im Browser;
+- 129 Bones;
+- 2 Animation Clips;
+- Clip-Wiedergabe im Browser;
 - getestete Clip-Dauer 1.033 s;
 - In-Place PASS mit horizontaler Drift 0.0000;
-- Root X/Z bleibt 0.000 / 0.000;
-- Play/Pause funktioniert;
-- FBX mit Skin ist für die sichtbare Mannequin-Vorschau geeignet.
+- Root X/Z 0.000 / 0.000;
+- Play/Pause funktioniert.
 
-**DF-02F.2: PASS / READY TO FREEZE**
+# DF-02F.3 / DF-02F.3R – PASS / READY TO FREEZE
+Gerätetest iPhone/Safari nach F.3R erfolgreich:
+- Pause/Weiter funktioniert;
+- Timeline lässt sich per Touch frei vor/zurück bewegen;
+- Figur folgt der gewählten Clip-Position unmittelbar;
+- Zeit-/Prozentanzeige folgt dem Slider;
+- Weiter startet von der gewählten Stelle;
+- In-Place-Verhalten bleibt unverändert.
 
-# DF-02F.3 / DF-02F.3R – Animation Timeline / Scrubbing – DEVICE RETEST REQUIRED
+**DF-02F.3R: PASS / READY TO FREEZE**
 
+# DF-02F.4 – Camera & Facing Presets – IMPLEMENTED / DEVICE TEST REQUIRED
 Branch:
-`df-02f3-animation-timeline-scrubbing`
+`df-02f4-camera-facing-presets`
 
-## F.3 Erstimplementierung
 Umgesetzt:
-- Timeline-Slider über den vollständigen aktiven Clip;
-- aktuelle Zeit und Clip-Gesamtdauer in Sekunden;
-- normalisierte Position in Prozent;
-- laufende Animation aktualisiert die Timeline live;
-- Ziehen der Timeline soll automatisch pausieren;
-- keine Kamera-/Direction-Logik vorgezogen;
-- keine FR1–FR8-Bookmarks vorgezogen.
+- Viewer verwendet für Produktions-/Referenzansichten jetzt eine orthografische Kamera;
+- festes `GAMEPLAY_ISO_45`-Preset;
+- acht reproduzierbare Facing-Presets: `N`, `NE`, `E`, `SE`, `S`, `SW`, `W`, `NW`;
+- Facing dreht ausschließlich die Figur/World-Origin um die Y-Achse; Animation und Timeline bleiben unverändert;
+- technische Kameraansichten getrennt von Facing: `FRONT`, `BACK`, `LEFT`, `RIGHT`, `TOP`;
+- aktives Facing und aktives Kamera-Preset werden sichtbar angezeigt;
+- Timeline/Scrubbing aus F.3R bleibt erhalten;
+- keine Pose-Bookmarks und keine Prompt-Builder-Bridge vorgezogen.
 
-## Beobachtung Gerätetest
-Auf iPhone/Safari:
-- Pause funktioniert;
-- Animation hält korrekt an;
-- Timeline ließ sich anschließend zwar bedienen, die gewählte Pose wurde aber nicht sichtbar auf das Modell angewendet.
+## Verbindlicher F.4-Vertrag
+- Gameplay-Richtung und Kamera sind getrennte Zustände;
+- die acht Gameplay-Richtungen entstehen aus derselben Animation durch feste Yaw-Schritte von 45°;
+- `N = 0°`, `NE = -45°`, `E = -90°`, `SE = -135°`, `S = 180°`, `SW = 135°`, `W = 90°`, `NW = 45°` relativ zur importierten Basisorientierung;
+- die Gameplay-Kamera bleibt beim Wechsel der Facing-Richtung unverändert;
+- technische Front-/Seiten-/Top-Ansichten verändern das Facing nicht;
+- keine freie Orbit-Kamera ist Bestandteil von F.4.
 
-Ursache:
-Die erste F.3-Seek-Logik pausierte die `AnimationAction`, bevor `AnimationMixer.setTime()` die neue Position auswertete. Eine pausierte Action wird dabei nicht zuverlässig neu ausgewertet; dadurch änderte sich die sichtbare Pose beim Scrubben nicht.
-
-## DF-02F.3R – Paused Scrub Evaluation Fix
-Gezielt korrigiert:
-- beim Seek wird `playing = false` gesetzt;
-- die Action wird für genau die Pose-Auswertung kurz aktiv gehalten;
-- `action.time` wird direkt auf die gewünschte Clip-Zeit gesetzt;
-- `mixer.update(0)` wertet diese Pose sofort aus;
-- danach wird die Action wieder pausiert;
-- `Weiter` startet anschließend von dieser Position;
-- zusätzlich reagieren `input` und `change` auf die Timeline;
-- Cache-Busting auf `df-02f3r-1` erhöht.
-
-Unverändert:
-- FBX-Intake;
-- Mesh/Skeleton/Clip-Erkennung;
-- In-Place-Vertrag;
-- Kamera;
-- keine Direction-Presets;
-- keine Pose-Bookmarks.
-
-## DF-02F.3R Acceptance Gate
-Auf iPhone/iPad/Safari erneut prüfen:
-1. Standard-Walk-FBX lädt wie bisher;
-2. Pause hält Figur und Timeline an;
-3. Slider lässt sich per Touch vor/zurück bewegen;
-4. die Figur wechselt während des Verschiebens unmittelbar auf die gewählte Zwischenpose;
-5. Zeit- und Prozentanzeige folgen der Sliderposition;
-6. `Weiter` läuft von der gewählten Stelle weiter;
-7. In-Place/Root bleibt unverändert.
+## DF-02F.4 Acceptance Gate
+Auf iPhone/iPad/Safari prüfen:
+1. FBX lädt und Timeline funktioniert weiterhin;
+2. `N → NE → E → SE → S → SW → W → NW` dreht die Figur jeweils reproduzierbar um 45°;
+3. beim Facing-Wechsel bleibt die Gameplay-Kamera unverändert;
+4. gewählte Timeline-Pose bleibt beim Richtungswechsel erhalten;
+5. `Gameplay Iso` zeigt eine feste orthografische isometrische Ansicht;
+6. Front/Hinten/Links/Rechts/Oben wechseln nur die Kameraansicht;
+7. Rückkehr zu `Gameplay Iso` reproduziert dieselbe Ansicht;
+8. In-Place/Root bleibt stabil.
 
 # NÄCHSTER ZULÄSSIGER SCHRITT
-
-Jetzt ausschließlich **DF-02F.3R Gerätetest** auf Branch:
-`df-02f3-animation-timeline-scrubbing`
+Jetzt ausschließlich **DF-02F.4 Gerätetest** auf Branch:
+`df-02f4-camera-facing-presets`
 
 Noch NICHT zulässig:
-- Camera-/Facing-Presets;
-- N/NE/E/SE/S/SW/W/NW;
 - FR1–FR8 Bookmark-System;
+- Referenzbild-Capture/Export;
 - freie Bone-/Pose-Manipulation;
 - Prompt-Builder-Bridge;
 - weitere Animationen parallel integrieren.
 
-Bei PASS folgt **DF-02F.4 – Camera & Facing Presets**.
+Bei PASS folgt **DF-02F.5 – Pose Bookmark / Reference Capture**.
