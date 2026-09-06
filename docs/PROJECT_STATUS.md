@@ -12,7 +12,7 @@ DevForge ist eine projektübergreifende webbasierte Entwickler-Toolbox. Aktuelle
 - Aktueller Entwicklungsbranch: `df-02f6-prompt-builder-pose-reference-bridge`
 - Historischer Prompt-Builder-Stand: `DF-02D.3R`
 - Historischer Pose-Renderer-Prototyp: `DF-02E.1–E.4`
-- Aktueller Entwicklungsblock: `DF-02F.6R.1`
+- Aktueller Entwicklungsblock: `DF-02F.6R.2`
 
 # ARCHITEKTURENTSCHEIDUNG: ECHTE 3D-ANIMATION ALS POSEQUELLE
 Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie. Timeline, Facing, Kamera und Referenzzeitpunkt werden in DevForge kontrolliert. Für die Bildgenerierung gilt ab F.6: Character Reference definiert Identität/Design; Pose Reference definiert Körperhaltung und Ansicht.
@@ -24,14 +24,15 @@ Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation 
 4. DF-02F.4 / F.4R – Camera & Facing Presets / Semantic Alignment – PASS
 5. DF-02F.5 – Pose Bookmark / Reference Capture – PASS
 6. DF-02F.6 – Prompt Builder / Pose Reference Bridge – PARTIAL / RETEST REQUIRED
-7. DF-02F.6R.1 – Pose Fidelity Contract Reinforcement – IMPLEMENTED / RETEST REQUIRED
+7. DF-02F.6R.1 – Pose Fidelity Contract Reinforcement – FAIL IN PRODUCTION RETEST
+8. DF-02F.6R.2 – Pose-Reference Dominance / Image-Space Transfer Contract – IMPLEMENTED / RETEST REQUIRED
 
 # DF-02F.4R – PASS
 Verbindlicher Gameplay-Direction-Contract:
 - N = vom Betrachter weg / nach oben im Spielbild
 - S = zum Betrachter / nach unten
 - E = nach rechts im Spielbild
-- W = nach links im Spielbild
+- W = nach links
 - Diagonalen entsprechend dazwischen
 
 Die feste orthografische Gameplay-Kamera, Animation und 45°-Schritte bleiben davon getrennt.
@@ -46,101 +47,88 @@ Gerätetest bestätigt:
 
 Sampling-Entscheidung:
 - Frame-/Referenzanzahl bleibt frei;
-- für WALK ist ein 10%-Sampling (0%, 10%, … 90%) ein sinnvolles Start-Preset;
-- 100% wird bei einem geschlossenen Loop nicht als zusätzlicher Frame benötigt, da es wieder dem Startzustand entspricht;
-- die 10%-Positionen sind Ausgangspunkte, keine Zwangsregel; einzelne Referenzen dürfen visuell auf andere Prozentwerte verschoben werden.
+- für WALK ist ein 10%-Sampling ein sinnvolles Start-Preset;
+- 100% wird bei geschlossenem Loop nicht als zusätzlicher Frame benötigt;
+- einzelne Referenzen dürfen visuell auf andere Prozentwerte verschoben werden.
 
-# DF-02F.6 – Prompt Builder / Pose Reference Bridge – PARTIAL / RETEST REQUIRED
-Branch:
-`df-02f6-prompt-builder-pose-reference-bridge`
-
-Der bisherige DF-02D.3R-Prompt-Builder wurde für diesen Workflow bewusst vereinfacht.
-
+# DF-02F.6 – Prompt Builder / Pose Reference Bridge – PARTIAL
 Grundstruktur bleibt gültig:
-- freie Referenz-ID statt fester FR01–FR08-Timeline;
-- Authoritative Character Reference als erste Bildquelle;
-- Authoritative Pose Reference als zweite Bildquelle;
+- freie Referenz-ID;
+- Authoritative Character Reference;
+- Authoritative Pose Reference;
 - keine Approved Motion History;
 - keine Previous Approved Frames;
-- keine Direction × Frame Matrix;
 - keine textuell erfundenen WALK-Key-Poses/Motion-Deltas als Posequelle;
-- keine Abhängigkeit von einer vorgegebenen Frame-Anzahl;
 - Character Reference definiert Identität, Anatomie/Proportionen, Kleidung, Materialien und permanente Designdetails;
-- Pose Reference definiert exakte Körperhaltung, Facing, Gameplay-Kamera, Projektion, Framing, Scale und Root-/Foot-Position;
-- Prompt enthält eine harte Konfliktregel: das Mannequin/3D-Modell der Pose Reference darf nicht als Character Design übernommen werden;
+- Pose Reference definiert Körperhaltung, Facing, Gameplay-Kamera, Projektion, Framing, Scale und Root-/Foot-Position;
 - TXT-, JSON- und PDF-Package-Export bleiben vorhanden.
 
-## Ergebnis des ersten echten Character-Pose-Generationstests
-FR01–FR05 wurden mit echten Pose References erzeugt.
+# DF-02F.6R.1 – Retest-Ergebnis: FAIL
+Der FR01–FR03-Retest zeigte weiterhin zwei konkrete Fehlerklassen:
 
-Ergebnis:
-- Identität / Character Design deutlich stabiler als im früheren Prompt-Workflow;
-- Pose-Referenzen werden grundsätzlich erkannt;
-- die Generierung normalisiert einzelne Zwischenposen jedoch weiterhin zu ähnlichen generischen WALK-Posen;
-- insbesondere die zeitliche / geometrische Unterscheidbarkeit zwischen aufeinanderfolgenden Frames ist noch nicht zuverlässig genug;
-- die Character Reference beeinflusst teilweise frameabhängige Hand-/Armpositionen stärker als gewünscht;
-- DF-02F.6 erhält deshalb noch keinen PASS.
+1. **Kamera / Projektion nicht stabil genug**
+   - generierte Frames drifteten in unterschiedliche 3/4-Ansichten;
+   - die gewünschte feste 45°-ISO-/Top-Down-Gameplay-Ansicht wurde nicht konsistent aus der Pose Reference übernommen.
 
-Status:
-**PARTIAL / CONTRACT REFINEMENT REQUIRED**
+2. **Beinpose in FR01 / FR02 weiterhin normalisiert**
+   - FR03 traf die Beingeometrie deutlich besser;
+   - FR01 und FR02 wurden weiterhin in Richtung eines generischen plausiblen Gehschrittes umgeformt;
+   - längere verbale Artikulationslisten allein reichen daher nicht als belastbarer Handoff.
 
-# DF-02F.6R.1 – Pose Fidelity Contract Reinforcement – IMPLEMENTED / RETEST REQUIRED
-Scope dieses Fixes ist ausschließlich der Generierungscontract im Prompt Builder. Viewer, 3D-Animation, Timeline, Bookmarks, Facing-/Kameraimplementierung und Reference-Architektur bleiben unverändert.
+Folgerung aus dem FAIL:
+Nicht weitere generische Prompt-Verstärkung, sondern Änderung der visuellen Priorität und Task-Definition des Generation Packages.
 
-Neu verstärkt:
-- `POSE GEOMETRY IS AUTHORITATIVE, NOT ADVISORY`;
-- keine Normalisierung auf eine natürlichere, attraktivere oder generische WALK-Pose;
-- expliziter Artikulationsvertrag für leading/trailing leg, Fußabstand, Fußhöhe, Foot Contact, Knöchel, Knie, Hüfte, Pelvis, Torso, Schultern, Ellenbogen, Handgelenke, Hände und Kopf;
-- ungewöhnliche / transitorische Pose-Geometrie muss als solche erhalten bleiben;
-- temporäre Hand-/Objektkontakte gelten als Pose State und werden nicht aus der Character Reference erzwungen;
-- permanente Ausrüstung bleibt Character Design, Körperhaltung und Griffzustand bleiben Pose-Eigenschaften;
-- Camera/Scale/Root Lock verschärft: kein Zoom-in für Gesichts- oder Materialdetail;
-- Frame Distinctness Contract ergänzt;
-- Acceptance Gate um ARTICULATION PASS, CONTACT PASS und DISTINCTNESS PASS erweitert;
-- weiterhin genau zwei visuelle Autoritäten: Character Reference + Pose Reference;
-- keine Previous Frames oder zusätzlichen Difference References in diesem Retest.
+# DF-02F.6R.2 – Pose-Reference Dominance / Image-Space Transfer Contract
+Scope bleibt eng auf den Prompt Builder und dessen Export-Package begrenzt. Animation Viewer, Timeline, Bookmarks, Facing, Kameraimplementierung und 3D-Quelle bleiben unangetastet.
 
-Build:
-`DF-02F.6R.1 · TESTBUILD`
+Implementiert:
+- Schema `df-character-pose-0.2f6r2`;
+- Build `DF-02F.6R.2 · TESTBUILD`;
+- Generierungsaufgabe wird explizit als **POSE TRANSFER, NOT POSE INVENTION** definiert;
+- `WALK`, `RUN` usw. sind im Generierungscontract nur noch Metadaten und dürfen keine Körpergeometrie erzeugen;
+- Pose Reference wird zum **PRIMARY GEOMETRY CONTROL IMAGE**;
+- Character Reference wird ausdrücklich zur **IDENTITY SOURCE ONLY**;
+- neue Image-Space Geometry Transfer Rule: sichtbare Screen-X/Screen-Y-Fußtrennung, Joint-Anordnung, Silhouette, Kontaktzustände und Kamera werden aus dem Bild kopiert statt semantisch rekonstruiert;
+- Kamera-Regel verschärft: Begriffe wie `isometric`, `45-degree`, `three-quarter` oder `top-down` dürfen nicht als neue Kamera interpretiert werden; die sichtbare Projektion der Pose Reference ist zu kopieren;
+- PDF-Seite 1 ist jetzt bewusst pose-dominant: Pose Reference groß über nahezu die gesamte Seitenbreite, Character Reference deutlich kleiner und sekundär;
+- Transfer-Regel steht direkt neben der Character Reference: gleiche projizierte Körperanordnung und gleiche Kamera, nur Character-Identität ersetzen;
+- Acceptance Gate besitzt eigenen LEG/FOOT PASS und POSE TRANSFER PASS;
+- Cache-Busting auf `app.js?v=df-02f6r2-1` aktualisiert.
 
-Schema:
-`df-character-pose-0.2f6r1`
+## DF-02F.6R.2 Retest Gate
+Jetzt zuerst **nur FR01** erneut aus dem Prompt Builder als neues PDF Package exportieren und generieren.
 
-## DF-02F.6R.1 Retest Gate
-Jetzt ausschließlich FR01, FR02 und FR03 neu als PDF Packages exportieren und anschließend neu generieren.
+Vor Export prüfen:
+1. Build-Badge zeigt `DF-02F.6R.2 · TESTBUILD`;
+2. Referenz-ID = `FR01`;
+3. dieselbe Carrier Character Reference wie bisher;
+4. dieselbe korrekte FR01 Pose Reference / Mannequinaufnahme;
+5. PDF-Seite 1 zeigt die Pose Reference groß als PRIMARY GEOMETRY CONTROL IMAGE;
+6. keine früher generierten Carrier-Frames als Zusatzreferenz.
 
-Vor jedem Export verbindlich prüfen:
-1. Referenz-ID-Feld enthält exakt `FR01`, `FR02` bzw. `FR03`;
-2. Authoritative Character Reference ist dieselbe Carrier-Referenz;
-3. Authoritative Pose Reference entspricht dem jeweiligen 3D-Bookmark;
-4. PDF enthält die jeweilige korrekte Reference ID;
-5. keine früher generierten Carrier-Frames werden als Pose- oder Difference-Reference ergänzt.
+FR01 PASS-Kriterien:
+- Kamera eindeutig dieselbe feste Gameplay-/45°-ISO-Projektion wie in der Pose Reference;
+- Beinstellung entspricht sichtbar dem FR01-Mannequin statt einem generischen Walk;
+- Fußtrennung, Kniebeugung, führendes/nachlaufendes Bein und Kontaktzustand sind korrekt;
+- Character bleibt eindeutig derselbe Carrier;
+- keine zusätzliche Pose-Erfindung durch das Wort WALK.
 
-PASS-Kriterien:
-- FR01, FR02 und FR03 zeigen dieselbe Carrier-Identität und permanentes Design;
-- Facing, Gameplay-Kamera, Projektion, Framing, Scale und Root bleiben konsistent;
-- die drei Zielposen reproduzieren klar unterschiedliche Gelenkstellungen entsprechend ihren jeweiligen Mannequin-/3D-Pose-References;
-- insbesondere FR03 fällt nicht wieder auf FR01/FR02 oder eine generische WALK-Pose zurück;
-- temporäre Hand-/Arm-/Foot-Contact-Zustände folgen der jeweiligen Pose Reference.
+Bei FR01 PASS folgt erst FR02. FR03 bleibt Vergleichsreferenz, weil dessen Beingeometrie im R.1-Test bereits deutlich besser getroffen wurde.
 
-FINAL PASS für diesen Retest nur, wenn alle drei Frames die Kriterien erfüllen.
-
-Bei FAIL:
-- nicht FR04–FR08 fortsetzen;
-- nicht unspezifisch weitere Prompttexte hinzufügen;
-- gezielt analysieren, welcher Teil des Pose-Vertrags weiterhin ignoriert wird (z. B. Beine/Füße, Pelvis/Torso, Arme/Hände, Kamera/Scale oder Distinctness);
-- erst daraus den nächsten eng begrenzten Fix ableiten.
+Bei FR01 FAIL:
+- nicht FR02/FR03 weiterproduzieren;
+- prüfen, ob die visuelle Pose Reference selbst noch zu viel ungenutzte Fläche / Hintergrund enthält und als nächster kleiner Fix ein eigenständiges Pose-Control-Image-Crop bzw. Skeleton-/Silhouette-Control-Sheet nötig ist;
+- keine weitere unspezifische Verlängerung des Prompttexts.
 
 # NÄCHSTER ZULÄSSIGER SCHRITT
-Jetzt ausschließlich **DF-02F.6R.1 Retest mit FR01–FR03** auf Branch:
+Ausschließlich **DF-02F.6R.2 FR01 Retest** auf Branch:
 `df-02f6-prompt-builder-pose-reference-bridge`
 
 Noch nicht:
-- FR04–FR08 weiterproduzieren;
+- FR02/FR03 vor FR01-PASS weiterproduzieren;
+- FR04–FR08 produzieren;
 - zusätzliche Difference References einführen;
 - automatische Übergabe von Viewer-Bookmarks ohne Bilddatei;
 - zusätzliche Animation-Library-Verwaltung;
 - freie Bone-Manipulation;
 - Atlas-Automatisierung.
-
-Bei PASS folgt die Entscheidung, ob DF-02F.6 als belastbar abgeschlossen werden kann. Erst danach wird der weitere DF-02F-Abschluss-/Regression-Gate bzw. die Fortsetzung der Frame-Produktion freigegeben.
