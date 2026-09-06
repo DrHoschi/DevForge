@@ -57,7 +57,7 @@ Geplante Staffelung:
 
 Die Staffelung bleibt klein. Keine spätere Funktion wird vorgezogen, solange der darunterliegende Block nicht bewiesen ist.
 
-# DF-02F.1 – Animated 3D Reference Asset Contract – IMPLEMENTED / REVIEW READY
+# DF-02F.1 – Animated 3D Reference Asset Contract – PASS / READY TO FREEZE
 
 Vertrag:
 `docs/DF-02F1_ANIMATED_3D_REFERENCE_ASSET_CONTRACT.md`
@@ -75,8 +75,6 @@ Am bereitgestellten File technisch bestätigt:
 
 Vom Nutzer als In-Place-Export bereitgestellt.
 
-Wichtig: Noch nicht als bewiesen markieren, ob das FBX selbst ein renderbares Character-Mesh/Material enthält. Das wird erst im Runtime-Asset-Intake technisch geprüft. Falls es ein Motion-only-FBX ist, muss DF-02F.2 sauber entscheiden, ob ein separates kompatibles Character-Mesh gekoppelt wird.
-
 ## Verbindliche F.1-Grenzen
 - echtes 3D-Modell/Rig/Animation ist die zukünftige Posequelle;
 - Model, Rig und Animation sind getrennte Verantwortungen;
@@ -87,16 +85,16 @@ Wichtig: Noch nicht als bewiesen markieren, ob das FBX selbst ein renderbares Ch
 - DF-02E bleibt als Prototyp erhalten;
 - noch kein Viewer, keine Timeline, keine Direction-Presets und kein Prompt-Builder-Umbau.
 
+**DF-02F.1: PASS / READY TO FREEZE**
+
 # NÄCHSTER ZULÄSSIGER SCHRITT
 
-Zuerst **DF-02F.1 Review / PASS** gegen den neuen Vertrag.
-
-Nach PASS folgt ausschließlich:
+Ausschließlich:
 **DF-02F.2 – Animated 3D Preview / Runtime Asset Intake**
 
 DF-02F.2 soll erstmals klären und beweisen:
 - ob die aktuelle FBX ein sichtbares Mesh enthält oder nur Rig/Animation;
-- welches browserfähige Runtime-Format verwendet wird;
+- welches browserfähige Runtime-Verfahren verwendet wird;
 - wie Model + Rig + Clip geladen und abgespielt werden;
 - dass die Figur in-place an stabiler Weltposition bleibt.
 
