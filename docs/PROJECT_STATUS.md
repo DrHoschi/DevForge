@@ -26,7 +26,7 @@ Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation 
 6. DF-02F.6 – Prompt Builder / Pose Reference Bridge – PARTIAL / RETEST REQUIRED
 7. DF-02F.6R.1 – Pose Fidelity Contract Reinforcement – FAIL
 8. DF-02F.6R.2 – Pose-dominant PDF Transfer Contract – FAIL
-9. DF-02F.6R.3 – Direct Visual Pose Handoff – IMPLEMENTATION IN PROGRESS / RETEST REQUIRED
+9. DF-02F.6R.3 – Direct Visual Pose Handoff – IMPLEMENTED / FR01 RETEST REQUIRED
 
 # DF-02F.4R – PASS
 Verbindlicher Gameplay-Direction-Contract:
@@ -56,15 +56,16 @@ Folgerung:
 Nicht weiter unspezifisch Prompttext verlängern. Der Generation-Handoff muss die Pose als eigenständige Bilddatei direkt übergeben.
 
 # DF-02F.6R.3 – Direct Visual Pose Handoff
-Scope:
+Implementiert:
 - PDF bleibt Review-/Traceability-Dokument und ist nicht mehr primärer Generation-Input;
 - aus der Authoritative Pose Reference wird ein eigenständiges `POSE_CONTROL.png` erzeugt;
-- der Pose-Control-Export erhält einen automatischen pose-dominanten Crop mit Sicherheitsrand, damit das Mannequin deutlich mehr Bildfläche belegt;
-- die Character Reference wird separat als Identity Image übergeben;
+- automatischer pose-dominanter Crop erkennt den sichtbaren Mannequin-Bereich auf dunklem Hintergrund und behält einen Sicherheitsrand;
+- die Character Reference wird separat als Identity Image exportiert;
 - ein kurzer `HANDOFF.txt` beschreibt ausschließlich den direkten Bild-zu-Bild-Pose-Transfer;
 - Animation/Action (`WALK`) bleibt Metadatum und darf keine Körpergeometrie erzeugen;
 - Generation-Handoff besteht verbindlich aus genau drei Artefakten: Pose Control PNG + Character Identity Image + Handoff TXT;
-- JSON/PDF bleiben Dokumentations-/Nachvollziehbarkeitsartefakte.
+- JSON/PDF bleiben Dokumentations-/Nachvollziehbarkeitsartefakte;
+- UI zeigt den erzeugten Pose-Control-Crop samt Crop-Größe und ungefährer Motivbelegung vor dem Export an.
 
 Build:
 `DF-02F.6R.3 · TESTBUILD`
@@ -74,6 +75,13 @@ Schema:
 
 ## R.3 Retest Gate
 Zunächst ausschließlich FR01 testen.
+
+Verbindlicher Testablauf:
+1. gleiche Carrier Character Reference laden;
+2. FR01 Authoritative Pose Reference laden;
+3. erzeugten Pose-Control-Crop visuell prüfen: vollständiger Körper/Füße, kein abgeschnittener Arm/Boot, deutlich weniger unnötiger schwarzer Leerraum;
+4. exakt drei Generation-Artefakte exportieren: `*_POSE_CONTROL.png`, `*_IDENTITY.*`, `*_HANDOFF.txt`;
+5. diese drei Artefakte gemeinsam für die neue FR01-Generierung verwenden; das PDF nicht als Generation-Input verwenden.
 
 PASS-Kriterien FR01:
 - Kamera/Azimuth/Elevation entsprechen sichtbar der Mannequin-Pose-Reference;
@@ -85,4 +93,4 @@ PASS-Kriterien FR01:
 Bei PASS folgt FR02. Bei FAIL wird nicht FR02 getestet; dann wird gezielt geprüft, ob Direct Image Handoff selbst noch zu wenig Kontrolle bietet oder ob die Pose-Control-Grafik zusätzlich Skeleton-/Silhouetteninformationen benötigt.
 
 # NÄCHSTER ZULÄSSIGER SCHRITT
-DF-02F.6R.3 vollständig implementieren, danach ausschließlich FR01 mit den drei direkten Handoff-Artefakten neu generieren.
+Ausschließlich DF-02F.6R.3 FR01-Gerätetest mit den drei direkten Handoff-Artefakten. Noch kein FR02.
