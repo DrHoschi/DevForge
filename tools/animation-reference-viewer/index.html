@@ -23,13 +23,13 @@
 </head>
 <body>
   <main class="page">
-    <div class="top"><a class="back" href="../../">← DevForge</a><span class="badge">DF-02F.4 · TESTBUILD</span></div>
+    <div class="top"><a class="back" href="../../">← DevForge</a><span class="badge">DF-02F.4R · TESTBUILD</span></div>
     <h1>Animated 3D Reference Viewer</h1>
-    <p class="sub">Echte geriggte FBX-Animation mit Timeline, fester Gameplay-Isometrie und reproduzierbaren Facing-/Technikansichten. Noch ohne Pose-Bookmarks oder Prompt-Builder-Bridge.</p>
+    <p class="sub">Echte geriggte FBX-Animation mit Timeline, fester Gameplay-Isometrie und semantisch ausgerichteten 8-Richtungs-Facings. Noch ohne Pose-Bookmarks oder Prompt-Builder-Bridge.</p>
 
     <section class="layout">
       <div class="panel">
-        <div id="viewer" class="viewer"><div id="empty" class="empty">Noch kein FBX geladen.<br>Für den DF-02F.4-Gerätetest den Standard-Walk mit Skin und In-Place auswählen.</div></div>
+        <div id="viewer" class="viewer"><div id="empty" class="empty">Noch kein FBX geladen.<br>Für den DF-02F.4R-Gerätetest den Standard-Walk mit Skin und In-Place auswählen.</div></div>
         <div class="controls">
           <input id="fileInput" class="file" type="file" accept=".fbx,application/octet-stream" />
           <button id="loadButton" class="btn primary" type="button">Standard-Walk-FBX auswählen</button>
@@ -70,7 +70,7 @@
           <div class="fact"><b>In Place</b><span id="fInPlace">–</span></div>
           <div class="fact"><b>Root X/Z</b><span id="fRoot">–</span></div>
         </div>
-        <div class="note">Facing dreht nur die Figur auf der Weltachse; die Gameplay-Kamera bleibt unverändert. Front/Hinten/Links/Rechts/Oben sind getrennte technische Kameraansichten. Pose-Bookmarks folgen erst in DF-02F.5.</div>
+        <div class="note"><b>DF-02F.4R Direction Contract:</b> N = vom Betrachter weg / nach oben im Spielbild, S = zum Betrachter / nach unten, E = nach rechts, W = nach links; Diagonalen entsprechend dazwischen. Kamera, Animation und 45°-Schritte bleiben unverändert. Front/Hinten/Links/Rechts/Oben sind getrennte technische Kameraansichten.</div>
         <div id="error" class="error"></div>
       </aside>
     </section>
@@ -79,6 +79,6 @@
   <script type="importmap">
     {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
   </script>
-  <script type="module" src="./app.js?v=df-02f4-1"></script>
+  <script type="module" src="./app.js?v=df-02f4r-1"></script>
 </body>
 </html>
