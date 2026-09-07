@@ -32,7 +32,7 @@ Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animat
 - Source-/Result-Vergleich
 - Overlay / Onion-Skin
 - manuelles Result-Alignment
-- später Difference View
+- Difference View
 - Direction-Vergleich
 - Animation Timeline / FPS / Loop / Frame-Stepping
 - später Root/Pivot/Anchor, Approve/Reject und Review-Notizen
@@ -120,31 +120,57 @@ Eingefrorener Kern:
 Contract:
 `docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
 
-### DF-04D – Difference View Foundation – mögliche Folgegrenze
-DF-04D ist noch nicht implementierungsfreigegeben. Vor Branch oder Implementierung muss zuerst ein eigener enger Contract gegen den eingefrorenen DF-04C-Stand definiert werden. Die reale DF-04C-Erfahrung soll bestimmen, welche Difference-Darstellung tatsächlich benötigt wird.
+### DF-04D – Difference View Foundation – CONTRACT DEFINED
+Verbindlicher Contract:
+`docs/DF-04D_DIFFERENCE_VIEW_FOUNDATION_CONTRACT.md`
+
+Aus dem eingefrorenen DF-04C-Workflow abgeleiteter enger Scope:
+- zusätzlicher Modus `Difference` neben Basisvergleich und Overlay;
+- dieselben geladenen Source-/Result-Bilder werden wiederverwendet;
+- Difference basiert auf derselben gemeinsamen Review-Rasterfläche;
+- Source nutzt die eingefrorene Fit-/Center-Regel;
+- Result nutzt dieselbe Regel plus aktuelles DF-04C-X/Y/Scale-Alignment;
+- pixelbezogene deterministische RGBA-Abweichung;
+- identische/nahezu identische Bereiche erscheinen dunkel bzw. mit geringer Intensität;
+- stärkere Abweichungen erscheinen heller bzw. mit höherer Intensität;
+- Alpha-Unterschiede werden nicht ignoriert;
+- Difference aktualisiert sich unmittelbar bei DF-04C-Alignment-Änderungen;
+- Rückkehr zu Basis/Overlay erhält Bilder und Alignment;
+- responsive iPhone/iPad/Safari-Darstellung.
+
+Explizit nicht Teil von DF-04D:
+- Auto-Alignment / Best-Fit;
+- Rotation, Warp, Perspective oder zusätzliche Alignment-Werkzeuge;
+- Threshold-/Tolerance-Regler;
+- mehrere Heatmap-/Difference-Modi;
+- numerischer Difference-Score;
+- automatische PASS/FAIL-Entscheidung;
+- Pose-/Skeleton-Scoring oder KI-Auswertung;
+- Persistenz / Asset Library / gespeicherte Difference-Profile;
+- Atlas-Funktionen.
 
 ## 6. Aktueller Stand / Gate
 Aktueller Branch:
 `df-04c-manual-alignment-foundation`
 
-Eingefrorener Stand:
+Eingefrorener Produktstand:
 `DF-04C – PASS / 0 BLOCKER / FROZEN`
 
 Aktuelles Gate:
-**DF-04C – Completion / Freeze Gate – PASS**
+**DF-04D Contract / Roadmap Reconciliation**
 
-Im Freeze-Gate wurden Contract, vollständiger Branch-Diff gegen `182331260917ec4699741204be3571fe38c51d8b`, DF-04A-/DF-04B-Regressionsgrenzen und reale Geräte-Evidenz gemeinsam regressiert. Keine neue Produktfunktion wurde hinzugefügt.
+Erlaubt in diesem Gate:
+- DF-04D-Contract auf dem eingefrorenen DF-04C-Stand dokumentieren;
+- ROADMAP/PROJECT_STATUS auf die enge Difference-View-Grenze nachziehen;
+- DF-04C als unveränderte Baseline erhalten.
 
-Nächste mögliche Arbeit:
-- zuerst DF-04D fachlich eng definieren;
-- Contract auf dem eingefrorenen DF-04C-Stand dokumentieren;
-- erst nach separatem Reconciliation-PASS einen DF-04D-Branch zulassen.
+Nicht erlaubt:
+- DF-04D-Branch anlegen;
+- DF-04D implementieren;
+- Produktlogik/UI/JavaScript ändern;
+- Auto-Alignment, Scoring, Threshold/Tolerance oder andere Folgefunktionen vorziehen.
 
-Noch nicht erlaubt:
-- DF-04D-Branch;
-- DF-04D-Implementierung;
-- automatische Registrierung / Best-Fit;
-- Scoring oder automatische PASS/FAIL-Entscheidung.
+Erst nach PASS dieses Dokumentationsgates darf ein separater DF-04D-Entwicklungsbranch exakt von der dann festgelegten reconciliierten DF-04C-Baseline erstellt werden.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -207,7 +233,8 @@ Derzeit nicht parallel vorziehen:
 - finaler automatischer Atlas-Packing-Workflow;
 - große persistente Asset-Datenbank;
 - automatisches Pose-Scoring oder KI-Review;
-- DF-04D-Implementierung vor eigenem Contract-/Reconciliation-Gate.
+- DF-04D-Implementierung vor eigenem Contract-/Reconciliation-PASS;
+- Difference-Scoring oder Threshold/Tolerance vor realem DF-04D-Test.
 
 ## 15. Git-/Dokumentations-Arbeitsweise
 - kleine, klar benannte DF-Blöcke
