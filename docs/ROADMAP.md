@@ -126,7 +126,7 @@ Eingefrorener Kern:
 Contract:
 `docs/DF-04D_DIFFERENCE_VIEW_FOUNDATION_CONTRACT.md`
 
-### DF-04E – Silhouette Difference Foundation – CONTRACT DEFINED
+### DF-04E – Silhouette Difference Foundation – CONTRACT DEFINED / RECONCILED
 Verbindlicher Contract:
 `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
 
@@ -165,21 +165,24 @@ Eingefrorener Produktstand:
 Eingefrorener DF-04D-Produkt-Head:
 `89b9b8e214ed4463a0e8150cb5a4563351c7c55b`
 
-Aktuelles Gate:
-**DF-04E Contract / Roadmap Reconciliation**
+Abgeschlossenes Gate:
+**DF-04E Contract / Roadmap Reconciliation – PASS / 0 BLOCKER**
 
-Erlaubt in diesem Gate:
-- DF-04E-Contract gegen den eingefrorenen DF-04D-Produktstand dokumentieren;
-- ROADMAP und PROJECT_STATUS auf die enge Silhouette-Difference-Grenze nachziehen;
-- DF-04A–D unverändert eingefroren lassen.
+Regressiert wurden ausschließlich:
+- der eingefrorene DF-04D-Produkt-Head;
+- der neue DF-04E-Contract;
+- PROJECT_STATUS und ROADMAP;
+- die unveränderten DF-04A–D-Grenzen;
+- der vollständige Dokumentations-Diff.
 
-Nicht erlaubt:
-- DF-04E-Branch anlegen;
-- DF-04E implementieren;
-- Produktlogik/UI/JavaScript ändern;
-- Threshold/Tolerance, Scoring, Auto-Alignment oder andere Folgefunktionen vorziehen.
+Das Gate bestätigt:
+- keine Produktlogik/UI/JavaScript-Änderung;
+- kein DF-04E-Branch im Contract-/Reconciliation-Schritt;
+- keine vorgezogene Threshold-/Tolerance-, Scoring-, Auto-Alignment-, KI-, Persistenz- oder Atlas-Funktion.
 
-Erst nach PASS dieses Dokumentationsgates darf ein separater DF-04E-Entwicklungsbranch exakt von der dann festgelegten reconciliierten Dokumentationsbaseline erstellt werden.
+Nächster zulässiger Schritt:
+- separaten DF-04E-Entwicklungsbranch exakt von der reconciliierten Dokumentationsbaseline nach diesem Gate anlegen;
+- noch keine DF-04E-Implementierung im selben Schritt.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -233,7 +236,7 @@ Automatische Prüfungen unterstützen das Review; sie ersetzen nicht automatisch
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
 - Default: `main`
-- konkrete Asset-Staging-Pfade werden nur dort als verbindlich behandelt, wo sie im aktuellen Projektstatus bestätigt sind.
+- konkrete aktuelle Handoff-Pfade und Freigabegrenzen werden verbindlich in der Repository-Dokumentation gepflegt.
 
 ## 14. Nicht vorziehen
 Derzeit nicht parallel vorziehen:
