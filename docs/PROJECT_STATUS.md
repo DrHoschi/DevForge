@@ -8,11 +8,11 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungs-/Freeze-Branch: `df-04d-difference-view-foundation`
-- DF-04D Baseline: `99c2e9e09733f4f5c7b989e1123127c305c312d8`
-- DF-04D Contract: `docs/DF-04D_DIFFERENCE_VIEW_FOUNDATION_CONTRACT.md`
-- Eingefrorener Review-Stand: `DF-04D – PASS / 0 BLOCKER / FROZEN`
-- Aktueller abgeschlossener Entwicklungsblock: `DF-04D – Difference View Foundation`
+- Aktueller Dokumentations-/Freeze-Branch: `df-04d-difference-view-foundation`
+- Eingefrorener Produktstand: `DF-04D – PASS / 0 BLOCKER / FROZEN`
+- Eingefrorener DF-04D-Produkt-Head: `89b9b8e214ed4463a0e8150cb5a4563351c7c55b`
+- DF-04E Contract: `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
+- Aktuelles Gate: `DF-04E Contract / Roadmap Reconciliation`
 
 # DF-04 – Asset Review Foundation
 
@@ -20,84 +20,69 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 Autoritativ für zwei getrennte lokale Bildslots, feste Source-/Result-Rollen, unabhängiges Ersetzen, proportionale vollständige Darstellung und responsive Basisvergleichsansicht.
 
 ## DF-04B – Overlay / Onion-Skin Compare Foundation – PASS / FROZEN
-Autoritativ für den zusätzlichen Overlay-/Onion-Skin-Modus auf denselben geladenen Bildern, gemeinsame Vergleichsfläche, Source als Basis-Layer, Result als Overlay-Layer, identische neutrale Fit-/Center-Regel und manuellen 0–100-%-Blend-Regler.
+Autoritativ für gemeinsamen Overlay-Vergleich, Source als Basis-Layer, Result als Overlay-Layer und manuellen 0–100-%-Blend-Regler.
 
 ## DF-04C – Manual Alignment Foundation – PASS / FROZEN
-Autoritativ für die manuelle Ausrichtung ausschließlich des Result-Layers über X, Y und uniforme Scale sowie `Reset Alignment` auf den neutralen DF-04B-Zustand. Source bleibt unbeweglich. Alignment bleibt temporärer Review-Zustand.
+Autoritativ für manuelle Result-Translation X/Y, uniforme Scale, sichtbare Werte, `Reset Alignment` und temporären nicht persistierten Alignment-Zustand. Source bleibt unbeweglich.
 
 ## DF-04D – Difference View Foundation – PASS / FROZEN
+Autoritativ für die deterministische pixelweise absolute RGBA-Difference auf gemeinsamer Review-Rasterfläche unter Verwendung desselben DF-04C-Alignments. Geringe Abweichung erscheint dunkel, stärkere heller; Alpha ist Bestandteil der Difference. Kein Score und keine automatische Bewertung.
+
+Realer iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate: `PASS / 0 BLOCKER / FROZEN`.
+
 Contract:
 `docs/DF-04D_DIFFERENCE_VIEW_FOUNDATION_CONTRACT.md`
 
-Eingefrorener Umfang:
-- sichtbare geprüfte Build-Kennung `DF-04D · TESTBUILD 1`;
-- DF-04A-Basisvergleich bleibt unverändert erhalten;
-- DF-04B-Overlay-/Onion-Skin-Modus und Blend-Regler bleiben unverändert erhalten;
-- DF-04C-X/Y/Scale-Alignment und `Reset Alignment` bleiben unverändert Eigentum von DF-04C;
-- zusätzlicher Ansichtsmodus `Difference`;
-- Wiederverwendung derselben geladenen Source-/Result-Bilder ohne neue Bildslots;
-- gemeinsame responsive Review-Rasterfläche;
+## DF-04E – Silhouette Difference Foundation – CONTRACT DEFINED
+Contract:
+`docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
+
+### Fachlicher Bedarf aus realer DF-04D-Erfahrung
+Die eingefrorene DF-04D-RGBA-Difference zeigt Abweichungen zuverlässig, mischt dabei aber Kontur-/Formabweichungen mit Farbe, Material, Beleuchtung und Textur. Als nächster kleiner Review-Schritt wird deshalb ausschließlich eine zusätzliche Silhouetten-/Alpha-Masken-Prüfung definiert.
+
+### Verbindlicher enger Scope
+- zusätzlicher Modus `Silhouette` bzw. `Silhouette Difference`;
+- dieselben geladenen Source-/Result-Bilder, keine neuen Bildslots;
+- dieselbe gemeinsame Review-Rasterfläche;
 - Source nach bestehender Fit-/Center-Regel;
-- Result nach derselben Regel plus aktuellem DF-04C-X/Y/Scale-Zustand;
-- deterministische pixelweise absolute RGBA-Differenz;
-- monotone Graustufenintensität: niedrige/keine Abweichung dunkel, stärkere Abweichung heller;
-- Alpha als Bestandteil der Differenzberechnung;
-- unmittelbare Aktualisierung bei X/Y/Scale und `Reset Alignment`;
-- Erhalt von Bildern und Alignment beim Moduswechsel;
-- iPhone/iPad/Safari-taugliche responsive Darstellung;
-- Cache-Busting `df04d-testbuild1`.
+- Result nach derselben Regel plus aktuellem DF-04C-X/Y/Scale-Alignment;
+- Ableitung je einer deterministischen Vordergrund-/Hintergrund-Maske ausschließlich aus Alpha;
+- RGB-Farbe, Textur, Licht und Material beeinflussen die Silhouettenmaske nicht;
+- gemeinsame Überlappung, Source-only und Result-only werden visuell eindeutig unterschieden;
+- X/Y/Scale und `Reset Alignment` aktualisieren die Silhouettenansicht über den bestehenden DF-04C-Zustand;
+- Wechsel zu Basisvergleich, Overlay und Difference erhält Bilder und Alignment;
+- responsive/touch-taugliche iPhone/iPad/Safari-Darstellung;
+- sichtbare DF-04E-Build-Kennung und Cache-Busting erst im später freigegebenen Implementierungsblock.
 
-### DF-04D Gerätetest – PASS / 0 BLOCKER
-Reale iPhone-/Safari-Evidenz vom 2026-09-07 bestätigt:
-- Basisvergleich, Overlay/Blend und manuelles Alignment funktionieren weiter;
-- Difference verwendet dieselben geladenen Bilder ohne erneutes Laden;
-- geringe/deckungsgleiche Abweichungen erscheinen dunkel, stärkere Abweichungen heller;
-- transparente Bereiche werden fehlerfrei verarbeitet und Alpha-Unterschiede bleiben sichtbar;
-- getesteter Alignment-Zustand X = -53 px, Y = 47 px, Scale = 110 % wird in Difference sichtbar berücksichtigt;
-- `Reset Alignment` stellt X = 0 px, Y = 0 px und Scale = 100 % wieder her und setzt Difference auf den neutralen Zustand zurück;
-- `Difference → Overlay → Basisvergleich` erhält beide geladenen Bilder;
-- Bedienung auf iPhone/Safari ist sinnvoll nutzbar;
-- keine ausgeschlossene Auto-Alignment-, Scoring-, Threshold-, Persistenz-, KI- oder Atlas-Funktion wurde vorgezogen.
-
-Gerätetest-Ergebnis: `DF-04D · TESTBUILD 1 – PASS / 0 BLOCKER`.
-
-### Explizit nicht Teil des eingefrorenen DF-04D-Umfangs
-- automatische Registrierung / Auto-Alignment / Best-Fit;
-- Rotation, Perspective, Warp oder Skew;
-- zusätzliche Difference-Alignment-Werkzeuge;
-- Threshold-/Tolerance-Regler;
-- Heatmap-Farbpaletten oder mehrere Difference-Modi;
-- Difference-Prozentwert oder numerischer Score;
-- Bounding-Box-/Flächenmessung der Differenz;
-- Pose-/Skeleton-Scoring;
-- KI-Auswertung oder automatische Fehlerklassifizierung;
+### Explizit nicht Teil von DF-04E
+- Auto-Alignment / Best-Fit;
+- Rotation / Perspective / Warp / Skew;
+- zusätzliche Alignment-Werkzeuge;
+- benutzerveränderbarer Alpha-Threshold;
+- Tolerance-Regler;
+- mehrere Masken-/Morphologie-Modi;
+- Kontur-, Pixel-, Flächen-, Prozent-, IoU- oder Overlap-Score;
 - automatische PASS/FAIL-Entscheidung;
-- Persistenz / Asset Library / gespeicherte Difference-Profile;
+- Pose-/Skeleton-Scoring;
+- KI-Auswertung oder Fehlerklassifizierung;
+- Persistenz / Asset Library;
 - Review-Notizen / Approve / Reject;
 - Atlas-Funktionen;
 - Änderungen am DF-02F-Generation-Handoff.
 
-# DF-04D – Completion / Freeze Gate – PASS
-Gemeinsame Regression durchgeführt gegen:
-- den verbindlichen DF-04D-Contract;
-- die reconciliierte DF-04D-Baseline `99c2e9e09733f4f5c7b989e1123127c305c312d8`;
-- den vollständigen Branch-Diff bis zum Geräte-PASS-Head `4f0f3dd3153fa5af0ffb956ba63ea6faada7cf0c`;
-- die eingefrorenen DF-04A-/DF-04B-/DF-04C-Regressionsgrenzen;
-- die vollständige reale iPhone-/Safari-Geräte-Evidenz;
-- sämtliche DF-04D-Nicht-Ziele.
+# Aktuelles Gate
+`DF-04E Contract / Roadmap Reconciliation`
 
-Gate-Ergebnis:
-- Branch ist exakt von der reconciliierten Baseline abgeleitet und `0 behind`;
-- vor dem Freeze-Dokumentationscommit umfasst der vollständige DF-04D-Diff ausschließlich `tools/source-result-compare/index.html`, `tools/source-result-compare/app.js` und `docs/PROJECT_STATUS.md`;
-- die Produktänderung bleibt auf die vertraglich definierte Difference View begrenzt;
-- DF-04A/B/C wurden auf dem Zielgerät gegen ihre eingefrorenen Grenzen regressiert;
-- alle 13 DF-04D-PASS-Kriterien sind durch Implementierung plus reale Geräte-Evidenz erfüllt;
-- keine Auto-Alignment-, Scoring-, Threshold-, Persistenz-, KI-, Atlas- oder Generation-Handoff-Funktion wurde vorgezogen;
-- im Completion-/Freeze-Gate selbst wurde keine neue Produktfunktion ergänzt.
-
-Ergebnis: `DF-04D – PASS / 0 BLOCKER / FROZEN`.
+Dieses Gate ist ausschließlich dokumentarisch. Es regressiert:
+- den eingefrorenen DF-04D-Produkt-Head `89b9b8e214ed4463a0e8150cb5a4563351c7c55b`;
+- den neuen DF-04E-Contract;
+- die ROADMAP-Grenze;
+- die unveränderten DF-04A/B/C/D-Verträge;
+- die Sicherstellung, dass kein DF-04E-Branch angelegt und keine Produktlogik/UI/JavaScript verändert wurde.
 
 # Nächster zulässiger Schritt
-Kein weiterer DF-04D-Funktionsausbau auf diesem eingefrorenen Stand.
+Ausschließlich das `DF-04E Contract / Roadmap Reconciliation` Gate gegen den vollständigen Dokumentations-Diff seit `89b9b8e214ed4463a0e8150cb5a4563351c7c55b` prüfen.
 
-Ein Folgeblock ist noch nicht automatisch freigegeben. Zuerst muss aus der realen DF-04D-Erfahrung fachlich festgelegt werden, welcher eng abgegrenzte Review-Schritt als Nächstes tatsächlich benötigt wird. Bis dahin kein Threshold/Tolerance, kein Scoring und keine zusätzliche Difference-Logik.
+Nur bei `PASS / 0 BLOCKER` darf anschließend ein separater DF-04E-Entwicklungsbranch exakt von der dann festgelegten reconciliierten Dokumentationsbaseline erstellt werden.
+
+Noch kein DF-04E-Branch und keine DF-04E-Implementierung.
