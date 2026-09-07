@@ -5,7 +5,7 @@ DevForge ist die zentrale webbasierte Entwickler-Toolbox für unterschiedliche S
 ## Module
 - Animated 3D Reference Viewer – echte geriggte 3D-Animationsquellen laden, scrubben, Facing/Kamera festlegen und reproduzierbare Pose-Bookmarks erzeugen
 - Prompt Builder – Character Identity mit visueller Pose Control und expliziter Geometry Control zu einem Generation Package verbinden
-- Source / Result Compare View – Source und Result laden, vergleichen, überblenden, den Result-Layer manuell ausrichten und eine Difference View anzeigen
+- Source / Result Compare View – Source und Result laden, vergleichen, überblenden, den Result-Layer manuell ausrichten sowie RGBA-Difference und Silhouette Difference anzeigen
 - Animation Tester – rohe Einzelbilder vor dem Atlas als Loop prüfen, inkl. FPS, Onion-Skin, Frame-Stepping und Bottom-Center-Anchor
 - Deterministic Pose Renderer – historischer DF-02E-Prototyp; nicht mehr die geplante Produktionsquelle
 - Sprite Lab – Sprites/Sprite-Sheets laden, Pivot/Anchor/Scale bearbeiten und Atlasdaten prüfen
@@ -34,7 +34,7 @@ Seit DF-02F ist eine echte geriggte 3D-Animation die autoritative Bewegungsquell
 Die reproduzierbare Pose-Auswahl innerhalb von DevForge funktioniert. Der offene Engpass liegt weiterhin beim externen Transfer dieser Pose in ein neu generiertes Character-Bild. Diese Grenze blockiert den unabhängigen Ausbau von DevForge als Review-, Prüf- und Asset-Produktionsplattform nicht.
 
 ## DF-04 – Asset Review Foundation
-Der Review-Layer wurde bis einschließlich DF-04D schrittweise auf realen Zielgeräten aufgebaut und eingefroren.
+Der Review-Layer wurde bis einschließlich DF-04E schrittweise auf realen Zielgeräten aufgebaut und eingefroren.
 
 ### DF-04A – Source / Result Compare View – PASS / FROZEN
 Zwei lokale Bildslots mit festen Source-/Result-Rollen, unabhängiger Ersetzung, proportionaler vollständiger Darstellung und responsiver Basisvergleichsansicht.
@@ -48,18 +48,21 @@ Manuelle Ausrichtung ausschließlich des Result-Layers innerhalb des Overlay-Mod
 ### DF-04D – Difference View Foundation – PASS / FROZEN
 Zusätzliche deterministische Difference View auf denselben geladenen Source-/Result-Bildern und unter Verwendung des aktuellen DF-04C-Alignments. Die Ansicht berechnet pixelweise absolute RGBA-Abweichungen auf einer gemeinsamen Review-Rasterfläche. Geringe/keine Abweichungen erscheinen dunkel, stärkere Abweichungen heller; Alpha wird berücksichtigt.
 
-Der reale iPhone-/Safari-Gerätetest und das Completion-/Freeze-Gate sind `PASS / 0 BLOCKER / FROZEN`.
+### DF-04E – Silhouette Difference Foundation – PASS / FROZEN
+Zusätzliche deterministische Silhouette Difference auf denselben Bildern und derselben Review-Rasterfläche. Die Maske wird ausschließlich aus dem gerenderten Alpha-Kanal gebildet; eine feste interne Alpha-Grenze trennt Vordergrund und Hintergrund. Überlappung, Source-only und Result-only werden visuell eindeutig unterschieden. RGB-Farbe, Textur, Material und Beleuchtung beeinflussen die Silhouettenmaske nicht. Das bestehende DF-04C-X/Y/Scale-Alignment und `Reset Alignment` gelten unverändert weiter.
 
-Nicht Bestandteil des eingefrorenen DF-04D-Vertrags sind unter anderem Auto-Alignment / Best-Fit, Threshold/Tolerance, mehrere Difference-Modi, numerisches Scoring, KI-Auswertung, automatische PASS/FAIL-Entscheidung, Persistenz und Atlas-Funktionen.
+Der reale iPhone-/Safari-Gerätetest und das Completion-/Freeze-Gate für DF-04E sind `PASS / 0 BLOCKER / FROZEN`.
+
+Nicht Bestandteil des eingefrorenen DF-04E-Vertrags sind unter anderem Auto-Alignment / Best-Fit, benutzerveränderbarer Threshold/Tolerance, Morphologie-Modi, numerisches Silhouetten- oder Difference-Scoring, KI-Auswertung, automatische PASS/FAIL-Entscheidung, Persistenz und Atlas-Funktionen.
 
 ## Aktueller Stand
 Aktueller Entwicklungs-/Freeze-Branch:
-`df-04d-difference-view-foundation`
+`df-04e-silhouette-difference-foundation`
 
 Aktueller eingefrorener Review-Stand:
-`DF-04D – PASS / 0 BLOCKER / FROZEN`
+`DF-04E – PASS / 0 BLOCKER / FROZEN`
 
-Ein Folgeblock ist noch nicht automatisch freigegeben. Zuerst wird aus der realen DF-04D-Erfahrung fachlich festgelegt, welcher kleine Review-Schritt als Nächstes tatsächlich benötigt wird.
+Ein Folgeblock ist noch nicht automatisch freigegeben. Zuerst wird aus der realen DF-04E-Erfahrung fachlich festgelegt, welcher kleine Review-Schritt als Nächstes tatsächlich benötigt wird.
 
 ## Siedler-Mini
 Repository: `DrHoschi/siedler-mini`
@@ -73,6 +76,7 @@ Konkrete aktuelle Handoff-Pfade und Freigabegrenzen werden verbindlich in der Re
 - `docs/DF-04B_OVERLAY_ONION_SKIN_COMPARE_CONTRACT.md` – eingefrorener Overlay-Vertrag
 - `docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md` – eingefrorener Manual-Alignment-Vertrag
 - `docs/DF-04D_DIFFERENCE_VIEW_FOUNDATION_CONTRACT.md` – eingefrorener Difference-View-Vertrag
+- `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md` – eingefrorener Silhouette-Difference-Vertrag
 
 ## Projektprinzip
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
