@@ -33,6 +33,7 @@ Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animat
 - Overlay / Onion-Skin
 - manuelles Result-Alignment
 - Difference View
+- Silhouette Difference
 - Direction-Vergleich
 - Animation Timeline / FPS / Loop / Frame-Stepping
 - später Root/Pivot/Anchor, Approve/Reject und Review-Notizen
@@ -58,7 +59,7 @@ Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animat
 ## 3. Aktuelle Module
 - Prompt Builder – vorhanden; Character Identity + Pose/Geometry Control + Generation-Handoff
 - Animated 3D Reference Viewer – PASS für Intake, Timeline/Scrubbing, Facing/Camera und Pose Bookmarks
-- Source / Result Compare View – `DF-04D PASS / FROZEN` inklusive Basisvergleich, Overlay / Onion-Skin, manuellem Result-Alignment und Difference View
+- Source / Result Compare View – `DF-04D PASS / FROZEN` inklusive Basisvergleich, Overlay / Onion-Skin, manuellem Result-Alignment und RGBA-Difference View
 - Animation Tester – Standalone Frames/Manifest, FPS, Loop, Step, Onion-Skin, Bottom-Center-Anchor
 - Pose Renderer – historischer DF-02E-Prototyp
 - Sprite Lab – vorhanden
@@ -112,52 +113,73 @@ Contract:
 Nach realem iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate eingefroren.
 
 Eingefrorener Kern:
-- zusätzlicher Modus `Difference` neben Basisvergleich und Overlay;
-- dieselben geladenen Source-/Result-Bilder werden wiederverwendet;
-- gemeinsame responsive Review-Rasterfläche;
-- Source nutzt die eingefrorene Fit-/Center-Regel;
-- Result nutzt dieselbe Regel plus aktuelles DF-04C-X/Y/Scale-Alignment;
+- zusätzlicher Modus `Difference`;
+- dieselben Source-/Result-Bilder;
+- gemeinsame Review-Rasterfläche;
+- Source nach Fit-/Center-Regel;
+- Result nach derselben Regel plus DF-04C-X/Y/Scale;
 - deterministische pixelweise absolute RGBA-Abweichung;
-- geringe/keine Abweichungen erscheinen dunkel, stärkere Abweichungen heller;
+- geringe Abweichung dunkel, stärkere heller;
 - Alpha ist Bestandteil der Difference;
-- Difference aktualisiert sich bei X/Y/Scale und `Reset Alignment`;
-- Rückkehr zu Basis/Overlay erhält Bilder und Alignment;
 - keine semantische Bewertung und kein numerischer Score.
 
 Contract:
 `docs/DF-04D_DIFFERENCE_VIEW_FOUNDATION_CONTRACT.md`
 
-Explizit weiterhin nicht Teil des eingefrorenen DF-04D-Umfangs:
+### DF-04E – Silhouette Difference Foundation – CONTRACT DEFINED
+Verbindlicher Contract:
+`docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
+
+Aus der realen DF-04D-Erfahrung abgeleiteter Bedarf:
+Die RGBA-Difference mischt geometrische Konturabweichungen mit Farb-, Textur-, Material- und Beleuchtungsunterschieden. DF-04E trennt als nächsten kleinen Review-Schritt ausschließlich die Silhouetten-/Alpha-Formprüfung davon ab.
+
+Geplanter enger Scope:
+- zusätzlicher Modus `Silhouette` bzw. `Silhouette Difference`;
+- dieselben geladenen Source-/Result-Bilder, keine neuen Slots;
+- dieselbe Review-Rasterfläche und dasselbe DF-04C-X/Y/Scale-Alignment;
+- deterministische Vordergrund-/Hintergrund-Maske ausschließlich aus Alpha;
+- RGB, Textur, Licht und Material beeinflussen die Silhouette nicht;
+- Überlappung, Source-only und Result-only werden visuell unterschieden;
+- X/Y/Scale und Reset aktualisieren die Silhouettenansicht;
+- Basisvergleich, Overlay und DF-04D-Difference bleiben unverändert erhalten;
+- responsive/touch-taugliche iPhone/iPad/Safari-Darstellung.
+
+Nicht Teil von DF-04E:
 - Auto-Alignment / Best-Fit;
 - Rotation, Warp, Perspective oder zusätzliche Alignment-Werkzeuge;
-- Threshold-/Tolerance-Regler;
-- mehrere Heatmap-/Difference-Modi;
-- numerischer Difference-Score;
+- benutzerveränderbarer Alpha-Threshold oder Tolerance-Regler;
+- mehrere Masken-/Morphologie-Modi;
+- Kontur-, Pixel-, Flächen-, Prozent-, IoU- oder Overlap-Score;
 - automatische PASS/FAIL-Entscheidung;
 - Pose-/Skeleton-Scoring oder KI-Auswertung;
-- Persistenz / Asset Library / gespeicherte Difference-Profile;
+- Persistenz / Asset Library;
 - Atlas-Funktionen.
 
 ## 6. Aktueller Stand / Gate
-Aktueller Entwicklungs-/Freeze-Branch:
+Aktueller Dokumentations-/Freeze-Branch:
 `df-04d-difference-view-foundation`
 
 Eingefrorener Produktstand:
 `DF-04D – PASS / 0 BLOCKER / FROZEN`
 
-Completion-/Freeze-Gate:
-**PASS / 0 BLOCKER**
+Eingefrorener DF-04D-Produkt-Head:
+`89b9b8e214ed4463a0e8150cb5a4563351c7c55b`
 
-Regressiert wurden:
-- verbindlicher DF-04D-Contract;
-- vollständiger Branch-Diff gegen `99c2e9e09733f4f5c7b989e1123127c305c312d8`;
-- eingefrorene DF-04A-/DF-04B-/DF-04C-Grenzen;
-- vollständige reale iPhone-/Safari-Geräte-Evidenz;
-- alle DF-04D-Nicht-Ziele.
+Aktuelles Gate:
+**DF-04E Contract / Roadmap Reconciliation**
 
-Im Freeze-Gate wurde keine neue Produktfunktion ergänzt.
+Erlaubt in diesem Gate:
+- DF-04E-Contract gegen den eingefrorenen DF-04D-Produktstand dokumentieren;
+- ROADMAP und PROJECT_STATUS auf die enge Silhouette-Difference-Grenze nachziehen;
+- DF-04A–D unverändert eingefroren lassen.
 
-Nächste Arbeit ist noch nicht automatisch freigegeben. Zuerst muss aus der realen DF-04D-Erfahrung fachlich bestimmt werden, welcher eng abgegrenzte Review-Schritt als Nächstes benötigt wird.
+Nicht erlaubt:
+- DF-04E-Branch anlegen;
+- DF-04E implementieren;
+- Produktlogik/UI/JavaScript ändern;
+- Threshold/Tolerance, Scoring, Auto-Alignment oder andere Folgefunktionen vorziehen.
+
+Erst nach PASS dieses Dokumentationsgates darf ein separater DF-04E-Entwicklungsbranch exakt von der dann festgelegten reconciliierten Dokumentationsbaseline erstellt werden.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -194,8 +216,9 @@ Soweit technisch sinnvoll:
 - Canvas-/Abmessungsvergleich
 - Root-/Bounding-Box-/Scale-Drift
 - Difference Preview
+- Silhouettenvergleich
 - Frame-zu-Frame-Motionindikatoren
-- Direction-/Silhouettenvergleich
+- Direction-Vergleich
 - Manifest-Vollständigkeit
 - Dateinamen-/Metadatenvalidierung
 
@@ -220,7 +243,7 @@ Derzeit nicht parallel vorziehen:
 - finaler automatischer Atlas-Packing-Workflow;
 - große persistente Asset-Datenbank;
 - automatisches Pose-Scoring oder KI-Review;
-- Threshold/Tolerance oder Difference-Scoring ohne separaten Folgecontract;
+- Threshold/Tolerance oder Difference-/Silhouette-Scoring ohne separaten Folgecontract;
 - automatische Registrierung / Best-Fit ohne separaten Folgecontract.
 
 ## 15. Git-/Dokumentations-Arbeitsweise
