@@ -58,7 +58,7 @@ Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animat
 ## 3. Aktuelle Module
 - Prompt Builder – vorhanden; Character Identity + Pose/Geometry Control + Generation-Handoff
 - Animated 3D Reference Viewer – PASS für Intake, Timeline/Scrubbing, Facing/Camera und Pose Bookmarks
-- Source / Result Compare View – `DF-04B PASS / FROZEN` inklusive Overlay / Onion-Skin
+- Source / Result Compare View – `DF-04C PASS / FROZEN` inklusive Overlay / Onion-Skin und manuellem Result-Alignment
 - Animation Tester – Standalone Frames/Manifest, FPS, Loop, Step, Onion-Skin, Bottom-Center-Anchor
 - Pose Renderer – historischer DF-02E-Prototyp
 - Sprite Lab – vorhanden
@@ -97,29 +97,15 @@ Contract:
 `docs/DF-04A_SOURCE_RESULT_COMPARE_VIEW_CONTRACT.md`
 
 ### DF-04B – Overlay / Onion-Skin Compare Foundation – PASS / FROZEN
-Nach realem iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate eingefroren.
-
-Eingefrorener Kern:
-- DF-04A-Basisansicht bleibt erhalten;
-- zusätzlicher Overlay-/Onion-Skin-Modus;
-- Source und Result in derselben Vergleichsfläche;
-- identische deterministische Fit-/Center-Regel im Neutralzustand;
-- Source als Basis, Result als Overlay;
-- manueller 0–100-%-Blend-/Opacity-Regler;
-- Rückkehr zur Basisansicht ohne Verlust der geladenen Bilder;
-- responsive iPhone/iPad/Safari-Bedienbarkeit.
+Eingefrorener Overlay-Ausbau mit gemeinsamer Vergleichsfläche, Source als Basis-Layer, Result als Overlay-Layer, identischer neutraler Fit-/Center-Regel, manuellem 0–100-%-Blend und Rückkehr zur Basisansicht ohne Verlust der geladenen Bilder.
 
 Contract:
 `docs/DF-04B_OVERLAY_ONION_SKIN_COMPARE_CONTRACT.md`
 
-### DF-04C – Manual Alignment Foundation – CONTRACT DEFINED
-Verbindlicher Contract:
-`docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
+### DF-04C – Manual Alignment Foundation – PASS / FROZEN
+Nach realem iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate eingefroren.
 
-Aus der realen DF-04B-Erfahrung abgeleiteter Bedarf:
-Der Overlay-Vergleich macht Pose-/Silhouettenabweichungen sichtbar, vermischt aber bei unterschiedlich positionierten oder skalierten Motiven echte Formabweichungen mit reinen Lage-/Größenabweichungen. DF-04C soll deshalb vor einer Difference-Berechnung ausschließlich eine kontrollierte manuelle Result-Ausrichtung bereitstellen.
-
-Geplanter enger Scope:
+Eingefrorener Kern:
 - Source / Control bleibt autoritativ und unbeweglich;
 - ausschließlich Result darf transformiert werden;
 - Translation X;
@@ -131,43 +117,34 @@ Geplanter enger Scope:
 - Alignment bleibt temporärer Review-Zustand;
 - responsive iPhone/iPad/Safari-Bedienbarkeit.
 
-Nicht Teil von DF-04C:
-- Rotation, Warp, Perspective oder Skew;
-- nicht-uniforme Skalierung;
-- automatische Registrierung / Best-Fit;
-- Difference View / Pixel-Difference / Heatmap;
-- Difference- oder Pose-Scoring;
-- KI-Auswertung / automatische PASS/FAIL-Entscheidung;
-- Persistenz oder gespeicherte Alignment-Profile;
-- Atlas-Funktionen.
+Contract:
+`docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
 
-### DF-04D – Difference View Foundation – frühestens nach DF-04C-Test
-DF-04D ist nur eine vorgesehene Folgegrenze und noch nicht freigegeben. Erst die reale DF-04C-Erfahrung soll zeigen, ob und in welcher Form eine Difference-Ansicht auf dem manuell ausgerichteten Vergleich tatsächlich sinnvoll ist.
+### DF-04D – Difference View Foundation – mögliche Folgegrenze
+DF-04D ist noch nicht implementierungsfreigegeben. Vor Branch oder Implementierung muss zuerst ein eigener enger Contract gegen den eingefrorenen DF-04C-Stand definiert werden. Die reale DF-04C-Erfahrung soll bestimmen, welche Difference-Darstellung tatsächlich benötigt wird.
 
-## 6. Aktuelles Gate
+## 6. Aktueller Stand / Gate
 Aktueller Branch:
-`df-04b-overlay-onion-skin-compare`
+`df-04c-manual-alignment-foundation`
 
 Eingefrorener Stand:
-`DF-04B – PASS / FROZEN`
+`DF-04C – PASS / 0 BLOCKER / FROZEN`
 
 Aktuelles Gate:
-**DF-04C Contract / Roadmap Reconciliation**
+**DF-04C – Completion / Freeze Gate – PASS**
 
-Erlaubt in diesem Gate:
-- DF-04C-Vertrag dokumentieren;
-- ROADMAP auf den tatsächlichen DF-04B-Freeze aktualisieren;
-- C eindeutig als Manual Alignment Foundation festlegen;
-- D ausschließlich als spätere mögliche Difference View Foundation abgrenzen.
+Im Freeze-Gate wurden Contract, vollständiger Branch-Diff gegen `182331260917ec4699741204be3571fe38c51d8b`, DF-04A-/DF-04B-Regressionsgrenzen und reale Geräte-Evidenz gemeinsam regressiert. Keine neue Produktfunktion wurde hinzugefügt.
 
-Nicht erlaubt:
-- DF-04C-Branch anlegen;
-- DF-04C implementieren;
-- Produktionslogik/UI/JavaScript verändern;
-- DF-04B-Funktionalität verändern;
-- Difference View vorziehen.
+Nächste mögliche Arbeit:
+- zuerst DF-04D fachlich eng definieren;
+- Contract auf dem eingefrorenen DF-04C-Stand dokumentieren;
+- erst nach separatem Reconciliation-PASS einen DF-04D-Branch zulassen.
 
-Erst nach PASS dieses Dokumentationsgates darf ein separater DF-04C-Entwicklungsbranch exakt von der festgelegten reconciliierten DF-04B-Baseline erstellt werden.
+Noch nicht erlaubt:
+- DF-04D-Branch;
+- DF-04D-Implementierung;
+- automatische Registrierung / Best-Fit;
+- Scoring oder automatische PASS/FAIL-Entscheidung.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -215,7 +192,7 @@ Automatische Prüfungen unterstützen das Review; sie ersetzen nicht automatisch
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- aktueller Dokumentations-/Freeze-Stand: `df-04b-overlay-onion-skin-compare`
+- aktueller Dokumentations-/Freeze-Stand: `df-04c-manual-alignment-foundation`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
@@ -230,7 +207,7 @@ Derzeit nicht parallel vorziehen:
 - finaler automatischer Atlas-Packing-Workflow;
 - große persistente Asset-Datenbank;
 - automatisches Pose-Scoring oder KI-Review;
-- Difference View vor realem DF-04C-Test.
+- DF-04D-Implementierung vor eigenem Contract-/Reconciliation-Gate.
 
 ## 15. Git-/Dokumentations-Arbeitsweise
 - kleine, klar benannte DF-Blöcke
