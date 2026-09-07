@@ -13,7 +13,8 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 - DF-04D Contract: `docs/DF-04D_DIFFERENCE_VIEW_FOUNDATION_CONTRACT.md`
 - Eingefrorener Review-Stand: `DF-04C – PASS / 0 BLOCKER / FROZEN`
 - Aktueller Entwicklungsblock: `DF-04D – Difference View Foundation`
-- Aktuelles Gate: `DF-04D · TESTBUILD 1 – DEVICE TEST REQUIRED`
+- Aktueller Status: `DF-04D · TESTBUILD 1 – PASS / 0 BLOCKER`
+- Nächstes Gate: `DF-04D – Completion / Freeze Gate`
 
 # DF-04 – Asset Review Foundation
 
@@ -55,6 +56,23 @@ Technische Review-Grenze des Testbuilds:
 - Rendering berücksichtigt `devicePixelRatio` bis maximal Faktor 2;
 - keine semantische Bewertung oder numerische Kennzahl wird aus den Pixeldifferenzen erzeugt.
 
+### DF-04D Gerätetest – PASS / 0 BLOCKER
+Reale iPhone-/Safari-Evidenz vom 2026-09-07 bestätigt:
+- DF-04A-Basisvergleich, DF-04B-Overlay/Blend und DF-04C-Alignment bleiben erreichbar und funktionsfähig;
+- mit denselben zwei geladenen Bildern kann ohne erneutes Laden in den klar erkennbaren `Difference`-Modus gewechselt werden;
+- die getesteten Source-/Result-Bilder zeigen unterschiedliche Posen desselben Character-Designs und erzeugen räumlich klar erkennbare Difference-Bereiche;
+- geringe bzw. deckungsgleichere Abweichungen erscheinen dunkel/niedrig intensiv, stärkere Abweichungen heller/höher intensiv;
+- transparente Bildbereiche werden ohne Darstellungsfehler verarbeitet; Alpha bleibt Bestandteil der Difference;
+- ein veränderter DF-04C-Alignment-Zustand X = -53 px, Y = 47 px, Scale = 110 % wurde im Overlay gesetzt und anschließend in der Difference View sichtbar berücksichtigt;
+- damit wurden X-, Y- und uniforme Scale-Änderungen in Kombination gegen die Difference-Darstellung regressiert;
+- `Reset Alignment` stellt X = 0 px, Y = 0 px und Scale = 100 % wieder her und setzt die Difference entsprechend auf den neutralen DF-04B-Zustand zurück;
+- der Wechsel `Difference → Overlay → Basisvergleich` erhält beide geladenen Bilder;
+- der Alignment-Zustand bleibt beim normalen Moduswechsel erhalten, sofern nicht ausdrücklich `Reset Alignment` ausgelöst wird;
+- Difference View und Moduswechsel sind auf dem getesteten iPhone/Safari sinnvoll bedienbar;
+- keine ausgeschlossene Auto-Alignment-, Scoring-, Threshold-, Persistenz-, KI- oder Atlas-Funktion wurde vorgezogen.
+
+Gerätetest-Ergebnis: `DF-04D · TESTBUILD 1 – PASS / 0 BLOCKER`.
+
 ### Weiterhin explizit nicht implementiert
 - automatische Registrierung / Auto-Alignment / Best-Fit;
 - Rotation, Perspective, Warp oder Skew;
@@ -72,22 +90,11 @@ Technische Review-Grenze des Testbuilds:
 - Änderungen am DF-02F-Generation-Handoff.
 
 # Aktuelles Gate
-`DF-04D · TESTBUILD 1 – DEVICE TEST REQUIRED`
+`DF-04D · TESTBUILD 1 – PASS / 0 BLOCKER`
 
-Vor PASS/FROZEN muss auf realem iPhone/iPad/Safari gegen den Contract bestätigt werden:
-1. DF-04A-Basisvergleich, DF-04B-Overlay/Blend und DF-04C-Alignment funktionieren unverändert weiter.
-2. Mit zwei geladenen Bildern kann in den klar erkennbaren `Difference`-Modus gewechselt werden.
-3. Difference verwendet dieselben geladenen Bilder ohne erneutes Laden.
-4. Identische bzw. deckungsgleich gleiche Bereiche erscheinen dunkel/niedrig intensiv.
-5. Sichtbar abweichende Bereiche erscheinen heller/höher intensiv.
-6. Änderung von Result-X beeinflusst die Difference entsprechend dem bestehenden DF-04C-Alignment.
-7. Änderung von Result-Y beeinflusst die Difference entsprechend.
-8. Änderung der uniformen Result-Scale beeinflusst die Difference entsprechend.
-9. `Reset Alignment` stellt auch in der Difference den neutralen Zustand wieder her.
-10. Transparente Bereiche werden fehlerfrei verarbeitet und Alpha-Unterschiede bleiben als Difference sichtbar.
-11. Rückkehr zu Overlay oder Basisvergleich erhält Bilder und Alignment-Zustand.
-12. Difference View ist auf iPhone/iPad/Safari sinnvoll nutzbar.
-13. Keine ausgeschlossene Auto-Alignment-, Scoring-, Threshold-, Persistenz-, KI- oder Atlas-Funktion wurde vorgezogen.
+Alle 13 vertraglichen Geräte-PASS-Kriterien sind durch Implementierung plus reale iPhone-/Safari-Evidenz erfüllt. DF-04D ist damit geräteseitig bestanden, aber noch nicht eingefroren.
 
 # Nächster zulässiger Schritt
-Ausschließlich `DF-04D · TESTBUILD 1` auf realem Zielgerät testen und Evidenz gegen den Contract sammeln. Noch kein Folgeblock und kein weiterer Funktionsausbau.
+Ausschließlich `DF-04D – Completion / Freeze Gate`: verbindlichen Contract, vollständigen Branch-Diff gegen `99c2e9e09733f4f5c7b989e1123127c305c312d8`, die eingefrorenen DF-04A-/DF-04B-/DF-04C-Regressionsgrenzen und die reale Geräte-Evidenz gemeinsam regressieren. Erst bei `PASS / 0 BLOCKER` darf DF-04D als `FROZEN` markiert werden.
+
+Noch kein Folgeblock und kein weiterer Funktionsausbau.
