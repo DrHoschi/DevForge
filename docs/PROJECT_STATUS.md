@@ -8,85 +8,80 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-04b-overlay-onion-skin-compare`
-- DF-04B Baseline: `ad2d98dde3ed1e7bc25401780f65d5b40aaec8ab`
-- DF-04B Contract: `docs/DF-04B_OVERLAY_ONION_SKIN_COMPARE_CONTRACT.md`
-- Abgeschlossener DF-02F-Stand: `DF-02F.6R.4`
+- Aktueller Entwicklungsbranch: `df-04c-manual-alignment-foundation`
+- DF-04C Baseline: `182331260917ec4699741204be3571fe38c51d8b`
+- DF-04C Contract: `docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
 - Eingefrorener Review-Stand: `DF-04B – PASS / FROZEN`
-- Aktueller abgeschlossener Entwicklungsblock: `DF-04B – Overlay / Onion-Skin Compare Foundation`
-- Aktueller Status: `DF-04B – PASS / FROZEN`
-
-# DF-02F – bekannte Generation-Handoff-Grenze
-Die reproduzierbare Pose-Auswahl innerhalb DevForge ist nicht mehr der Hauptengpass. Externe Bildgenerierung übernimmt selbst explizite Pose-/Skeleton-Kontrolle nicht deterministisch genug für die benötigte Frame-genaue Character-Animation. Diese Grenze blockiert den unabhängigen Review-Ausbau nicht.
+- Aktueller Entwicklungsblock: `DF-04C – Manual Alignment Foundation`
+- Aktuelles Gate: `DF-04C · TESTBUILD 1 – DEVICE TEST REQUIRED`
 
 # DF-04 – Asset Review Foundation
 
 ## DF-04A – Source / Result Compare View – PASS / FROZEN
-DF-04A bleibt autoritativ für zwei getrennte lokale Bildslots, die Source-/Result-Rollen, unabhängiges Ersetzen, proportionale vollständige Darstellung und die responsive Basisvergleichsansicht.
+Autoritativ für zwei getrennte lokale Bildslots, feste Source-/Result-Rollen, unabhängiges Ersetzen, proportionale vollständige Darstellung und responsive Basisvergleichsansicht.
+
+## DF-04B – Overlay / Onion-Skin Compare Foundation – PASS / FROZEN
+Autoritativ für den zusätzlichen Overlay-/Onion-Skin-Modus auf denselben geladenen Bildern, gemeinsame Vergleichsfläche, Source als Basis-Layer, Result als Overlay-Layer, identische neutrale Fit-/Center-Regel und manuellen 0–100-%-Blend-Regler.
 
 Realer iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate: `PASS / 0 BLOCKER / FROZEN`.
 
-## DF-04B – Overlay / Onion-Skin Compare Foundation – PASS / FROZEN
+## DF-04C – Manual Alignment Foundation
 Contract:
-`docs/DF-04B_OVERLAY_ONION_SKIN_COMPARE_CONTRACT.md`
+`docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
 
-Eingefrorener Umfang:
-- sichtbare geprüfte Build-Kennung `DF-04B · TESTBUILD 1`;
-- DF-04A-Basisvergleich bleibt als eigener Modus erhalten;
-- zusätzlicher Modus `Overlay / Onion-Skin`;
-- Source / Control und Result verwenden im Overlay dieselbe gemeinsame Darstellungsfläche;
-- identische `object-fit: contain`-/Center-Regel für beide Layer;
-- Source als Basis-Layer, Result darüber;
-- manueller Blend-/Opacity-Regler von 0 bis 100 % für den Result-Layer;
-- Rückkehr zum Basisvergleich ohne Verlust der geladenen Slots;
-- responsive Bedienung für schmale Viewports;
-- Tool-Cache-Busting auf `df04b-testbuild1`.
+### TESTBUILD 1 implementiert
+Auf dem separaten Branch `df-04c-manual-alignment-foundation` wurde ausschließlich der vertraglich freigegebene manuelle Alignment-Ausbau ergänzt:
+- sichtbare Build-Kennung `DF-04C · TESTBUILD 1`;
+- bestehender DF-04A-Basisvergleich unverändert als eigener Modus;
+- bestehender DF-04B-Overlay-/Onion-Skin-Modus bleibt erhalten;
+- Source / Control bleibt im Overlay unbeweglich;
+- ausschließlich Result erhält manuelle Translation X;
+- ausschließlich Result erhält manuelle Translation Y;
+- ausschließlich Result erhält uniforme proportionale Skalierung;
+- aktuelle X-, Y- und Scale-Werte werden sichtbar angezeigt;
+- `Reset Alignment` stellt X = 0 px, Y = 0 px und Scale = 100 % wieder her;
+- bestehender DF-04B-Blend-Regler bleibt parallel funktionsfähig;
+- Alignment wird nur als temporärer Seitenzustand gehalten und nicht persistiert;
+- responsive/mobile Controls für schmale Viewports;
+- Tool-Cache-Busting auf `df04c-testbuild1` aktualisiert.
 
-### DF-04B Gerätetest – PASS
-Reale iPhone-/Safari-Evidenz vom 2026-09-07 bestätigt:
-- sichtbare Build-Kennung `DF-04B · TESTBUILD 1`;
-- DF-04A-Basisvergleich auf schmalem Viewport weiterhin nutzbar;
-- Source und Result bleiben beim Wechsel in den Overlay-Modus geladen;
-- beide Bilder erscheinen gleichzeitig in derselben Overlay-Vergleichsfläche;
-- 0 % zeigt Source / Control;
-- 50 % zeigt beide Layer gemeinsam und macht Pose-/Silhouettenabweichungen sichtbar;
-- 100 % zeigt Result;
-- der Blend-Regler ist auf iPhone/Safari über den vollständigen Bereich bedienbar;
-- gemeinsame Vergleichsfläche bleibt stabil;
-- beide Layer bleiben proportional und ohne sichtbares Stretching;
-- nach Rückkehr zu `Basisvergleich` sind Source und Result weiterhin geladen;
-- keine ausgeschlossene Folgefunktion wurde sichtbar vorgezogen.
+Testbuild-Grenzen:
+- X: -200 bis +200 px;
+- Y: -200 bis +200 px;
+- Scale: 50 bis 150 %;
+- neutraler Zustand: X = 0, Y = 0, Scale = 100 %.
 
-Gerätetest-Ergebnis: `DF-04B · TESTBUILD 1 – PASS / 0 BLOCKER`.
-
-### Explizit nicht Teil des eingefrorenen DF-04B-Umfangs
+### Weiterhin explizit nicht implementiert
+- Rotation;
+- Perspective / Warp / Skew;
+- nicht-uniforme Skalierung;
+- Crop-Werkzeuge;
+- automatische Registrierung oder Best-Fit;
+- Feature-/Landmark-Erkennung;
 - Difference View / Pixel-Difference / Heatmap;
-- automatische Registrierung oder Alignment;
-- manuelle Transform-/Alignment-Werkzeuge;
-- synchrones Pan/Zoom;
-- Pose-/Skeleton-Scoring;
+- Difference- oder Pose-Scoring;
 - KI-Auswertung oder automatische PASS/FAIL-Entscheidung;
-- Persistenz / Asset Library;
+- synchrones Pan/Zoom;
+- Persistenz / Asset Library / gespeicherte Alignment-Profile;
 - Approve/Reject / Review-Notizen;
-- technische Alpha-/Bounds-/Scale-Prüfung;
 - Atlas-Funktionen;
 - Änderungen am DF-02F-Generation-Handoff.
 
-# DF-04B – Completion / Freeze Gate – PASS
-Regression gemeinsam gegen den verbindlichen DF-04B-Contract, die Baseline `ad2d98dde3ed1e7bc25401780f65d5b40aaec8ab`, den vollständigen Branch-Diff, die DF-04A-Regressionsgrenze und die dokumentierte reale Geräte-Evidenz durchgeführt.
+# Aktuelles Gate
+`DF-04C · TESTBUILD 1 – DEVICE TEST REQUIRED`
 
-Gate-Ergebnis:
-- Branch ist exakt von der reconciliierten DF-04A-Baseline abgeleitet und nicht hinter ihr;
-- vor dem Freeze-Dokumentationscommit umfasst der Branch-Diff ausschließlich `tools/source-result-compare/index.html`, `tools/source-result-compare/app.js` und `docs/PROJECT_STATUS.md`;
-- die Codeänderungen sind auf den vertraglich freigegebenen Overlay-Modus, gemeinsame Layerfläche, Blend-Regler und Testbuild-Kennung/Cache-Busting begrenzt;
-- DF-04A-Laden, Rollen, Basisvergleich und Slot-Erhalt bleiben erhalten und wurden auf dem Zielgerät regressiert;
-- alle neun DF-04B-PASS-Kriterien sind durch Implementierung plus reale Geräte-Evidenz erfüllt;
-- keine Difference-, Alignment-, Scoring-, Persistenz-, Atlas- oder Generation-Handoff-Funktion wurde vorgezogen;
-- im Completion-/Freeze-Gate selbst wurde keine neue Produktfunktion ergänzt.
-
-Ergebnis: `DF-04B – PASS / 0 BLOCKER / FROZEN`.
+Vor PASS/FROZEN muss auf realem iPhone/iPad/Safari gegen den Contract bestätigt werden:
+1. DF-04A- und DF-04B-Funktionen funktionieren unverändert weiter.
+2. Source / Control bleibt bei Alignment-Änderungen unbewegt.
+3. X verschiebt ausschließlich Result horizontal.
+4. Y verschiebt ausschließlich Result vertikal.
+5. Scale skaliert ausschließlich Result proportional.
+6. X, Y und Scale funktionieren kombiniert, ohne Overlay oder Blend zu zerstören.
+7. Blend 0–100 % bleibt auch bei verändertem Alignment funktionsfähig.
+8. `Reset Alignment` stellt deterministisch X = 0, Y = 0 und Scale = 100 % wieder her.
+9. Rückkehr zum Basisvergleich verliert oder verändert die geladenen Bilder nicht.
+10. Alignment-Bedienung bleibt auf schmalem Zielgerät sinnvoll nutzbar.
+11. Keine ausgeschlossene DF-04D-/Auto-Alignment-/Scoring-/Persistenz-/Atlas-Funktion wurde vorgezogen.
 
 # Nächster zulässiger Schritt
-Kein weiterer DF-04B-Funktionsausbau auf diesem eingefrorenen Stand.
-
-Ein möglicher `DF-04C – Difference / Alignment Foundation` ist nicht automatisch freigegeben. Zuerst muss aus der realen DF-04B-Erfahrung fachlich festgelegt werden, welche Difference-/Alignment-Funktion tatsächlich benötigt wird, und dafür ein eigener enger Contract gegen den eingefrorenen DF-04B-Stand definiert werden. Noch kein DF-04C-Branch und keine DF-04C-Implementierung.
+Ausschließlich `DF-04C · TESTBUILD 1` auf realem Zielgerät testen und Evidenz gegen den Contract sammeln. Noch kein DF-04D und kein weiterer Funktionsausbau.
