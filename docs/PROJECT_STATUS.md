@@ -12,7 +12,7 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 - Eingefrorener Produktstand: `DF-04D – PASS / 0 BLOCKER / FROZEN`
 - Eingefrorener DF-04D-Produkt-Head: `89b9b8e214ed4463a0e8150cb5a4563351c7c55b`
 - DF-04E Contract: `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
-- Aktuelles Gate: `DF-04E Contract / Roadmap Reconciliation`
+- Aktuelles Gate: `DF-04E Contract / Roadmap Reconciliation – PASS / 0 BLOCKER`
 
 # DF-04 – Asset Review Foundation
 
@@ -70,19 +70,21 @@ Die eingefrorene DF-04D-RGBA-Difference zeigt Abweichungen zuverlässig, mischt 
 - Atlas-Funktionen;
 - Änderungen am DF-02F-Generation-Handoff.
 
-# Aktuelles Gate
-`DF-04E Contract / Roadmap Reconciliation`
+# DF-04E Contract / Roadmap Reconciliation – PASS
+Das Dokumentationsgate wurde gegen den eingefrorenen Produkt-Head `89b9b8e214ed4463a0e8150cb5a4563351c7c55b` vollständig regressiert.
 
-Dieses Gate ist ausschließlich dokumentarisch. Es regressiert:
-- den eingefrorenen DF-04D-Produkt-Head `89b9b8e214ed4463a0e8150cb5a4563351c7c55b`;
-- den neuen DF-04E-Contract;
-- die ROADMAP-Grenze;
-- die unveränderten DF-04A/B/C/D-Verträge;
-- die Sicherstellung, dass kein DF-04E-Branch angelegt und keine Produktlogik/UI/JavaScript verändert wurde.
+Gate-Ergebnis:
+- Branch ist `0 behind` gegenüber dem eingefrorenen DF-04D-Produkt-Head;
+- vor diesem Gate-PASS-Dokumentationscommit umfasst der vollständige Diff seit `89b9b8e214ed4463a0e8150cb5a4563351c7c55b` exakt drei Dokumentationsdateien: `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`, `docs/PROJECT_STATUS.md`, `docs/ROADMAP.md`;
+- keinerlei Produktlogik, UI oder JavaScript wurde verändert;
+- kein DF-04E-Entwicklungsbranch wurde im Contract-/Reconciliation-Schritt angelegt;
+- DF-04A/B/C/D bleiben fachlich und technisch eingefroren;
+- DF-04E ist eindeutig auf die zusätzliche Alpha-/Silhouetten-Difference begrenzt;
+- benutzerveränderbarer Threshold, Tolerance, Scoring, Auto-Alignment, KI, Persistenz und Atlas bleiben ausgeschlossen.
+
+Ergebnis: `DF-04E Contract / Roadmap Reconciliation – PASS / 0 BLOCKER`.
 
 # Nächster zulässiger Schritt
-Ausschließlich das `DF-04E Contract / Roadmap Reconciliation` Gate gegen den vollständigen Dokumentations-Diff seit `89b9b8e214ed4463a0e8150cb5a4563351c7c55b` prüfen.
+Ausschließlich einen separaten DF-04E-Entwicklungsbranch exakt von der nach diesem Gate festgelegten reconciliierten Dokumentationsbaseline anlegen.
 
-Nur bei `PASS / 0 BLOCKER` darf anschließend ein separater DF-04E-Entwicklungsbranch exakt von der dann festgelegten reconciliierten Dokumentationsbaseline erstellt werden.
-
-Noch kein DF-04E-Branch und keine DF-04E-Implementierung.
+Noch keine DF-04E-Implementierung im selben Schritt.
