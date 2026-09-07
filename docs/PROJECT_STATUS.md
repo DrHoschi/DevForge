@@ -12,7 +12,8 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 - DF-04E Baseline: `d22ccfdfe682a33a56ead9fd2db2355fd8734682`
 - Eingefrorener Produktstand: `DF-04D – PASS / 0 BLOCKER / FROZEN`
 - DF-04E Contract: `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
-- Aktuelles Gate: `DF-04E · TESTBUILD 1 – DEVICE TEST REQUIRED`
+- Aktueller Status: `DF-04E · TESTBUILD 1 – PASS / 0 BLOCKER`
+- Nächstes Gate: `DF-04E – Completion / Freeze Gate`
 
 # DF-04 – Asset Review Foundation
 
@@ -55,6 +56,24 @@ Auf dem separaten Branch `df-04e-silhouette-difference-foundation` wurde ausschl
 - responsive/touch-taugliche Darstellung für schmale Viewports;
 - Cache-Busting auf `df04e-testbuild1` aktualisiert.
 
+### DF-04E Gerätetest – PASS / 0 BLOCKER
+Reale iPhone-/Safari-Evidenz vom 2026-09-07 bestätigt:
+- DF-04A-Basisvergleich, DF-04B-Overlay/Blend, DF-04C-Alignment und DF-04D-RGBA-Difference funktionieren weiterhin;
+- `DF-04E · TESTBUILD 1` ist sichtbar;
+- mit denselben geladenen Bildern kann ohne erneutes Laden in den `Silhouette`-Modus gewechselt werden;
+- RGB-Farbe, Textur, Material und Beleuchtung dominieren die Silhouettenansicht nicht;
+- Überlappung ist klar hellgrau erkennbar;
+- Source-only ist klar magenta erkennbar;
+- Result-only ist klar cyan erkennbar und eindeutig von Source-only unterscheidbar;
+- transparente Hintergründe und Alpha-Kanten werden ohne sichtbare Darstellungsfehler verarbeitet;
+- Result-X, Result-Y und uniforme Result-Scale wurden auf dem Zielgerät verändert und die Silhouette Difference aktualisierte sich entsprechend;
+- `Reset Alignment` wurde getestet und stellte den neutralen DF-04B-Zustand wieder her;
+- alle bisherigen Modi und Funktionen bleiben nach den DF-04E-Änderungen erhalten;
+- die Silhouettenansicht ist auf dem getesteten iPhone/Safari sinnvoll bedienbar;
+- keine ausgeschlossene Threshold-, Tolerance-, Scoring-, Auto-Alignment-, KI-, Persistenz- oder Atlas-Funktion wurde vorgezogen.
+
+Gerätetest-Ergebnis: `DF-04E · TESTBUILD 1 – PASS / 0 BLOCKER`.
+
 ### Weiterhin explizit nicht implementiert
 - Auto-Alignment / Best-Fit;
 - Rotation / Perspective / Warp / Skew;
@@ -74,23 +93,11 @@ Auf dem separaten Branch `df-04e-silhouette-difference-foundation` wurde ausschl
 - Änderungen am DF-02F-Generation-Handoff.
 
 # Aktuelles Gate
-`DF-04E · TESTBUILD 1 – DEVICE TEST REQUIRED`
+`DF-04E · TESTBUILD 1 – PASS / 0 BLOCKER`
 
-Vor PASS/FROZEN muss auf realem iPhone/iPad/Safari gegen den Contract bestätigt werden:
-1. DF-04A-Basisvergleich, DF-04B-Overlay/Blend, DF-04C-Alignment und DF-04D-RGBA-Difference funktionieren unverändert weiter.
-2. Mit denselben geladenen Bildern kann ohne erneutes Laden in den klar erkennbaren `Silhouette`-Modus gewechselt werden.
-3. Farb-, Textur- und Beleuchtungsunterschiede dominieren die Silhouettenansicht nicht.
-4. Gemeinsame Source-/Result-Silhouette ist klar als Überlappung erkennbar.
-5. Source-only-Bereiche sind eindeutig erkennbar.
-6. Result-only-Bereiche sind eindeutig erkennbar und von Source-only unterscheidbar.
-7. Änderung von Result-X aktualisiert die Silhouette Difference entsprechend dem bestehenden DF-04C-Alignment.
-8. Änderung von Result-Y aktualisiert sie entsprechend.
-9. Änderung der uniformen Result-Scale aktualisiert sie entsprechend.
-10. `Reset Alignment` stellt auch für die Silhouette Difference den neutralen DF-04B-Zustand wieder her.
-11. Transparente Hintergründe und Alpha-Kanten werden ohne Darstellungsfehler verarbeitet.
-12. Wechsel zwischen Silhouette, Difference, Overlay und Basisvergleich erhält Bilder und Alignment-Zustand.
-13. Die Silhouettenansicht ist auf iPhone/iPad/Safari sinnvoll nutzbar.
-14. Keine ausgeschlossene Threshold-, Tolerance-, Scoring-, Auto-Alignment-, KI-, Persistenz- oder Atlas-Funktion wurde vorgezogen.
+Alle 14 vertraglichen Geräte-PASS-Kriterien sind durch Implementierung plus reale iPhone-/Safari-Evidenz erfüllt. DF-04E ist damit geräteseitig bestanden, aber noch nicht eingefroren.
 
 # Nächster zulässiger Schritt
-Ausschließlich `DF-04E · TESTBUILD 1` auf realem Zielgerät testen und Evidenz gegen den Contract sammeln. Noch kein Folgeblock und kein weiterer Funktionsausbau.
+Ausschließlich `DF-04E – Completion / Freeze Gate`: verbindlichen DF-04E-Contract, vollständigen Branch-Diff gegen `d22ccfdfe682a33a56ead9fd2db2355fd8734682`, die eingefrorenen DF-04A-/DF-04B-/DF-04C-/DF-04D-Regressionsgrenzen und die reale Geräte-Evidenz gemeinsam regressieren. Erst bei `PASS / 0 BLOCKER` darf DF-04E als `FROZEN` markiert werden.
+
+Noch kein Folgeblock und kein weiterer Funktionsausbau.
