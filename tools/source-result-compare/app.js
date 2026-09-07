@@ -24,6 +24,13 @@ const overlayMode = document.querySelector('#overlayMode');
 const overlayStage = document.querySelector('#overlayStage');
 const blendRange = document.querySelector('#blendRange');
 const blendValue = document.querySelector('#blendValue');
+const alignX = document.querySelector('#alignX');
+const alignY = document.querySelector('#alignY');
+const alignScale = document.querySelector('#alignScale');
+const alignXValue = document.querySelector('#alignXValue');
+const alignYValue = document.querySelector('#alignYValue');
+const alignScaleValue = document.querySelector('#alignScaleValue');
+const resetAlignment = document.querySelector('#resetAlignment');
 
 function updateOverlayReadyState() {
   const ready = Boolean(slots.source.url && slots.result.url);
@@ -71,6 +78,28 @@ function updateBlend() {
   blendValue.textContent = `${value}%`;
 }
 
+function updateAlignment() {
+  const x = Number(alignX.value);
+  const y = Number(alignY.value);
+  const scalePercent = Number(alignScale.value);
+  const scale = scalePercent / 100;
+
+  slots.result.overlay.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+  alignXValue.value = `${x} px`;
+  alignXValue.textContent = `${x} px`;
+  alignYValue.value = `${y} px`;
+  alignYValue.textContent = `${y} px`;
+  alignScaleValue.value = `${scalePercent}%`;
+  alignScaleValue.textContent = `${scalePercent}%`;
+}
+
+function resetAlignmentValues() {
+  alignX.value = '0';
+  alignY.value = '0';
+  alignScale.value = '100';
+  updateAlignment();
+}
+
 for (const slot of Object.values(slots)) {
   slot.input.addEventListener('change', () => loadSlot(slot, slot.input.files?.[0]));
 }
@@ -78,8 +107,13 @@ for (const slot of Object.values(slots)) {
 baseMode.addEventListener('click', () => setMode('base'));
 overlayMode.addEventListener('click', () => setMode('overlay'));
 blendRange.addEventListener('input', updateBlend);
+alignX.addEventListener('input', updateAlignment);
+alignY.addEventListener('input', updateAlignment);
+alignScale.addEventListener('input', updateAlignment);
+resetAlignment.addEventListener('click', resetAlignmentValues);
 
 updateBlend();
+resetAlignmentValues();
 updateOverlayReadyState();
 
 window.addEventListener('beforeunload', () => {
