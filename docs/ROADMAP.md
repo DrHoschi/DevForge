@@ -59,7 +59,7 @@ Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animat
 ## 3. Aktuelle Module
 - Prompt Builder – vorhanden; Character Identity + Pose/Geometry Control + Generation-Handoff
 - Animated 3D Reference Viewer – PASS für Intake, Timeline/Scrubbing, Facing/Camera und Pose Bookmarks
-- Source / Result Compare View – `DF-04D PASS / FROZEN` inklusive Basisvergleich, Overlay / Onion-Skin, manuellem Result-Alignment und RGBA-Difference View
+- Source / Result Compare View – `DF-04E PASS / FROZEN` inklusive Basisvergleich, Overlay / Onion-Skin, manuellem Result-Alignment, RGBA-Difference und Silhouette Difference
 - Animation Tester – Standalone Frames/Manifest, FPS, Loop, Step, Onion-Skin, Bottom-Center-Anchor
 - Pose Renderer – historischer DF-02E-Prototyp
 - Sprite Lab – vorhanden
@@ -110,79 +110,53 @@ Contract:
 `docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
 
 ### DF-04D – Difference View Foundation – PASS / FROZEN
-Nach realem iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate eingefroren.
-
-Eingefrorener Kern:
-- zusätzlicher Modus `Difference`;
-- dieselben Source-/Result-Bilder;
-- gemeinsame Review-Rasterfläche;
-- Source nach Fit-/Center-Regel;
-- Result nach derselben Regel plus DF-04C-X/Y/Scale;
-- deterministische pixelweise absolute RGBA-Abweichung;
-- geringe Abweichung dunkel, stärkere heller;
-- Alpha ist Bestandteil der Difference;
-- keine semantische Bewertung und kein numerischer Score.
+Eingefrorene deterministische pixelweise absolute RGBA-Difference auf derselben Review-Rasterfläche und unter Verwendung des DF-04C-X/Y/Scale-Alignments. Geringe Abweichung erscheint dunkel, stärkere heller; Alpha ist Bestandteil der Difference. Keine semantische Bewertung und kein numerischer Score.
 
 Contract:
 `docs/DF-04D_DIFFERENCE_VIEW_FOUNDATION_CONTRACT.md`
 
-### DF-04E – Silhouette Difference Foundation – CONTRACT DEFINED / RECONCILED
-Verbindlicher Contract:
+### DF-04E – Silhouette Difference Foundation – PASS / FROZEN
+Nach realem iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate eingefroren.
+
+Eingefrorener Kern:
+- zusätzlicher Modus `Silhouette`;
+- dieselben geladenen Source-/Result-Bilder und dieselbe Review-Rasterfläche;
+- dieselben Fit-/Center-Regeln sowie dasselbe DF-04C-X/Y/Scale-Alignment;
+- deterministische binäre Vordergrund-/Hintergrund-Maske ausschließlich aus gerendertem Alpha;
+- feste interne Alpha-Grenze `16 / 255`, nicht benutzerveränderbar;
+- RGB, Textur, Material und Beleuchtung beeinflussen die Maske nicht;
+- Überlappung, Source-only und Result-only werden visuell klar unterschieden;
+- X/Y/Scale und `Reset Alignment` aktualisieren die Silhouette Difference;
+- Basisvergleich, Overlay und DF-04D-Difference bleiben unverändert erhalten;
+- responsive/touch-taugliche iPhone/iPad/Safari-Darstellung;
+- kein Score, keine automatische Bewertung und kein Auto-Alignment.
+
+Contract:
 `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
 
-Aus der realen DF-04D-Erfahrung abgeleiteter Bedarf:
-Die RGBA-Difference mischt geometrische Konturabweichungen mit Farb-, Textur-, Material- und Beleuchtungsunterschieden. DF-04E trennt als nächsten kleinen Review-Schritt ausschließlich die Silhouetten-/Alpha-Formprüfung davon ab.
-
-Geplanter enger Scope:
-- zusätzlicher Modus `Silhouette` bzw. `Silhouette Difference`;
-- dieselben geladenen Source-/Result-Bilder, keine neuen Slots;
-- dieselbe Review-Rasterfläche und dasselbe DF-04C-X/Y/Scale-Alignment;
-- deterministische Vordergrund-/Hintergrund-Maske ausschließlich aus Alpha;
-- RGB, Textur, Licht und Material beeinflussen die Silhouette nicht;
-- Überlappung, Source-only und Result-only werden visuell unterschieden;
-- X/Y/Scale und Reset aktualisieren die Silhouettenansicht;
-- Basisvergleich, Overlay und DF-04D-Difference bleiben unverändert erhalten;
-- responsive/touch-taugliche iPhone/iPad/Safari-Darstellung.
-
-Nicht Teil von DF-04E:
-- Auto-Alignment / Best-Fit;
-- Rotation, Warp, Perspective oder zusätzliche Alignment-Werkzeuge;
-- benutzerveränderbarer Alpha-Threshold oder Tolerance-Regler;
-- mehrere Masken-/Morphologie-Modi;
-- Kontur-, Pixel-, Flächen-, Prozent-, IoU- oder Overlap-Score;
-- automatische PASS/FAIL-Entscheidung;
-- Pose-/Skeleton-Scoring oder KI-Auswertung;
-- Persistenz / Asset Library;
-- Atlas-Funktionen.
-
 ## 6. Aktueller Stand / Gate
-Aktueller Dokumentations-/Freeze-Branch:
-`df-04d-difference-view-foundation`
+Aktueller Entwicklungs-/Freeze-Branch:
+`df-04e-silhouette-difference-foundation`
 
 Eingefrorener Produktstand:
-`DF-04D – PASS / 0 BLOCKER / FROZEN`
+`DF-04E – PASS / 0 BLOCKER / FROZEN`
 
-Eingefrorener DF-04D-Produkt-Head:
-`89b9b8e214ed4463a0e8150cb5a4563351c7c55b`
+DF-04E-Baseline:
+`d22ccfdfe682a33a56ead9fd2db2355fd8734682`
 
-Abgeschlossenes Gate:
-**DF-04E Contract / Roadmap Reconciliation – PASS / 0 BLOCKER**
+Completion-/Freeze-Gate:
+**PASS / 0 BLOCKER**
 
-Regressiert wurden ausschließlich:
-- der eingefrorene DF-04D-Produkt-Head;
-- der neue DF-04E-Contract;
-- PROJECT_STATUS und ROADMAP;
-- die unveränderten DF-04A–D-Grenzen;
-- der vollständige Dokumentations-Diff.
+Regressiert wurden:
+- verbindlicher DF-04E-Contract;
+- vollständiger Branch-Diff gegen `d22ccfdfe682a33a56ead9fd2db2355fd8734682`;
+- eingefrorene DF-04A-/DF-04B-/DF-04C-/DF-04D-Grenzen;
+- vollständige reale iPhone-/Safari-Geräte-Evidenz;
+- alle DF-04E-Nicht-Ziele.
 
-Das Gate bestätigt:
-- keine Produktlogik/UI/JavaScript-Änderung;
-- kein DF-04E-Branch im Contract-/Reconciliation-Schritt;
-- keine vorgezogene Threshold-/Tolerance-, Scoring-, Auto-Alignment-, KI-, Persistenz- oder Atlas-Funktion.
+Im Freeze-Gate wurde keine neue Produktfunktion ergänzt.
 
-Nächster zulässiger Schritt:
-- separaten DF-04E-Entwicklungsbranch exakt von der reconciliierten Dokumentationsbaseline nach diesem Gate anlegen;
-- noch keine DF-04E-Implementierung im selben Schritt.
+Nächste Arbeit ist nicht automatisch freigegeben. Zuerst muss aus der realen DF-04E-Erfahrung fachlich bestimmt werden, welcher eng abgegrenzte Review-Schritt als Nächstes tatsächlich benötigt wird.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -231,7 +205,7 @@ Automatische Prüfungen unterstützen das Review; sie ersetzen nicht automatisch
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- aktueller Dokumentations-/Freeze-Stand: `df-04d-difference-view-foundation`
+- aktueller Dokumentations-/Freeze-Stand: `df-04e-silhouette-difference-foundation`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
