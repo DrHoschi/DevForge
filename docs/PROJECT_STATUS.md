@@ -14,8 +14,8 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 - Historischer Prompt-Builder-Stand: `DF-02D.3R`
 - Historischer Pose-Renderer-Prototyp: `DF-02E.1–E.4`
 - Abgeschlossener DF-02F-Stand: `DF-02F.6R.4`
-- Aktueller Entwicklungsblock: `DF-04A – Source / Result Compare View`
-- Aktuelles Gate: `DF-04A – Completion / Freeze Gate`
+- Aktueller abgeschlossener Entwicklungsblock: `DF-04A – Source / Result Compare View`
+- Aktueller Status: `DF-04A – PASS / FROZEN`
 
 # Architekturentscheidung: echte 3D-Animation als Posequelle
 Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie. Timeline, Facing, Kamera und Referenzzeitpunkt werden in DevForge kontrolliert.
@@ -45,34 +45,29 @@ Diese Grenze blockiert den unabhängigen Ausbau von DevForge als Review-, Prüf-
 # DF-04 – Asset Review Foundation
 DF-04 schafft unabhängige Review-Bausteine, mit denen erzeugte oder bearbeitete Assets gegen autoritative Quellen und Controls geprüft werden können.
 
-## DF-04A – Source / Result Compare View
+## DF-04A – Source / Result Compare View – PASS / FROZEN
 Contract:
 `docs/DF-04A_SOURCE_RESULT_COMPARE_VIEW_CONTRACT.md`
 
-### Implementiert in TESTBUILD 1
+Implementierter eingefrorener Umfang:
 - eigenständiges Tool unter `tools/source-result-compare/`;
 - zwei vollständig getrennte lokale Bildinputs;
-- `Source / Control` bleibt links bzw. auf schmalen Geräten oben;
-- `Result` bleibt rechts bzw. auf schmalen Geräten unten;
-- beide Bilder können gleichzeitig sichtbar bleiben;
-- Ersetzen einer Seite verändert die jeweils andere Seite nicht;
-- proportionaler Bild-Fit mit `object-fit: contain`, ohne Cropping oder Stretching;
+- `Source / Control` links bzw. auf schmalen Geräten oben;
+- `Result` rechts bzw. auf schmalen Geräten unten;
+- beide Bilder gleichzeitig sichtbar;
+- unabhängiges Ersetzen einer Seite ohne Verlust der anderen;
+- proportionaler vollständiger Bild-Fit ohne Cropping oder Stretching;
 - stabil begrenzte Vergleichsflächen für unterschiedliche Bildabmessungen und Seitenverhältnisse;
 - klare Leerzustände je Slot;
-- Dateiname und natürliche Pixelabmessungen werden rein informativ angezeigt;
+- Dateiname und natürliche Pixelabmessungen rein informativ;
 - responsive Ein-Spalten-Darstellung auf schmalen Geräten bei unveränderter Rollenreihenfolge;
-- sichtbare Build-Kennung `DF-04A · TESTBUILD 1`;
-- Cache-Busting für den neuen Tool-Build und den DevForge-Toolindex.
+- sichtbare Build-Kennung `DF-04A · TESTBUILD 1` für den geprüften Build;
+- Cache-Busting für Tool-Build und DevForge-Toolindex.
 
-### Explizit nicht implementiert
-- Overlay;
-- Onion-Skin;
-- Difference View;
-- Blend-Slider;
-- synchrones Pan/Zoom;
-- automatische Registrierung/Ausrichtung;
-- Pose-/Skeleton-Scoring;
-- KI-Bewertung;
+Explizit nicht Teil des eingefrorenen DF-04A-Umfangs:
+- Overlay / Onion-Skin / Difference View / Blend-Slider;
+- synchrones Pan/Zoom oder automatische Registrierung/Ausrichtung;
+- Pose-/Skeleton-Scoring oder KI-Bewertung;
 - automatische PASS/FAIL-Entscheidung;
 - Persistenz / Asset Library;
 - Review-Notizen / Approve / Reject;
@@ -83,21 +78,32 @@ Contract:
 ## DF-04A Gerätetest – PASS
 Reale iPhone-/Safari-Evidenz vom 2026-09-07 bestätigt:
 - sichtbare Build-Kennung `DF-04A · TESTBUILD 1`;
-- Source / Control und Result lassen sich separat laden;
-- beide bleiben gleichzeitig sichtbar;
-- Source bleibt auf schmalem Viewport logisch oben, Result darunter;
-- beide Bilder werden proportional und vollständig ohne erkennbares Cropping oder Stretching dargestellt;
+- Source / Control und Result separat ladbar;
+- beide gleichzeitig sichtbar;
+- Source auf schmalem Viewport logisch oben, Result darunter;
+- proportionale und vollständige Darstellung ohne erkennbares Cropping oder Stretching;
 - unterschiedliche Bildinhalte und Abmessungen zerstören die Vergleichsanordnung nicht;
 - Source wurde durch ein drittes Bild (`IMG_4633.jpeg`, 1120 × 1120 px) ersetzt, während das zuvor geladene Result (`54677C4E-64AF-4E01-9B5E-1D7AA9DA71D9.png`, 1243 × 1265 px) unverändert geladen blieb;
-- damit ist die unabhängige Slot-Ersetzung praktisch bestätigt;
-- keine ausgeschlossene DF-04B-/Scoring-/Persistenz-/Atlas-Funktion ist sichtbar vorgezogen.
+- unabhängige Slot-Ersetzung damit praktisch bestätigt;
+- keine ausgeschlossene DF-04B-/Scoring-/Persistenz-/Atlas-Funktion sichtbar vorgezogen.
 
-Ergebnis: `DF-04A · TESTBUILD 1 – DEVICE TEST PASS / 0 BLOCKER`.
+Gerätetest-Ergebnis: `PASS / 0 BLOCKER`.
 
-# Aktuelles Gate
-`DF-04A – Completion / Freeze Gate`
+# DF-04A – Completion / Freeze Gate – PASS
+Regression gegen Contract-Commit `12e7aa97e263681ac055d394be5f27dd9b48510a`, Branch-Diff und dokumentierte Geräte-Evidenz durchgeführt.
 
-Im Completion-/Freeze-Gate wird keine neue Funktion ergänzt. Der implementierte DF-04A-Stand wird ausschließlich gegen Contract, Branch-Diff und dokumentierte Geräte-Evidenz regressiert und bei PASS / 0 BLOCKER als abgeschlossen/frozen markiert.
+Gate-Ergebnis:
+- Branch basiert weiterhin auf dem freigegebenen DF-04A-Vertrag;
+- Implementierungsdiff ist auf den eigenständigen Compare-Baustein, dessen Toolindex-Eintrag/Cache-Busting und Statusdokumentation begrenzt;
+- `tools/source-result-compare/app.js` hält Source und Result als getrennte Slots und verändert beim Laden nur den jeweils adressierten Slot;
+- `tools/source-result-compare/index.html` erzwingt proportionale vollständige Darstellung und die vertragliche responsive Rollenreihenfolge;
+- reale Geräte-Evidenz erfüllt die Abnahmekriterien;
+- keine ausgeschlossene Folgefunktion wurde vorgezogen;
+- keine neue Funktion wurde im Freeze-Gate ergänzt.
+
+Ergebnis: `DF-04A – PASS / 0 BLOCKER / FROZEN`.
 
 # Nächster zulässiger Schritt
-`DF-04A – Completion / Freeze Gate` durchführen. Noch kein DF-04B und keine weitere Review-Funktion vorziehen.
+Kein weiterer DF-04A-Funktionsausbau auf diesem eingefrorenen Stand.
+
+Vor einem Folgeblock muss dessen eigener Vertrag und seine Grenze gegen den eingefrorenen DF-04A-Stand definiert werden. `DF-04B` ist durch den DF-04A-Freeze nicht automatisch zur Implementierung freigegeben.
