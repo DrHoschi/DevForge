@@ -1,6 +1,6 @@
 # DevForge – Project Status
 
-Stand: 2026-09-06
+Stand: 2026-09-07
 
 ## Zweck
 DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets. Der aktuelle Character-Animationsworkflow dient als erster realer Referenzprozess.
@@ -15,7 +15,7 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 - Historischer Pose-Renderer-Prototyp: `DF-02E.1–E.4`
 - Abgeschlossener DF-02F-Stand: `DF-02F.6R.4`
 - Aktueller Entwicklungsblock: `DF-04A – Source / Result Compare View`
-- Aktuelles Gate: `DF-04A · TESTBUILD 1 – Gerätetest erforderlich`
+- Aktuelles Gate: `DF-04A – Completion / Freeze Gate`
 
 # Architekturentscheidung: echte 3D-Animation als Posequelle
 Ab DF-02F verwendet DevForge echte geriggte 3D-Animationsquellen. Die Animation liefert die Bewegungsgeometrie. Timeline, Facing, Kamera und Referenzzeitpunkt werden in DevForge kontrolliert.
@@ -80,22 +80,24 @@ Contract:
 - Atlas-Funktionen;
 - Änderungen an DF-02F-Generation-Handoff oder Prompt Builder.
 
-## DF-04A Gerätetest – verbindlich
-DF-04A bleibt bis zum realen Gerätetest `TESTBUILD`, nicht PASS.
+## DF-04A Gerätetest – PASS
+Reale iPhone-/Safari-Evidenz vom 2026-09-07 bestätigt:
+- sichtbare Build-Kennung `DF-04A · TESTBUILD 1`;
+- Source / Control und Result lassen sich separat laden;
+- beide bleiben gleichzeitig sichtbar;
+- Source bleibt auf schmalem Viewport logisch oben, Result darunter;
+- beide Bilder werden proportional und vollständig ohne erkennbares Cropping oder Stretching dargestellt;
+- unterschiedliche Bildinhalte und Abmessungen zerstören die Vergleichsanordnung nicht;
+- Source wurde durch ein drittes Bild (`IMG_4633.jpeg`, 1120 × 1120 px) ersetzt, während das zuvor geladene Result (`54677C4E-64AF-4E01-9B5E-1D7AA9DA71D9.png`, 1243 × 1265 px) unverändert geladen blieb;
+- damit ist die unabhängige Slot-Ersetzung praktisch bestätigt;
+- keine ausgeschlossene DF-04B-/Scoring-/Persistenz-/Atlas-Funktion ist sichtbar vorgezogen.
 
-Zu prüfen:
-1. Auf der DevForge-Startseite erscheint `Source / Result Compare View` mit sichtbarer Kennung `DF-04A · TESTBUILD 1`.
-2. Tool öffnen.
-3. Source-/Control-Bild laden und prüfen, dass es vollständig und unverzerrt sichtbar ist.
-4. Result-Bild mit anderem Seitenverhältnis laden und prüfen, dass beide Bilder gleichzeitig stabil sichtbar bleiben.
-5. Nur das Result ersetzen und prüfen, dass die Source unverändert geladen bleibt.
-6. Nur die Source ersetzen und prüfen, dass das Result unverändert geladen bleibt.
-7. Auf schmalem iPhone-/iPad-Viewport prüfen: Source bleibt oben, Result darunter.
-8. Prüfen, dass weder Cropping noch Stretching auftritt.
-9. Prüfen, dass keine ausgeschlossene DF-04B-/Scoring-/Persistenz-/Atlas-Funktion vorhanden ist.
+Ergebnis: `DF-04A · TESTBUILD 1 – DEVICE TEST PASS / 0 BLOCKER`.
 
-## PASS-Kriterien
-PASS erst, wenn alle Punkte des Gerätetests bestätigt sind und kein Scope-Blocker vorliegt.
+# Aktuelles Gate
+`DF-04A – Completion / Freeze Gate`
+
+Im Completion-/Freeze-Gate wird keine neue Funktion ergänzt. Der implementierte DF-04A-Stand wird ausschließlich gegen Contract, Branch-Diff und dokumentierte Geräte-Evidenz regressiert und bei PASS / 0 BLOCKER als abgeschlossen/frozen markiert.
 
 # Nächster zulässiger Schritt
-Ausschließlich `DF-04A · TESTBUILD 1` auf dem Zielgerät testen. Noch kein DF-04B und keine weitere Review-Funktion vorziehen.
+`DF-04A – Completion / Freeze Gate` durchführen. Noch kein DF-04B und keine weitere Review-Funktion vorziehen.
