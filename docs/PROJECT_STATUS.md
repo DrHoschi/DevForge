@@ -13,7 +13,7 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 - DF-04C Contract: `docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
 - Eingefrorener Review-Stand: `DF-04B – PASS / FROZEN`
 - Aktueller Entwicklungsblock: `DF-04C – Manual Alignment Foundation`
-- Aktuelles Gate: `DF-04C · TESTBUILD 1 – DEVICE TEST REQUIRED`
+- Aktuelles Gate: `DF-04C – Completion / Freeze Gate`
 
 # DF-04 – Asset Review Foundation
 
@@ -51,6 +51,26 @@ Testbuild-Grenzen:
 - Scale: 50 bis 150 %;
 - neutraler Zustand: X = 0, Y = 0, Scale = 100 %.
 
+### DF-04C Gerätetest – PASS
+Reale iPhone-/Safari-Evidenz vom 2026-09-07 bestätigt:
+- DF-04A-Basisvergleich und DF-04B-Overlay bleiben erreichbar und funktionsfähig;
+- Source / Control bleibt bei Alignment-Änderungen unbewegt;
+- X verschiebt ausschließlich Result horizontal;
+- Y verschiebt ausschließlich Result vertikal;
+- Scale skaliert ausschließlich Result proportional;
+- X, Y und Scale funktionieren kombiniert;
+- sichtbare getestete Kombinationen umfassten unter anderem X = -70 px, Y = 63 px, Scale = 100 % sowie X = -70 px, Y = 63 px, Scale = 135 %;
+- Blend bleibt bei verändertem Alignment funktionsfähig;
+- 100 % Result-Blend wurde bei verändertem Alignment bestätigt;
+- 0 % Result-Blend wurde bei verändertem Alignment bestätigt und zeigt ausschließlich Source / Control;
+- `Reset Alignment` stellt den neutralen Zustand X = 0 px, Y = 0 px, Scale = 100 % wieder her;
+- Rückkehr zum Basisvergleich erhält die geladenen Source-/Result-Bilder;
+- Controls sind auf dem getesteten iPhone/Safari sinnvoll bedienbar;
+- ein Result-Bild mit transparentem Hintergrund funktioniert im Overlay korrekt und stellt keinen DF-04C-Blocker dar;
+- keine ausgeschlossene Difference-, Auto-Alignment-, Scoring-, Persistenz- oder Atlas-Funktion wurde vorgezogen.
+
+Gerätetest-Ergebnis: `DF-04C · TESTBUILD 1 – PASS / 0 BLOCKER`.
+
 ### Weiterhin explizit nicht implementiert
 - Rotation;
 - Perspective / Warp / Skew;
@@ -68,20 +88,16 @@ Testbuild-Grenzen:
 - Änderungen am DF-02F-Generation-Handoff.
 
 # Aktuelles Gate
-`DF-04C · TESTBUILD 1 – DEVICE TEST REQUIRED`
+`DF-04C – Completion / Freeze Gate`
 
-Vor PASS/FROZEN muss auf realem iPhone/iPad/Safari gegen den Contract bestätigt werden:
-1. DF-04A- und DF-04B-Funktionen funktionieren unverändert weiter.
-2. Source / Control bleibt bei Alignment-Änderungen unbewegt.
-3. X verschiebt ausschließlich Result horizontal.
-4. Y verschiebt ausschließlich Result vertikal.
-5. Scale skaliert ausschließlich Result proportional.
-6. X, Y und Scale funktionieren kombiniert, ohne Overlay oder Blend zu zerstören.
-7. Blend 0–100 % bleibt auch bei verändertem Alignment funktionsfähig.
-8. `Reset Alignment` stellt deterministisch X = 0, Y = 0 und Scale = 100 % wieder her.
-9. Rückkehr zum Basisvergleich verliert oder verändert die geladenen Bilder nicht.
-10. Alignment-Bedienung bleibt auf schmalem Zielgerät sinnvoll nutzbar.
-11. Keine ausgeschlossene DF-04D-/Auto-Alignment-/Scoring-/Persistenz-/Atlas-Funktion wurde vorgezogen.
+Dieses Gate darf keine neue Funktion hinzufügen. Es regressiert ausschließlich:
+- den verbindlichen DF-04C-Contract;
+- den vollständigen Branch-Diff gegen die DF-04C-Baseline;
+- die dokumentierte reale Geräte-Evidenz;
+- die unveränderte DF-04A-/DF-04B-Regressionsgrenze;
+- die Nicht-Ziele von DF-04C.
+
+Nur bei `PASS / 0 BLOCKER` wird DF-04C anschließend als Ganzes eingefroren.
 
 # Nächster zulässiger Schritt
-Ausschließlich `DF-04C · TESTBUILD 1` auf realem Zielgerät testen und Evidenz gegen den Contract sammeln. Noch kein DF-04D und kein weiterer Funktionsausbau.
+`DF-04C – Completion / Freeze Gate` durchführen. Noch kein DF-04D und kein weiterer Funktionsausbau.
