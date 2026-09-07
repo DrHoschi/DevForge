@@ -11,9 +11,9 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 - Aktueller Entwicklungsbranch: `df-04c-manual-alignment-foundation`
 - DF-04C Baseline: `182331260917ec4699741204be3571fe38c51d8b`
 - DF-04C Contract: `docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
-- Eingefrorener Review-Stand: `DF-04B – PASS / FROZEN`
-- Aktueller Entwicklungsblock: `DF-04C – Manual Alignment Foundation`
-- Aktuelles Gate: `DF-04C – Completion / Freeze Gate`
+- Eingefrorener Review-Stand: `DF-04C – PASS / FROZEN`
+- Aktueller abgeschlossener Entwicklungsblock: `DF-04C – Manual Alignment Foundation`
+- Aktueller Status: `DF-04C – PASS / 0 BLOCKER / FROZEN`
 
 # DF-04 – Asset Review Foundation
 
@@ -25,14 +25,13 @@ Autoritativ für den zusätzlichen Overlay-/Onion-Skin-Modus auf denselben gelad
 
 Realer iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate: `PASS / 0 BLOCKER / FROZEN`.
 
-## DF-04C – Manual Alignment Foundation
+## DF-04C – Manual Alignment Foundation – PASS / FROZEN
 Contract:
 `docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
 
-### TESTBUILD 1 implementiert
-Auf dem separaten Branch `df-04c-manual-alignment-foundation` wurde ausschließlich der vertraglich freigegebene manuelle Alignment-Ausbau ergänzt:
-- sichtbare Build-Kennung `DF-04C · TESTBUILD 1`;
-- bestehender DF-04A-Basisvergleich unverändert als eigener Modus;
+Eingefrorener Umfang:
+- sichtbare geprüfte Build-Kennung `DF-04C · TESTBUILD 1`;
+- bestehender DF-04A-Basisvergleich bleibt erhalten;
 - bestehender DF-04B-Overlay-/Onion-Skin-Modus bleibt erhalten;
 - Source / Control bleibt im Overlay unbeweglich;
 - ausschließlich Result erhält manuelle Translation X;
@@ -41,9 +40,9 @@ Auf dem separaten Branch `df-04c-manual-alignment-foundation` wurde ausschließl
 - aktuelle X-, Y- und Scale-Werte werden sichtbar angezeigt;
 - `Reset Alignment` stellt X = 0 px, Y = 0 px und Scale = 100 % wieder her;
 - bestehender DF-04B-Blend-Regler bleibt parallel funktionsfähig;
-- Alignment wird nur als temporärer Seitenzustand gehalten und nicht persistiert;
+- Alignment bleibt temporärer Seitenzustand und wird nicht persistiert;
 - responsive/mobile Controls für schmale Viewports;
-- Tool-Cache-Busting auf `df04c-testbuild1` aktualisiert.
+- Tool-Cache-Busting auf `df04c-testbuild1`.
 
 Testbuild-Grenzen:
 - X: -200 bis +200 px;
@@ -71,7 +70,7 @@ Reale iPhone-/Safari-Evidenz vom 2026-09-07 bestätigt:
 
 Gerätetest-Ergebnis: `DF-04C · TESTBUILD 1 – PASS / 0 BLOCKER`.
 
-### Weiterhin explizit nicht implementiert
+### Explizit nicht Teil des eingefrorenen DF-04C-Umfangs
 - Rotation;
 - Perspective / Warp / Skew;
 - nicht-uniforme Skalierung;
@@ -87,17 +86,27 @@ Gerätetest-Ergebnis: `DF-04C · TESTBUILD 1 – PASS / 0 BLOCKER`.
 - Atlas-Funktionen;
 - Änderungen am DF-02F-Generation-Handoff.
 
-# Aktuelles Gate
-`DF-04C – Completion / Freeze Gate`
-
-Dieses Gate darf keine neue Funktion hinzufügen. Es regressiert ausschließlich:
+# DF-04C – Completion / Freeze Gate – PASS
+Gemeinsame Regression durchgeführt gegen:
 - den verbindlichen DF-04C-Contract;
-- den vollständigen Branch-Diff gegen die DF-04C-Baseline;
-- die dokumentierte reale Geräte-Evidenz;
-- die unveränderte DF-04A-/DF-04B-Regressionsgrenze;
-- die Nicht-Ziele von DF-04C.
+- die DF-04C-Baseline `182331260917ec4699741204be3571fe38c51d8b`;
+- den vollständigen Branch-Diff bis zum Geräte-PASS-Head `0212e370abe7bbbf9064683129d3199e249cc4b3`;
+- die eingefrorenen DF-04A-/DF-04B-Regressionsgrenzen;
+- die dokumentierte reale iPhone-/Safari-Geräte-Evidenz;
+- sämtliche DF-04C-Nicht-Ziele.
 
-Nur bei `PASS / 0 BLOCKER` wird DF-04C anschließend als Ganzes eingefroren.
+Gate-Ergebnis:
+- Branch ist exakt von der reconciliierten DF-04B-Baseline abgeleitet und `0 behind`;
+- vor dem Freeze-Dokumentationscommit umfasst der vollständige DF-04C-Diff ausschließlich `tools/source-result-compare/index.html`, `tools/source-result-compare/app.js` und `docs/PROJECT_STATUS.md`;
+- die funktionalen Änderungen sind auf X, Y, uniforme Scale, sichtbare Werte, Reset, DF-04C-Build-Kennung und Cache-Busting begrenzt;
+- DF-04A-Basisvergleich und DF-04B-Overlay-/Blend-Verhalten wurden auf dem Zielgerät regressiert;
+- alle elf DF-04C-PASS-Kriterien sind durch Implementierung plus reale Geräte-Evidenz erfüllt;
+- keine Difference-, Auto-Alignment-, Scoring-, Persistenz-, Atlas- oder Generation-Handoff-Funktion wurde vorgezogen;
+- im Completion-/Freeze-Gate selbst wurde keine neue Produktfunktion ergänzt.
+
+Ergebnis: `DF-04C – PASS / 0 BLOCKER / FROZEN`.
 
 # Nächster zulässiger Schritt
-`DF-04C – Completion / Freeze Gate` durchführen. Noch kein DF-04D und kein weiterer Funktionsausbau.
+Kein weiterer DF-04C-Funktionsausbau auf diesem eingefrorenen Stand.
+
+Ein möglicher `DF-04D – Difference View Foundation` ist nicht automatisch implementierungsfreigegeben. Zuerst muss auf Basis der realen DF-04C-Erfahrung ein enger DF-04D-Contract gegen den eingefrorenen DF-04C-Stand definiert und dokumentiert werden. Noch kein DF-04D-Branch und keine DF-04D-Implementierung.
