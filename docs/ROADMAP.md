@@ -1,6 +1,6 @@
 # DevForge – Master Roadmap & Entwicklungsgrenzen
 
-Stand: 2026-09-06
+Stand: 2026-09-07
 
 ## 1. Vision
 DevForge soll eine projektübergreifende Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets werden. Der Prompt Builder ist nur ein Einstiegspunkt. Langfristig verbindet DevForge wiederverwendbare Asset-Definitionen, Referenzen, Generierungsverträge, Vorschau/Review, Freigaben, technische Prüfung, Atlas-/Metadaten-Erzeugung und kontrollierte Übergabe in Ziel-Repositories.
@@ -8,7 +8,6 @@ DevForge soll eine projektübergreifende Produktions-, Prüf- und Übergabeplatt
 Neue Funktionen werden bevorzugt aus echten Produktionsproblemen abgeleitet statt als theoretische All-in-one-Lösung vorgebaut.
 
 ## 2. Zielarchitektur
-
 ### A – Project & Preset Layer
 - mehrere Zielprojekte
 - projektspezifische Style-, Camera-, Direction-, Scale-, Output- und Naming-Contracts
@@ -16,25 +15,13 @@ Neue Funktionen werden bevorzugt aus echten Produktionsproblemen abgeleitet stat
 - wiederverwendbare Presets statt Copy/Paste-Prompts
 
 ### B – Asset Library
-Asset-Katalog mit getrennten Asset-Arten:
-- Characters
-- 3D Character / Rig / Animation Sources
-- Buildings
-- Resources / Rohstoffe
-- Goods / Waren
-- Tools / Werkzeuge
-- Icons
-- Environment Assets
-- weitere projektabhängige Asset-Typen
-
-Später kann jeder Datensatz Authoritative References, Identitäts-/Designregeln, Varianten, technische Metadaten und zulässige Produktionsaufgaben besitzen.
+Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animation Sources, Buildings, Resources, Goods, Tools, Icons und Environment Assets. Eine große persistente Asset-Datenbank wird nicht vorgezogen, bevor reale Workflows den minimal notwendigen Datensatz bewiesen haben.
 
 ### C – Generation Package Layer
 - Single Asset / Single Frame
 - Animation Frame
 - Direction Batch
 - Full Animation Batch
-- später vollständige Character-/Asset-Packages
 - TXT / JSON / PDF als nachvollziehbare Übergabeformate
 - direkte Referenzbilder im Package
 - klare Prioritäts-/Konfliktregeln zwischen Referenzen und veränderlichen Eigenschaften
@@ -43,15 +30,12 @@ Später kann jeder Datensatz Authoritative References, Identitäts-/Designregeln
 - animierte 3D-Referenzvorschau
 - Einzelbildprüfung
 - Source-/Result-Vergleich
+- Overlay / Onion-Skin
+- später Difference / Alignment
 - Direction-Vergleich
-- Animation Timeline
-- FPS / Loop
-- Frame-Stepping
-- später Overlay / Onion-Skin / Difference View
-- gemeinsamer Root/Pivot/Anchor
-- Approve / Reject
-- Review-Notizen
-- spätere technische Vergleichshilfen für Scale, Anchor, Alpha, Frame Delta, Kamera-/Silhouettendrift
+- Animation Timeline / FPS / Loop / Frame-Stepping
+- später Root/Pivot/Anchor, Approve/Reject und Review-Notizen
+- spätere technische Vergleichshilfen für Scale, Anchor, Alpha, Frame Delta und Kamera-/Silhouettendrift
 
 ### E – Technical Asset Layer
 - Sprite Lab
@@ -73,37 +57,22 @@ Später kann jeder Datensatz Authoritative References, Identitäts-/Designregeln
 ## 3. Aktuelle Module
 - Prompt Builder – vorhanden; Character Identity + Pose/Geometry Control + Generation-Handoff
 - Animated 3D Reference Viewer – PASS für Intake, Timeline/Scrubbing, Facing/Camera und Pose Bookmarks
+- Source / Result Compare View – `DF-04A PASS / FROZEN`
 - Animation Tester – Standalone Frames/Manifest, FPS, Loop, Step, Onion-Skin, Bottom-Center-Anchor
-- Pose Renderer – historischer DF-02E-Prototyp, nicht mehr geplante Produktionsquelle
+- Pose Renderer – historischer DF-02E-Prototyp
 - Sprite Lab – vorhanden
 - Atlas Builder – vorhanden; Produktionsintegration noch nicht freigegeben
 - Asset Inspector – vorhanden
 - Parameter Playground – vorbereitet
 
-## 4. Character Animation Contract – Entwicklung
-
+## 4. Character Animation Contract – erreichter Stand
 ### DF-01 – Prompt Builder Foundation
-Projektübergreifende Basis mit Projekt-Presets, Asset-Typen, Kamera/Richtung, editierbaren Contracts sowie TXT/JSON/PDF.
+Projektübergreifende Basis mit Projekt-Presets, Asset-Typen, Kamera/Richtung und editierbaren Contracts.
 
 ### DF-02 – Character Animation Generation Package
 Character-Auswahl, Animation/Pose-Definitionen, Richtungen und Einzeljob-Export.
 
-### DF-02B – Authoritative Character Reference
-Visuelle Character-Referenz ist autoritativ für Identität und permanentes Design.
-
-### DF-02C – Sequence Reference Contract
-Previous Approved Frame als Sequenzreferenz.
-
-### DF-02D – Key Pose / Motion Delta Contract
-Versuch, WALK-Pose und Bewegungsprogression rein über Generierungscontracts zuverlässig zu kontrollieren.
-
-### DF-02E – Deterministic Mannequin Pose Prototype
-Technischer Prototyp mit kontrolliertem Skeleton und fester Gameplay-Kamera. Technisch reproduzierbar, aber nicht als langfristige Produktionsquelle ausgewählt. DF-02E.1–E.4 bleiben dokumentiert.
-
 ### DF-02F – 3D Animation Reference Viewer / Generation Bridge
-Echte geriggte 3D-Animationsclips liefern die Bewegungsgeometrie. DevForge kontrolliert Preview, Zeitposition, Facing, Camera und Reference-Ausgabe.
-
-Erreichter Stand:
 1. `DF-02F.1 – Animated 3D Reference Asset Contract` – PASS
 2. `DF-02F.2 – Animated 3D Preview / Runtime Asset Intake` – PASS
 3. `DF-02F.3 / F.3R – Animation Timeline / Scrubbing` – PASS
@@ -115,92 +84,89 @@ Erreichter Stand:
 9. `DF-02F.6R.3 – Direct Visual Pose Handoff` – implemented; generation still insufficiently deterministic
 10. `DF-02F.6R.4 – Explicit Pose Geometry Control` – IMPLEMENTED; external generation limit remains
 
-## 5. Aktuelles Gate
-Aktueller Branch:
-`df-02f6r4-explicit-pose-geometry-control`
+Die reproduzierbare Pose-Auswahl in DevForge ist nicht mehr der Hauptengpass. Der offene Punkt liegt beim externen Transfer der Pose in generierte Character-Bilder. DF-02F wird deshalb nicht weiter unspezifisch mit Prompttext aufgebläht.
 
-Aktuelles Gate:
-**DF-02F.6R.4 – Documentation / Status Reconciliation**
-
-Dieses Gate ändert ausschließlich:
-- `docs/PROJECT_STATUS.md`
-- `docs/ROADMAP.md`
-- `README.md`
-
-Keine Produktionslogik und keine UI-/JavaScript-Änderungen.
-
-## 6. Aktuelle Erkenntnisgrenze des Generation-Handoffs
-Die reproduzierbare Auswahl der 3D-Pose innerhalb von DevForge ist nicht mehr der Hauptengpass. Das Problem liegt beim externen Transfer dieser Pose in ein neu generiertes Character-Bild.
-
-Getestete Eskalationsstufen:
-- verschärfter Prompt-/Pose-Fidelity-Vertrag;
-- pose-dominanter PDF-Handoff;
-- direkte Pose-Control-Bildübergabe;
-- explizite Gelenk-/Skeleton-Geometrie als zusätzliche Control-Schicht.
-
-Trotzdem kann die externe Bildgenerierung die Pose auf generische Action-Geometrie normalisieren oder Kamera-/Gliedmaßen-Geometrie abweichend interpretieren.
-
-Folgerung:
-- DF-02F wird nicht weiter unspezifisch mit Prompttext aufgebläht.
-- die externe Generation bleibt ein offener Pipeline-Punkt.
-- unabhängige DevForge-Module für Review, Vergleich und Asset-Prüfung dürfen weiterentwickelt werden.
-
-## 7. Nächster unabhängiger Entwicklungsblock
-Nach PASS der R.4-Reconciliation wird ein separater Branch von der reconciliierten Baseline erstellt.
-
-### DF-04 – Asset Review Foundation
+## 5. DF-04 – Asset Review Foundation
 Ziel: erzeugte Assets systematisch gegen ihre autoritativen Quellen/Controls prüfen können.
 
-#### DF-04A – Source / Result Compare View
-Scope:
-- genau zwei Bildquellen laden;
-- Source / Control links;
-- Result rechts;
-- beide stabil und reproduzierbar gleichzeitig anzeigen;
-- klare Rollenkennzeichnung der beiden Seiten.
+### DF-04A – Source / Result Compare View – PASS / FROZEN
+DF-04A ist nach realem iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate eingefroren.
 
-Nicht Teil von DF-04A:
-- Overlay;
-- Onion-Skin;
-- Difference View;
-- automatisches Pose-Scoring;
-- KI-Bewertung;
-- Asset-Persistenz oder Asset-Datenbank;
-- Atlas-Umbau oder Atlas-Produktion.
+Eingefrorener Kern:
+- zwei getrennte lokale Bildslots;
+- Source / Control links bzw. auf schmalen Geräten oben;
+- Result rechts bzw. unten;
+- beide gleichzeitig sichtbar;
+- unabhängiges Ersetzen der Slots;
+- proportionale vollständige Darstellung ohne Cropping/Stretching;
+- responsive Vergleichsansicht.
 
-Overlay / Onion-Skin / Difference View wird frühestens als eigener nachfolgender Review-Block betrachtet, z. B. `DF-04B`.
+Contract:
+`docs/DF-04A_SOURCE_RESULT_COMPARE_VIEW_CONTRACT.md`
 
-## 8. 2D- und 3D-Wiederverwendung
-Dieselben 3D-Animationsquellen sollen später für unterschiedliche Ziele dienen können:
-- 2D-Sprite-/Bildreferenzen;
-- acht Gameplay-Richtungen;
-- Prompt-/Generation-Referenzen;
-- 3D-Animation-Review;
-- spätere 3D-Projekte und Runtime-Handoffs, sofern Rig/Retargeting kompatibel ist.
+DF-04A wird in Folgeblöcken nicht semantisch umgebaut.
 
-DevForge soll keine künstlich getrennte 2D-Posebibliothek aufbauen, wenn dieselbe Bewegungsquelle direkt aus echter 3D-Animation reproduzierbar gewonnen werden kann.
+### DF-04B – Overlay / Onion-Skin Compare Foundation – CONTRACT DEFINED
+Verbindlicher Contract:
+`docs/DF-04B_OVERLAY_ONION_SKIN_COMPARE_CONTRACT.md`
 
-## 9. Animationen / Character Packages – spätere Ausbaustufe
-Vorgesehene Animationstypen können u. a. sein:
-- IDLE
-- WALK
-- WALK + CARRY
-- RUN
-- PICK UP / PUT DOWN
-- LOAD / UNLOAD
-- CHOP WOOD
-- MINE
-- BUILD / HAMMER / SAW
-- FARM / FISH / DIG
-- PUSH / PULL
-- weitere beruf-/projektbezogene Aktionen
+Ziel:
+Auf denselben in DF-04A geladenen Source-/Result-Bildern eine zusätzliche manuelle Overlay-/Onion-Skin-Ansicht bereitstellen.
 
-Nicht jede Animation wird sofort integriert. Neue Clips werden erst aufgenommen, wenn der dazugehörige Produktions- und Review-Pfad sinnvoll nutzbar ist.
+Geplanter enger Scope:
+- DF-04A-Basisansicht bleibt unverändert erhalten;
+- zusätzlicher Overlay-Modus;
+- Source und Result in derselben Vergleichsfläche;
+- identische deterministische Fit-/Center-Regel;
+- Source als Basis, Result als Overlay;
+- manueller Blend-/Opacity-Regler;
+- Rückkehr zur Basisansicht ohne Verlust der geladenen Bilder;
+- responsive iPhone/iPad/Safari-Bedienbarkeit.
 
-## 10. Attachment-/Resource-Prinzip
+Nicht Teil von DF-04B:
+- Difference View / Pixel-Difference / Heatmap;
+- automatische oder manuelle Alignment-Transformationen;
+- automatische Registrierung;
+- synchrones Pan/Zoom;
+- Pose-/Skeleton-Scoring;
+- KI-Auswertung oder automatische PASS/FAIL-Entscheidung;
+- Persistenz / Asset Library;
+- Approve/Reject oder Review-Notizen;
+- Atlas-Funktionen.
+
+### DF-04C – Difference / Alignment Foundation – frühestens nach DF-04B-Test
+DF-04C ist nur eine vorgesehene mögliche Folgegrenze und noch nicht freigegeben. Erst die reale DF-04B-Erfahrung entscheidet, ob und welche Difference-/Alignment-Funktionen benötigt werden.
+
+## 6. Aktuelles Gate
+Aktueller Branch:
+`df-04a-source-result-compare-view`
+
+Eingefrorener Stand:
+`DF-04A – PASS / FROZEN`
+
+Aktuelles Gate:
+**DF-04B Contract / Roadmap Reconciliation**
+
+Erlaubt in diesem Gate:
+- DF-04B-Vertrag dokumentieren;
+- ROADMAP auf den tatsächlichen DF-04A-Freeze und die B/C-Grenze aktualisieren;
+- Statusdokumentation bei Bedarf ausschließlich zur Reconciliation nachziehen.
+
+Nicht erlaubt:
+- DF-04B-Branch anlegen;
+- DF-04B implementieren;
+- Produktionslogik/UI/JavaScript verändern;
+- DF-04A-Funktionalität verändern.
+
+Erst nach PASS dieses Dokumentationsgates darf ein separater DF-04B-Entwicklungsbranch exakt von der festgelegten reconciliierten DF-04A-Baseline erstellt werden.
+
+## 7. 2D- und 3D-Wiederverwendung
+Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
+
+## 8. Attachment-/Resource-Prinzip
 Character-Basisanimation und transportierte/benutzte Gegenstände bleiben möglichst getrennt. Ressourcen, Waren und Werkzeuge sollen eigene Assets sein und nur über definierte Attachments/Kompositionen verbunden werden.
 
-## 11. DF-03 – Animation Atlas Contract
+## 9. DF-03 – Animation Atlas Contract
 Fachlich vorbereitet:
 - Direction-Reihenfolge N, NE, E, SE, S, SW, W, NW
 - chronologische Frame-Reihenfolge
@@ -212,33 +178,23 @@ Fachlich vorbereitet:
 
 DF-03 bleibt nachgelagert. Der Review-Layer wird zuerst belastbarer gemacht.
 
-## 12. Asset Library / Referenzverwaltung – später
-Geplant sind:
-- Asset-ID / Name / Typ / Projektzuordnung
-- eine oder mehrere Authoritative References
-- Model-/Rig-/Animation-Source
-- Style-/Identity-/Material-Contracts
-- Kamera-/Richtungsregeln
-- Varianten und Zustände
-- Animation-/Task-Katalog
-- technische Output-Profile
-- Staging-/Runtime-Pfade
-- Versions-/Freigabestatus
+## 10. Asset Library / Referenzverwaltung – später
+Geplant sind Asset-ID/Name/Typ/Projektzuordnung, Authoritative References, Model-/Rig-/Animation-Source, Style-/Identity-/Material-Contracts, Kamera-/Richtungsregeln, Varianten, Tasks, technische Output-Profile, Staging-/Runtime-Pfade und Versions-/Freigabestatus.
 
 Keine große persistente Asset-Datenbank vorziehen, bevor der notwendige minimale Datensatz aus realen Workflows bewiesen ist.
 
-## 13. Building / Resource / Icon Workflows
+## 11. Building / Resource / Icon Workflows
 Gemeinsames Prinzip:
 Authoritative Reference → veränderliche Parameter → feste Projektcontracts → Generation Package → Preview/Review → APPROVED Source Asset → technischer Handoff.
 
 Die Character-Logik wird nicht blind auf andere Asset-Typen kopiert.
 
-## 14. Review-Automation – spätere Funktionen
+## 12. Review-Automation – später
 Soweit technisch sinnvoll:
 - Alpha-Erkennung
 - Canvas-/Abmessungsvergleich
 - Root-/Bounding-Box-/Scale-Drift
-- Onion-Skin / Difference Preview
+- Difference Preview
 - Frame-zu-Frame-Motionindikatoren
 - Direction-/Silhouettenvergleich
 - Manifest-Vollständigkeit
@@ -246,27 +202,28 @@ Soweit technisch sinnvoll:
 
 Automatische Prüfungen unterstützen das Review; sie ersetzen nicht automatisch die fachliche visuelle Freigabe.
 
-## 15. Repository-Verknüpfungen
+## 13. Repository-Verknüpfungen
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- aktueller Reconciliation-Branch: `df-02f6r4-explicit-pose-geometry-control`
+- aktueller Dokumentations-/Freeze-Stand: `df-04a-source-result-compare-view`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
 - Default: `main`
-- bestehende konkrete Asset-Staging-Pfade werden nur dort als verbindlich behandelt, wo sie im aktuellen Projektstatus bestätigt sind.
+- konkrete Asset-Staging-Pfade werden nur dort als verbindlich behandelt, wo sie im aktuellen Projektstatus bestätigt sind.
 
-## 16. Nicht vorziehen
+## 14. Nicht vorziehen
 Derzeit nicht parallel vorziehen:
 - vollständige Animation Library;
 - komplexe Attachment-Engine;
 - automatische Generierungs-API;
 - finaler automatischer Atlas-Packing-Workflow;
 - große persistente Asset-Datenbank;
-- automatisches Pose-Scoring oder KI-Review vor einem funktionierenden manuellen Compare-Workflow.
+- automatisches Pose-Scoring oder KI-Review;
+- Difference-/Alignment-Funktionen vor realem DF-04B-Test.
 
-## 17. Git-/Dokumentations-Arbeitsweise
+## 15. Git-/Dokumentations-Arbeitsweise
 - kleine, klar benannte DF-Blöcke
 - ein beobachtetes Problem pro Fix-/Contract-Block
 - vor Änderung aktuellen Branch/Status prüfen
