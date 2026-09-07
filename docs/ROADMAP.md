@@ -31,7 +31,8 @@ Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animat
 - Einzelbildprüfung
 - Source-/Result-Vergleich
 - Overlay / Onion-Skin
-- später Difference / Alignment
+- manuelles Result-Alignment
+- später Difference View
 - Direction-Vergleich
 - Animation Timeline / FPS / Loop / Frame-Stepping
 - später Root/Pivot/Anchor, Approve/Reject und Review-Notizen
@@ -57,7 +58,7 @@ Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animat
 ## 3. Aktuelle Module
 - Prompt Builder – vorhanden; Character Identity + Pose/Geometry Control + Generation-Handoff
 - Animated 3D Reference Viewer – PASS für Intake, Timeline/Scrubbing, Facing/Camera und Pose Bookmarks
-- Source / Result Compare View – `DF-04A PASS / FROZEN`
+- Source / Result Compare View – `DF-04B PASS / FROZEN` inklusive Overlay / Onion-Skin
 - Animation Tester – Standalone Frames/Manifest, FPS, Loop, Step, Onion-Skin, Bottom-Center-Anchor
 - Pose Renderer – historischer DF-02E-Prototyp
 - Sprite Lab – vorhanden
@@ -90,75 +91,83 @@ Die reproduzierbare Pose-Auswahl in DevForge ist nicht mehr der Hauptengpass. De
 Ziel: erzeugte Assets systematisch gegen ihre autoritativen Quellen/Controls prüfen können.
 
 ### DF-04A – Source / Result Compare View – PASS / FROZEN
-DF-04A ist nach realem iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate eingefroren.
-
-Eingefrorener Kern:
-- zwei getrennte lokale Bildslots;
-- Source / Control links bzw. auf schmalen Geräten oben;
-- Result rechts bzw. unten;
-- beide gleichzeitig sichtbar;
-- unabhängiges Ersetzen der Slots;
-- proportionale vollständige Darstellung ohne Cropping/Stretching;
-- responsive Vergleichsansicht.
+Eingefrorener Basisvergleich mit zwei getrennten lokalen Bildslots, festen Source-/Result-Rollen, unabhängiger Ersetzung, proportionaler vollständiger Darstellung und responsiver Side-by-Side-/Top-Bottom-Ansicht.
 
 Contract:
 `docs/DF-04A_SOURCE_RESULT_COMPARE_VIEW_CONTRACT.md`
 
-DF-04A wird in Folgeblöcken nicht semantisch umgebaut.
+### DF-04B – Overlay / Onion-Skin Compare Foundation – PASS / FROZEN
+Nach realem iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate eingefroren.
 
-### DF-04B – Overlay / Onion-Skin Compare Foundation – CONTRACT DEFINED
-Verbindlicher Contract:
-`docs/DF-04B_OVERLAY_ONION_SKIN_COMPARE_CONTRACT.md`
-
-Ziel:
-Auf denselben in DF-04A geladenen Source-/Result-Bildern eine zusätzliche manuelle Overlay-/Onion-Skin-Ansicht bereitstellen.
-
-Geplanter enger Scope:
-- DF-04A-Basisansicht bleibt unverändert erhalten;
-- zusätzlicher Overlay-Modus;
+Eingefrorener Kern:
+- DF-04A-Basisansicht bleibt erhalten;
+- zusätzlicher Overlay-/Onion-Skin-Modus;
 - Source und Result in derselben Vergleichsfläche;
-- identische deterministische Fit-/Center-Regel;
+- identische deterministische Fit-/Center-Regel im Neutralzustand;
 - Source als Basis, Result als Overlay;
-- manueller Blend-/Opacity-Regler;
+- manueller 0–100-%-Blend-/Opacity-Regler;
 - Rückkehr zur Basisansicht ohne Verlust der geladenen Bilder;
 - responsive iPhone/iPad/Safari-Bedienbarkeit.
 
-Nicht Teil von DF-04B:
+Contract:
+`docs/DF-04B_OVERLAY_ONION_SKIN_COMPARE_CONTRACT.md`
+
+### DF-04C – Manual Alignment Foundation – CONTRACT DEFINED
+Verbindlicher Contract:
+`docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
+
+Aus der realen DF-04B-Erfahrung abgeleiteter Bedarf:
+Der Overlay-Vergleich macht Pose-/Silhouettenabweichungen sichtbar, vermischt aber bei unterschiedlich positionierten oder skalierten Motiven echte Formabweichungen mit reinen Lage-/Größenabweichungen. DF-04C soll deshalb vor einer Difference-Berechnung ausschließlich eine kontrollierte manuelle Result-Ausrichtung bereitstellen.
+
+Geplanter enger Scope:
+- Source / Control bleibt autoritativ und unbeweglich;
+- ausschließlich Result darf transformiert werden;
+- Translation X;
+- Translation Y;
+- uniforme proportionale Skalierung;
+- sichtbare X-/Y-/Scale-Werte;
+- `Reset Alignment` auf den neutralen DF-04B-Zustand;
+- bestehender DF-04B-Blend-Regler bleibt funktionsfähig;
+- Alignment bleibt temporärer Review-Zustand;
+- responsive iPhone/iPad/Safari-Bedienbarkeit.
+
+Nicht Teil von DF-04C:
+- Rotation, Warp, Perspective oder Skew;
+- nicht-uniforme Skalierung;
+- automatische Registrierung / Best-Fit;
 - Difference View / Pixel-Difference / Heatmap;
-- automatische oder manuelle Alignment-Transformationen;
-- automatische Registrierung;
-- synchrones Pan/Zoom;
-- Pose-/Skeleton-Scoring;
-- KI-Auswertung oder automatische PASS/FAIL-Entscheidung;
-- Persistenz / Asset Library;
-- Approve/Reject oder Review-Notizen;
+- Difference- oder Pose-Scoring;
+- KI-Auswertung / automatische PASS/FAIL-Entscheidung;
+- Persistenz oder gespeicherte Alignment-Profile;
 - Atlas-Funktionen.
 
-### DF-04C – Difference / Alignment Foundation – frühestens nach DF-04B-Test
-DF-04C ist nur eine vorgesehene mögliche Folgegrenze und noch nicht freigegeben. Erst die reale DF-04B-Erfahrung entscheidet, ob und welche Difference-/Alignment-Funktionen benötigt werden.
+### DF-04D – Difference View Foundation – frühestens nach DF-04C-Test
+DF-04D ist nur eine vorgesehene Folgegrenze und noch nicht freigegeben. Erst die reale DF-04C-Erfahrung soll zeigen, ob und in welcher Form eine Difference-Ansicht auf dem manuell ausgerichteten Vergleich tatsächlich sinnvoll ist.
 
 ## 6. Aktuelles Gate
 Aktueller Branch:
-`df-04a-source-result-compare-view`
+`df-04b-overlay-onion-skin-compare`
 
 Eingefrorener Stand:
-`DF-04A – PASS / FROZEN`
+`DF-04B – PASS / FROZEN`
 
 Aktuelles Gate:
-**DF-04B Contract / Roadmap Reconciliation**
+**DF-04C Contract / Roadmap Reconciliation**
 
 Erlaubt in diesem Gate:
-- DF-04B-Vertrag dokumentieren;
-- ROADMAP auf den tatsächlichen DF-04A-Freeze und die B/C-Grenze aktualisieren;
-- Statusdokumentation bei Bedarf ausschließlich zur Reconciliation nachziehen.
+- DF-04C-Vertrag dokumentieren;
+- ROADMAP auf den tatsächlichen DF-04B-Freeze aktualisieren;
+- C eindeutig als Manual Alignment Foundation festlegen;
+- D ausschließlich als spätere mögliche Difference View Foundation abgrenzen.
 
 Nicht erlaubt:
-- DF-04B-Branch anlegen;
-- DF-04B implementieren;
+- DF-04C-Branch anlegen;
+- DF-04C implementieren;
 - Produktionslogik/UI/JavaScript verändern;
-- DF-04A-Funktionalität verändern.
+- DF-04B-Funktionalität verändern;
+- Difference View vorziehen.
 
-Erst nach PASS dieses Dokumentationsgates darf ein separater DF-04B-Entwicklungsbranch exakt von der festgelegten reconciliierten DF-04A-Baseline erstellt werden.
+Erst nach PASS dieses Dokumentationsgates darf ein separater DF-04C-Entwicklungsbranch exakt von der festgelegten reconciliierten DF-04B-Baseline erstellt werden.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -206,7 +215,7 @@ Automatische Prüfungen unterstützen das Review; sie ersetzen nicht automatisch
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- aktueller Dokumentations-/Freeze-Stand: `df-04a-source-result-compare-view`
+- aktueller Dokumentations-/Freeze-Stand: `df-04b-overlay-onion-skin-compare`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
@@ -221,7 +230,7 @@ Derzeit nicht parallel vorziehen:
 - finaler automatischer Atlas-Packing-Workflow;
 - große persistente Asset-Datenbank;
 - automatisches Pose-Scoring oder KI-Review;
-- Difference-/Alignment-Funktionen vor realem DF-04B-Test.
+- Difference View vor realem DF-04C-Test.
 
 ## 15. Git-/Dokumentations-Arbeitsweise
 - kleine, klar benannte DF-Blöcke
