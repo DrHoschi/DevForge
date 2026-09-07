@@ -20,12 +20,16 @@ const slots = {
 const baseView = document.querySelector('#baseView');
 const overlayView = document.querySelector('#overlayView');
 const differenceView = document.querySelector('#differenceView');
+const silhouetteView = document.querySelector('#silhouetteView');
 const baseMode = document.querySelector('#baseMode');
 const overlayMode = document.querySelector('#overlayMode');
 const differenceMode = document.querySelector('#differenceMode');
+const silhouetteMode = document.querySelector('#silhouetteMode');
 const overlayStage = document.querySelector('#overlayStage');
 const differenceStage = document.querySelector('#differenceStage');
 const differenceCanvas = document.querySelector('#differenceCanvas');
+const silhouetteStage = document.querySelector('#silhouetteStage');
+const silhouetteCanvas = document.querySelector('#silhouetteCanvas');
 const blendRange = document.querySelector('#blendRange');
 const blendValue = document.querySelector('#blendValue');
 const alignX = document.querySelector('#alignX');
@@ -36,8 +40,17 @@ const alignYValue = document.querySelector('#alignYValue');
 const alignScaleValue = document.querySelector('#alignScaleValue');
 const resetAlignment = document.querySelector('#resetAlignment');
 
+const SILHOUETTE_ALPHA_THRESHOLD = 16;
+const SILHOUETTE_COLORS = {
+  overlap: [216, 221, 229, 255],
+  sourceOnly: [255, 79, 154, 255],
+  resultOnly: [56, 217, 255, 255],
+  background: [0, 0, 0, 255]
+};
+
 let currentMode = 'base';
 let differenceFrame = 0;
+let silhouetteFrame = 0;
 
 function imagesReady() {
   return Boolean(
@@ -54,9 +67,10 @@ function updateReadyState() {
   const ready = imagesReady();
   overlayStage.classList.toggle('ready', ready);
   differenceStage.classList.toggle('ready', ready);
+  silhouetteStage.classList.toggle('ready', ready);
   slots.source.overlay.hidden = !ready;
   slots.result.overlay.hidden = !ready;
-  if (ready) scheduleDifferenceRender();
+  if (ready) scheduleReviewRenders();
 }
 
 function loadSlot(slot, file) {
@@ -90,10 +104,13 @@ function setMode(mode) {
   baseView.hidden = mode !== 'base';
   overlayView.hidden = mode !== 'overlay';
   differenceView.hidden = mode !== 'difference';
+  silhouetteView.hidden = mode !== 'silhouette';
   baseMode.setAttribute('aria-pressed', String(mode === 'base'));
   overlayMode.setAttribute('aria-pressed', String(mode === 'overlay'));
   differenceMode.setAttribute('aria-pressed', String(mode === 'difference'));
+  silhouetteMode.setAttribute('aria-pressed', String(mode === 'silhouette'));
   if (mode === 'difference') scheduleDifferenceRender();
+  if (mode === 'silhouette') scheduleSilhouetteRender();
 }
 
 function updateBlend() {
@@ -116,7 +133,7 @@ function updateAlignment() {
   alignYValue.textContent = `${y} px`;
   alignScaleValue.value = `${scalePercent}%`;
   alignScaleValue.textContent = `${scalePercent}%`;
-  scheduleDifferenceRender();
+  scheduleReviewRenders();
 }
 
 function resetAlignmentValues() {
@@ -138,7 +155,7 @@ function containRect(image, width, height) {
   };
 }
 
-function renderImageToCanvas(image, width, height, alignment = null) {
+function renderImageToCanvas(image, width, height, alignment = null, stage = differenceStage) {
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
@@ -151,8 +168,8 @@ function renderImageToCanvas(image, width, height, alignment = null) {
     return context.getImageData(0, 0, width, height);
   }
 
-  const cssWidth = differenceStage.clientWidth || width;
-  const cssHeight = differenceStage.clientHeight || height;
+  const cssWidth = stage.clientWidth || width;
+  const cssHeight = stage.clientHeight || height;
   const pxPerCssX = width / cssWidth;
   const pxPerCssY = height / cssHeight;
   const x = alignment.x * pxPerCssX;
@@ -166,6 +183,24 @@ function renderImageToCanvas(image, width, height, alignment = null) {
   return context.getImageData(0, 0, width, height);
 }
 
+function alignmentState() {
+  return {
+    x: Number(alignX.value),
+    y: Number(alignY.value),
+    scale: Number(alignScale.value) / 100
+  };
+}
+
+function canvasSizeForStage(stage) {
+  const cssWidth = Math.max(1, Math.round(stage.clientWidth));
+  const cssHeight = Math.max(1, Math.round(stage.clientHeight));
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+  return {
+    width: Math.max(1, Math.round(cssWidth * pixelRatio)),
+    height: Math.max(1, Math.round(cssHeight * pixelRatio))
+  };
+}
+
 function renderDifference() {
   differenceFrame = 0;
   if (!imagesReady()) {
@@ -173,23 +208,14 @@ function renderDifference() {
     return;
   }
 
-  const cssWidth = Math.max(1, Math.round(differenceStage.clientWidth));
-  const cssHeight = Math.max(1, Math.round(differenceStage.clientHeight));
-  const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-  const width = Math.max(1, Math.round(cssWidth * pixelRatio));
-  const height = Math.max(1, Math.round(cssHeight * pixelRatio));
-
+  const { width, height } = canvasSizeForStage(differenceStage);
   if (differenceCanvas.width !== width || differenceCanvas.height !== height) {
     differenceCanvas.width = width;
     differenceCanvas.height = height;
   }
 
-  const sourceData = renderImageToCanvas(slots.source.image, width, height);
-  const resultData = renderImageToCanvas(slots.result.image, width, height, {
-    x: Number(alignX.value),
-    y: Number(alignY.value),
-    scale: Number(alignScale.value) / 100
-  });
+  const sourceData = renderImageToCanvas(slots.source.image, width, height, null, differenceStage);
+  const resultData = renderImageToCanvas(slots.result.image, width, height, alignmentState(), differenceStage);
 
   const output = new ImageData(width, height);
   const source = sourceData.data;
@@ -213,9 +239,66 @@ function renderDifference() {
   differenceStage.classList.add('ready');
 }
 
+function writeColor(target, index, color) {
+  target[index] = color[0];
+  target[index + 1] = color[1];
+  target[index + 2] = color[2];
+  target[index + 3] = color[3];
+}
+
+function renderSilhouette() {
+  silhouetteFrame = 0;
+  if (!imagesReady()) {
+    silhouetteStage.classList.remove('ready');
+    return;
+  }
+
+  const { width, height } = canvasSizeForStage(silhouetteStage);
+  if (silhouetteCanvas.width !== width || silhouetteCanvas.height !== height) {
+    silhouetteCanvas.width = width;
+    silhouetteCanvas.height = height;
+  }
+
+  const sourceData = renderImageToCanvas(slots.source.image, width, height, null, silhouetteStage);
+  const resultData = renderImageToCanvas(slots.result.image, width, height, alignmentState(), silhouetteStage);
+  const output = new ImageData(width, height);
+  const source = sourceData.data;
+  const result = resultData.data;
+  const target = output.data;
+
+  for (let i = 0; i < target.length; i += 4) {
+    const sourceForeground = source[i + 3] >= SILHOUETTE_ALPHA_THRESHOLD;
+    const resultForeground = result[i + 3] >= SILHOUETTE_ALPHA_THRESHOLD;
+
+    if (sourceForeground && resultForeground) {
+      writeColor(target, i, SILHOUETTE_COLORS.overlap);
+    } else if (sourceForeground) {
+      writeColor(target, i, SILHOUETTE_COLORS.sourceOnly);
+    } else if (resultForeground) {
+      writeColor(target, i, SILHOUETTE_COLORS.resultOnly);
+    } else {
+      writeColor(target, i, SILHOUETTE_COLORS.background);
+    }
+  }
+
+  const context = silhouetteCanvas.getContext('2d');
+  context.putImageData(output, 0, 0);
+  silhouetteStage.classList.add('ready');
+}
+
 function scheduleDifferenceRender() {
   if (differenceFrame) cancelAnimationFrame(differenceFrame);
   differenceFrame = requestAnimationFrame(renderDifference);
+}
+
+function scheduleSilhouetteRender() {
+  if (silhouetteFrame) cancelAnimationFrame(silhouetteFrame);
+  silhouetteFrame = requestAnimationFrame(renderSilhouette);
+}
+
+function scheduleReviewRenders() {
+  scheduleDifferenceRender();
+  scheduleSilhouetteRender();
 }
 
 for (const slot of Object.values(slots)) {
@@ -225,12 +308,13 @@ for (const slot of Object.values(slots)) {
 baseMode.addEventListener('click', () => setMode('base'));
 overlayMode.addEventListener('click', () => setMode('overlay'));
 differenceMode.addEventListener('click', () => setMode('difference'));
+silhouetteMode.addEventListener('click', () => setMode('silhouette'));
 blendRange.addEventListener('input', updateBlend);
 alignX.addEventListener('input', updateAlignment);
 alignY.addEventListener('input', updateAlignment);
 alignScale.addEventListener('input', updateAlignment);
 resetAlignment.addEventListener('click', resetAlignmentValues);
-window.addEventListener('resize', scheduleDifferenceRender);
+window.addEventListener('resize', scheduleReviewRenders);
 
 updateBlend();
 resetAlignmentValues();
@@ -239,6 +323,7 @@ setMode(currentMode);
 
 window.addEventListener('beforeunload', () => {
   if (differenceFrame) cancelAnimationFrame(differenceFrame);
+  if (silhouetteFrame) cancelAnimationFrame(silhouetteFrame);
   for (const slot of Object.values(slots)) {
     if (slot.url) URL.revokeObjectURL(slot.url);
   }
