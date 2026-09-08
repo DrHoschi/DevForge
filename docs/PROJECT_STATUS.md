@@ -12,7 +12,7 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 - Eingefrorener Produktstand: `DF-04E – PASS / 0 BLOCKER / FROZEN`
 - Eingefrorener DF-04E-Produkt-Head: `49ff536b6070072c94e340e61cff7b37457a5f91`
 - DF-04F Contract: `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md`
-- Aktuelles Gate: `DF-04F Contract / Roadmap Reconciliation`
+- Aktuelles Gate: `DF-04F Contract / Roadmap Reconciliation – PASS / 0 BLOCKER`
 
 # DF-04 – Asset Review Foundation
 
@@ -36,7 +36,7 @@ Realer iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate: `PASS / 0 BLOCKER
 Contract:
 `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
 
-## DF-04F – Silhouette Geometry Guide Foundation – CONTRACT DEFINED
+## DF-04F – Silhouette Geometry Guide Foundation – CONTRACT DEFINED / RECONCILED
 Contract:
 `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md`
 
@@ -72,19 +72,25 @@ DF-04E macht die Silhouettenabweichung bereits zuverlässig sichtbar. Der nächs
 - Atlas-Funktionen;
 - Änderungen am DF-02F-Generation-Handoff.
 
-# Aktuelles Gate
-`DF-04F Contract / Roadmap Reconciliation`
+# DF-04F Contract / Roadmap Reconciliation – PASS
+Geprüft gegen den vollständigen Diff seit dem eingefrorenen DF-04E-Head `49ff536b6070072c94e340e61cff7b37457a5f91`.
 
-Dieses Gate ist ausschließlich dokumentarisch. Es regressiert:
-- den eingefrorenen DF-04E-Produkt-Head `49ff536b6070072c94e340e61cff7b37457a5f91`;
-- den neuen DF-04F-Contract;
-- die ROADMAP-Grenze;
-- die unveränderten DF-04A/B/C/D/E-Verträge;
-- die Sicherstellung, dass kein DF-04F-Branch angelegt und keine Produktlogik/UI/JavaScript verändert wurde.
+Vor Abschluss des Gates stand der Dokumentationsbranch `3 ahead / 0 behind` gegen diese Baseline. Der Diff enthielt ausschließlich:
+- `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md` – neu;
+- `docs/PROJECT_STATUS.md` – dokumentarisch aktualisiert;
+- `docs/ROADMAP.md` – dokumentarisch aktualisiert.
+
+Regressionsergebnis:
+- DF-04F bleibt auf Bounding Box + geometrischem Center für Source und Result begrenzt;
+- optional ist nur ein gemeinsamer `Geometry Guides`-Ein-/Aus-Schalter zugelassen;
+- DF-04A/B/C/D/E bleiben fachlich unverändert eingefroren;
+- keine Produktlogik, UI oder JavaScript wurde im Contract-/Reconciliation-Schritt verändert;
+- kein DF-04F-Entwicklungsbranch wurde im selben Schritt angelegt;
+- keine automatische Bewegung, kein Auto-Alignment, kein Best-Fit, kein Score, kein automatisches PASS/FAIL, kein neuer Scale-Algorithmus, kein benutzerveränderbarer Threshold/Tolerance und keine KI wurde vorgezogen.
+
+Gate-Ergebnis: `DF-04F Contract / Roadmap Reconciliation – PASS / 0 BLOCKER`.
 
 # Nächster zulässiger Schritt
-Ausschließlich das `DF-04F Contract / Roadmap Reconciliation` Gate gegen den vollständigen Dokumentations-Diff seit `49ff536b6070072c94e340e61cff7b37457a5f91` prüfen.
+Ausschließlich einen separaten DF-04F-Entwicklungsbranch exakt von der reconciliierten Dokumentationsbaseline nach diesem Gate anlegen.
 
-Nur bei `PASS / 0 BLOCKER` darf anschließend ein separater DF-04F-Entwicklungsbranch exakt von der dann festgelegten reconciliierten Dokumentationsbaseline erstellt werden.
-
-Noch kein DF-04F-Branch und keine DF-04F-Implementierung.
+Noch keine DF-04F-Implementierung im selben Schritt.
