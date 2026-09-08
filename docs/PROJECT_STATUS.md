@@ -1,6 +1,6 @@
 # DevForge – Project Status
 
-Stand: 2026-09-07
+Stand: 2026-09-08
 
 ## Zweck
 DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets. Der aktuelle Character-Animationsworkflow dient als erster realer Referenzprozess.
@@ -8,11 +8,11 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungs-/Freeze-Branch: `df-04e-silhouette-difference-foundation`
-- DF-04E Baseline: `d22ccfdfe682a33a56ead9fd2db2355fd8734682`
-- DF-04E Contract: `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
-- Eingefrorener Review-Stand: `DF-04E – PASS / 0 BLOCKER / FROZEN`
-- Aktueller abgeschlossener Entwicklungsblock: `DF-04E – Silhouette Difference Foundation`
+- Aktueller Dokumentations-/Freeze-Branch: `df-04e-silhouette-difference-foundation`
+- Eingefrorener Produktstand: `DF-04E – PASS / 0 BLOCKER / FROZEN`
+- Eingefrorener DF-04E-Produkt-Head: `49ff536b6070072c94e340e61cff7b37457a5f91`
+- DF-04F Contract: `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md`
+- Aktuelles Gate: `DF-04F Contract / Roadmap Reconciliation`
 
 # DF-04 – Asset Review Foundation
 
@@ -29,81 +29,62 @@ Autoritativ für manuelle Result-Translation X/Y, uniforme Scale, sichtbare Wert
 Autoritativ für die deterministische pixelweise absolute RGBA-Difference auf gemeinsamer Review-Rasterfläche unter Verwendung desselben DF-04C-Alignments. Geringe Abweichung erscheint dunkel, stärkere heller; Alpha ist Bestandteil der Difference. Kein Score und keine automatische Bewertung.
 
 ## DF-04E – Silhouette Difference Foundation – PASS / FROZEN
+Autoritativ für die deterministische Alpha-/Silhouettenprüfung auf derselben Review-Rasterfläche. Überlappung, Source-only und Result-only werden visuell unterschieden. RGB, Textur, Material und Beleuchtung beeinflussen die Maske nicht. DF-04C-X/Y/Scale und `Reset Alignment` gelten unverändert weiter.
+
+Realer iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate: `PASS / 0 BLOCKER / FROZEN`.
+
 Contract:
 `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
 
-Eingefrorener Umfang:
-- sichtbare geprüfte Build-Kennung `DF-04E · TESTBUILD 1`;
-- DF-04A-Basisvergleich bleibt unverändert erhalten;
-- DF-04B-Overlay/Blend bleibt unverändert erhalten;
-- DF-04C-X/Y/Scale und `Reset Alignment` bleiben unverändert erhalten;
-- DF-04D-RGBA-Difference bleibt als eigener Modus unverändert erhalten;
-- zusätzlicher Ansichtsmodus `Silhouette`;
-- Wiederverwendung derselben geladenen Source-/Result-Bilder ohne neue Slots;
-- dieselbe responsive Review-Rasterfläche und dieselben Fit-/Center-/Alignment-Regeln wie DF-04D;
-- deterministische binäre Silhouettenmaske ausschließlich aus gerendertem Alpha;
-- feste interne Alpha-Grenze `16 / 255`, nicht benutzerveränderbar;
-- RGB-Farbe, Textur, Material und Beleuchtung beeinflussen die Silhouettenmaske nicht;
-- Überlappung = hellgrau, Source-only = magenta, Result-only = cyan, Hintergrund = schwarz;
-- X/Y/Scale und `Reset Alignment` aktualisieren die Silhouette Difference über den bestehenden DF-04C-Zustand;
-- Wechsel zwischen Basisvergleich, Overlay, Difference und Silhouette erhält Bilder und Alignment;
+## DF-04F – Silhouette Geometry Guide Foundation – CONTRACT DEFINED
+Contract:
+`docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md`
+
+### Fachlicher Bedarf aus realer DF-04E-Erfahrung
+DF-04E macht die Silhouettenabweichung bereits zuverlässig sichtbar. Der nächste kleine Review-Bedarf ist deshalb nicht mehr ein weiterer Difference-Modus, sondern eine einfache geometrische Orientierung für das weiterhin manuelle DF-04C-Alignment: Wo liegen Source- und Result-Silhouette auf der gemeinsamen Review-Fläche und wie groß ist ihre jeweilige Ausdehnung?
+
+### Verbindlicher enger Scope
+- achsenparallele Bounding Box der gerenderten Source-Silhouette;
+- achsenparallele Bounding Box der gerenderten Result-Silhouette unter aktuellem DF-04C-X/Y/Scale;
+- geometrischer Mittelpunkt jeder Bounding Box;
+- sichtbare und eindeutig unterscheidbare Source-/Result-Boxen und Center-Marker;
+- optional genau ein gemeinsamer `Geometry Guides`-Ein-/Aus-Schalter;
+- Guides basieren auf derselben eingefrorenen DF-04E-Alpha-Maske mit fester interner Grenze `16 / 255`;
+- Result-Box und Result-Center aktualisieren sich bei X/Y/Scale und `Reset Alignment`;
+- Source-Guides bleiben bei Result-Alignment unverändert;
+- keine Änderung an Bildern, Alignment oder bestehenden Modi;
 - responsive/touch-taugliche iPhone/iPad/Safari-Darstellung;
-- Cache-Busting `df04e-testbuild1`.
+- sichtbare DF-04F-Build-Kennung und Cache-Busting erst im später freigegebenen Implementierungsblock.
 
-### DF-04E Gerätetest – PASS / 0 BLOCKER
-Reale iPhone-/Safari-Evidenz vom 2026-09-07 bestätigt:
-- DF-04A/B/C/D funktionieren weiterhin;
-- `Silhouette` ist klar erreichbar und nutzt dieselben geladenen Bilder;
-- Farbe, Textur, Material und Beleuchtung dominieren die Silhouettenansicht nicht;
-- Überlappung, Source-only und Result-only sind klar und voneinander unterscheidbar;
-- transparente Hintergründe und Alpha-Kanten werden ohne sichtbare Darstellungsfehler verarbeitet;
-- Result-X, Result-Y und uniforme Result-Scale verändern die Silhouette Difference entsprechend;
-- `Reset Alignment` stellt den neutralen DF-04B-Zustand wieder her;
-- alle bisherigen Modi und Funktionen bleiben erhalten;
-- die Silhouettenansicht ist auf dem getesteten iPhone/Safari sinnvoll bedienbar;
-- keine ausgeschlossene Threshold-, Tolerance-, Scoring-, Auto-Alignment-, KI-, Persistenz- oder Atlas-Funktion wurde vorgezogen.
-
-Gerätetest-Ergebnis: `DF-04E · TESTBUILD 1 – PASS / 0 BLOCKER`.
-
-### Explizit nicht Teil des eingefrorenen DF-04E-Umfangs
-- Auto-Alignment / Best-Fit;
+### Explizit nicht Teil von DF-04F
+- automatische Bewegung von Result;
+- Auto-Alignment / Best-Fit / automatische Center-Ausrichtung;
+- automatische oder neue Scale-Logik;
 - Rotation / Perspective / Warp / Skew;
 - zusätzliche Alignment-Werkzeuge;
-- benutzerveränderbarer Alpha-Threshold;
-- Tolerance-Regler;
-- mehrere Masken-/Morphologie-Modi;
-- Erosion / Dilatation / Blur / Edge-Smoothing als Benutzerfunktion;
-- Konturvermessung;
-- Pixel-, Flächen-, Prozent-, IoU- oder Overlap-Score;
+- benutzerveränderbarer Alpha-Threshold oder Tolerance-Regler;
+- numerische Center-, Breiten-, Höhen-, Flächen-, Pixel-, Prozent-, IoU- oder Overlap-Metrik;
+- Difference-, Silhouette- oder Pose-Scoring;
 - automatische PASS/FAIL-Entscheidung;
-- Pose-/Skeleton-Scoring;
 - KI-Auswertung oder Fehlerklassifizierung;
 - Persistenz / Asset Library;
 - Review-Notizen / Approve / Reject;
 - Atlas-Funktionen;
 - Änderungen am DF-02F-Generation-Handoff.
 
-# DF-04E – Completion / Freeze Gate – PASS
-Gemeinsame Regression durchgeführt gegen:
-- den verbindlichen DF-04E-Contract;
-- die reconciliierte DF-04E-Baseline `d22ccfdfe682a33a56ead9fd2db2355fd8734682`;
-- den vollständigen Branch-Diff bis zum Geräte-PASS-Head `252932e672c3a6f6c6c359089d6a93a7fadbfbd9`;
-- die eingefrorenen DF-04A-/DF-04B-/DF-04C-/DF-04D-Regressionsgrenzen;
-- die vollständige reale iPhone-/Safari-Geräte-Evidenz;
-- sämtliche DF-04E-Nicht-Ziele.
+# Aktuelles Gate
+`DF-04F Contract / Roadmap Reconciliation`
 
-Gate-Ergebnis:
-- Branch ist exakt von der reconciliierten Baseline abgeleitet und `0 behind`;
-- vor dem Freeze-Dokumentationscommit umfasst der vollständige DF-04E-Diff ausschließlich `tools/source-result-compare/index.html`, `tools/source-result-compare/app.js` und `docs/PROJECT_STATUS.md`;
-- die Produktänderung bleibt auf die vertraglich definierte Silhouette Difference begrenzt;
-- DF-04A/B/C/D wurden auf dem Zielgerät gegen ihre eingefrorenen Grenzen regressiert;
-- alle 14 DF-04E-PASS-Kriterien sind durch Implementierung plus reale Geräte-Evidenz erfüllt;
-- keine Threshold-, Tolerance-, Scoring-, Auto-Alignment-, KI-, Persistenz-, Atlas- oder Generation-Handoff-Funktion wurde vorgezogen;
-- im Completion-/Freeze-Gate selbst wurde keine neue Produktfunktion ergänzt.
-
-Ergebnis: `DF-04E – PASS / 0 BLOCKER / FROZEN`.
+Dieses Gate ist ausschließlich dokumentarisch. Es regressiert:
+- den eingefrorenen DF-04E-Produkt-Head `49ff536b6070072c94e340e61cff7b37457a5f91`;
+- den neuen DF-04F-Contract;
+- die ROADMAP-Grenze;
+- die unveränderten DF-04A/B/C/D/E-Verträge;
+- die Sicherstellung, dass kein DF-04F-Branch angelegt und keine Produktlogik/UI/JavaScript verändert wurde.
 
 # Nächster zulässiger Schritt
-Kein weiterer DF-04E-Funktionsausbau auf diesem eingefrorenen Stand.
+Ausschließlich das `DF-04F Contract / Roadmap Reconciliation` Gate gegen den vollständigen Dokumentations-Diff seit `49ff536b6070072c94e340e61cff7b37457a5f91` prüfen.
 
-Ein Folgeblock ist nicht automatisch freigegeben. Zuerst muss aus der realen DF-04E-Erfahrung fachlich bestimmt werden, welcher eng abgegrenzte Review-Schritt als Nächstes tatsächlich benötigt wird. Bis dahin kein Threshold/Tolerance, kein Scoring, kein Auto-Alignment und keine zusätzliche Silhouettenlogik.
+Nur bei `PASS / 0 BLOCKER` darf anschließend ein separater DF-04F-Entwicklungsbranch exakt von der dann festgelegten reconciliierten Dokumentationsbaseline erstellt werden.
+
+Noch kein DF-04F-Branch und keine DF-04F-Implementierung.
