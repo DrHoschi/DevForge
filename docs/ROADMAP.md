@@ -122,7 +122,7 @@ Eingefrorene deterministische Silhouette Difference auf denselben Bildern und de
 Contract:
 `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
 
-### DF-04F – Silhouette Geometry Guide Foundation – CONTRACT DEFINED
+### DF-04F – Silhouette Geometry Guide Foundation – CONTRACT DEFINED / RECONCILED
 Verbindlicher Contract:
 `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md`
 
@@ -164,21 +164,26 @@ Eingefrorener Produktstand:
 Eingefrorener DF-04E-Produkt-Head:
 `49ff536b6070072c94e340e61cff7b37457a5f91`
 
-Aktuelles Gate:
-**DF-04F Contract / Roadmap Reconciliation**
+Abgeschlossenes Gate:
+**DF-04F Contract / Roadmap Reconciliation – PASS / 0 BLOCKER**
 
-Erlaubt in diesem Gate:
-- DF-04F-Contract gegen den eingefrorenen DF-04E-Produktstand dokumentieren;
-- ROADMAP und PROJECT_STATUS auf die enge Geometry-Guide-Grenze nachziehen;
-- DF-04A–E unverändert eingefroren lassen.
+Regressiert wurden:
+- der eingefrorene DF-04E-Produkt-Head `49ff536b6070072c94e340e61cff7b37457a5f91`;
+- der vollständige Dokumentations-Diff seit diesem Head;
+- der neue DF-04F-Contract;
+- PROJECT_STATUS und ROADMAP;
+- die unveränderten DF-04A/B/C/D/E-Grenzen.
 
-Nicht erlaubt:
-- DF-04F-Branch anlegen;
-- DF-04F implementieren;
-- Produktlogik/UI/JavaScript ändern;
-- Auto-Alignment, Best-Fit, Scoring, Threshold/Tolerance, KI oder andere Folgefunktionen vorziehen.
+Das Gate bestätigt:
+- Branch-Diff vor Abschluss des Gates: `3 ahead / 0 behind`;
+- ausschließlich drei Dokumentationsdateien geändert bzw. ergänzt;
+- keine Produktlogik, UI oder JavaScript verändert;
+- kein DF-04F-Entwicklungsbranch im Contract-/Reconciliation-Schritt angelegt;
+- keine Auto-Alignment-, Best-Fit-, Scoring-, Threshold/Tolerance-, KI-, Persistenz- oder Atlas-Funktion vorgezogen.
 
-Erst nach PASS dieses Dokumentationsgates darf ein separater DF-04F-Entwicklungsbranch exakt von der dann festgelegten reconciliierten Dokumentationsbaseline erstellt werden.
+Nächster zulässiger Schritt:
+- einen separaten DF-04F-Entwicklungsbranch exakt von der reconciliierten Dokumentationsbaseline nach diesem Gate anlegen;
+- noch keine DF-04F-Implementierung im selben Schritt.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
