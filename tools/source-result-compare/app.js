@@ -39,6 +39,7 @@ const alignXValue = document.querySelector('#alignXValue');
 const alignYValue = document.querySelector('#alignYValue');
 const alignScaleValue = document.querySelector('#alignScaleValue');
 const resetAlignment = document.querySelector('#resetAlignment');
+const geometryGuidesToggle = document.querySelector('#geometryGuidesToggle');
 
 const SILHOUETTE_ALPHA_THRESHOLD = 16;
 const SILHOUETTE_COLORS = {
@@ -47,10 +48,15 @@ const SILHOUETTE_COLORS = {
   resultOnly: [56, 217, 255, 255],
   background: [0, 0, 0, 255]
 };
+const GUIDE_COLORS = {
+  source: '#ffd166',
+  result: '#7ee787'
+};
 
 let currentMode = 'base';
 let differenceFrame = 0;
 let silhouetteFrame = 0;
+let geometryGuidesVisible = true;
 
 function imagesReady() {
   return Boolean(
@@ -246,6 +252,61 @@ function writeColor(target, index, color) {
   target[index + 3] = color[3];
 }
 
+function foregroundBounds(data, width, height) {
+  let minX = width;
+  let minY = height;
+  let maxX = -1;
+  let maxY = -1;
+
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const alpha = data[(y * width + x) * 4 + 3];
+      if (alpha < SILHOUETTE_ALPHA_THRESHOLD) continue;
+      if (x < minX) minX = x;
+      if (x > maxX) maxX = x;
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
+    }
+  }
+
+  if (maxX < minX || maxY < minY) return null;
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX + 1,
+    height: maxY - minY + 1,
+    centerX: (minX + maxX) / 2,
+    centerY: (minY + maxY) / 2
+  };
+}
+
+function drawGeometryGuide(context, bounds, color, dashed) {
+  if (!bounds) return;
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+  const lineWidth = Math.max(1.5, 1.5 * pixelRatio);
+  const markerSize = Math.max(7, 7 * pixelRatio);
+
+  context.save();
+  context.strokeStyle = color;
+  context.lineWidth = lineWidth;
+  context.setLineDash(dashed ? [7 * pixelRatio, 5 * pixelRatio] : []);
+  context.strokeRect(
+    bounds.x + lineWidth / 2,
+    bounds.y + lineWidth / 2,
+    Math.max(0, bounds.width - lineWidth),
+    Math.max(0, bounds.height - lineWidth)
+  );
+
+  context.setLineDash([]);
+  context.beginPath();
+  context.moveTo(bounds.centerX - markerSize, bounds.centerY);
+  context.lineTo(bounds.centerX + markerSize, bounds.centerY);
+  context.moveTo(bounds.centerX, bounds.centerY - markerSize);
+  context.lineTo(bounds.centerX, bounds.centerY + markerSize);
+  context.stroke();
+  context.restore();
+}
+
 function renderSilhouette() {
   silhouetteFrame = 0;
   if (!imagesReady()) {
@@ -283,6 +344,14 @@ function renderSilhouette() {
 
   const context = silhouetteCanvas.getContext('2d');
   context.putImageData(output, 0, 0);
+
+  if (geometryGuidesVisible) {
+    const sourceBounds = foregroundBounds(source, width, height);
+    const resultBounds = foregroundBounds(result, width, height);
+    drawGeometryGuide(context, sourceBounds, GUIDE_COLORS.source, false);
+    drawGeometryGuide(context, resultBounds, GUIDE_COLORS.result, true);
+  }
+
   silhouetteStage.classList.add('ready');
 }
 
@@ -301,6 +370,13 @@ function scheduleReviewRenders() {
   scheduleSilhouetteRender();
 }
 
+function toggleGeometryGuides() {
+  geometryGuidesVisible = !geometryGuidesVisible;
+  geometryGuidesToggle.setAttribute('aria-pressed', String(geometryGuidesVisible));
+  geometryGuidesToggle.textContent = `Geometry Guides: ${geometryGuidesVisible ? 'Ein' : 'Aus'}`;
+  scheduleSilhouetteRender();
+}
+
 for (const slot of Object.values(slots)) {
   slot.input.addEventListener('change', () => loadSlot(slot, slot.input.files?.[0]));
 }
@@ -314,6 +390,7 @@ alignX.addEventListener('input', updateAlignment);
 alignY.addEventListener('input', updateAlignment);
 alignScale.addEventListener('input', updateAlignment);
 resetAlignment.addEventListener('click', resetAlignmentValues);
+geometryGuidesToggle.addEventListener('click', toggleGeometryGuides);
 window.addEventListener('resize', scheduleReviewRenders);
 
 updateBlend();
