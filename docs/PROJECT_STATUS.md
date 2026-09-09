@@ -1,6 +1,6 @@
 # DevForge – Project Status
 
-Stand: 2026-09-08
+Stand: 2026-09-09
 
 ## Zweck
 DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets. Der aktuelle Character-Animationsworkflow dient als erster realer Referenzprozess.
@@ -8,11 +8,11 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Dokumentations-/Freeze-Branch: `df-04e-silhouette-difference-foundation`
+- Aktueller Entwicklungsbranch: `df-04f-silhouette-geometry-guide-foundation`
 - Eingefrorener Produktstand: `DF-04E – PASS / 0 BLOCKER / FROZEN`
-- Eingefrorener DF-04E-Produkt-Head: `49ff536b6070072c94e340e61cff7b37457a5f91`
+- Reconciliierte DF-04F-Baseline: `1f9badba271bb3a6a055f8ef234164dd9acd39e8`
 - DF-04F Contract: `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md`
-- Aktuelles Gate: `DF-04F Contract / Roadmap Reconciliation – PASS / 0 BLOCKER`
+- Aktuelles Gate: `DF-04F · TESTBUILD 1 – DEVICE TEST REQUIRED`
 
 # DF-04 – Asset Review Foundation
 
@@ -31,66 +31,69 @@ Autoritativ für die deterministische pixelweise absolute RGBA-Difference auf ge
 ## DF-04E – Silhouette Difference Foundation – PASS / FROZEN
 Autoritativ für die deterministische Alpha-/Silhouettenprüfung auf derselben Review-Rasterfläche. Überlappung, Source-only und Result-only werden visuell unterschieden. RGB, Textur, Material und Beleuchtung beeinflussen die Maske nicht. DF-04C-X/Y/Scale und `Reset Alignment` gelten unverändert weiter.
 
-Realer iPhone-/Safari-Gerätetest und Completion-/Freeze-Gate: `PASS / 0 BLOCKER / FROZEN`.
-
-Contract:
-`docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
-
-## DF-04F – Silhouette Geometry Guide Foundation – CONTRACT DEFINED / RECONCILED
+## DF-04F – Silhouette Geometry Guide Foundation – TESTBUILD 1
 Contract:
 `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md`
 
-### Fachlicher Bedarf aus realer DF-04E-Erfahrung
-DF-04E macht die Silhouettenabweichung bereits zuverlässig sichtbar. Der nächste kleine Review-Bedarf ist deshalb nicht mehr ein weiterer Difference-Modus, sondern eine einfache geometrische Orientierung für das weiterhin manuelle DF-04C-Alignment: Wo liegen Source- und Result-Silhouette auf der gemeinsamen Review-Fläche und wie groß ist ihre jeweilige Ausdehnung?
+### TESTBUILD 1 implementiert
+Auf dem separaten Branch `df-04f-silhouette-geometry-guide-foundation` wurde ausschließlich der vertraglich freigegebene Geometry-Guide-Ausbau ergänzt:
+- sichtbare Build-Kennung `DF-04F · TESTBUILD 1`;
+- Cache-Busting `df04f-testbuild1`;
+- bestehende Modi Basisvergleich, Overlay / Onion-Skin, Difference und Silhouette bleiben erhalten;
+- Source-Bounding-Box wird aus derselben gerenderten DF-04E-Alpha-Maske mit fester interner Grenze `16 / 255` ermittelt;
+- Result-Bounding-Box wird aus derselben Alpha-Maske nach aktuellem DF-04C-X/Y/Scale-Alignment ermittelt;
+- beide Bounding Boxes sind achsenparallel und entsprechen jeweils dem kleinsten Rechteck um alle Vordergrundpixel;
+- geometrischer Center jeder Bounding Box wird als Center-Kreuz dargestellt;
+- Source-Guide ist durchgezogen, Result-Guide gestrichelt und damit visuell unterscheidbar;
+- optionaler gemeinsamer Schalter `Geometry Guides` blendet ausschließlich beide Guides ein bzw. aus;
+- der Guide-Schalter verändert weder Bilder noch Alignment-Werte;
+- Änderungen von X, Y und uniformer Scale lösen die bestehende Silhouette-Neuberechnung aus und aktualisieren dadurch Result-Box und Result-Center;
+- `Reset Alignment` aktualisiert Result-Box und Result-Center zurück auf den neutralen DF-04B-Zustand;
+- Source-Guides werden durch Result-Alignment nicht verändert;
+- bei leerer Alpha-Maske wird für die betreffende Seite kein Guide dargestellt;
+- keine numerischen Geometriewerte oder Scores werden ausgegeben;
+- responsive/touch-tauglicher einzelner Guide-Schalter für schmale Viewports.
 
-### Verbindlicher enger Scope
-- achsenparallele Bounding Box der gerenderten Source-Silhouette;
-- achsenparallele Bounding Box der gerenderten Result-Silhouette unter aktuellem DF-04C-X/Y/Scale;
-- geometrischer Mittelpunkt jeder Bounding Box;
-- sichtbare und eindeutig unterscheidbare Source-/Result-Boxen und Center-Marker;
-- optional genau ein gemeinsamer `Geometry Guides`-Ein-/Aus-Schalter;
-- Guides basieren auf derselben eingefrorenen DF-04E-Alpha-Maske mit fester interner Grenze `16 / 255`;
-- Result-Box und Result-Center aktualisieren sich bei X/Y/Scale und `Reset Alignment`;
-- Source-Guides bleiben bei Result-Alignment unverändert;
-- keine Änderung an Bildern, Alignment oder bestehenden Modi;
-- responsive/touch-taugliche iPhone/iPad/Safari-Darstellung;
-- sichtbare DF-04F-Build-Kennung und Cache-Busting erst im später freigegebenen Implementierungsblock.
-
-### Explizit nicht Teil von DF-04F
+### Weiterhin explizit nicht implementiert
 - automatische Bewegung von Result;
-- Auto-Alignment / Best-Fit / automatische Center-Ausrichtung;
-- automatische oder neue Scale-Logik;
+- Auto-Alignment / Best-Fit;
+- automatische Center-Ausrichtung;
+- automatische Scale-Anpassung oder neuer Scale-Algorithmus;
 - Rotation / Perspective / Warp / Skew;
 - zusätzliche Alignment-Werkzeuge;
-- benutzerveränderbarer Alpha-Threshold oder Tolerance-Regler;
-- numerische Center-, Breiten-, Höhen-, Flächen-, Pixel-, Prozent-, IoU- oder Overlap-Metrik;
+- benutzerveränderbarer Alpha-Threshold;
+- Tolerance-Regler;
+- Morphologie / Erosion / Dilatation / Blur;
+- Konturverfolgung / Polygonisierung;
+- numerische Center-, Breiten-, Höhen-, Flächen-, Pixel-, Prozent-, IoU- oder Overlap-Metriken;
 - Difference-, Silhouette- oder Pose-Scoring;
 - automatische PASS/FAIL-Entscheidung;
 - KI-Auswertung oder Fehlerklassifizierung;
 - Persistenz / Asset Library;
 - Review-Notizen / Approve / Reject;
 - Atlas-Funktionen;
-- Änderungen am DF-02F-Generation-Handoff.
+- Änderungen am DF-02F-Generation-Handoff oder Prompt Builder.
 
-# DF-04F Contract / Roadmap Reconciliation – PASS
-Geprüft gegen den vollständigen Diff seit dem eingefrorenen DF-04E-Head `49ff536b6070072c94e340e61cff7b37457a5f91`.
+# Aktuelles Gate
+`DF-04F · TESTBUILD 1 – DEVICE TEST REQUIRED`
 
-Vor Abschluss des Gates stand der Dokumentationsbranch `3 ahead / 0 behind` gegen diese Baseline. Der Diff enthielt ausschließlich:
-- `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md` – neu;
-- `docs/PROJECT_STATUS.md` – dokumentarisch aktualisiert;
-- `docs/ROADMAP.md` – dokumentarisch aktualisiert.
-
-Regressionsergebnis:
-- DF-04F bleibt auf Bounding Box + geometrischem Center für Source und Result begrenzt;
-- optional ist nur ein gemeinsamer `Geometry Guides`-Ein-/Aus-Schalter zugelassen;
-- DF-04A/B/C/D/E bleiben fachlich unverändert eingefroren;
-- keine Produktlogik, UI oder JavaScript wurde im Contract-/Reconciliation-Schritt verändert;
-- kein DF-04F-Entwicklungsbranch wurde im selben Schritt angelegt;
-- keine automatische Bewegung, kein Auto-Alignment, kein Best-Fit, kein Score, kein automatisches PASS/FAIL, kein neuer Scale-Algorithmus, kein benutzerveränderbarer Threshold/Tolerance und keine KI wurde vorgezogen.
-
-Gate-Ergebnis: `DF-04F Contract / Roadmap Reconciliation – PASS / 0 BLOCKER`.
+Vor PASS/FROZEN muss auf realem iPhone/iPad/Safari gegen den Contract bestätigt werden:
+1. DF-04A-Basisvergleich, DF-04B-Overlay/Blend, DF-04C-Alignment, DF-04D-RGBA-Difference und DF-04E-Silhouette funktionieren unverändert weiter.
+2. Source-Bounding-Box umfasst sichtbar die Source-Silhouette.
+3. Result-Bounding-Box umfasst sichtbar die Result-Silhouette.
+4. Source- und Result-Box sind eindeutig unterscheidbar.
+5. Source-Center liegt sichtbar im geometrischen Mittelpunkt der Source-Box.
+6. Result-Center liegt sichtbar im geometrischen Mittelpunkt der Result-Box.
+7. Result-X aktualisiert Result-Box und Result-Center; Source-Guides bleiben unverändert.
+8. Result-Y aktualisiert Result-Box und Result-Center; Source-Guides bleiben unverändert.
+9. uniforme Result-Scale aktualisiert Result-Box und Result-Center; Source-Guides bleiben unverändert.
+10. `Reset Alignment` stellt neutralen Zustand und passende Result-Guides wieder her.
+11. `Geometry Guides` blendet ausschließlich Hilfsgeometrie ein/aus und verändert weder Bilder noch Alignment.
+12. Moduswechsel erhält Bilder und Alignment-Zustand.
+13. Guides sind auf iPhone/iPad/Safari sinnvoll erkennbar und bedienbar, ohne Silhouette unbrauchbar zu machen.
+14. Keine ausgeschlossene Auto-Alignment-, Best-Fit-, Scoring-, Threshold/Tolerance-, KI-, Persistenz- oder Atlas-Funktion wurde vorgezogen.
 
 # Nächster zulässiger Schritt
-Ausschließlich einen separaten DF-04F-Entwicklungsbranch exakt von der reconciliierten Dokumentationsbaseline nach diesem Gate anlegen.
+Ausschließlich `DF-04F · TESTBUILD 1` auf realem Zielgerät testen und Evidenz gegen die 14 PASS-Kriterien sammeln.
 
-Noch keine DF-04F-Implementierung im selben Schritt.
+Noch kein Completion-/Freeze-Gate, kein Folgeblock und kein weiterer Funktionsausbau.
