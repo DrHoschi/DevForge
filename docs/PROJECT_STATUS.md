@@ -8,10 +8,9 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-hub-01-tool-hub-authority-workflow-reconciliation`
+- Aktueller Freeze-Branch: `df-hub-01-tool-hub-authority-workflow-reconciliation`
 - DF-HUB-01 Entwicklungsbaseline: `e3aea9ea8e492b7e2c7dca474b1350461383adcd`
 - Eingefrorener Produktstand vor DF-HUB-01: `17cec9ca4b399d1099be5bf4bb398a74ea27aff2`
-- Eingefrorener Review-Stand: `DF-04F – PASS / 0 BLOCKER / FROZEN`
 - DF-HUB-01 Contract: `docs/DF-HUB-01_TOOL_HUB_AUTHORITY_WORKFLOW_RECONCILIATION_CONTRACT.md`
 
 # DF-04 – Asset Review Foundation
@@ -23,60 +22,55 @@ Ein möglicher `Silhouette Geometry Readout` bleibt ausschließlich `LATER / ONL
 Contract-/Documentation-Reconciliation:
 `PASS / 0 BLOCKER`
 
-Implementierungsstatus:
-`IMPLEMENTED / TESTBUILD 1 / COMPLETION REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
+Completion / Regression Gate:
+`PASS / 0 BLOCKER`
 
-Sichtbare Hub-Build-Kennung:
+Freeze Gate:
+`PASS / 0 BLOCKER / FROZEN`
+
+Sichtbare getestete Hub-Build-Kennung:
 `DF-HUB-01 · TESTBUILD 1`
 
-Cache-Busting:
+Getestetes Cache-Busting:
 `main.js?v=dfhub01-testbuild1`
 
-## Implementierter Umfang
-- Tool-Hub-Titel auf `DevForge · Tool Hub` reconciliiert;
+## Eingefrorener Umfang
+- Tool-Hub-Titel `DevForge · Tool Hub`;
 - alle neun inventarisierten Türen zeigen ihren autoritativen Authority-Status;
 - vorhandene Workflow-Rollen werden sichtbar ausgewiesen;
-- Source / Result Compare View zeigt den aktuellen Stand `DF-04F · PASS / 0 BLOCKER / FROZEN` statt des veralteten DF-04A-Testbuild-Labels;
-- Prompt Builder bleibt `AVAILABLE` und suggeriert keine gelöste deterministische externe Bildgenerierung;
-- Animated 3D Reference Viewer wird für die belegten DF-02F.1–F.5-Capabilities als `FROZEN / PRODUCTIVE` geführt;
-- Deterministic Pose Renderer ist sichtbar `PROTOTYPE / HISTORICAL`;
-- Sprite Lab ist `AVAILABLE`, ohne Atlas-Produktionsfreigabe zu behaupten;
-- Atlas Builder ist sichtbar `CONSOLIDATED / REDIRECT` und bleibt eine Weiterleitung zum konsolidierten Werkzeug;
+- Source / Result Compare View zeigt `DF-04F · PASS / 0 BLOCKER / FROZEN`;
+- Prompt Builder bleibt `AVAILABLE`;
+- Animated 3D Reference Viewer ist für die belegten DF-02F.1–F.5-Capabilities `FROZEN / PRODUCTIVE`;
+- Deterministic Pose Renderer ist `PROTOTYPE / HISTORICAL`;
+- Sprite Lab ist `AVAILABLE` ohne Atlas-Produktionsfreigabe;
+- Atlas Builder ist `CONSOLIDATED / REDIRECT`;
 - Animation Tester und Asset Inspector sind `AVAILABLE`;
-- Parameter Playground ist sichtbar `PREPARED / NOT IMPLEMENTED` und besitzt weiterhin keinen aktiven Tool-Link;
-- historische, vorbereitete und konsolidierte Türen werden visuell zurückhaltender dargestellt;
+- Parameter Playground ist `PREPARED / NOT IMPLEMENTED` und besitzt keinen aktiven Tool-Link;
 - keine Capability innerhalb eines einzelnen Tools wurde verändert.
 
-## Completion / Regression Gate
-Vollständiger Branch-Diff gegen `e3aea9ea8e492b7e2c7dca474b1350461383adcd` geprüft:
-- `4 ahead / 0 behind` vor Aufnahme der Gate-Dokumentation;
-- geändert waren ausschließlich `index.html`, `main.js`, `docs/PROJECT_STATUS.md` und `docs/ROADMAP.md`;
-- keine Datei unter `tools/` wurde verändert;
-- keine neue Tool-Capability wurde eingeführt;
-- alle neun Authority-Klassen und Workflow-Rollen entsprechen dem DF-HUB-01-Contract;
-- Atlas Builder bleibt `CONSOLIDATED / REDIRECT`;
-- Parameter Playground bleibt `PREPARED / NOT IMPLEMENTED`;
-- Pose Renderer bleibt `PROTOTYPE / HISTORICAL`;
-- DF-04F bleibt geschlossen.
+## Completion / Regression Evidenz
+Der vollständige Branch-Diff gegen `e3aea9ea8e492b7e2c7dca474b1350461383adcd` wurde geprüft. Vor Gate-/Freeze-Dokumentation waren die einzigen Produktdateien im Diff `index.html` und `main.js`; keine Datei unter `tools/` wurde verändert.
 
 ### Reale Geräte-Evidenz
 Realer iPhone-/Safari-Test vom 2026-09-10: `PASS / 0 BLOCKER`.
 
 Bestätigt wurden:
 - Hub lädt mit sichtbarer Kennung `DF-HUB-01 · TESTBUILD 1`;
-- responsive Darstellung ist auf dem realen iPhone vollständig nutzbar;
-- alle neun Hub-Türen sind sichtbar;
-- Authority- und Workflow-Kennzeichnungen sind lesbar;
-- vorhandene Hub-Links reagieren und öffnen ihre jeweiligen Ziele;
-- einzelne Zieltools dürfen unabhängig davon noch unvollständig sein; DF-HUB-01 bewertet ausschließlich die Hub-Navigation;
-- Atlas Builder ist eindeutig als konsolidierter Redirect erkennbar;
-- Parameter Playground besitzt keinen aktiven Tool-Link.
+- responsive Darstellung vollständig nutzbar;
+- alle neun Hub-Türen sichtbar;
+- Authority- und Workflow-Kennzeichnungen lesbar;
+- alle vorhandenen Hub-Links reagieren und öffnen ihre jeweiligen Ziele;
+- Atlas Builder eindeutig als konsolidierter Redirect;
+- Parameter Playground ohne aktiven Tool-Link;
+- unvollständige Zieltools sind kein DF-HUB-01-Blocker, solange die Hub-Navigation korrekt funktioniert.
 
-Gate-Ergebnis:
-`DF-HUB-01 – COMPLETION / REGRESSION PASS / 0 BLOCKER`
+## Freeze Gate
+Der bestätigte Produktcode wurde im Freeze-Schritt nicht verändert. Insbesondere blieben `index.html`, `main.js` und sämtliche Dateien unter `tools/` unangetastet. Die getestete sichtbare Build-Kennung `DF-HUB-01 · TESTBUILD 1` und `main.js?v=dfhub01-testbuild1` bleiben erhalten.
 
 # Aktueller Gate-Status
-`DF-HUB-01 – IMPLEMENTED / TESTBUILD 1 / COMPLETION REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
+`DF-HUB-01 – PASS / 0 BLOCKER / FROZEN`
 
 # Nächster zulässiger Schritt
-Ausschließlich der separate `DF-HUB-01 – Freeze Gate`: den bestätigten DF-HUB-01-Stand ohne weitere Produktänderung dokumentarisch einfrieren. Keine neue Hub-Funktion, keine Tool-Änderung und kein Folgeblock im selben Schritt.
+Kein Folgeblock ist automatisch freigegeben.
+
+Ausschließlich den eingefrorenen DF-HUB-01-Stand und die offenen DevForge-Capability-Lücken fachlich reconciliieren und daraus genau einen kleinen nächsten Block definieren. Noch keine Implementierung oder Branch-Anlage im selben Schritt.
