@@ -1,11 +1,12 @@
 # DF-06 – Target Project Handoff Profile Foundation Contract
 
 Stand: 2026-09-10
-Status: `DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
+Status: `IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + DEVICE GATE PASS / 0 BLOCKER / NOT FROZEN`
 Definition baseline: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
 Reconciled documentation head before implementation-scope recording: `825d77e4b4f320c13482b024e3b523946b1b18f7`
 Development branch: `df-06-target-project-handoff-profile-foundation`
 Development branch authorization baseline: `825d77e4b4f320c13482b024e3b523946b1b18f7`
+Implementation head: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 
 ## 1. Zweck
 DF-06 definiert die minimale wiederverwendbare Zielprojekt-Autorität für den bereits eingefrorenen DF-05-Handoff-Workflow.
@@ -91,7 +92,10 @@ Verbindliche Identität dieses ersten Profils:
 - `profileName: Siedler Mini`
 - `targetProject: DrHoschi/siedler-mini`
 
-Konkrete Werte für `stagingPath`, Formatvorgabe und Output-Namensregel dürfen nur übernommen werden, wenn sie vor der Implementierung aus einer autoritativen bestehenden Projektquelle bestätigt werden. Nicht belegte Werte dürfen nicht erfunden oder still als Default eingeführt werden.
+Für TESTBUILD 1 werden die im bestehenden `siedler-mini`-Repository belegten Zielwerte verwendet:
+- `stagingPath: assets/characters/`
+- `format: png`
+- `outputFilename: carrier.png`
 
 Keine weiteren Projektprofile gehören in DF-06 TESTBUILD 1.
 
@@ -107,7 +111,34 @@ Der erste zulässige Produktscope ist eng begrenzt auf:
 
 Nicht erforderlich und nicht freigegeben sind zusätzliche Service-, Datenbank-, Project-Registry-, Preset-Framework- oder ähnliche Infrastrukturmodule.
 
-## 10. Harte Non-Goals
+## 10. Implementierter Stand
+Implementation Head:
+`a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
+
+DF-06 TESTBUILD 1 implementiert ausschließlich:
+- explizite Auswahl `Kein Profil ausgewählt` oder `Siedler Mini`;
+- keine automatische Profil-Autorität beim Laden;
+- sichtbare Profilidentität und Profilwerte;
+- deterministische Übernahme der vier Zielwerte `targetProject`, `targetPath`, `format` und `outputFilename` in die bestehenden DF-05-Eingabefelder;
+- sichtbare Build-Kennung `DF-06 · TESTBUILD 1` und Cache-Busting.
+
+Keine neue Hub-Tür und keine Änderung an der DF-05 Eligibility-/Approval-/Manifest-Semantik wurden eingeführt.
+
+## 11. Completion / Regression / Device Gate
+`DF-06 Completion / Regression / Device Gate = PASS / 0 BLOCKER`
+
+Reale Geräte-/Safari-Evidenz vom 2026-09-10 bestätigt:
+- DF-06 TESTBUILD 1 ist sichtbar;
+- kein Profil wird automatisch als autoritativ gesetzt;
+- `Siedler Mini` kann explizit ausgewählt werden;
+- die vier Profilwerte werden korrekt in die vorhandenen DF-05-Felder übernommen;
+- Profilwerte sind im UI sichtbar und stimmen mit dem freigegebenen Testprofil überein;
+- der bestehende DF-05-Workflow bleibt verwendbar;
+- keine zusätzliche Capability oder Repository-/Runtime-Aktion wurde beobachtet.
+
+Der Nutzer hat das vollständige Completion-/Regression-/Device-Gate anschließend ausdrücklich mit `PASS / 0 BLOCKER` bestätigt.
+
+## 12. Harte Non-Goals
 DF-06 implementiert ausdrücklich nicht:
 - GitHub-API-Übertragung;
 - Commit, Push oder Pull Request;
@@ -128,31 +159,13 @@ DF-06 implementiert ausdrücklich nicht:
 - Änderungen an den eingefrorenen DF-05-Contracts oder deren Produktlogik;
 - zusätzliche Projektprofile über das eine freigegebene `siedler-mini`-Testprofil hinaus.
 
-## 11. Contract-Akzeptanzkriterien
-DF-06 ist fachlich ausreichend definiert, wenn ein Implementierer eindeutig bestimmen kann:
-1. was die autoritative Identität eines Target Project Handoff Profile ist;
-2. welche Mindestfelder ein Profil besitzt;
-3. dass Profilwahl explizit sein muss;
-4. welche Werte das Profil für DF-05 bereitstellen darf;
-5. dass gleiche Eingaben deterministisch dieselben Vorgaben ergeben;
-6. dass Approval nicht zum Profil gehört;
-7. dass keine Repository-/Datei-/Runtime-Aktion ausgelöst wird;
-8. welche Erweiterungen ausdrücklich außerhalb von DF-06 liegen;
-9. welche Produktdateien DF-06 TESTBUILD 1 maximal berühren darf;
-10. dass genau ein reales `siedler-mini`-Profil zum ersten Testscope gehört.
+## 13. Branch-Autorisierung
+Der Branch `df-06-target-project-handoff-profile-foundation` ist ab der autorisierten Entwicklungsbaseline `825d77e4b4f320c13482b024e3b523946b1b18f7` der DF-06-Entwicklungsbranch.
 
-## 12. Branch-Autorisierung
-Der bereits existierende Branch `df-06-target-project-handoff-profile-foundation` wird mit diesem Dokumentationsschritt ausdrücklich als DF-06-Entwicklungsbranch freigegeben.
+## 14. Aktueller Gate-Status
+`DF-06 – IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + DEVICE GATE PASS / 0 BLOCKER / NOT FROZEN`
 
-Seine autorisierte Entwicklungsbaseline ist exakt:
-`825d77e4b4f320c13482b024e3b523946b1b18f7`
+## 15. Nächster zulässiger Schritt
+Ausschließlich DF-06 Freeze Gate gegen den bestätigten Implementation Head `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`: Produktdiff und dokumentierte Device-Evidenz prüfen und nur bei weiterhin sauberem Scope den bestätigten Produktstand als Frozen Product Commit festlegen.
 
-Die vorherige vorzeitige Anlage des Branches ändert diese Baseline nicht. Vor `825d77e4...` existierte auf diesem Branch keine DF-06-Produktimplementierung.
-
-## 13. Aktueller Gate-Status
-`DF-06 – DEFINED / IMPLEMENTATION SCOPE RECONCILED / DEVELOPMENT BRANCH AUTHORIZED / NOT IMPLEMENTED`
-
-## 14. Nächster zulässiger Schritt
-Ausschließlich die eigentliche DF-06-Implementierung auf `df-06-target-project-handoff-profile-foundation` gegen den hier festgeschriebenen Scope und ausgehend von der autorisierten Baseline `825d77e4b4f320c13482b024e3b523946b1b18f7`.
-
-Keine zusätzliche Capability oder Scope-Erweiterung im selben Schritt.
+Noch keine neue Capability, kein weiterer Profilumfang und keine Produktänderung im selben Schritt.
