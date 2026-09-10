@@ -32,8 +32,22 @@
   <main>
     <p><a href="../../">← Zurück zum Tool Hub</a></p>
     <h1>Controlled Asset Handoff</h1>
-    <p>DF-05 Foundation: Handoff Eligibility prüfen und ein deterministisches Minimalmanifest für ein explizites Ziel/Staging erzeugen. Keine Datei-, GitHub- oder Runtime-Übertragung.</p>
-    <span class="build">DF-05 · TESTBUILD 1</span>
+    <p>DF-05 Handoff mit DF-06 Target Project Profile Foundation: Profil ausdrücklich auswählen, deklarierte Zielwerte anwenden und danach die unveränderte DF-05-Eligibility bzw. das Minimalmanifest verwenden. Keine Datei-, GitHub- oder Runtime-Übertragung.</p>
+    <span class="build">DF-06 · TESTBUILD 1</span>
+
+    <section class="panel" aria-labelledby="profileHeading">
+      <strong id="profileHeading">Target Project Profile</strong>
+      <div class="grid" style="margin-top:12px">
+        <label class="wide">Profil ausdrücklich auswählen
+          <select id="profileSelect">
+            <option value="">— Kein Profil ausgewählt —</option>
+            <option value="siedler-mini">Siedler Mini</option>
+          </select>
+        </label>
+      </div>
+      <p class="note" id="profileStatus">Keine Profil-Autorität aktiv. Zielwerte werden nicht automatisch gesetzt.</p>
+      <pre id="profilePreview">Noch kein Profil ausgewählt.</pre>
+    </section>
 
     <form id="handoffForm" novalidate>
       <div class="grid">
@@ -59,7 +73,7 @@
     <section class="panel" aria-live="polite">
       <div class="eligibility"><strong>Eligibility:</strong><span class="status" id="eligibilityStatus">NOT EVALUATED</span></div>
       <ul class="errors" id="errors"></ul>
-      <p class="note">`APPROVED` ist hier eine explizite DF-05-Eingabe und kein automatisch ermittelter Review- oder Approval-Status.</p>
+      <p class="note">`APPROVED` ist weiterhin eine explizite DF-05-Eingabe und kein automatisch ermittelter Review- oder Approval-Status. DF-06 entscheidet kein Approval.</p>
     </section>
 
     <section class="panel">
@@ -67,6 +81,6 @@
       <pre id="manifestPreview">Noch kein Manifest erzeugt.</pre>
     </section>
   </main>
-  <script type="module" src="app.js?v=df05-testbuild1"></script>
+  <script type="module" src="app.js?v=df06-testbuild1"></script>
 </body>
 </html>
