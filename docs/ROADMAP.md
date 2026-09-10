@@ -43,8 +43,9 @@ Projektbezogene Staging-Pfade, Manifest-Dateien, nur freigegebene Source Assets 
 - Animation Tester – `AVAILABLE`, Rolle `REVIEW`.
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`.
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`.
+- Controlled Asset Handoff – `TESTBUILD 1`, Rolle `RUNTIME / REPOSITORY HANDOFF`; Completion + realer Device-Test PASS, noch nicht FROZEN.
 
-DF-HUB-01: `PASS / 0 BLOCKER / FROZEN`.
+DF-HUB-01 bleibt `PASS / 0 BLOCKER / FROZEN`; der neue DF-05-Eintrag erweitert den Hub außerhalb des eingefrorenen HUB-01-Blocks.
 
 ## 4. Character Animation Contract – erreichter Stand
 DF-02F.1–F.5 sind als belegte Capabilities vorhanden. DF-02F.6 und R.3/R.4 sind implementiert; externe deterministische Bildgenerierung bleibt der begrenzende Faktor. R.1 und R.2 bleiben FAIL-Historie.
@@ -68,11 +69,14 @@ Definition-Baseline:
 Reconciled Documentation Baseline:
 `14973c69f667873c16eedf33c1382274d89d37e9`
 
+Implementation Head:
+`22f8a59af510c508f0cbc5153a5af583ce352299`
+
 Development Branch:
 `df-05-controlled-asset-handoff-foundation`
 
 Status:
-`DEFINED / NOT IMPLEMENTED / IMPLEMENTATION SCOPE RECONCILED / PASS / 0 BLOCKER`
+`IMPLEMENTED / TESTBUILD 1 / COMPLETION + REAL DEVICE REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
 
 Scope:
 `Handoff Eligibility + Minimal Manifest Contract + Explicit Target Contract`
@@ -80,19 +84,22 @@ Scope:
 Fachlicher Übergang:
 `APPROVED SOURCE ASSET → Handoff Manifest → explizites Ziel/Staging → später separat autorisierte Übergabe`
 
-### Implementation Scope
-DF-05 wird als eigenes kleines Tool umgesetzt. Der erste Implementierungsschritt darf produktiv maximal folgende Dateien betreffen:
+### Implementierter Scope
+Produktiv exakt:
 - `tools/asset-handoff/index.html`
 - `tools/asset-handoff/app.js`
-- Root `main.js` ausschließlich für einen neuen `Controlled Asset Handoff`-Eintrag mit Rolle `RUNTIME / REPOSITORY HANDOFF`
-- Root `index.html` ausschließlich für sichtbare DF-05-Testbuild-/Cache-Busting-Anpassung
+- Root `main.js` nur für den neuen Handoff-Hub-Eintrag
+- Root `index.html` nur für `DF-05 · TESTBUILD 1` und Cache-Busting
 
-`tools/asset-handoff/app.js` ist die einzige fachliche DF-05-Logik und bleibt auf Eingabevalidierung, Handoff Eligibility und deterministischen Manifest-Bau begrenzt. Die konzeptionellen Grenzen sind `validateHandoffInput(...)`, `isHandoffEligible(...)` und `buildHandoffManifest(...)`.
+Die fachliche Tool-Logik bleibt auf Eingabevalidierung, Eligibility und deterministischen Manifest-Bau begrenzt.
 
-Für TESTBUILD 1 darf Approval explizit als Eingabe gesetzt werden. Dies führt keinen Approval-Speicher oder neuen Review-/Approval-Workflow ein.
+### Completion / Device Evidence
+Realer iPhone-/Safari-Test am 2026-09-10: alle acht Gate-Punkte PASS. Bestätigt wurden sichtbare TESTBUILD-Kennung, Tool-/Hub-Navigation, Pflichtfeldvalidierung, `NOT APPROVED`-Blockade, `APPROVED`-Freigabe, vollständiges Minimalmanifest, deterministische Wiederholung und funktionierender JSON-Export ohne GitHub-/Repository-/Runtime-Aktion.
 
-### Implementation Non-Goals
-Keine Änderungen an bestehenden Tools. Keine zusätzlichen CSS-/Datenbank-/Project-Service-/Repository-Service-/Manifest-Framework-Module. Keine GitHub-API-Übertragung, kein Commit/Push/PR, keine Ziel-Repository-Änderung, keine automatische Dateiübertragung, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine große Asset-Datenbank, kein Batch-Handoff, kein Dependency Graph, keine automatische Approval-Entscheidung/-Persistenz, keine neue Review-UI, kein Cloud Storage und keine Runtime-Integration.
+Export-Test: `TEST-001-handoff.json` für `TEST-001 / Carrier Test / CHARACTER / DrHoschi/siedler-mini`, Source `carrier-test.png` / `TEST-V1`, Target `assets/test/`, Output `carrier-test.png`, Format `png`.
+
+### Non-Goals weiterhin unverändert
+Keine Änderung bestehender Tools, keine zusätzliche Datenbank/Services/Frameworks, keine GitHub-API-Übertragung, kein Commit/Push/PR, keine Ziel-Repository-Änderung, keine automatische Dateiübertragung, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine große Asset-Datenbank, kein Batch-Handoff, kein Dependency Graph, keine automatische Approval-Entscheidung/-Persistenz, keine neue Review-UI, kein Cloud Storage und keine Runtime-Integration.
 
 ## 8. DF-03 – Animation Atlas Contract
 Fachlich vorbereitet und nachgelagert. Vorhandene Atlas-Tool-Funktion ist keine automatische Produktionsfreigabe.
@@ -125,6 +132,6 @@ Keine vollständige Animation Library, komplexe Attachment-Engine, automatische 
 Kleine klar benannte DF-Blöcke; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
 ## 15. Nächster zulässiger Schritt
-Ausschließlich die separate Freigabe des eigentlichen DF-05-Implementierungsschritts auf `df-05-controlled-asset-handoff-foundation` gegen den reconcilierten Implementation Scope.
+Ausschließlich der separate `DF-05 Freeze Gate`: vollständigen Branch-Diff gegen den reconcilierten Implementation Scope bestätigen und DF-05 nur bei weiterhin `PASS / 0 BLOCKER` einfrieren.
 
-Noch keine zusätzliche Capability oder Scope-Erweiterung.
+Keine neue Capability, Produktänderung oder Scope-Erweiterung im Freeze-Schritt.
