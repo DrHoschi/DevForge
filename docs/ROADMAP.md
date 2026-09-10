@@ -8,143 +8,100 @@ DevForge soll eine projektübergreifende Produktions-, Prüf- und Übergabeplatt
 Neue Funktionen werden bevorzugt aus echten Produktionsproblemen abgeleitet statt als theoretische All-in-one-Lösung vorgebaut.
 
 ## 2. Zielarchitektur
+Die fachlichen Workflow-Rollen für den Tool Hub sind:
+1. `REFERENCE / CREATE`
+2. `GENERATION / HANDOFF`
+3. `REVIEW`
+4. `TECHNICAL ASSET`
+5. `RUNTIME / REPOSITORY HANDOFF`
+
+Die Rollen beschreiben Capability-Verantwortung und legen noch kein konkretes Hub-Layout fest.
+
 ### A – Project & Preset Layer
-- mehrere Zielprojekte
-- projektspezifische Style-, Camera-, Direction-, Scale-, Output- und Naming-Contracts
-- definierte Repository-/Staging-Ziele
-- wiederverwendbare Presets statt Copy/Paste-Prompts
+Mehrere Zielprojekte, projektspezifische Style-/Camera-/Direction-/Scale-/Output-/Naming-Contracts, definierte Repository-/Staging-Ziele und wiederverwendbare Presets.
 
 ### B – Asset Library
-Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animation Sources, Buildings, Resources, Goods, Tools, Icons und Environment Assets. Eine große persistente Asset-Datenbank wird nicht vorgezogen, bevor reale Workflows den minimal notwendigen Datensatz bewiesen haben.
+Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animation Sources, Buildings, Resources, Goods, Tools, Icons und Environment Assets. Keine große persistente Asset-Datenbank vorziehen, bevor reale Workflows den minimal notwendigen Datensatz bewiesen haben.
 
 ### C – Generation Package Layer
-- Single Asset / Single Frame
-- Animation Frame
-- Direction Batch
-- Full Animation Batch
-- TXT / JSON / PDF als nachvollziehbare Übergabeformate
-- direkte Referenzbilder im Package
-- klare Prioritäts-/Konfliktregeln zwischen Referenzen und veränderlichen Eigenschaften
+Single Asset / Single Frame, Animation Frame, Direction Batch, Full Animation Batch, TXT/JSON/PDF, direkte Referenzbilder und klare Prioritäts-/Konfliktregeln.
 
 ### D – Preview & Review Layer
-- animierte 3D-Referenzvorschau
-- Einzelbildprüfung
-- Source-/Result-Vergleich
-- Overlay / Onion-Skin
-- manuelles Result-Alignment
-- Difference View
-- Silhouette Difference
-- Silhouette Geometry Guides
-- Direction-Vergleich
-- Animation Timeline / FPS / Loop / Frame-Stepping
-- später Root/Pivot/Anchor, Approve/Reject und Review-Notizen
-- spätere technische Vergleichshilfen für Scale, Anchor, Alpha, Frame Delta und Kamera-/Silhouettendrift
+Animierte 3D-Referenzvorschau, Einzelbildprüfung, Source-/Result-Vergleich, Overlay, manuelles Alignment, Difference View, Silhouette Difference, Silhouette Geometry Guides, Direction-Vergleich sowie Animation Timeline/FPS/Loop/Frame-Stepping. Später bei realem Bedarf Root/Pivot/Anchor, Approve/Reject, Review-Notizen und technische Vergleichshilfen.
 
 ### E – Technical Asset Layer
-- Sprite Lab
-- Asset Inspector
-- Atlas Builder
-- Pivot/Anchor/Scale
-- Alpha-/Abmessungsprüfung
-- Atlas-Zellen und Metadaten
-- deterministische Benennung
-- Runtime-Handoff
+Sprite Lab, Asset Inspector, Atlas-Funktionen, Pivot/Anchor/Scale, Alpha-/Abmessungsprüfung, Atlas-Zellen/Metadaten, deterministische Benennung und später Runtime-Handoff.
 
 ### F – Repository Handoff
-- projektbezogene Staging-Pfade
-- Manifest-Dateien
-- nur APPROVED Source Assets weitergeben
-- später kontrolliertes Speichern/Committen freigegebener Assets
-- Atlas/Runtime-Artefakte erst nach Review-Gate erzeugen
+Projektbezogene Staging-Pfade, Manifest-Dateien, nur freigegebene Source Assets weitergeben und Atlas-/Runtime-Artefakte erst nach Review-Gate erzeugen.
 
-## 3. Aktuelle Module
-- Prompt Builder – vorhanden; Character Identity + Pose/Geometry Control + Generation-Handoff
-- Animated 3D Reference Viewer – PASS für Intake, Timeline/Scrubbing, Facing/Camera und Pose Bookmarks
-- Source / Result Compare View – `DF-04F PASS / FROZEN` inklusive Basisvergleich, Overlay / Onion-Skin, manuellem Result-Alignment, RGBA-Difference, Silhouette Difference und Silhouette Geometry Guides
-- Animation Tester – Standalone Frames/Manifest, FPS, Loop, Step, Onion-Skin, Bottom-Center-Anchor
-- Pose Renderer – historischer DF-02E-Prototyp
-- Sprite Lab – vorhanden
-- Atlas Builder – vorhanden; Produktionsintegration noch nicht freigegeben
-- Asset Inspector – vorhanden
-- Parameter Playground – vorbereitet
+## 3. Aktuelle Module / DF-HUB-01 Authority
+Der verbindliche Authority-Contract ist:
+`docs/DF-HUB-01_TOOL_HUB_AUTHORITY_WORKFLOW_RECONCILIATION_CONTRACT.md`
+
+- Source / Result Compare View – `FROZEN / PRODUCTIVE`, Rolle `REVIEW`, autoritativ DF-04F.
+- Prompt Builder – `AVAILABLE`, Rolle `GENERATION / HANDOFF`.
+- Animated 3D Reference Viewer – `FROZEN / PRODUCTIVE` für belegte DF-02F.1–F.5-Capabilities, Rolle `REFERENCE / CREATE`.
+- Deterministic Pose Renderer – `PROTOTYPE / HISTORICAL`, Rolle `REFERENCE / CREATE`.
+- Sprite Lab – `AVAILABLE`, Rolle `TECHNICAL ASSET`.
+- Atlas Builder – `CONSOLIDATED / REDIRECT`, Rolle `TECHNICAL ASSET`; keine eigenständige Capability-Autorität.
+- Animation Tester – `AVAILABLE`, Rolle `REVIEW`.
+- Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`.
+- Parameter Playground – `PREPARED / NOT IMPLEMENTED`, noch keine aktive Produktionsrolle.
+
+DF-HUB-01 Contract / Documentation Reconciliation: `PASS / 0 BLOCKER`.
+DF-HUB-01 ist noch `NOT IMPLEMENTED`.
 
 ## 4. Character Animation Contract – erreichter Stand
-1. `DF-02F.1 – Animated 3D Reference Asset Contract` – PASS
-2. `DF-02F.2 – Animated 3D Preview / Runtime Asset Intake` – PASS
-3. `DF-02F.3 / F.3R – Animation Timeline / Scrubbing` – PASS
-4. `DF-02F.4 / F.4R – Camera & Facing Presets / Semantic Alignment` – PASS
-5. `DF-02F.5 – Pose Bookmark / Reference Capture` – PASS
-6. `DF-02F.6 – Prompt Builder / Reference Export Bridge` – implemented
-7. `DF-02F.6R.1 – Pose Fidelity Contract Reinforcement` – FAIL
-8. `DF-02F.6R.2 – Pose-dominant PDF Transfer Contract` – FAIL
-9. `DF-02F.6R.3 – Direct Visual Pose Handoff` – implemented; generation still insufficiently deterministic
-10. `DF-02F.6R.4 – Explicit Pose Geometry Control` – IMPLEMENTED; external generation limit remains
+- DF-02F.1 Animated 3D Reference Asset Contract – PASS
+- DF-02F.2 Animated 3D Preview / Runtime Asset Intake – PASS
+- DF-02F.3 / F.3R Animation Timeline / Scrubbing – PASS
+- DF-02F.4 / F.4R Camera & Facing Presets / Semantic Alignment – PASS
+- DF-02F.5 Pose Bookmark / Reference Capture – PASS
+- DF-02F.6 Prompt Builder / Reference Export Bridge – implemented
+- DF-02F.6R.1 Pose Fidelity Contract Reinforcement – FAIL
+- DF-02F.6R.2 Pose-dominant PDF Transfer Contract – FAIL
+- DF-02F.6R.3 Direct Visual Pose Handoff – implemented; external generation still insufficiently deterministic
+- DF-02F.6R.4 Explicit Pose Geometry Control – IMPLEMENTED; external generation limit remains
 
-Die reproduzierbare Pose-Auswahl in DevForge ist nicht mehr der Hauptengpass. Der offene Punkt liegt beim externen Transfer der Pose in generierte Character-Bilder. DF-02F wird deshalb nicht weiter unspezifisch mit Prompttext aufgebläht.
+Die reproduzierbare Pose-Auswahl in DevForge ist nicht mehr der Hauptengpass. Der offene Punkt liegt beim externen Transfer der Pose in generierte Character-Bilder.
 
 ## 5. DF-04 – Asset Review Foundation
-Ziel: erzeugte Assets systematisch gegen ihre autoritativen Quellen/Controls prüfen können.
+DF-04A bis DF-04F sind `PASS / FROZEN`.
 
-### DF-04A – Source / Result Compare View – PASS / FROZEN
-Zwei getrennte lokale Bildslots, feste Source-/Result-Rollen, unabhängiges Ersetzen, proportionale vollständige Darstellung und responsive Basisvergleichsansicht.
+Autoritativer eingefrorener Produktstand:
+`17cec9ca4b399d1099be5bf4bb398a74ea27aff2`
 
-### DF-04B – Overlay / Onion-Skin Compare Foundation – PASS / FROZEN
-Gemeinsame Vergleichsfläche, Source als Basis-Layer, Result als Overlay-Layer und manueller 0–100-%-Blend-Regler.
+DF-04F umfasst zusätzlich zu A–E die rein visuellen Source-/Result-Bounding-Boxen und geometrischen Center-Guides auf derselben Silhouettengeometrie sowie genau einen gemeinsamen temporären Guide-Schalter. Keine automatische Korrektur, kein Best-Fit und kein Score.
 
-### DF-04C – Manual Alignment Foundation – PASS / FROZEN
-Manuelle Ausrichtung ausschließlich des Result-Layers über X, Y und uniforme Scale mit sichtbaren Werten und `Reset Alignment`.
+Ein möglicher `Silhouette Geometry Readout` wird als `LATER / ONLY IF REAL REVIEW NEED IS PROVEN` vorgemerkt. Es ist kein DF-04G freigegeben.
 
-### DF-04D – Difference View Foundation – PASS / FROZEN
-Deterministische pixelweise absolute RGBA-Difference auf derselben Review-Rasterfläche und unter Verwendung des DF-04C-Alignments. Kein Score.
+## 6. DF-HUB-01 – Tool Hub Authority & Workflow Reconciliation
+Status:
+`DEFINED / DOCUMENTATION RECONCILED / NOT IMPLEMENTED`
 
-### DF-04E – Silhouette Difference Foundation – PASS / FROZEN
-Deterministische Silhouette Difference aus gerendertem Alpha mit fester interner Grenze `16 / 255`; Überlappung, Source-only und Result-only werden unterschieden.
+Zweck:
+- reale Tool-Türen gegen Repository-/Contract-Autorität reconciliieren;
+- eindeutige Statusklassen verwenden;
+- Workflow-Rollen festlegen;
+- historische, vorbereitete und konsolidierte Tools von real aktiven Capabilities unterscheiden;
+- keine höhere Reife auf dem Hub suggerieren als tatsächlich belegt.
 
-### DF-04F – Silhouette Geometry Guide Foundation – PASS / FROZEN
-Verbindlicher Contract:
-`docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md`
+Authority-Klassen:
+- `FROZEN / PRODUCTIVE`
+- `AVAILABLE`
+- `PROTOTYPE / HISTORICAL`
+- `PREPARED / NOT IMPLEMENTED`
+- `CONSOLIDATED / REDIRECT`
 
-Eingefroren sind:
-- achsenparallele Source-Bounding-Box auf der gemeinsamen Silhouetten-Review-Rasterfläche;
-- achsenparallele Result-Bounding-Box unter aktuellem DF-04C-X/Y/Scale;
-- geometrischer Mittelpunkt beider Bounding Boxes;
-- visuell eindeutig unterscheidbare Source-/Result-Boxen und Center-Marker;
-- genau ein gemeinsamer temporärer `Geometry Guides`-Ein-/Aus-Schalter;
-- Ermittlung auf Basis derselben eingefrorenen DF-04E-Alpha-Maske;
-- Result-Guides aktualisieren sich bei X/Y/Scale und `Reset Alignment`;
-- Source-Guides bleiben bei Result-Alignment unverändert;
-- keine Änderung an Bildern, Alignment oder bestehenden Review-Modi;
-- responsive/touch-taugliche iPhone/Safari-Darstellung.
-
-Realer iPhone-/Safari-Gerätetest: `PASS / 0 BLOCKER`.
-Completion-/Freeze-Gate: `PASS / 0 BLOCKER / FROZEN`.
-
-Weiterhin nicht Teil des eingefrorenen DF-04F-Umfangs:
-- Auto-Alignment / Best-Fit / automatische Center-Ausrichtung;
-- automatische Bewegung oder automatische Scale-Anpassung;
-- neuer Scale-Algorithmus;
-- Rotation, Warp, Perspective oder zusätzliche Alignment-Werkzeuge;
-- benutzerveränderbarer Alpha-Threshold oder Tolerance-Regler;
-- numerische Center-/Größen-/Flächen-/Overlap-Metriken;
-- Difference-, Silhouette- oder Pose-Scoring;
-- automatische PASS/FAIL-Entscheidung;
-- KI-Auswertung;
-- Persistenz / Asset Library;
-- Atlas-Funktionen.
-
-## 6. Aktueller Stand / Gate
-Aktueller Entwicklungs-/Freeze-Branch:
-`df-04f-silhouette-geometry-guide-foundation`
-
-Reconciliierte DF-04F-Implementierungsbaseline:
-`1f9badba271bb3a6a055f8ef234164dd9acd39e8`
-
-Aktueller eingefrorener Review-Stand:
-**DF-04F – PASS / 0 BLOCKER / FROZEN**
-
-Das Completion-/Freeze-Gate regressierte Contract, vollständigen Branch-Diff, DF-04A/B/C/D/E-Grenzen und reale Geräte-Evidenz gemeinsam. Kein Blocker wurde festgestellt.
-
-Kein Folgeblock ist automatisch freigegeben. Der nächste fachliche Schritt muss aus der realen DF-04F-Erfahrung abgeleitet und separat vertraglich definiert werden.
+Noch nicht Teil von DF-HUB-01:
+- konkrete Hub-Kartenreihenfolge;
+- Farben/Icons/CSS/Layout;
+- Änderung an `index.html` oder `main.js`;
+- Tool-Codeänderungen;
+- neue Tools/Capabilities;
+- Redirect-Umbau;
+- Produktionsfreigabe von Atlas-/Repository-Handoff.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -153,48 +110,25 @@ Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, ac
 Character-Basisanimation und transportierte/benutzte Gegenstände bleiben möglichst getrennt. Ressourcen, Waren und Werkzeuge sollen eigene Assets sein und nur über definierte Attachments/Kompositionen verbunden werden.
 
 ## 9. DF-03 – Animation Atlas Contract
-Fachlich vorbereitet:
-- Direction-Reihenfolge N, NE, E, SE, S, SW, W, NW
-- chronologische Frame-Reihenfolge
-- gemeinsame Zell-/Benennungs-/Metadatenregeln
-- Bottom-Center-Anchor
-- Source-Frames bleiben bis zur Freigabe einzeln erhalten
-- Atlas erst nach Source-Review
-- Character und Attachments bleiben strukturell getrennt
+Fachlich vorbereitet: Direction-Reihenfolge N, NE, E, SE, S, SW, W, NW; chronologische Frames; gemeinsame Zell-/Benennungs-/Metadatenregeln; Bottom-Center-Anchor; Source-Frames bis Freigabe einzeln; Atlas erst nach Source-Review; Character und Attachments getrennt.
 
-DF-03 bleibt nachgelagert. Der Review-Layer wird zuerst belastbarer gemacht.
+DF-03 bleibt nachgelagert. Vorhandene Atlas-Tool-Funktion ist keine automatische Produktionsfreigabe.
 
 ## 10. Asset Library / Referenzverwaltung – später
 Geplant sind Asset-ID/Name/Typ/Projektzuordnung, Authoritative References, Model-/Rig-/Animation-Source, Style-/Identity-/Material-Contracts, Kamera-/Richtungsregeln, Varianten, Tasks, technische Output-Profile, Staging-/Runtime-Pfade und Versions-/Freigabestatus.
-
-Keine große persistente Asset-Datenbank vorziehen, bevor der notwendige minimale Datensatz aus realen Workflows bewiesen ist.
 
 ## 11. Building / Resource / Icon Workflows
 Gemeinsames Prinzip:
 Authoritative Reference → veränderliche Parameter → feste Projektcontracts → Generation Package → Preview/Review → APPROVED Source Asset → technischer Handoff.
 
-Die Character-Logik wird nicht blind auf andere Asset-Typen kopiert.
-
 ## 12. Review-Automation – später
-Soweit technisch sinnvoll:
-- Alpha-Erkennung
-- Canvas-/Abmessungsvergleich
-- Root-/Bounding-Box-/Scale-Drift
-- Difference Preview
-- Silhouettenvergleich
-- Silhouette Geometry Guides
-- Frame-zu-Frame-Motionindikatoren
-- Direction-Vergleich
-- Manifest-Vollständigkeit
-- Dateinamen-/Metadatenvalidierung
-
-Automatische Prüfungen unterstützen das Review; sie ersetzen nicht automatisch die fachliche visuelle Freigabe.
+Soweit technisch sinnvoll: Alpha-Erkennung, Canvas-/Abmessungsvergleich, Root-/Bounding-Box-/Scale-Drift, Difference Preview, Silhouettenvergleich, Geometry Guides, Frame-zu-Frame-Motionindikatoren, Direction-Vergleich, Manifest-Vollständigkeit und Dateinamen-/Metadatenvalidierung. Automatische Prüfungen ersetzen nicht automatisch die fachliche visuelle Freigabe.
 
 ## 13. Repository-Verknüpfungen
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- aktueller Entwicklungs-/Freeze-Stand: `df-04f-silhouette-geometry-guide-foundation`
+- autoritativer eingefrorener Produktstand: `17cec9ca4b399d1099be5bf4bb398a74ea27aff2`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
@@ -202,25 +136,12 @@ Automatische Prüfungen unterstützen das Review; sie ersetzen nicht automatisch
 - konkrete aktuelle Handoff-Pfade und Freigabegrenzen werden verbindlich in der Repository-Dokumentation gepflegt.
 
 ## 14. Nicht vorziehen
-Derzeit nicht parallel vorziehen:
-- vollständige Animation Library;
-- komplexe Attachment-Engine;
-- automatische Generierungs-API;
-- finaler automatischer Atlas-Packing-Workflow;
-- große persistente Asset-Datenbank;
-- automatisches Pose-Scoring oder KI-Review;
-- Threshold/Tolerance oder Difference-/Silhouette-Scoring ohne separaten Folgecontract;
-- automatische Registrierung / Best-Fit / Auto-Alignment ohne separaten Folgecontract.
+Derzeit nicht parallel vorziehen: vollständige Animation Library, komplexe Attachment-Engine, automatische Generierungs-API, finaler automatischer Atlas-Packing-Workflow, große persistente Asset-Datenbank, automatisches Pose-Scoring/KI-Review, Threshold/Tolerance oder Difference-/Silhouette-Scoring, Auto-Alignment/Best-Fit sowie DF-04 Geometry Readout ohne realen Bedarf.
 
 ## 15. Git-/Dokumentations-Arbeitsweise
-- kleine, klar benannte DF-Blöcke
-- ein beobachtetes Problem pro Fix-/Contract-Block
-- vor Änderung aktuellen Branch/Status prüfen
-- keine funktionierenden Contracts nebenbei umbauen
-- sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken
-- Cache-Busting bei JS-Änderungen, besonders iPhone/Safari
-- PASS/FAIL vor Fortsetzung dokumentieren
-- Repository-Dokumentation mit jedem relevanten Gate nachziehen
-- Projektstatus enthält den Ist-Stand; Roadmap enthält Zielbild und Reihenfolge
-- ChatGPT-Projektdatei enthält dauerhafte Arbeitsregeln; GitHub ist Source of Truth für den Projektstand
-- neuer Entwicklungsblock erst von einer klar festgelegten Baseline starten.
+Kleine klar benannte DF-Blöcke; ein beobachtetes Problem pro Block; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; Repository-Dokumentation nachziehen; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
+
+## 16. Nächster zulässiger Schritt
+Noch kein DF-HUB-01-Entwicklungsbranch und keine Implementierung automatisch freigegeben.
+
+Ausschließlich fachlich entscheiden, ob der reconciliierte DF-HUB-01-Contract in einem separaten kleinen Hub-Implementierungsblock umgesetzt werden soll. Falls freigegeben, zuerst separaten Entwicklungsbranch vom reconciliierten Dokumentationsstand anlegen; keine Implementierung im selben Schritt.
