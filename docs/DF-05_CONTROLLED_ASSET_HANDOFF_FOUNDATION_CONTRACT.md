@@ -1,10 +1,11 @@
 # DF-05 – Controlled Asset Handoff Foundation Contract
 
 Stand: 2026-09-10
-Status: `DEFINED / NOT IMPLEMENTED / IMPLEMENTATION SCOPE RECONCILED`
+Status: `IMPLEMENTED / TESTBUILD 1 / COMPLETION + DEVICE REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
 Definition baseline: `415d44bf78be86a80c6437f6817a30a056d8ba15`
 Reconciled documentation baseline: `14973c69f667873c16eedf33c1382274d89d37e9`
 Development branch: `df-05-controlled-asset-handoff-foundation`
+Implementation head before completion evidence: `22f8a59af510c508f0cbc5153a5af583ce352299`
 
 ## 1. Zweck
 DF-05 definiert erstmals die minimale autoritative Grenze zwischen einem in DevForge geprüften/freigegebenen Source Asset und seiner kontrollierten Vorbereitung für ein konkretes Zielprojekt.
@@ -90,8 +91,6 @@ Konzeptionelle Logikgrenzen in `app.js`:
 - `isHandoffEligible(...)`
 - `buildHandoffManifest(...)`
 
-Die konkrete interne Implementierung darf technisch passend strukturiert werden, darf aber keine zusätzliche Capability über diese drei Verantwortungen hinaus einführen.
-
 Nicht erforderlich und im ersten Implementierungsschritt nicht zulässig sind zusätzliche CSS-/Datenbank-/Project-Service-/Repository-Service-/Manifest-Framework-Module.
 
 ## 10. Harte Non-Goals
@@ -119,7 +118,7 @@ DF-05 implementiert ausdrücklich nicht:
 DF-04A–F und DF-HUB-01 bleiben geschlossen und werden durch DF-05 nicht wieder geöffnet.
 
 ## 11. Implementation Acceptance Boundary
-Der erste DF-05-Implementierungsschritt darf nur dann als scope-konform gelten, wenn:
+Der erste DF-05-Implementierungsschritt gilt als scope-konform, wenn:
 1. das eigene Asset-Handoff-Werkzeug erreichbar ist;
 2. die Contract-Mindestfelder explizit eingegeben/angezeigt werden können;
 3. `NOT APPROVED` nicht manifest-fähig ist;
@@ -131,12 +130,37 @@ Der erste DF-05-Implementierungsschritt darf nur dann als scope-konform gelten, 
 9. der Hub ausschließlich um die neue DF-05-Tür ergänzt wird;
 10. die sichtbare Testbuild-/Cache-Kennung den neuen Teststand eindeutig macht.
 
-## 12. Aktueller Gate-Status
-`DF-05 – DEFINED / NOT IMPLEMENTED / IMPLEMENTATION SCOPE RECONCILED / PASS / 0 BLOCKER`
+## 12. Completion / Device Evidence – 2026-09-10
+Realer Test auf iPhone/Safari gegen `DF-05 · TESTBUILD 1` und Implementation Head `22f8a59af510c508f0cbc5153a5af583ce352299`:
+1. sichtbare `DF-05 · TESTBUILD 1`-Kennung im Tool Hub – PASS;
+2. `Controlled Asset Handoff` erreichbar und Rücknavigation zum Tool Hub funktionsfähig – PASS;
+3. unvollständige Pflichtfelder führen zu `NOT ELIGIBLE`, fehlende Felder werden angezeigt, Manifest-Aktionen bleiben gesperrt – PASS;
+4. vollständige Pflichtfelder mit `NOT APPROVED` bleiben `NOT ELIGIBLE`; einziger verbleibender Blocker ist `approvalStatus muss APPROVED sein` – PASS;
+5. Wechsel ausschließlich auf `APPROVED` führt bei ansonsten unveränderten vollständigen Daten zu `ELIGIBLE`; Manifest-Erzeugung wird freigegeben – PASS;
+6. Manifest Preview enthält vollständig `manifestVersion`, `assetId`, `assetName`, `assetType`, `targetProject`, Source-Referenz/-Version, `approvalStatus`, `stagingPath`, `outputFilename` und `format` – PASS;
+7. erneute Manifest-Erzeugung mit exakt unveränderten Eingaben erzeugt denselben Inhalt – PASS;
+8. Manifest-Export funktioniert in Safari als `TEST-001-handoff.json`; keine GitHub-, Repository- oder Runtime-Aktion wird ausgelöst – PASS.
 
-Der Entwicklungsbranch existiert, aber es wurde noch kein DF-05-Produktcode implementiert.
+Verwendeter Device-Testdatensatz:
+- `manifestVersion`: `1`
+- `assetId`: `TEST-001`
+- `assetName`: `Carrier Test`
+- `assetType`: `CHARACTER`
+- `targetProject`: `DrHoschi/siedler-mini`
+- `source.reference`: `carrier-test.png`
+- `source.version`: `TEST-V1`
+- `approvalStatus`: `APPROVED`
+- `target.stagingPath`: `assets/test/`
+- `target.outputFilename`: `carrier-test.png`
+- `target.format`: `png`
 
-## 13. Nächster zulässiger Schritt
-Ausschließlich die separate Freigabe des eigentlichen DF-05-Implementierungsschritts auf `df-05-controlled-asset-handoff-foundation` gegen den hier reconcilierten Scope.
+Gesamtergebnis:
+`DF-05 – COMPLETION + REAL DEVICE REGRESSION PASS / 0 BLOCKER`
 
-Keine weitere Scope-Erweiterung im selben Schritt.
+## 13. Aktueller Gate-Status
+`DF-05 – IMPLEMENTED / TESTBUILD 1 / COMPLETION + REAL DEVICE REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
+
+## 14. Nächster zulässiger Schritt
+Ausschließlich der separate `DF-05 Freeze Gate`: den vollständigen Branch-Diff gegen den reconcilierten Scope bestätigen und DF-05 nur bei weiterhin `PASS / 0 BLOCKER` einfrieren.
+
+Keine neue Capability, keine Produktänderung und keine Scope-Erweiterung im Freeze-Schritt.
