@@ -43,9 +43,9 @@ Projektbezogene Staging-Pfade, Manifest-Dateien, nur freigegebene Source Assets 
 - Animation Tester – `AVAILABLE`, Rolle `REVIEW`.
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`.
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`.
-- Controlled Asset Handoff – `TESTBUILD 1`, Rolle `RUNTIME / REPOSITORY HANDOFF`; Completion + realer Device-Test PASS, noch nicht FROZEN.
+- Controlled Asset Handoff – `FROZEN / PRODUCTIVE`, Rolle `RUNTIME / REPOSITORY HANDOFF`, autoritativ DF-05.
 
-DF-HUB-01 bleibt `PASS / 0 BLOCKER / FROZEN`; der neue DF-05-Eintrag erweitert den Hub außerhalb des eingefrorenen HUB-01-Blocks.
+DF-HUB-01 bleibt `PASS / 0 BLOCKER / FROZEN`; der DF-05-Eintrag erweitert den Hub außerhalb des eingefrorenen HUB-01-Blocks.
 
 ## 4. Character Animation Contract – erreichter Stand
 DF-02F.1–F.5 sind als belegte Capabilities vorhanden. DF-02F.6 und R.3/R.4 sind implementiert; externe deterministische Bildgenerierung bleibt der begrenzende Faktor. R.1 und R.2 bleiben FAIL-Historie.
@@ -72,11 +72,14 @@ Reconciled Documentation Baseline:
 Implementation Head:
 `22f8a59af510c508f0cbc5153a5af583ce352299`
 
-Development Branch:
+Frozen Product Commit:
+`c677f07773866dfe8f5c98dcb311ab1750538d9c`
+
+Branch:
 `df-05-controlled-asset-handoff-foundation`
 
 Status:
-`IMPLEMENTED / TESTBUILD 1 / COMPLETION + REAL DEVICE REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
+`PASS / 0 BLOCKER / FROZEN`
 
 Scope:
 `Handoff Eligibility + Minimal Manifest Contract + Explicit Target Contract`
@@ -84,7 +87,7 @@ Scope:
 Fachlicher Übergang:
 `APPROVED SOURCE ASSET → Handoff Manifest → explizites Ziel/Staging → später separat autorisierte Übergabe`
 
-### Implementierter Scope
+### Frozen Scope
 Produktiv exakt:
 - `tools/asset-handoff/index.html`
 - `tools/asset-handoff/app.js`
@@ -96,7 +99,8 @@ Die fachliche Tool-Logik bleibt auf Eingabevalidierung, Eligibility und determin
 ### Completion / Device Evidence
 Realer iPhone-/Safari-Test am 2026-09-10: alle acht Gate-Punkte PASS. Bestätigt wurden sichtbare TESTBUILD-Kennung, Tool-/Hub-Navigation, Pflichtfeldvalidierung, `NOT APPROVED`-Blockade, `APPROVED`-Freigabe, vollständiges Minimalmanifest, deterministische Wiederholung und funktionierender JSON-Export ohne GitHub-/Repository-/Runtime-Aktion.
 
-Export-Test: `TEST-001-handoff.json` für `TEST-001 / Carrier Test / CHARACTER / DrHoschi/siedler-mini`, Source `carrier-test.png` / `TEST-V1`, Target `assets/test/`, Output `carrier-test.png`, Format `png`.
+### Freeze
+Der Completion-/Device-Stand `c677f07773866dfe8f5c98dcb311ab1750538d9c` ist der autoritative DF-05 Frozen Product Stand. Der Freeze selbst führt keine Produktänderung ein; nachgelagerte Freeze-Commits dokumentieren ausschließlich diesen Zustand.
 
 ### Non-Goals weiterhin unverändert
 Keine Änderung bestehender Tools, keine zusätzliche Datenbank/Services/Frameworks, keine GitHub-API-Übertragung, kein Commit/Push/PR, keine Ziel-Repository-Änderung, keine automatische Dateiübertragung, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine große Asset-Datenbank, kein Batch-Handoff, kein Dependency Graph, keine automatische Approval-Entscheidung/-Persistenz, keine neue Review-UI, kein Cloud Storage und keine Runtime-Integration.
@@ -118,7 +122,8 @@ Technische Automatisierung darf die fachliche visuelle Freigabe nicht automatisc
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- DF-05 Development Branch: `df-05-controlled-asset-handoff-foundation`
+- DF-05 Branch: `df-05-controlled-asset-handoff-foundation`
+- DF-05 Frozen Product Commit: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
@@ -132,6 +137,6 @@ Keine vollständige Animation Library, komplexe Attachment-Engine, automatische 
 Kleine klar benannte DF-Blöcke; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
 ## 15. Nächster zulässiger Schritt
-Ausschließlich der separate `DF-05 Freeze Gate`: vollständigen Branch-Diff gegen den reconcilierten Implementation Scope bestätigen und DF-05 nur bei weiterhin `PASS / 0 BLOCKER` einfrieren.
+Kein DF-05-Folgeblock ist automatisch freigegeben. Ausschließlich eine neue Capability Reconciliation gegen den Frozen Product Commit `c677f07773866dfe8f5c98dcb311ab1750538d9c` darf als nächster Entwicklungsentscheid vorbereitet werden.
 
-Keine neue Capability, Produktänderung oder Scope-Erweiterung im Freeze-Schritt.
+Noch keine neue Implementierung im selben Schritt.
