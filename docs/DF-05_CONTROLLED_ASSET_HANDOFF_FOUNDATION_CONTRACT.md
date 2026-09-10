@@ -1,16 +1,17 @@
 # DF-05 – Controlled Asset Handoff Foundation Contract
 
 Stand: 2026-09-10
-Status: `IMPLEMENTED / TESTBUILD 1 / COMPLETION + DEVICE REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
+Status: `PASS / 0 BLOCKER / FROZEN`
 Definition baseline: `415d44bf78be86a80c6437f6817a30a056d8ba15`
 Reconciled documentation baseline: `14973c69f667873c16eedf33c1382274d89d37e9`
 Development branch: `df-05-controlled-asset-handoff-foundation`
 Implementation head before completion evidence: `22f8a59af510c508f0cbc5153a5af583ce352299`
+Frozen product / completion-evidence commit: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
 
 ## 1. Zweck
-DF-05 definiert erstmals die minimale autoritative Grenze zwischen einem in DevForge geprüften/freigegebenen Source Asset und seiner kontrollierten Vorbereitung für ein konkretes Zielprojekt.
+DF-05 definiert die minimale autoritative Grenze zwischen einem in DevForge geprüften/freigegebenen Source Asset und seiner kontrollierten Vorbereitung für ein konkretes Zielprojekt.
 
-Der Block schließt fachlich die offene Grenze zwischen `TECHNICAL ASSET` und `RUNTIME / REPOSITORY HANDOFF`, ohne bereits eine echte Repository-Übertragung oder Runtime-Integration zu implementieren.
+Der Block schließt fachlich die offene Grenze zwischen `TECHNICAL ASSET` und `RUNTIME / REPOSITORY HANDOFF`, ohne eine echte Repository-Übertragung oder Runtime-Integration zu implementieren.
 
 ## 2. Scope
 DF-05 umfasst ausschließlich:
@@ -30,7 +31,7 @@ Verbindliche Grenze:
 
 `AVAILABLE`, bloßes Vorhandensein einer Datei, ein erfolgreicher technischer Check oder das Öffnen eines Assets in einem Tool gelten nicht automatisch als fachliche Freigabe.
 
-DF-05 führt selbst keinen neuen Review-/Approval-Workflow ein. Für TESTBUILD 1 darf der Approval-Status deshalb als explizite Eingabe gesetzt werden. Diese Eingabe simuliert keinen bestehenden Approval-Speicher und erzeugt keine automatische Freigabe.
+DF-05 führt selbst keinen neuen Review-/Approval-Workflow ein. Für TESTBUILD 1 darf der Approval-Status als explizite Eingabe gesetzt werden. Diese Eingabe simuliert keinen bestehenden Approval-Speicher und erzeugt keine automatische Freigabe.
 
 ## 4. Minimaler Handoff-Datensatz
 Ein DF-05-Handoff-Manifest muss mindestens eindeutig enthalten:
@@ -56,7 +57,7 @@ Das Handoff Manifest beschreibt autoritativ:
 
 Diese Informationen dürfen nicht aus implizitem UI-Zustand, zuletzt geöffnetem Projekt, zufälliger Ordnerposition oder nur aus einem Dateinamen abgeleitet werden.
 
-Das Manifest ist in DF-05 eine fachliche Beschreibung. Es löst noch keine Dateioperation, Repository-Aktion oder Runtime-Integration aus.
+Das Manifest ist in DF-05 eine fachliche Beschreibung. Es löst keine Dateioperation, Repository-Aktion oder Runtime-Integration aus.
 
 ## 6. Explicit Target Contract
 `targetProject` und Ziel-/Staging-Pfad müssen explizit angegeben werden.
@@ -78,59 +79,25 @@ Zufalls-IDs, timestampspezifische Outputnamen oder nicht deklarierte UI-/Session
 ## 9. Reconciled Implementation Scope
 Die Implementation Scope Reconciliation auf `df-05-controlled-asset-handoff-foundation` ist `PASS / 0 BLOCKER`.
 
-DF-05 wird als eigenes kleines Werkzeug umgesetzt und nicht in Asset Inspector, Sprite Lab, Prompt Builder oder ein anderes bestehendes Tool eingebaut.
+DF-05 wurde als eigenes kleines Werkzeug umgesetzt und nicht in Asset Inspector, Sprite Lab, Prompt Builder oder ein anderes bestehendes Tool eingebaut.
 
-Maximal zulässige produktive Dateien für den ersten DF-05-Implementierungsschritt:
-1. `tools/asset-handoff/index.html` – eigenständige Oberfläche ausschließlich für Contract-Felder, Eligibility-Anzeige sowie Manifest-Vorschau/-Export;
-2. `tools/asset-handoff/app.js` – einzige fachliche DF-05-Logik für Eingabevalidierung, Eligibility und deterministischen Manifest-Bau;
-3. `main.js` – ausschließlich ein neuer Hub-Eintrag `Controlled Asset Handoff` mit Rolle `RUNTIME / REPOSITORY HANDOFF`; bestehende Hub-Einträge bleiben fachlich unangetastet;
-4. Root `index.html` – ausschließlich notwendige sichtbare DF-05-Testbuild-/Cache-Busting-Anpassung, keine Hub-Neugestaltung.
+Produktiv betroffen sind exakt:
+1. `tools/asset-handoff/index.html`;
+2. `tools/asset-handoff/app.js`;
+3. `main.js` ausschließlich für den neuen Hub-Eintrag `Controlled Asset Handoff` mit Rolle `RUNTIME / REPOSITORY HANDOFF`;
+4. Root `index.html` ausschließlich für sichtbare `DF-05 · TESTBUILD 1`-/Cache-Busting-Anpassung.
 
 Konzeptionelle Logikgrenzen in `app.js`:
 - `validateHandoffInput(...)`
 - `isHandoffEligible(...)`
 - `buildHandoffManifest(...)`
 
-Nicht erforderlich und im ersten Implementierungsschritt nicht zulässig sind zusätzliche CSS-/Datenbank-/Project-Service-/Repository-Service-/Manifest-Framework-Module.
-
 ## 10. Harte Non-Goals
-DF-05 implementiert ausdrücklich nicht:
-- GitHub-API-Übertragung;
-- automatisches Committen, Pushen oder Erstellen von Pull Requests;
-- Änderungen an `DrHoschi/siedler-mini` oder anderen Ziel-Repositories;
-- automatische Dateiübertragung/Kopie in ein Ziel-Repository;
-- Atlas-Build oder Sprite-Packing;
-- Bild-/Texturkonvertierung;
-- FBX-/GLB-Konvertierung;
-- große persistente Asset Library oder Asset-Datenbank;
-- Batch-Handoff;
-- Dependency Graph;
-- automatische Approval-Entscheidung;
-- Approval-Persistenz oder neuen Approval-Speicher;
-- Approve-/Reject-UI oder neuen Review-Modus;
-- Cloud Storage;
-- Versionsverwaltung des Zielprojekts;
-- Runtime-Integration;
-- Parameter Playground;
-- Geometry Readout oder weitere DF-04-Funktion;
-- Änderungen an Asset Inspector, Sprite Lab, Prompt Builder, Source / Result Compare oder anderen bestehenden Tools.
+Unverändert außerhalb von DF-05 bleiben insbesondere GitHub-API-Übertragung, Commit/Push/PR, Änderungen an Ziel-Repositories, automatische Dateiübertragung, Atlas-Build/Sprite-Packing, Konvertierung, große persistente Asset Library/Datenbank, Batch-Handoff, Dependency Graph, automatische Approval-Entscheidung/-Persistenz, neue Review-UI, Cloud Storage, Zielprojekt-Versionsverwaltung, Runtime-Integration, Parameter Playground, Geometry Readout und Änderungen an bestehenden Tools.
 
-DF-04A–F und DF-HUB-01 bleiben geschlossen und werden durch DF-05 nicht wieder geöffnet.
+DF-04A–F und DF-HUB-01 bleiben geschlossen.
 
-## 11. Implementation Acceptance Boundary
-Der erste DF-05-Implementierungsschritt gilt als scope-konform, wenn:
-1. das eigene Asset-Handoff-Werkzeug erreichbar ist;
-2. die Contract-Mindestfelder explizit eingegeben/angezeigt werden können;
-3. `NOT APPROVED` nicht manifest-fähig ist;
-4. `APPROVED` bei ansonsten gültigen Pflichtfeldern manifest-fähig ist;
-5. das erzeugte Manifest deterministisch ist;
-6. Zielprojekt und Ziel-/Staging-Pfad explizit bleiben;
-7. keine Datei-, GitHub-, Repository- oder Runtime-Aktion ausgelöst wird;
-8. bestehende Tools fachlich unverändert bleiben;
-9. der Hub ausschließlich um die neue DF-05-Tür ergänzt wird;
-10. die sichtbare Testbuild-/Cache-Kennung den neuen Teststand eindeutig macht.
-
-## 12. Completion / Device Evidence – 2026-09-10
+## 11. Completion / Device Evidence – 2026-09-10
 Realer Test auf iPhone/Safari gegen `DF-05 · TESTBUILD 1` und Implementation Head `22f8a59af510c508f0cbc5153a5af583ce352299`:
 1. sichtbare `DF-05 · TESTBUILD 1`-Kennung im Tool Hub – PASS;
 2. `Controlled Asset Handoff` erreichbar und Rücknavigation zum Tool Hub funktionsfähig – PASS;
@@ -141,26 +108,22 @@ Realer Test auf iPhone/Safari gegen `DF-05 · TESTBUILD 1` und Implementation He
 7. erneute Manifest-Erzeugung mit exakt unveränderten Eingaben erzeugt denselben Inhalt – PASS;
 8. Manifest-Export funktioniert in Safari als `TEST-001-handoff.json`; keine GitHub-, Repository- oder Runtime-Aktion wird ausgelöst – PASS.
 
-Verwendeter Device-Testdatensatz:
-- `manifestVersion`: `1`
-- `assetId`: `TEST-001`
-- `assetName`: `Carrier Test`
-- `assetType`: `CHARACTER`
-- `targetProject`: `DrHoschi/siedler-mini`
-- `source.reference`: `carrier-test.png`
-- `source.version`: `TEST-V1`
-- `approvalStatus`: `APPROVED`
-- `target.stagingPath`: `assets/test/`
-- `target.outputFilename`: `carrier-test.png`
-- `target.format`: `png`
-
 Gesamtergebnis:
 `DF-05 – COMPLETION + REAL DEVICE REGRESSION PASS / 0 BLOCKER`
 
+## 12. Freeze Gate – 2026-09-10
+Der bestätigte Completion-/Device-Stand auf Commit `c677f07773866dfe8f5c98dcb311ab1750538d9c` wird als autoritativer DF-05 Frozen Product Stand festgelegt.
+
+Der Freeze-Schritt selbst verändert keinen Produktcode. Nachgelagerte Commits im selben Freeze Gate dürfen ausschließlich diesen Frozen-Status in der Steuerdokumentation festhalten.
+
+Freeze-Ergebnis:
+`DF-05 – PASS / 0 BLOCKER / FROZEN`
+
 ## 13. Aktueller Gate-Status
-`DF-05 – IMPLEMENTED / TESTBUILD 1 / COMPLETION + REAL DEVICE REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
+`DF-05 – PASS / 0 BLOCKER / FROZEN`
+
+Frozen Product Commit:
+`c677f07773866dfe8f5c98dcb311ab1750538d9c`
 
 ## 14. Nächster zulässiger Schritt
-Ausschließlich der separate `DF-05 Freeze Gate`: den vollständigen Branch-Diff gegen den reconcilierten Scope bestätigen und DF-05 nur bei weiterhin `PASS / 0 BLOCKER` einfrieren.
-
-Keine neue Capability, keine Produktänderung und keine Scope-Erweiterung im Freeze-Schritt.
+Kein DF-05-Folgeblock ist automatisch freigegeben. Vor einem weiteren Entwicklungsblock ist eine separate Capability Reconciliation gegen diesen Frozen-Stand erforderlich.
