@@ -49,9 +49,7 @@ Verbindlicher Authority-Contract:
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`.
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`, noch keine aktive Produktionsrolle.
 
-DF-HUB-01 Contract / Documentation Reconciliation: `PASS / 0 BLOCKER`.
-DF-HUB-01 Completion / Regression Gate: `PASS / 0 BLOCKER`.
-DF-HUB-01 Freeze Gate: `PASS / 0 BLOCKER / FROZEN`.
+DF-HUB-01: `PASS / 0 BLOCKER / FROZEN`.
 
 ## 4. Character Animation Contract – erreichter Stand
 - DF-02F.1 Animated 3D Reference Asset Contract – PASS
@@ -73,70 +71,91 @@ DF-04A bis DF-04F sind `PASS / FROZEN`.
 Ein möglicher `Silhouette Geometry Readout` bleibt als `LATER / ONLY IF REAL REVIEW NEED IS PROVEN` vorgemerkt. Es ist kein DF-04G freigegeben.
 
 ## 6. DF-HUB-01 – Tool Hub Authority & Workflow Reconciliation
-Freeze-Branch:
-`df-hub-01-tool-hub-authority-workflow-reconciliation`
-
-Entwicklungsbaseline:
-`e3aea9ea8e492b7e2c7dca474b1350461383adcd`
-
-Getestete sichtbare Build-Kennung:
-`DF-HUB-01 · TESTBUILD 1`
-
-Getestetes Cache-Busting:
-`main.js?v=dfhub01-testbuild1`
+Eingefrorener Stand:
+`415d44bf78be86a80c6437f6817a30a056d8ba15`
 
 Status:
 `PASS / 0 BLOCKER / FROZEN`
 
-Der eingefrorene Implementierungsumfang beschränkt sich auf den Tool Hub selbst:
-- `index.html` – DevForge-Hub-Identität, sichtbare Testbuild-Kennung, Status-/Rollen-Darstellung und Cache-Busting;
-- `main.js` – autoritative Authority-Klassen, Workflow-Rollen und reconciliierte Türtexte für alle neun inventarisierten Hub-Einträge.
+Keine neue Capability wird durch DF-05 innerhalb des Hub-Blocks eingeführt oder DF-HUB-01 wieder geöffnet.
 
-Keine Datei unter `tools/` wurde durch DF-HUB-01 verändert. Keine neue Capability wurde eingeführt. Atlas Builder bleibt konsolidierter Redirect; Parameter Playground bleibt nicht implementiert; DF-04 bleibt geschlossen.
+## 7. Capability Reconciliation / ausgewählter nächster Block
+Gegen den eingefrorenen Stand `415d44bf78be86a80c6437f6817a30a056d8ba15` wurde die offene Grenze zwischen `TECHNICAL ASSET` und `RUNTIME / REPOSITORY HANDOFF` als nächster kleiner Capability-Block ausgewählt.
 
-Realer iPhone-/Safari-Test vom 2026-09-10: `PASS / 0 BLOCKER`. Bestätigt wurden responsive Nutzbarkeit, Sichtbarkeit aller neun Türen, lesbare Authority-/Workflow-Kennzeichnung und funktionierende vorhandene Hub-Links.
+Nicht vorgezogen werden Parameter Playground, Geometry Readout, weitere DF-04-Analyse, automatisches Atlas-Packing oder eine große persistente Asset Library.
 
-Der Freeze-Schritt ist ausschließlich dokumentarisch; der bestätigte Produktcode sowie die getestete Build-Kennung wurden nicht verändert.
+Ausgewählt:
+`DF-05 – Controlled Asset Handoff Foundation`
 
-## 7. 2D- und 3D-Wiederverwendung
+## 8. DF-05 – Controlled Asset Handoff Foundation
+Verbindlicher Contract:
+`docs/DF-05_CONTROLLED_ASSET_HANDOFF_FOUNDATION_CONTRACT.md`
+
+Definition-Baseline:
+`415d44bf78be86a80c6437f6817a30a056d8ba15`
+
+Status:
+`DEFINED / NOT IMPLEMENTED`
+
+Scope:
+`Handoff Eligibility + Minimal Manifest Contract + Explicit Target Contract`
+
+Fachlicher Übergang:
+`APPROVED SOURCE ASSET → Handoff Manifest → explizites Ziel/Staging → später separat autorisierte Übergabe`
+
+### Minimale Authority
+DF-05 verlangt eine stabile Asset-Identität, eindeutige Source-Referenz, expliziten Approval-Status, explizites Zielprojekt, expliziten Ziel-/Staging-Pfad, Output-Dateiname, minimale Formatinformation und eine Manifest-Version.
+
+`NOT APPROVED` darf nicht produktiv übergeben werden. `APPROVED` darf als Handoff-Kandidat manifestiert werden. Technische Verfügbarkeit oder ein erfolgreicher Check ersetzen keine fachliche Freigabe.
+
+Das Manifest beschreibt nur, was später kontrolliert übergeben werden soll. Es führt selbst keine Datei-, GitHub- oder Runtime-Aktion aus.
+
+DF-05 behandelt zunächst ausschließlich `APPROVED SOURCE ASSET`. Automatisch erzeugte Atlanten und sonstige Derived/Runtime Assets bleiben nachgelagert.
+
+### Non-Goals
+Keine GitHub-API-Übertragung, kein automatisches Commit/Push/PR, keine Ziel-Repository-Änderung, keine automatische Dateiübertragung, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine große Asset-Datenbank, kein Batch-Handoff, kein Dependency Graph, keine automatische Approval-Entscheidung, keine neue Review-UI, kein Cloud Storage und keine Runtime-Integration.
+
+## 9. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
 
-## 8. Attachment-/Resource-Prinzip
+## 10. Attachment-/Resource-Prinzip
 Character-Basisanimation und transportierte/benutzte Gegenstände bleiben möglichst getrennt. Ressourcen, Waren und Werkzeuge sollen eigene Assets sein und nur über definierte Attachments/Kompositionen verbunden werden.
 
-## 9. DF-03 – Animation Atlas Contract
+## 11. DF-03 – Animation Atlas Contract
 Fachlich vorbereitet: Direction-Reihenfolge N, NE, E, SE, S, SW, W, NW; chronologische Frames; gemeinsame Zell-/Benennungs-/Metadatenregeln; Bottom-Center-Anchor; Source-Frames bis Freigabe einzeln; Atlas erst nach Source-Review; Character und Attachments getrennt.
 
 DF-03 bleibt nachgelagert. Vorhandene Atlas-Tool-Funktion ist keine automatische Produktionsfreigabe.
 
-## 10. Asset Library / Referenzverwaltung – später
+## 12. Asset Library / Referenzverwaltung – später
 Geplant sind Asset-ID/Name/Typ/Projektzuordnung, Authoritative References, Model-/Rig-/Animation-Source, Style-/Identity-/Material-Contracts, Kamera-/Richtungsregeln, Varianten, Tasks, technische Output-Profile, Staging-/Runtime-Pfade und Versions-/Freigabestatus.
 
-## 11. Building / Resource / Icon Workflows
-Gemeinsames Prinzip:
-Authoritative Reference → veränderliche Parameter → feste Projektcontracts → Generation Package → Preview/Review → APPROVED Source Asset → technischer Handoff.
+Keine große persistente Asset-Datenbank vorziehen, bevor reale Workflows den minimal notwendigen Datensatz bewiesen haben.
 
-## 12. Review-Automation – später
+## 13. Building / Resource / Icon Workflows
+Gemeinsames Prinzip:
+`Authoritative Reference → veränderliche Parameter → feste Projektcontracts → Generation Package → Preview/Review → APPROVED Source Asset → technischer Handoff`
+
+## 14. Review-Automation – später
 Soweit technisch sinnvoll: Alpha-Erkennung, Canvas-/Abmessungsvergleich, Root-/Bounding-Box-/Scale-Drift, Difference Preview, Silhouettenvergleich, Geometry Guides, Frame-zu-Frame-Motionindikatoren, Direction-Vergleich, Manifest-Vollständigkeit und Dateinamen-/Metadatenvalidierung. Automatische Prüfungen ersetzen nicht automatisch die fachliche visuelle Freigabe.
 
-## 13. Repository-Verknüpfungen
+## 15. Repository-Verknüpfungen
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- aktueller eingefrorener DF-HUB-01-Stand: `df-hub-01-tool-hub-authority-workflow-reconciliation`
+- eingefrorene DF-05-Definition-Baseline: `415d44bf78be86a80c6437f6817a30a056d8ba15`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
 - Default: `main`
-- konkrete aktuelle Handoff-Pfade und Freigabegrenzen werden verbindlich in der Repository-Dokumentation gepflegt.
+- DF-05 verändert dieses Repository nicht.
 
-## 14. Nicht vorziehen
+## 16. Nicht vorziehen
 Derzeit nicht parallel vorziehen: vollständige Animation Library, komplexe Attachment-Engine, automatische Generierungs-API, finaler automatischer Atlas-Packing-Workflow, große persistente Asset-Datenbank, automatisches Pose-Scoring/KI-Review, Threshold/Tolerance oder Difference-/Silhouette-Scoring, Auto-Alignment/Best-Fit sowie DF-04 Geometry Readout ohne realen Bedarf.
 
-## 15. Git-/Dokumentations-Arbeitsweise
+## 17. Git-/Dokumentations-Arbeitsweise
 Kleine klar benannte DF-Blöcke; ein beobachtetes Problem pro Block; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; Repository-Dokumentation nachziehen; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
-## 16. Nächster zulässiger Schritt
-Kein Folgeblock ist automatisch freigegeben.
+## 18. Nächster zulässiger Schritt
+Ausschließlich `DF-05 – Contract / Documentation Reconciliation Gate`: Contract, PROJECT_STATUS und ROADMAP gegen `415d44bf78be86a80c6437f6817a30a056d8ba15` auf Konsistenz und reinen Dokumentationsumfang prüfen.
 
-Ausschließlich den eingefrorenen DF-HUB-01-Stand und die offenen DevForge-Capability-Lücken fachlich reconciliieren und daraus genau einen kleinen nächsten Block definieren. Noch keine Implementierung oder Branch-Anlage im selben Schritt.
+Noch kein Entwicklungsbranch und keine Implementierung. Erst nach `PASS / 0 BLOCKER` darf darüber separat entschieden werden.
