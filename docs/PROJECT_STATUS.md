@@ -8,10 +8,11 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Freeze-/Definitionsbranch: `df-hub-01-tool-hub-authority-workflow-reconciliation`
-- Aktueller eingefrorener Produktstand: `415d44bf78be86a80c6437f6817a30a056d8ba15`
+- Aktueller Entwicklungsbranch: `df-05-controlled-asset-handoff-foundation`
+- Aktueller eingefrorener Produktstand vor DF-05: `415d44bf78be86a80c6437f6817a30a056d8ba15`
 - DF-HUB-01: `PASS / 0 BLOCKER / FROZEN`
 - DF-05 Definition-Baseline: `415d44bf78be86a80c6437f6817a30a056d8ba15`
+- DF-05 reconciled documentation baseline: `14973c69f667873c16eedf33c1382274d89d37e9`
 - DF-05 Contract: `docs/DF-05_CONTROLLED_ASSET_HANDOFF_FOUNDATION_CONTRACT.md`
 
 # DF-04 – Asset Review Foundation
@@ -22,19 +23,11 @@ Ein möglicher `Silhouette Geometry Readout` bleibt ausschließlich `LATER / ONL
 # DF-HUB-01 – Tool Hub Authority & Workflow Reconciliation
 `PASS / 0 BLOCKER / FROZEN`
 
-Der eingefrorene Hub-Stand, die getestete Kennung `DF-HUB-01 · TESTBUILD 1` und `main.js?v=dfhub01-testbuild1` bleiben unverändert. DF-05 öffnet DF-HUB-01 nicht wieder.
-
-# Capability Reconciliation nach DF-HUB-01
-Gegen den eingefrorenen Stand `415d44bf78be86a80c6437f6817a30a056d8ba15` wurde als nächste kleine offene Capability-Lücke die Grenze zwischen `TECHNICAL ASSET` und `RUNTIME / REPOSITORY HANDOFF` ausgewählt.
-
-Nicht vorgezogen werden Parameter Playground, Geometry Readout, weitere DF-04-Analyse, automatisches Atlas-Packing oder eine große persistente Asset Library.
-
-Ausgewählter nächster Block:
-`DF-05 – Controlled Asset Handoff Foundation`
+DF-05 öffnet DF-HUB-01 nicht wieder. Bestehende Hub-Einträge bleiben fachlich unverändert; DF-05 darf später ausschließlich eine neue Handoff-Tür ergänzen.
 
 # DF-05 – Controlled Asset Handoff Foundation
 Status:
-`DEFINED / NOT IMPLEMENTED`
+`DEFINED / NOT IMPLEMENTED / IMPLEMENTATION SCOPE RECONCILED / PASS / 0 BLOCKER`
 
 Scope:
 `Handoff Eligibility + Minimal Manifest Contract + Explicit Target Contract`
@@ -42,27 +35,37 @@ Scope:
 Fachlicher Übergang:
 `APPROVED SOURCE ASSET → Handoff Manifest → explizites Ziel/Staging → später separat autorisierte Übergabe`
 
-## Verbindliche Grenzen
+## Contract-Grenzen
 - nur eindeutig bestimmte Source Assets mit stabiler Identität und explizitem Approval-Status dürfen Handoff-Kandidaten sein;
 - `NOT APPROVED` ist nicht handoff-fähig;
-- `APPROVED` darf als Handoff-Kandidat manifestiert werden;
-- das minimale Manifest enthält Asset-/Source-/Approval-/Target-/Output-Identität;
+- `APPROVED` darf bei ansonsten gültigen Pflichtfeldern als Handoff-Kandidat manifestiert werden;
 - `targetProject` und Ziel-/Staging-Pfad müssen explizit sein;
-- impliziter UI-/Session-Zustand darf kein Ziel bestimmen;
 - DF-05 behandelt ausschließlich `APPROVED SOURCE ASSET`, keine automatisch erzeugten Derived/Runtime Assets;
-- gleicher autoritativer Eingang plus gleiches Handoff-Profil muss dasselbe fachliche Manifest ergeben.
+- gleicher autoritativer Eingang plus gleiches Handoff-Profil muss dasselbe fachliche Manifest ergeben;
+- das Manifest löst keine Datei-, GitHub-, Repository- oder Runtime-Aktion aus.
 
-## Harte Non-Goals
-Keine GitHub-Übertragung, kein Commit/Push/PR, keine Änderung an Ziel-Repositories, keine automatische Dateiübertragung, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine große Asset-Datenbank, kein Batch-Handoff, kein Dependency Graph, keine automatische Approval-Entscheidung, keine neue Review-UI, kein Cloud Storage und keine Runtime-Integration.
+## Reconciled Implementation Scope
+DF-05 wird als eigenes kleines Werkzeug umgesetzt.
 
-DF-04A–F und DF-HUB-01 bleiben geschlossen.
+Maximal zulässige produktive Dateien im ersten Implementierungsschritt:
+- `tools/asset-handoff/index.html`
+- `tools/asset-handoff/app.js`
+- `main.js` ausschließlich für einen neuen `Controlled Asset Handoff`-Hub-Eintrag mit Rolle `RUNTIME / REPOSITORY HANDOFF`
+- Root `index.html` ausschließlich für notwendige DF-05-Testbuild-/Cache-Busting-Anpassung
+
+`app.js` trägt ausschließlich die Verantwortungen Eingabevalidierung, Handoff Eligibility und deterministischen Manifest-Bau. Konzeptionelle Grenzen: `validateHandoffInput(...)`, `isHandoffEligible(...)`, `buildHandoffManifest(...)`.
+
+Für TESTBUILD 1 darf der Approval-Status explizit eingegeben werden. Dadurch wird kein bestehender Approval-Speicher behauptet und kein neuer Approval-Workflow eingeführt.
+
+## Nicht im Implementierungsscope
+Keine Änderungen an Asset Inspector, Sprite Lab, Prompt Builder, Source / Result Compare oder anderen bestehenden Tools. Kein zusätzliches CSS-/Datenbank-/Project-Service-/Repository-Service-/Manifest-Framework-Modul. Keine GitHub-Übertragung, kein Commit/Push/PR, keine Ziel-Repository-Änderung, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine große Asset-Datenbank, kein Batch-Handoff, kein Dependency Graph, keine automatische Approval-Entscheidung/-Persistenz, keine neue Review-UI, kein Cloud Storage und keine Runtime-Integration.
 
 # Aktueller Gate-Status
-`DF-05 – DEFINED / NOT IMPLEMENTED / DOCUMENTATION RECONCILIATION IN PROGRESS`
+`DF-05 – IMPLEMENTATION SCOPE RECONCILIATION PASS / 0 BLOCKER / NOT IMPLEMENTED`
 
-Es existiert noch kein DF-05-Entwicklungsbranch und keine DF-05-Implementierung.
+Der Entwicklungsbranch ist angelegt. Bis einschließlich dieses Dokumentationsschritts wurde kein DF-05-Produktcode implementiert.
 
 # Nächster zulässiger Schritt
-Ausschließlich `DF-05 – Contract / Documentation Reconciliation Gate`: gegen `415d44bf78be86a80c6437f6817a30a056d8ba15` prüfen, dass ausschließlich die definierte DF-05-Steuerdokumentation hinzugekommen ist und Contract, PROJECT_STATUS und ROADMAP konsistent sind.
+Ausschließlich die separate Freigabe des eigentlichen DF-05-Implementierungsschritts auf `df-05-controlled-asset-handoff-foundation` gegen den reconcilierten Scope.
 
-Noch keine Branch-Anlage und keine Implementierung. Erst nach `PASS / 0 BLOCKER` darf darüber separat entschieden werden.
+Noch keine zusätzliche Capability oder Scope-Erweiterung.
