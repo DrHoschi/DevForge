@@ -8,69 +8,61 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Freeze-Branch: `df-hub-01-tool-hub-authority-workflow-reconciliation`
-- DF-HUB-01 Entwicklungsbaseline: `e3aea9ea8e492b7e2c7dca474b1350461383adcd`
-- Eingefrorener Produktstand vor DF-HUB-01: `17cec9ca4b399d1099be5bf4bb398a74ea27aff2`
-- DF-HUB-01 Contract: `docs/DF-HUB-01_TOOL_HUB_AUTHORITY_WORKFLOW_RECONCILIATION_CONTRACT.md`
+- Aktueller Freeze-/Definitionsbranch: `df-hub-01-tool-hub-authority-workflow-reconciliation`
+- Aktueller eingefrorener Produktstand: `415d44bf78be86a80c6437f6817a30a056d8ba15`
+- DF-HUB-01: `PASS / 0 BLOCKER / FROZEN`
+- DF-05 Definition-Baseline: `415d44bf78be86a80c6437f6817a30a056d8ba15`
+- DF-05 Contract: `docs/DF-05_CONTROLLED_ASSET_HANDOFF_FOUNDATION_CONTRACT.md`
 
 # DF-04 – Asset Review Foundation
-DF-04A bis DF-04F bleiben `PASS / FROZEN`. DF-HUB-01 verändert keine Dateien unter `tools/` und öffnet DF-04F nicht wieder.
+DF-04A bis DF-04F bleiben `PASS / FROZEN`.
 
 Ein möglicher `Silhouette Geometry Readout` bleibt ausschließlich `LATER / ONLY IF REAL REVIEW NEED IS PROVEN`. Kein DF-04G ist freigegeben.
 
 # DF-HUB-01 – Tool Hub Authority & Workflow Reconciliation
-Contract-/Documentation-Reconciliation:
-`PASS / 0 BLOCKER`
-
-Completion / Regression Gate:
-`PASS / 0 BLOCKER`
-
-Freeze Gate:
 `PASS / 0 BLOCKER / FROZEN`
 
-Sichtbare getestete Hub-Build-Kennung:
-`DF-HUB-01 · TESTBUILD 1`
+Der eingefrorene Hub-Stand, die getestete Kennung `DF-HUB-01 · TESTBUILD 1` und `main.js?v=dfhub01-testbuild1` bleiben unverändert. DF-05 öffnet DF-HUB-01 nicht wieder.
 
-Getestetes Cache-Busting:
-`main.js?v=dfhub01-testbuild1`
+# Capability Reconciliation nach DF-HUB-01
+Gegen den eingefrorenen Stand `415d44bf78be86a80c6437f6817a30a056d8ba15` wurde als nächste kleine offene Capability-Lücke die Grenze zwischen `TECHNICAL ASSET` und `RUNTIME / REPOSITORY HANDOFF` ausgewählt.
 
-## Eingefrorener Umfang
-- Tool-Hub-Titel `DevForge · Tool Hub`;
-- alle neun inventarisierten Türen zeigen ihren autoritativen Authority-Status;
-- vorhandene Workflow-Rollen werden sichtbar ausgewiesen;
-- Source / Result Compare View zeigt `DF-04F · PASS / 0 BLOCKER / FROZEN`;
-- Prompt Builder bleibt `AVAILABLE`;
-- Animated 3D Reference Viewer ist für die belegten DF-02F.1–F.5-Capabilities `FROZEN / PRODUCTIVE`;
-- Deterministic Pose Renderer ist `PROTOTYPE / HISTORICAL`;
-- Sprite Lab ist `AVAILABLE` ohne Atlas-Produktionsfreigabe;
-- Atlas Builder ist `CONSOLIDATED / REDIRECT`;
-- Animation Tester und Asset Inspector sind `AVAILABLE`;
-- Parameter Playground ist `PREPARED / NOT IMPLEMENTED` und besitzt keinen aktiven Tool-Link;
-- keine Capability innerhalb eines einzelnen Tools wurde verändert.
+Nicht vorgezogen werden Parameter Playground, Geometry Readout, weitere DF-04-Analyse, automatisches Atlas-Packing oder eine große persistente Asset Library.
 
-## Completion / Regression Evidenz
-Der vollständige Branch-Diff gegen `e3aea9ea8e492b7e2c7dca474b1350461383adcd` wurde geprüft. Vor Gate-/Freeze-Dokumentation waren die einzigen Produktdateien im Diff `index.html` und `main.js`; keine Datei unter `tools/` wurde verändert.
+Ausgewählter nächster Block:
+`DF-05 – Controlled Asset Handoff Foundation`
 
-### Reale Geräte-Evidenz
-Realer iPhone-/Safari-Test vom 2026-09-10: `PASS / 0 BLOCKER`.
+# DF-05 – Controlled Asset Handoff Foundation
+Status:
+`DEFINED / NOT IMPLEMENTED`
 
-Bestätigt wurden:
-- Hub lädt mit sichtbarer Kennung `DF-HUB-01 · TESTBUILD 1`;
-- responsive Darstellung vollständig nutzbar;
-- alle neun Hub-Türen sichtbar;
-- Authority- und Workflow-Kennzeichnungen lesbar;
-- alle vorhandenen Hub-Links reagieren und öffnen ihre jeweiligen Ziele;
-- Atlas Builder eindeutig als konsolidierter Redirect;
-- Parameter Playground ohne aktiven Tool-Link;
-- unvollständige Zieltools sind kein DF-HUB-01-Blocker, solange die Hub-Navigation korrekt funktioniert.
+Scope:
+`Handoff Eligibility + Minimal Manifest Contract + Explicit Target Contract`
 
-## Freeze Gate
-Der bestätigte Produktcode wurde im Freeze-Schritt nicht verändert. Insbesondere blieben `index.html`, `main.js` und sämtliche Dateien unter `tools/` unangetastet. Die getestete sichtbare Build-Kennung `DF-HUB-01 · TESTBUILD 1` und `main.js?v=dfhub01-testbuild1` bleiben erhalten.
+Fachlicher Übergang:
+`APPROVED SOURCE ASSET → Handoff Manifest → explizites Ziel/Staging → später separat autorisierte Übergabe`
+
+## Verbindliche Grenzen
+- nur eindeutig bestimmte Source Assets mit stabiler Identität und explizitem Approval-Status dürfen Handoff-Kandidaten sein;
+- `NOT APPROVED` ist nicht handoff-fähig;
+- `APPROVED` darf als Handoff-Kandidat manifestiert werden;
+- das minimale Manifest enthält Asset-/Source-/Approval-/Target-/Output-Identität;
+- `targetProject` und Ziel-/Staging-Pfad müssen explizit sein;
+- impliziter UI-/Session-Zustand darf kein Ziel bestimmen;
+- DF-05 behandelt ausschließlich `APPROVED SOURCE ASSET`, keine automatisch erzeugten Derived/Runtime Assets;
+- gleicher autoritativer Eingang plus gleiches Handoff-Profil muss dasselbe fachliche Manifest ergeben.
+
+## Harte Non-Goals
+Keine GitHub-Übertragung, kein Commit/Push/PR, keine Änderung an Ziel-Repositories, keine automatische Dateiübertragung, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine große Asset-Datenbank, kein Batch-Handoff, kein Dependency Graph, keine automatische Approval-Entscheidung, keine neue Review-UI, kein Cloud Storage und keine Runtime-Integration.
+
+DF-04A–F und DF-HUB-01 bleiben geschlossen.
 
 # Aktueller Gate-Status
-`DF-HUB-01 – PASS / 0 BLOCKER / FROZEN`
+`DF-05 – DEFINED / NOT IMPLEMENTED / DOCUMENTATION RECONCILIATION IN PROGRESS`
+
+Es existiert noch kein DF-05-Entwicklungsbranch und keine DF-05-Implementierung.
 
 # Nächster zulässiger Schritt
-Kein Folgeblock ist automatisch freigegeben.
+Ausschließlich `DF-05 – Contract / Documentation Reconciliation Gate`: gegen `415d44bf78be86a80c6437f6817a30a056d8ba15` prüfen, dass ausschließlich die definierte DF-05-Steuerdokumentation hinzugekommen ist und Contract, PROJECT_STATUS und ROADMAP konsistent sind.
 
-Ausschließlich den eingefrorenen DF-HUB-01-Stand und die offenen DevForge-Capability-Lücken fachlich reconciliieren und daraus genau einen kleinen nächsten Block definieren. Noch keine Implementierung oder Branch-Anlage im selben Schritt.
+Noch keine Branch-Anlage und keine Implementierung. Erst nach `PASS / 0 BLOCKER` darf darüber separat entschieden werden.
