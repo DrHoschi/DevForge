@@ -43,7 +43,7 @@ Projektbezogene Staging-Pfade, Manifest-Dateien, nur freigegebene Source Assets 
 - Animation Tester – `AVAILABLE`, Rolle `REVIEW`.
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`.
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`.
-- Controlled Asset Handoff – DF-05 `FROZEN / PRODUCTIVE`; DF-06 TESTBUILD 1 erweitert denselben Handoff-Kontext um explizite Target Project Profiles.
+- Controlled Asset Handoff – DF-05 `FROZEN / PRODUCTIVE`; DF-06 `FROZEN / PRODUCTIVE` erweitert denselben Handoff-Kontext um explizite Target Project Profiles.
 
 DF-HUB-01 bleibt `PASS / 0 BLOCKER / FROZEN`.
 
@@ -68,24 +68,24 @@ DF-05 bleibt geschlossen. Keine Folgefunktion darf seine Eligibility-, Approval-
 ## 7. Capability Reconciliation nach DF-05
 Gegen den Frozen DF-05-Stand wurde als nächste kleine Lücke die wiederverwendbare, ausdrücklich ausgewählte Zielprojekt-Autorität identifiziert.
 
-Ausgewählt:
+Ausgewählt und abgeschlossen:
 `DF-06 – Target Project Handoff Profile Foundation`
 
 ## 8. DF-06 – Target Project Handoff Profile Foundation
 Verbindlicher Contract:
 `docs/DF-06_TARGET_PROJECT_HANDOFF_PROFILE_FOUNDATION_CONTRACT.md`
 
-Development Branch:
+Branch:
 `df-06-target-project-handoff-profile-foundation`
 
 Development Baseline:
 `825d77e4b4f320c13482b024e3b523946b1b18f7`
 
-Implementation Head:
+Frozen Product Commit:
 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 
 Status:
-`IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + DEVICE GATE PASS / 0 BLOCKER / NOT FROZEN`
+`PASS / 0 BLOCKER / FROZEN`
 
 Scope:
 `Project Profile Contract + Explicit Profile Selection Contract + Deterministic Profile Application Contract`
@@ -93,16 +93,16 @@ Scope:
 Fachlicher Übergang:
 `EXPLICIT TARGET PROJECT PROFILE → deterministische Handoff-Vorgaben → DF-05 Minimalmanifest`
 
-### Reconciled Implementation Scope
+### Frozen Produktscope
 DF-06 TESTBUILD 1 verändert produktiv ausschließlich:
 - `tools/asset-handoff/index.html`
 - `tools/asset-handoff/app.js`
 - Root `index.html` für Build-Kennung/Cache-Busting.
 
-`main.js` bleibt unverändert; keine neue Hub-Tür und keine zusätzliche Infrastrukturdatei.
+`main.js` blieb unverändert; keine neue Hub-Tür und keine zusätzliche Infrastrukturdatei.
 
 ### Erstes reales Profil
-Genau ein Profil ist in TESTBUILD 1 enthalten:
+Genau ein Profil ist im Frozen Product Stand enthalten:
 - `profileVersion: 1`
 - `profileId: siedler-mini`
 - `profileName: Siedler Mini`
@@ -113,10 +113,17 @@ Genau ein Profil ist in TESTBUILD 1 enthalten:
 
 Die Auswahl bleibt explizit; es gibt kein automatisch aktives Profil.
 
-### Device-/Regression-Gate
-`DF-06 Completion / Regression / Device Gate = PASS / 0 BLOCKER`
+### Completion / Regression / Device Gate
+`PASS / 0 BLOCKER`
 
-Reale Apple-/Safari-Evidenz vom 2026-09-10 bestätigt die sichtbare TESTBUILD-1-Kennung, explizite Profilauswahl, korrekte Übernahme der vier Zielwerte in die bestehenden DF-05-Felder und den weiterhin verwendbaren DF-05-Handoff-Workflow. Der Nutzer hat das vollständige Gate ausdrücklich als PASS bestätigt.
+Reale Apple-/Safari-Evidenz vom 2026-09-10 bestätigt die sichtbare TESTBUILD-1-Kennung, explizite Profilauswahl, korrekte Übernahme der vier Zielwerte in die bestehenden DF-05-Felder und den weiterhin verwendbaren DF-05-Handoff-Workflow.
+
+### Freeze Gate
+`DF-06 Freeze Gate = PASS / 0 BLOCKER / FROZEN`
+
+Der Produktdiff von `825d77e4b4f320c13482b024e3b523946b1b18f7` bis `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec` wurde erneut geprüft. Merge-Base ist exakt die autorisierte Entwicklungsbaseline. Produktive Änderungen liegen ausschließlich innerhalb des freigegebenen Scopes.
+
+Der getestete Commit `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec` ist der verbindliche DF-06 Frozen Product Commit. Nachfolgende Freeze-Dokumentation verändert keine Produktdatei.
 
 ### Non-Goals
 Keine GitHub-API-Übertragung, kein Commit/Push/PR in Ziel-Repositories, keine Dateikopie, keine Runtime-Integration, keine automatische Projekterkennung, keine automatische Approval-Entscheidung/-Persistenz, keine große Project-/Asset-Datenbank, kein Batch-Handoff, Dependency Graph, Atlas-Build/Sprite-Packing oder Konvertierung.
@@ -136,8 +143,8 @@ Gemeinsames Prinzip:
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
 - Autoritativer Frozen Product Stand vor DF-06: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
-- DF-06 Development Branch: `df-06-target-project-handoff-profile-foundation`
-- DF-06 Implementation Head: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
+- DF-06 Branch: `df-06-target-project-handoff-profile-foundation`
+- DF-06 Frozen Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
@@ -148,6 +155,6 @@ Gemeinsames Prinzip:
 Kleine klar benannte DF-Blöcke; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
 ## 14. Nächster zulässiger Schritt
-Ausschließlich das `DF-06 Freeze Gate` gegen Implementation Head `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`: Produktdiff und dokumentierte Device-Evidenz prüfen und den bestätigten Produktstand nur bei weiterhin sauberem Scope als Frozen Product Commit festlegen.
+Ausschließlich eine neue Capability Reconciliation gegen den eingefrorenen DF-06-Produktstand `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`.
 
-Noch keine neue Capability, kein zusätzlicher Profilumfang und keine Produktänderung im selben Schritt.
+Noch keine neue Implementierung im selben Schritt.
