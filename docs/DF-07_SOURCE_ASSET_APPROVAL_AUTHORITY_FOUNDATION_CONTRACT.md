@@ -1,9 +1,10 @@
 # DF-07 – Source Asset Approval Authority Foundation Contract
 
 Stand: 2026-09-10
-Status: `DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
+Status: `DEFINED / IMPLEMENTATION SCOPE RECONCILED / DEVELOPMENT BRANCH AUTHORIZED / NOT IMPLEMENTED`
 Definition baseline / Frozen DF-06 Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
-Documentation branch: `df-06-target-project-handoff-profile-foundation`
+Reconciled implementation-scope head / Development branch authorization baseline: `8da923bf37f5005689918382560a893ca5cf0818`
+Development branch: `df-07-source-asset-approval-authority-foundation`
 
 ## 1. Zweck
 DF-07 definiert die minimale fachliche Autorität, mit der eine ausdrückliche Freigabe eindeutig an ein bestimmtes Source Asset und dessen deklarierte Version gebunden werden kann.
@@ -179,17 +180,24 @@ DF-07 implementiert ausdrücklich nicht:
 - neue Runtime-/Repository-Handoff-Aktion;
 - neue Tool-Oberfläche oder neue Hub-Tür.
 
-## 12. Dokumentations- und Branch-Grenze
-Diese Definition und Scope-Reconciliation beziehen sich auf Frozen DF-06 Product Commit `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`.
+## 12. Development Branch / Authorization
+`DF-07 DEVELOPMENT BRANCH / AUTHORIZATION – PASS / 0 BLOCKER`
 
-Der bestehende Branch `df-06-target-project-handoff-profile-foundation` dient weiterhin ausschließlich als Dokumentationsträger für diesen Schritt. Er wird dadurch nicht zum DF-07-Entwicklungsbranch.
+Der separate Entwicklungsbranch lautet:
+`df-07-source-asset-approval-authority-foundation`
 
-Es wird in diesem Schritt kein neuer Entwicklungsbranch angelegt und kein Produktcode verändert.
+Er wurde exakt vom reconcilierten Implementation-Scope-Stand
+`8da923bf37f5005689918382560a893ca5cf0818`
+angelegt.
+
+Dieser Commit ist die verbindliche DF-07 Development Branch Authorization Baseline. Der autoritative Produkt-Ausgangspunkt bleibt Frozen DF-06 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`; die dazwischenliegenden Commits bis `8da923bf...` sind ausschließlich freigegebene DF-07-Steuerdokumentation.
+
+Mit diesem Schritt wird ausschließlich der Entwicklungsbranch für den bereits reconcilierten TESTBUILD-1-Scope freigegeben. Es ist noch keine DF-07-Code-Implementierung erfolgt.
 
 ## 13. Aktueller Gate-Status
-`DF-07 – DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
+`DF-07 – DEFINED / IMPLEMENTATION SCOPE RECONCILED / DEVELOPMENT BRANCH AUTHORIZED / NOT IMPLEMENTED`
 
 ## 14. Nächster zulässiger Schritt
-Ausschließlich ein separater DF-07 Development Branch / Authorization Step gegen den verbindlich dokumentierten und reconcilierten DF-07-Scope.
+Ausschließlich die eigentliche DF-07-Implementierung auf `df-07-source-asset-approval-authority-foundation` gegen die Authorization Baseline `8da923bf37f5005689918382560a893ca5cf0818` und exakt innerhalb des reconcilierten TESTBUILD-1-Scopes.
 
-Noch keine DF-07-Code-Implementierung im selben Schritt.
+Keine zusätzliche Capability oder Scope-Erweiterung im selben Schritt.
