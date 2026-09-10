@@ -1,6 +1,6 @@
 # DevForge – Master Roadmap & Entwicklungsgrenzen
 
-Stand: 2026-09-08
+Stand: 2026-09-10
 
 ## 1. Vision
 DevForge soll eine projektübergreifende Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets werden. Der Prompt Builder ist nur ein Einstiegspunkt. Langfristig verbindet DevForge wiederverwendbare Asset-Definitionen, Referenzen, Generierungsverträge, Vorschau/Review, Freigaben, technische Prüfung, Atlas-/Metadaten-Erzeugung und kontrollierte Übergabe in Ziel-Repositories.
@@ -60,7 +60,7 @@ Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animat
 ## 3. Aktuelle Module
 - Prompt Builder – vorhanden; Character Identity + Pose/Geometry Control + Generation-Handoff
 - Animated 3D Reference Viewer – PASS für Intake, Timeline/Scrubbing, Facing/Camera und Pose Bookmarks
-- Source / Result Compare View – `DF-04E PASS / FROZEN` inklusive Basisvergleich, Overlay / Onion-Skin, manuellem Result-Alignment, RGBA-Difference und Silhouette Difference
+- Source / Result Compare View – `DF-04F PASS / FROZEN` inklusive Basisvergleich, Overlay / Onion-Skin, manuellem Result-Alignment, RGBA-Difference, Silhouette Difference und Silhouette Geometry Guides
 - Animation Tester – Standalone Frames/Manifest, FPS, Loop, Step, Onion-Skin, Bottom-Center-Anchor
 - Pose Renderer – historischer DF-02E-Prototyp
 - Sprite Lab – vorhanden
@@ -69,13 +69,6 @@ Asset-Katalog mit getrennten Asset-Arten wie Characters, 3D Character/Rig/Animat
 - Parameter Playground – vorbereitet
 
 ## 4. Character Animation Contract – erreichter Stand
-### DF-01 – Prompt Builder Foundation
-Projektübergreifende Basis mit Projekt-Presets, Asset-Typen, Kamera/Richtung und editierbaren Contracts.
-
-### DF-02 – Character Animation Generation Package
-Character-Auswahl, Animation/Pose-Definitionen, Richtungen und Einzeljob-Export.
-
-### DF-02F – 3D Animation Reference Viewer / Generation Bridge
 1. `DF-02F.1 – Animated 3D Reference Asset Contract` – PASS
 2. `DF-02F.2 – Animated 3D Preview / Runtime Asset Intake` – PASS
 3. `DF-02F.3 / F.3R – Animation Timeline / Scrubbing` – PASS
@@ -93,55 +86,40 @@ Die reproduzierbare Pose-Auswahl in DevForge ist nicht mehr der Hauptengpass. De
 Ziel: erzeugte Assets systematisch gegen ihre autoritativen Quellen/Controls prüfen können.
 
 ### DF-04A – Source / Result Compare View – PASS / FROZEN
-Eingefrorener Basisvergleich mit zwei getrennten lokalen Bildslots, festen Source-/Result-Rollen, unabhängiger Ersetzung, proportionaler vollständiger Darstellung und responsiver Side-by-Side-/Top-Bottom-Ansicht.
-
-Contract:
-`docs/DF-04A_SOURCE_RESULT_COMPARE_VIEW_CONTRACT.md`
+Zwei getrennte lokale Bildslots, feste Source-/Result-Rollen, unabhängiges Ersetzen, proportionale vollständige Darstellung und responsive Basisvergleichsansicht.
 
 ### DF-04B – Overlay / Onion-Skin Compare Foundation – PASS / FROZEN
-Eingefrorener Overlay-Ausbau mit gemeinsamer Vergleichsfläche, Source als Basis-Layer, Result als Overlay-Layer, identischer neutraler Fit-/Center-Regel, manuellem 0–100-%-Blend und Rückkehr zur Basisansicht ohne Verlust der geladenen Bilder.
-
-Contract:
-`docs/DF-04B_OVERLAY_ONION_SKIN_COMPARE_CONTRACT.md`
+Gemeinsame Vergleichsfläche, Source als Basis-Layer, Result als Overlay-Layer und manueller 0–100-%-Blend-Regler.
 
 ### DF-04C – Manual Alignment Foundation – PASS / FROZEN
-Eingefrorene manuelle Ausrichtung ausschließlich des Result-Layers über X, Y und uniforme Scale mit sichtbaren Werten, `Reset Alignment`, unverändertem Blend und temporärem Review-Zustand.
-
-Contract:
-`docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md`
+Manuelle Ausrichtung ausschließlich des Result-Layers über X, Y und uniforme Scale mit sichtbaren Werten und `Reset Alignment`.
 
 ### DF-04D – Difference View Foundation – PASS / FROZEN
-Eingefrorene deterministische pixelweise absolute RGBA-Difference auf derselben Review-Rasterfläche und unter Verwendung des DF-04C-X/Y/Scale-Alignments. Geringe Abweichung erscheint dunkel, stärkere heller; Alpha ist Bestandteil der Difference. Keine semantische Bewertung und kein numerischer Score.
-
-Contract:
-`docs/DF-04D_DIFFERENCE_VIEW_FOUNDATION_CONTRACT.md`
+Deterministische pixelweise absolute RGBA-Difference auf derselben Review-Rasterfläche und unter Verwendung des DF-04C-Alignments. Kein Score.
 
 ### DF-04E – Silhouette Difference Foundation – PASS / FROZEN
-Eingefrorene deterministische Silhouette Difference auf denselben Bildern und derselben Review-Rasterfläche. Die Maske wird ausschließlich aus gerendertem Alpha mit fester interner Grenze `16 / 255` gebildet. Überlappung, Source-only und Result-only werden klar unterschieden. Das bestehende DF-04C-X/Y/Scale-Alignment und `Reset Alignment` bleiben autoritativ.
+Deterministische Silhouette Difference aus gerendertem Alpha mit fester interner Grenze `16 / 255`; Überlappung, Source-only und Result-only werden unterschieden.
 
-Contract:
-`docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md`
-
-### DF-04F – Silhouette Geometry Guide Foundation – CONTRACT DEFINED / RECONCILED
+### DF-04F – Silhouette Geometry Guide Foundation – PASS / FROZEN
 Verbindlicher Contract:
 `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md`
 
-Aus der realen DF-04E-Erfahrung abgeleiteter Bedarf:
-Die Silhouette Difference zeigt Formabweichungen bereits zuverlässig. DF-04F ergänzt deshalb nur eine geometrische Orientierung für das weiterhin manuelle Alignment, ohne selbst eine Ausrichtung vorzunehmen.
-
-Geplanter enger Scope:
-- achsenparallele Source-Bounding-Box auf der gemeinsamen Review-Rasterfläche;
+Eingefroren sind:
+- achsenparallele Source-Bounding-Box auf der gemeinsamen Silhouetten-Review-Rasterfläche;
 - achsenparallele Result-Bounding-Box unter aktuellem DF-04C-X/Y/Scale;
 - geometrischer Mittelpunkt beider Bounding Boxes;
 - visuell eindeutig unterscheidbare Source-/Result-Boxen und Center-Marker;
-- optional ein gemeinsamer `Geometry Guides`-Ein-/Aus-Schalter;
+- genau ein gemeinsamer temporärer `Geometry Guides`-Ein-/Aus-Schalter;
 - Ermittlung auf Basis derselben eingefrorenen DF-04E-Alpha-Maske;
 - Result-Guides aktualisieren sich bei X/Y/Scale und `Reset Alignment`;
 - Source-Guides bleiben bei Result-Alignment unverändert;
-- keine Änderung an Bildern, Alignment oder den bestehenden Review-Modi;
-- responsive/touch-taugliche iPhone/iPad/Safari-Darstellung.
+- keine Änderung an Bildern, Alignment oder bestehenden Review-Modi;
+- responsive/touch-taugliche iPhone/Safari-Darstellung.
 
-Nicht Teil von DF-04F:
+Realer iPhone-/Safari-Gerätetest: `PASS / 0 BLOCKER`.
+Completion-/Freeze-Gate: `PASS / 0 BLOCKER / FROZEN`.
+
+Weiterhin nicht Teil des eingefrorenen DF-04F-Umfangs:
 - Auto-Alignment / Best-Fit / automatische Center-Ausrichtung;
 - automatische Bewegung oder automatische Scale-Anpassung;
 - neuer Scale-Algorithmus;
@@ -155,35 +133,18 @@ Nicht Teil von DF-04F:
 - Atlas-Funktionen.
 
 ## 6. Aktueller Stand / Gate
-Aktueller Dokumentations-/Freeze-Branch:
-`df-04e-silhouette-difference-foundation`
+Aktueller Entwicklungs-/Freeze-Branch:
+`df-04f-silhouette-geometry-guide-foundation`
 
-Eingefrorener Produktstand:
-`DF-04E – PASS / 0 BLOCKER / FROZEN`
+Reconciliierte DF-04F-Implementierungsbaseline:
+`1f9badba271bb3a6a055f8ef234164dd9acd39e8`
 
-Eingefrorener DF-04E-Produkt-Head:
-`49ff536b6070072c94e340e61cff7b37457a5f91`
+Aktueller eingefrorener Review-Stand:
+**DF-04F – PASS / 0 BLOCKER / FROZEN**
 
-Abgeschlossenes Gate:
-**DF-04F Contract / Roadmap Reconciliation – PASS / 0 BLOCKER**
+Das Completion-/Freeze-Gate regressierte Contract, vollständigen Branch-Diff, DF-04A/B/C/D/E-Grenzen und reale Geräte-Evidenz gemeinsam. Kein Blocker wurde festgestellt.
 
-Regressiert wurden:
-- der eingefrorene DF-04E-Produkt-Head `49ff536b6070072c94e340e61cff7b37457a5f91`;
-- der vollständige Dokumentations-Diff seit diesem Head;
-- der neue DF-04F-Contract;
-- PROJECT_STATUS und ROADMAP;
-- die unveränderten DF-04A/B/C/D/E-Grenzen.
-
-Das Gate bestätigt:
-- Branch-Diff vor Abschluss des Gates: `3 ahead / 0 behind`;
-- ausschließlich drei Dokumentationsdateien geändert bzw. ergänzt;
-- keine Produktlogik, UI oder JavaScript verändert;
-- kein DF-04F-Entwicklungsbranch im Contract-/Reconciliation-Schritt angelegt;
-- keine Auto-Alignment-, Best-Fit-, Scoring-, Threshold/Tolerance-, KI-, Persistenz- oder Atlas-Funktion vorgezogen.
-
-Nächster zulässiger Schritt:
-- einen separaten DF-04F-Entwicklungsbranch exakt von der reconciliierten Dokumentationsbaseline nach diesem Gate anlegen;
-- noch keine DF-04F-Implementierung im selben Schritt.
+Kein Folgeblock ist automatisch freigegeben. Der nächste fachliche Schritt muss aus der realen DF-04F-Erfahrung abgeleitet und separat vertraglich definiert werden.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -233,7 +194,7 @@ Automatische Prüfungen unterstützen das Review; sie ersetzen nicht automatisch
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- aktueller Dokumentations-/Freeze-Stand: `df-04e-silhouette-difference-foundation`
+- aktueller Entwicklungs-/Freeze-Stand: `df-04f-silhouette-geometry-guide-foundation`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
@@ -249,8 +210,7 @@ Derzeit nicht parallel vorziehen:
 - große persistente Asset-Datenbank;
 - automatisches Pose-Scoring oder KI-Review;
 - Threshold/Tolerance oder Difference-/Silhouette-Scoring ohne separaten Folgecontract;
-- automatische Registrierung / Best-Fit / Auto-Alignment ohne separaten Folgecontract;
-- automatische Geometry-Guide-basierte Bewegung oder Scale-Korrektur innerhalb von DF-04F.
+- automatische Registrierung / Best-Fit / Auto-Alignment ohne separaten Folgecontract.
 
 ## 15. Git-/Dokumentations-Arbeitsweise
 - kleine, klar benannte DF-Blöcke
