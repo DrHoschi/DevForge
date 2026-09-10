@@ -69,12 +69,10 @@ Fachlicher Übergang:
 DF-05 bleibt geschlossen. Keine Folgefunktion darf seine Eligibility-, Approval- oder Manifest-Semantik nebenbei ändern.
 
 ## 7. Capability Reconciliation nach DF-05
-Gegen `c677f07773866dfe8f5c98dcb311ab1750538d9c` ist die nächste kleine Lücke die wiederverwendbare, ausdrücklich ausgewählte Zielprojekt-Autorität für DF-05.
+Gegen `c677f07773866dfe8f5c98dcb311ab1750538d9c` wurde als nächste kleine Lücke die wiederverwendbare, ausdrücklich ausgewählte Zielprojekt-Autorität für DF-05 identifiziert.
 
 Ausgewählt:
 `DF-06 – Target Project Handoff Profile Foundation`
-
-Nicht vorgezogen werden große Project-/Asset-Datenbank, Parameter Playground, automatische Projekterkennung, Repository-Transfer, Atlas-Produktion, Konvertierung oder neuer Review-/Approval-Workflow.
 
 ## 8. DF-06 – Target Project Handoff Profile Foundation
 Verbindlicher Contract:
@@ -83,8 +81,14 @@ Verbindlicher Contract:
 Definition-Baseline:
 `c677f07773866dfe8f5c98dcb311ab1750538d9c`
 
+Reconciled Documentation Head / Development Baseline:
+`825d77e4b4f320c13482b024e3b523946b1b18f7`
+
+Development Branch:
+`df-06-target-project-handoff-profile-foundation`
+
 Status:
-`DEFINED / NOT IMPLEMENTED`
+`DEFINED / IMPLEMENTATION SCOPE RECONCILED / DEVELOPMENT BRANCH AUTHORIZED / NOT IMPLEMENTED`
 
 Scope:
 `Project Profile Contract + Explicit Profile Selection Contract + Deterministic Profile Application Contract`
@@ -99,7 +103,7 @@ Minimale stabile Identität:
 - `profileName`
 - `targetProject`
 
-Zusätzlich enthält ein Profil explizite Staging-/Output-/Format-Vorgaben, soweit sie im realen Workflow benötigt werden. Ein Profil entscheidet niemals Approval.
+Zusätzlich enthält ein Profil explizite Staging-/Output-/Format-Vorgaben. Ein Profil entscheidet niemals Approval.
 
 ### Explicit Selection
 Ohne ausdrückliche Auswahl gibt es keine Profil-Autorität. Kein stilles Default-Projekt, keine Auswahl aus Session, URL, Toolzustand, Dateiname, Asset-Typ oder Repository-Historie.
@@ -108,12 +112,38 @@ Ohne ausdrückliche Auswahl gibt es keine Profil-Autorität. Kein stilles Defaul
 Gleiches autoritatives Profil plus gleicher deklarierter Asset-/Handoff-Eingang muss dieselben Vorgaben ergeben. Keine Zufalls-/Timestamp-Namen, versteckten Sessionwerte oder nicht deklarierten Defaults.
 
 ### Beziehung zu DF-05
-DF-06 darf ausschließlich deklarierte Ziel-/Output-Vorgaben an die vorhandenen DF-05-Eingabegrenzen liefern. DF-05 bleibt unverändert `PASS / 0 BLOCKER / FROZEN`.
+DF-06 liefert ausschließlich deklarierte Ziel-/Output-Vorgaben an die vorhandenen DF-05-Eingabegrenzen. DF-05 bleibt unverändert `PASS / 0 BLOCKER / FROZEN`.
+
+### Reconciled Implementation Scope
+`DF-06 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
+
+DF-06 TESTBUILD 1 darf produktiv maximal berühren:
+- `tools/asset-handoff/index.html` – explizite Profilauswahl und sichtbare Anwendung der deklarativen Profilwerte;
+- `tools/asset-handoff/app.js` – klar getrennte Profildefinition/-anwendung, ohne Änderung der bestehenden DF-05 Eligibility-/Approval-/Manifest-Semantik;
+- Root `index.html` – ausschließlich für sichtbare `DF-06 · TESTBUILD 1`-Kennung und notwendiges Cache-Busting.
+
+`main.js` erhält keine neue Hub-Tür und gehört nicht zum vorgesehenen DF-06-Produktscope.
+
+Keine zusätzlichen Service-, Datenbank-, Project-Registry-, Preset-Framework- oder ähnlichen Infrastrukturmodule.
+
+### Erstes reales Profil
+DF-06 TESTBUILD 1 enthält genau ein reales Profil für `DrHoschi/siedler-mini`:
+- `profileVersion: 1`
+- `profileId: siedler-mini`
+- `profileName: Siedler Mini`
+- `targetProject: DrHoschi/siedler-mini`
+
+Konkrete Werte für `stagingPath`, Formatvorgabe und Output-Namensregel müssen vor ihrer Implementierung aus einer autoritativen bestehenden Projektquelle bestätigt werden. Nicht belegte Werte dürfen nicht erfunden oder als stiller Default eingeführt werden.
+
+Keine weiteren Projektprofile gehören zum ersten Scope.
 
 ### Non-Goals
-Keine GitHub-API-Übertragung, kein Commit/Push/PR, keine Dateikopie, keine Runtime-Integration, keine automatische Projekterkennung, keine automatische Approval-Entscheidung/-Persistenz, keine große Project-/Asset-Datenbank, kein Batch-Handoff, kein Dependency Graph, kein Atlas-Build/Sprite-Packing und keine Bild-/3D-Konvertierung.
+Keine GitHub-API-Übertragung, kein Commit/Push/PR, keine Dateikopie, keine Runtime-Integration, keine automatische Projekterkennung, keine automatische Approval-Entscheidung/-Persistenz, keine große Project-/Asset-Datenbank, kein Batch-Handoff, kein Dependency Graph, kein Atlas-Build/Sprite-Packing, keine Bild-/3D-Konvertierung und keine Erweiterung von DF-04 oder DF-05.
 
-Ein erstes konkretes `DrHoschi/siedler-mini`-Profil ist noch nicht implementiert und muss in einem späteren Implementation Scope ausdrücklich autorisiert werden.
+### Branch-Autorisierung
+Der bereits existierende Branch `df-06-target-project-handoff-profile-foundation` wird ab der reconcilierten Dokumentationsbaseline `825d77e4b4f320c13482b024e3b523946b1b18f7` ausdrücklich als DF-06-Entwicklungsbranch autorisiert.
+
+Die frühere technische Anlage des Branches gilt nicht als Implementierungsfreigabe und ändert diese Baseline nicht.
 
 ## 9. DF-03 – Animation Atlas Contract
 Fachlich vorbereitet und nachgelagert. Vorhandene Atlas-Tool-Funktion ist keine automatische Produktionsfreigabe.
@@ -130,17 +160,18 @@ Gemeinsames Prinzip:
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
 - Autoritativer Frozen Product Stand: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
-- DF-06 Documentation Branch: `df-06-target-project-handoff-profile-foundation`
+- DF-06 Development Branch: `df-06-target-project-handoff-profile-foundation`
+- DF-06 Development Baseline: `825d77e4b4f320c13482b024e3b523946b1b18f7`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
 - Default: `main`
-- DF-06-Definition verändert dieses Repository nicht.
+- DF-06 darf dessen Dateien nicht verändern.
 
 ## 13. Dokumentationszustand
-Der README-Drift nach DF-05 wurde im DF-06-Definitionsschritt korrigiert. README beschreibt nun den Frozen DF-05-Stand und DF-06 als `DEFINED / NOT IMPLEMENTED`.
+Der README-Drift nach DF-05 wurde im DF-06-Definitionsschritt korrigiert.
 
-Der versehentlich vorzeitig angelegte Branch `df-06-target-project-handoff-profile-foundation` wird bis zur separaten Entwicklungsfreigabe ausschließlich als Dokumentationsbranch behandelt.
+Der zuvor vorzeitig angelegte Branch ist nun ab `825d77e4b4f320c13482b024e3b523946b1b18f7` ausdrücklich als DF-06-Entwicklungsbranch freigegeben.
 
 ## 14. Nicht vorziehen
 Keine vollständige Animation Library, komplexe Attachment-Engine, automatische Generierungs-API, finaler automatischer Atlas-Packing-Workflow, große persistente Asset-Datenbank, automatisches Pose-Scoring/KI-Review, Auto-Alignment/Best-Fit oder DF-04 Geometry Readout ohne realen Bedarf parallel vorziehen.
@@ -149,6 +180,6 @@ Keine vollständige Animation Library, komplexe Attachment-Engine, automatische 
 Kleine klar benannte DF-Blöcke; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
 ## 16. Nächster zulässiger Schritt
-Ausschließlich `DF-06 Contract / Documentation Reconciliation Gate`: Contract, PROJECT_STATUS, ROADMAP und README gegen `c677f07773866dfe8f5c98dcb311ab1750538d9c` auf fachliche Konsistenz, vollständige Scope-/Non-Goal-Grenzen und reinen Dokumentationsumfang prüfen.
+Ausschließlich die eigentliche DF-06-Implementierung auf `df-06-target-project-handoff-profile-foundation` gegen den reconcilierten Scope und ausgehend von der autorisierten Entwicklungsbaseline `825d77e4b4f320c13482b024e3b523946b1b18f7`.
 
-Noch keine Implementierung. Erst nach `PASS / 0 BLOCKER` darf separat entschieden werden, ob der bereits existierende Branch als Entwicklungsbranch weiterverwendet oder ein neuer Entwicklungsbranch vom reconcilierten Dokumentationsstand angelegt wird.
+Keine zusätzliche Capability oder Scope-Erweiterung im selben Schritt.
