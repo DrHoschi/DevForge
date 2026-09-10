@@ -8,12 +8,12 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller Entwicklungsbranch: `df-05-controlled-asset-handoff-foundation`
-- Aktueller eingefrorener Produktstand vor DF-05: `415d44bf78be86a80c6437f6817a30a056d8ba15`
-- DF-HUB-01: `PASS / 0 BLOCKER / FROZEN`
+- Aktueller DF-05-Branch: `df-05-controlled-asset-handoff-foundation`
+- Eingefrorener Produktstand vor DF-05: `415d44bf78be86a80c6437f6817a30a056d8ba15`
 - DF-05 Definition-Baseline: `415d44bf78be86a80c6437f6817a30a056d8ba15`
 - DF-05 reconciled documentation baseline: `14973c69f667873c16eedf33c1382274d89d37e9`
 - DF-05 Implementation Head: `22f8a59af510c508f0cbc5153a5af583ce352299`
+- DF-05 Frozen Product Commit: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
 - DF-05 Contract: `docs/DF-05_CONTROLLED_ASSET_HANDOFF_FOUNDATION_CONTRACT.md`
 
 # DF-04 – Asset Review Foundation
@@ -24,11 +24,14 @@ Ein möglicher `Silhouette Geometry Readout` bleibt ausschließlich `LATER / ONL
 # DF-HUB-01 – Tool Hub Authority & Workflow Reconciliation
 `PASS / 0 BLOCKER / FROZEN`
 
-DF-05 öffnet DF-HUB-01 nicht wieder. Bestehende Hub-Einträge bleiben fachlich unverändert; DF-05 ergänzt ausschließlich die neue Handoff-Tür.
+DF-05 öffnet DF-HUB-01 nicht wieder. Bestehende Hub-Einträge bleiben fachlich unverändert; DF-05 ergänzt ausschließlich die neue Handoff-Tür außerhalb des eingefrorenen HUB-01-Blocks.
 
 # DF-05 – Controlled Asset Handoff Foundation
 Status:
-`IMPLEMENTED / TESTBUILD 1 / COMPLETION + REAL DEVICE REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
+`PASS / 0 BLOCKER / FROZEN`
+
+Frozen Product Commit:
+`c677f07773866dfe8f5c98dcb311ab1750538d9c`
 
 Scope:
 `Handoff Eligibility + Minimal Manifest Contract + Explicit Target Contract`
@@ -56,16 +59,18 @@ Realer iPhone-/Safari-Test gegen `DF-05 · TESTBUILD 1`:
 7. identische Eingaben erzeugen erneut identischen Manifest-Inhalt – PASS;
 8. JSON-Export funktioniert in Safari; keine GitHub-/Repository-/Runtime-Aktion – PASS.
 
-Exportierter Testdatensatz:
-`TEST-001-handoff.json` mit `assetId=TEST-001`, `assetType=CHARACTER`, `targetProject=DrHoschi/siedler-mini`, Source `carrier-test.png` / `TEST-V1`, `approvalStatus=APPROVED`, `stagingPath=assets/test/`, `outputFilename=carrier-test.png`, `format=png`.
+Completion-Ergebnis:
+`DF-05 – COMPLETION + REAL DEVICE REGRESSION PASS / 0 BLOCKER`
 
-## Scope-/Regression-Grenzen
-Keine Änderungen an Asset Inspector, Sprite Lab, Prompt Builder, Source / Result Compare oder anderen bestehenden Tools. Kein zusätzlicher Service-/Datenbank-/Framework-Unterbau. Keine Änderung an `DrHoschi/siedler-mini`.
+## Freeze Gate – 2026-09-10
+Der bestätigte Completion-/Device-Stand auf `c677f07773866dfe8f5c98dcb311ab1750538d9c` ist der autoritative DF-05 Frozen Product Stand.
+
+Der Freeze Gate verändert keinen Produktcode. Die nachgelagerten Freeze-Commits dokumentieren ausschließlich den Frozen-Status.
 
 # Aktueller Gate-Status
-`DF-05 – COMPLETION + REAL DEVICE REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
+`DF-05 – PASS / 0 BLOCKER / FROZEN`
 
 # Nächster zulässiger Schritt
-Ausschließlich der separate `DF-05 Freeze Gate`: vollständigen Branch-Diff gegen den reconcilierten Implementation Scope prüfen und nur bei weiterhin `PASS / 0 BLOCKER` einfrieren.
+Kein DF-05-Folgeblock ist automatisch freigegeben. Der nächste Schritt darf ausschließlich eine neue Capability Reconciliation gegen den Frozen Product Commit `c677f07773866dfe8f5c98dcb311ab1750538d9c` sein.
 
-Noch keine neue Capability oder Scope-Erweiterung.
+Keine neue Implementierung im selben Schritt.
