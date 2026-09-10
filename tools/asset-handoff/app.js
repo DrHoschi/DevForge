@@ -8,8 +8,15 @@ const manifestPreview = document.querySelector('#manifestPreview');
 const profileSelect = document.querySelector('#profileSelect');
 const profileStatus = document.querySelector('#profileStatus');
 const profilePreview = document.querySelector('#profilePreview');
+const approvalDecision = document.querySelector('#approvalDecision');
+const createApprovalButton = document.querySelector('#createApprovalButton');
+const applyApprovalButton = document.querySelector('#applyApprovalButton');
+const approvalRecordStatus = document.querySelector('#approvalRecordStatus');
+const approvalErrors = document.querySelector('#approvalErrors');
+const approvalPreview = document.querySelector('#approvalPreview');
 
 let currentManifest = null;
+let currentApprovalRecord = null;
 
 export const TARGET_PROJECT_PROFILES = Object.freeze({
   'siedler-mini': Object.freeze({
@@ -81,6 +88,141 @@ function renderProfile(profile) {
 
   profileStatus.textContent = `Profil aktiv: ${profile.profileName} (${profile.profileId})`;
   profilePreview.textContent = JSON.stringify(profile, null, 2);
+}
+
+export function validateApprovalRecordInput(input) {
+  const required = ['assetId', 'sourceReference', 'sourceVersion', 'decision'];
+  const errors = [];
+
+  for (const field of required) {
+    if (!String(input[field] || '').trim()) errors.push(`${field} fehlt.`);
+  }
+
+  if (input.decision && !['APPROVED', 'NOT APPROVED'].includes(input.decision)) {
+    errors.push('decision ist ungültig.');
+  }
+
+  return { valid: errors.length === 0, errors };
+}
+
+export function buildApprovalRecord(input) {
+  const validation = validateApprovalRecordInput(input);
+  if (!validation.valid) {
+    throw new Error('Approval Record ist ungültig.');
+  }
+
+  return {
+    approvalRecordVersion: '1',
+    assetId: String(input.assetId).trim(),
+    sourceReference: String(input.sourceReference).trim(),
+    sourceVersion: String(input.sourceVersion).trim(),
+    decision: String(input.decision).trim()
+  };
+}
+
+export function matchesApprovalIdentity(record, input) {
+  if (!record) return false;
+  return (
+    record.assetId === String(input.assetId || '').trim() &&
+    record.sourceReference === String(input.sourceReference || '').trim() &&
+    record.sourceVersion === String(input.sourceVersion || '').trim()
+  );
+}
+
+export function applyApprovalRecordToHandoff(input, record) {
+  if (!matchesApprovalIdentity(record, {
+    assetId: input.assetId,
+    sourceReference: input.sourceRef,
+    sourceVersion: input.sourceVersion
+  })) {
+    throw new Error('IDENTITY MISMATCH');
+  }
+
+  return {
+    ...input,
+    approvalStatus: record.decision
+  };
+}
+
+function readApprovalInput() {
+  const input = readInput();
+  return {
+    assetId: input.assetId,
+    sourceReference: input.sourceRef,
+    sourceVersion: input.sourceVersion,
+    decision: String(approvalDecision.value || '').trim()
+  };
+}
+
+function clearApprovalErrors() {
+  approvalErrors.replaceChildren();
+}
+
+function renderApprovalErrors(errors) {
+  clearApprovalErrors();
+  for (const error of errors) {
+    const item = document.createElement('li');
+    item.textContent = error;
+    approvalErrors.appendChild(item);
+  }
+}
+
+function renderApprovalRecordState() {
+  clearApprovalErrors();
+
+  if (!currentApprovalRecord) {
+    approvalRecordStatus.textContent = 'NO RECORD';
+    approvalPreview.textContent = 'Noch kein Approval Record erzeugt.';
+    applyApprovalButton.disabled = true;
+    return;
+  }
+
+  const current = readInput();
+  const matches = matchesApprovalIdentity(currentApprovalRecord, {
+    assetId: current.assetId,
+    sourceReference: current.sourceRef,
+    sourceVersion: current.sourceVersion
+  });
+
+  approvalPreview.textContent = JSON.stringify(currentApprovalRecord, null, 2);
+  approvalRecordStatus.textContent = matches ? 'VALID' : 'IDENTITY MISMATCH';
+  applyApprovalButton.disabled = !matches;
+
+  if (!matches) {
+    renderApprovalErrors(['IDENTITY MISMATCH: Asset ID, Source Reference oder Source Version stimmt nicht mehr mit dem Approval Record überein.']);
+  }
+}
+
+function createApprovalRecord() {
+  const input = readApprovalInput();
+  const validation = validateApprovalRecordInput(input);
+  if (!validation.valid) {
+    currentApprovalRecord = null;
+    renderApprovalErrors(validation.errors);
+    approvalRecordStatus.textContent = 'INVALID';
+    approvalPreview.textContent = 'Kein gültiger Approval Record erzeugt.';
+    applyApprovalButton.disabled = true;
+    return;
+  }
+
+  currentApprovalRecord = buildApprovalRecord(input);
+  renderApprovalRecordState();
+}
+
+function applyCurrentApprovalRecord() {
+  if (!currentApprovalRecord) return;
+
+  const input = readInput();
+  try {
+    const applied = applyApprovalRecordToHandoff(input, currentApprovalRecord);
+    form.elements.approvalStatus.value = applied.approvalStatus;
+    renderApprovalRecordState();
+    renderEvaluation();
+  } catch (error) {
+    approvalRecordStatus.textContent = 'IDENTITY MISMATCH';
+    applyApprovalButton.disabled = true;
+    renderApprovalErrors([error instanceof Error ? error.message : 'IDENTITY MISMATCH']);
+  }
 }
 
 export function validateHandoffInput(input) {
@@ -201,9 +343,16 @@ profileSelect.addEventListener('change', () => {
 form.addEventListener('input', () => {
   currentManifest = null;
   downloadButton.disabled = true;
+  renderApprovalRecordState();
   renderEvaluation();
 });
 
+approvalDecision.addEventListener('change', () => {
+  clearApprovalErrors();
+});
+
+createApprovalButton.addEventListener('click', createApprovalRecord);
+applyApprovalButton.addEventListener('click', applyCurrentApprovalRecord);
 evaluateButton.addEventListener('click', renderEvaluation);
 manifestButton.addEventListener('click', () => {
   if (!renderEvaluation()) return;
@@ -212,4 +361,5 @@ manifestButton.addEventListener('click', () => {
 downloadButton.addEventListener('click', exportManifest);
 
 renderProfile(null);
+renderApprovalRecordState();
 renderEvaluation();
