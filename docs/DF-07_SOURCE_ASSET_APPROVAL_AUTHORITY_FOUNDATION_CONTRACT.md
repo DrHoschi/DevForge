@@ -1,7 +1,7 @@
 # DF-07 – Source Asset Approval Authority Foundation Contract
 
 Stand: 2026-09-10
-Status: `DEFINED / NOT IMPLEMENTED`
+Status: `DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
 Definition baseline / Frozen DF-06 Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 Documentation branch: `df-06-target-project-handoff-profile-foundation`
 
@@ -88,17 +88,81 @@ DF-05 bleibt `PASS / 0 BLOCKER / FROZEN` auf Frozen Product Commit `c677f0777386
 DF-06 bleibt `PASS / 0 BLOCKER / FROZEN` auf Frozen Product Commit `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`. Target Project Profiles sind keine Approval-Autorität.
 
 ## 9. Persistenzgrenze
-DF-07 definiert zunächst den fachlichen Approval Record und seine Verbrauchbare Autorität, aber noch keine große persistente Asset-/Approval-Datenbank.
+DF-07 definiert zunächst den fachlichen Approval Record und seine verbrauchbare Autorität, aber noch keine große persistente Asset-/Approval-Datenbank.
 
-Ob der erste Implementierungsschritt einen Record nur lokal erzeugt/exportiert, in einem kleinen deklarativen Datensatz hält oder eine andere minimale technische Form nutzt, gehört in eine spätere Implementation Scope Reconciliation. Dieser Contract autorisiert keine Persistenzarchitektur.
+Für TESTBUILD 1 wird keine Persistenz zwischen Sessions vorausgesetzt. Der Approval Record darf innerhalb der bestehenden Controlled-Asset-Handoff-Oberfläche nur als lokaler Laufzeitzustand erzeugt und angewendet werden. Export, Datenbank, Historie oder andere Persistenzformen gehören nicht zum reconcilierten ersten Produktscope.
 
-## 10. Harte Non-Goals
+## 10. Reconciled Implementation Scope
+`DF-07 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
+
+Der erste zulässige Produktscope für DF-07 TESTBUILD 1 ist eng begrenzt auf:
+- `tools/asset-handoff/index.html` – klar abgegrenzter Approval-Record-Bereich innerhalb der bestehenden Controlled-Asset-Handoff-Oberfläche; explizite Decision-Auswahl, sichtbare Record-Identität, Record-Status sowie getrennte Aktionen zum Erzeugen und Anwenden des Records;
+- `tools/asset-handoff/app.js` – klar getrennte Approval-Record-Validierung/-Erzeugung, Identity-Matching und explizite Anwendung der Record-Decision auf die bestehende DF-05-Eingabe `approvalStatus`;
+- Root `index.html` – ausschließlich soweit für eine spätere sichtbare `DF-07 · TESTBUILD 1`-Kennung und notwendiges Cache-Busting erforderlich.
+
+Keine neue Tool-Oberfläche und keine neue Hub-Tür sind erforderlich. `main.js` gehört nicht zum vorgesehenen Produktscope.
+
+### 10.1 Approval-Record-Oberfläche
+DF-07 verwendet die bereits vorhandenen Handoff-Identitätsfelder:
+- `assetId`
+- `sourceRef` als technische UI-Bezeichnung für `sourceReference`
+- `sourceVersion`
+
+Die Decision muss explizit als `APPROVED` oder `NOT APPROVED` gewählt werden. Es gibt kein vorausgewähltes `APPROVED` und keine automatische Decision.
+
+Der erzeugte Record enthält exakt die fünf Contract-Mindestfelder:
+- `approvalRecordVersion`
+- `assetId`
+- `sourceReference`
+- `sourceVersion`
+- `decision`
+
+Keine weiteren Record-Felder sind für TESTBUILD 1 erforderlich.
+
+### 10.2 Identity-Mismatch-Regel
+Ein erzeugter Approval Record bleibt nur dann anwendbar, wenn die aktuell deklarierte Kombination aus `assetId`, `sourceReference` und `sourceVersion` exakt mit dem Record übereinstimmt.
+
+Wird nach Record-Erzeugung mindestens einer dieser drei Identitätswerte geändert, darf der Record nicht mehr als Approval-Autorität angewendet werden. Die technische Umsetzung darf ihn entweder unmittelbar invalidieren oder beim Anwenden deterministisch als `IDENTITY MISMATCH` ablehnen.
+
+Eine alte Decision darf dadurch niemals still auf eine andere Source oder Version übertragen werden.
+
+### 10.3 Approval Consumption
+Ein gültiger identitätsgleicher Approval Record darf ausschließlich seine `decision` explizit in die bereits vorhandene DF-05-Eingabe `approvalStatus` übertragen.
+
+Danach bleibt ausschließlich die bestehende DF-05-Logik autoritativ für `ELIGIBLE` / `NOT ELIGIBLE`. DF-07 führt keine zweite Eligibility-Funktion und keine parallele Handoff-Freigabe ein.
+
+Die bestehenden Funktionen `validateHandoffInput(...)`, `isHandoffEligible(...)` und `buildHandoffManifest(...)` behalten ihre eingefrorene DF-05-Semantik.
+
+### 10.4 Vorgesehene technische Verantwortlichkeiten
+Die Implementation darf sinngemäß klar getrennte Funktionen für folgende Verantwortlichkeiten ergänzen:
+- Approval-Record-Eingabe validieren;
+- deterministischen Approval Record erzeugen;
+- aktuelle Source-Identität gegen den Record prüfen;
+- gültige Record-Decision explizit auf `approvalStatus` anwenden.
+
+Konkrete Funktionsnamen sind kein zusätzlicher Contract, solange die Verantwortlichkeiten und Grenzen eingehalten werden.
+
+### 10.5 Nicht erforderliche Infrastruktur
+Für TESTBUILD 1 werden ausdrücklich nicht benötigt:
+- neue Service-Dateien;
+- neue Datenbankmodule;
+- Approval Registry;
+- Asset Registry;
+- Repository Service;
+- User-/Role Service;
+- neues Preset-/Framework-System;
+- neue Review-Integration;
+- neue Hub-Tür.
+
+## 11. Harte Non-Goals
 DF-07 implementiert ausdrücklich nicht:
 - GitHub-API-Übertragung;
 - Commit, Push oder Pull Request in Ziel-Repositories;
 - Dateiübertragung oder Kopie in Ziel-Repositories;
 - Runtime-Integration;
 - große Asset Library oder Approval Database;
+- Persistenz zwischen Sessions;
+- Approval-Record-Export im ersten TESTBUILD;
 - Benutzer-/Rollen-/Rechtesystem;
 - kryptografische Signaturen;
 - Audit-History oder Approval-Historie;
@@ -112,21 +176,20 @@ DF-07 implementiert ausdrücklich nicht:
 - Änderung an DF-05 Eligibility-, Approval- oder Manifest-Semantik;
 - Änderung an DF-06 Target Project Profile Semantik;
 - Atlas-Build, Sprite-Packing oder Konvertierung;
-- neue Runtime-/Repository-Handoff-Aktion.
+- neue Runtime-/Repository-Handoff-Aktion;
+- neue Tool-Oberfläche oder neue Hub-Tür.
 
-## 11. Dokumentations- und Branch-Grenze
-Diese Definition wird gegen den Frozen DF-06 Product Commit `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec` erstellt.
+## 12. Dokumentations- und Branch-Grenze
+Diese Definition und Scope-Reconciliation beziehen sich auf Frozen DF-06 Product Commit `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`.
 
-Der bestehende Branch `df-06-target-project-handoff-profile-foundation` dient in diesem Schritt ausschließlich als Dokumentationsträger. Er wird dadurch nicht zum DF-07-Entwicklungsbranch.
+Der bestehende Branch `df-06-target-project-handoff-profile-foundation` dient weiterhin ausschließlich als Dokumentationsträger für diesen Schritt. Er wird dadurch nicht zum DF-07-Entwicklungsbranch.
 
 Es wird in diesem Schritt kein neuer Entwicklungsbranch angelegt und kein Produktcode verändert.
 
-## 12. Aktueller Gate-Status
-`DF-07 – DEFINED / NOT IMPLEMENTED`
+## 13. Aktueller Gate-Status
+`DF-07 – DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
 
-## 13. Nächster zulässiger Schritt
-Ausschließlich ein separates `DF-07 Contract / Documentation Reconciliation Gate` gegen Frozen DF-06 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`.
+## 14. Nächster zulässiger Schritt
+Ausschließlich ein separater DF-07 Development Branch / Authorization Step gegen den verbindlich dokumentierten und reconcilierten DF-07-Scope.
 
-Dabei ist zu prüfen, dass Scope, Mindestfelder, Identity Binding, Beziehung zu DF-04/05/06, README-Sync und harte Non-Goals widerspruchsfrei dokumentiert sind.
-
-Noch keine DF-07-Implementierung, keine Implementation Scope Reconciliation und kein neuer Entwicklungsbranch im selben Schritt.
+Noch keine DF-07-Code-Implementierung im selben Schritt.
