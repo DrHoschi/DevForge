@@ -1,9 +1,11 @@
 # DF-06 – Target Project Handoff Profile Foundation Contract
 
 Stand: 2026-09-10
-Status: `DEFINED / NOT IMPLEMENTED`
+Status: `DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
 Definition baseline: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
-Documentation branch: `df-06-target-project-handoff-profile-foundation`
+Reconciled documentation head before implementation-scope recording: `825d77e4b4f320c13482b024e3b523946b1b18f7`
+Development branch: `df-06-target-project-handoff-profile-foundation`
+Development branch authorization baseline: `825d77e4b4f320c13482b024e3b523946b1b18f7`
 
 ## 1. Zweck
 DF-06 definiert die minimale wiederverwendbare Zielprojekt-Autorität für den bereits eingefrorenen DF-05-Handoff-Workflow.
@@ -43,7 +45,7 @@ Ein DF-06-Profil muss mindestens folgende Informationen eindeutig enthalten:
 - explizite minimale Formatinformation oder zulässige Format-Vorgabe
 - explizite Output-Namensvorgabe, soweit für den ersten realen Workflow benötigt
 
-Die konkrete Ausprägung der Output-Namensvorgabe darf im Implementation Scope weiter eingegrenzt werden, muss aber deklarativ und deterministisch bleiben.
+Die konkrete Ausprägung der Output-Namensvorgabe muss deklarativ und deterministisch bleiben.
 
 ## 5. Explicit Profile Selection Contract
 Ein Profil muss ausdrücklich ausgewählt oder ausdrücklich als Eingabe übergeben werden.
@@ -81,9 +83,31 @@ Insbesondere gilt weiterhin:
 ## 8. Projektübergreifende Grenze
 DF-06 bleibt grundsätzlich projektübergreifend.
 
-Ein erstes reales Profil für `DrHoschi/siedler-mini` darf später separat im Implementation Scope oder in einer nachgelagerten Profildatei freigegeben werden. Dieser Contract autorisiert noch keine konkrete Profilimplementierung.
+Der erste Implementierungsscope enthält genau ein reales Target Project Handoff Profile für `DrHoschi/siedler-mini`, damit die Profilanwendung gegen einen realen Workflow geprüft werden kann.
 
-## 9. Harte Non-Goals
+Verbindliche Identität dieses ersten Profils:
+- `profileVersion: 1`
+- `profileId: siedler-mini`
+- `profileName: Siedler Mini`
+- `targetProject: DrHoschi/siedler-mini`
+
+Konkrete Werte für `stagingPath`, Formatvorgabe und Output-Namensregel dürfen nur übernommen werden, wenn sie vor der Implementierung aus einer autoritativen bestehenden Projektquelle bestätigt werden. Nicht belegte Werte dürfen nicht erfunden oder still als Default eingeführt werden.
+
+Keine weiteren Projektprofile gehören in DF-06 TESTBUILD 1.
+
+## 9. Reconciled Implementation Scope
+`DF-06 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
+
+Der erste zulässige Produktscope ist eng begrenzt auf:
+- `tools/asset-handoff/index.html` – explizite Profilauswahl und sichtbare Darstellung bzw. Anwendung der deklarativen Profilwerte innerhalb des bestehenden Controlled Asset Handoff;
+- `tools/asset-handoff/app.js` – klar getrennte Project-Profile-Definition/-Anwendung zusätzlich zu den bestehenden DF-05-Funktionen; `validateHandoffInput(...)`, `isHandoffEligible(...)` und `buildHandoffManifest(...)` behalten ihre DF-05-Semantik;
+- Root `index.html` – ausschließlich soweit für sichtbare `DF-06 · TESTBUILD 1`-Kennung und notwendiges Cache-Busting erforderlich.
+
+`main.js` erhält keine neue Hub-Tür. `Controlled Asset Handoff` bleibt die bestehende Oberfläche für die Rolle `RUNTIME / REPOSITORY HANDOFF`.
+
+Nicht erforderlich und nicht freigegeben sind zusätzliche Service-, Datenbank-, Project-Registry-, Preset-Framework- oder ähnliche Infrastrukturmodule.
+
+## 10. Harte Non-Goals
 DF-06 implementiert ausdrücklich nicht:
 - GitHub-API-Übertragung;
 - Commit, Push oder Pull Request;
@@ -101,10 +125,11 @@ DF-06 implementiert ausdrücklich nicht:
 - automatische Ableitung komplexer Runtime-Metadaten;
 - Parameter Playground;
 - erneute DF-04-Erweiterung;
-- Änderungen an den eingefrorenen DF-05-Contracts oder deren Produktlogik.
+- Änderungen an den eingefrorenen DF-05-Contracts oder deren Produktlogik;
+- zusätzliche Projektprofile über das eine freigegebene `siedler-mini`-Testprofil hinaus.
 
-## 10. Contract-Akzeptanzkriterien
-DF-06 ist fachlich ausreichend definiert, wenn ein späterer Implementierer eindeutig bestimmen kann:
+## 11. Contract-Akzeptanzkriterien
+DF-06 ist fachlich ausreichend definiert, wenn ein Implementierer eindeutig bestimmen kann:
 1. was die autoritative Identität eines Target Project Handoff Profile ist;
 2. welche Mindestfelder ein Profil besitzt;
 3. dass Profilwahl explizit sein muss;
@@ -112,14 +137,22 @@ DF-06 ist fachlich ausreichend definiert, wenn ein späterer Implementierer eind
 5. dass gleiche Eingaben deterministisch dieselben Vorgaben ergeben;
 6. dass Approval nicht zum Profil gehört;
 7. dass keine Repository-/Datei-/Runtime-Aktion ausgelöst wird;
-8. welche Erweiterungen ausdrücklich außerhalb von DF-06 liegen.
+8. welche Erweiterungen ausdrücklich außerhalb von DF-06 liegen;
+9. welche Produktdateien DF-06 TESTBUILD 1 maximal berühren darf;
+10. dass genau ein reales `siedler-mini`-Profil zum ersten Testscope gehört.
 
-## 11. Aktueller Gate-Status
-`DF-06 – DEFINED / NOT IMPLEMENTED`
+## 12. Branch-Autorisierung
+Der bereits existierende Branch `df-06-target-project-handoff-profile-foundation` wird mit diesem Dokumentationsschritt ausdrücklich als DF-06-Entwicklungsbranch freigegeben.
 
-Der versehentlich vorzeitig angelegte Branch `df-06-target-project-handoff-profile-foundation` wird für diesen Dokumentationsschritt ausschließlich als Steuerdokumentationsbranch verwendet und gilt ausdrücklich noch nicht als freigegebener Entwicklungsbranch.
+Seine autorisierte Entwicklungsbaseline ist exakt:
+`825d77e4b4f320c13482b024e3b523946b1b18f7`
 
-## 12. Nächster zulässiger Schritt
-Ausschließlich DF-06 Contract / Documentation Reconciliation gegen Frozen Product Commit `c677f07773866dfe8f5c98dcb311ab1750538d9c` einschließlich README-Reconciliation.
+Die vorherige vorzeitige Anlage des Branches ändert diese Baseline nicht. Vor `825d77e4...` existierte auf diesem Branch keine DF-06-Produktimplementierung.
 
-Noch keine Implementierung und keine Freigabe eines Entwicklungsbranches im selben Schritt.
+## 13. Aktueller Gate-Status
+`DF-06 – DEFINED / IMPLEMENTATION SCOPE RECONCILED / DEVELOPMENT BRANCH AUTHORIZED / NOT IMPLEMENTED`
+
+## 14. Nächster zulässiger Schritt
+Ausschließlich die eigentliche DF-06-Implementierung auf `df-06-target-project-handoff-profile-foundation` gegen den hier festgeschriebenen Scope und ausgehend von der autorisierten Baseline `825d77e4b4f320c13482b024e3b523946b1b18f7`.
+
+Keine zusätzliche Capability oder Scope-Erweiterung im selben Schritt.
