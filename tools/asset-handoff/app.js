@@ -5,8 +5,39 @@ const evaluateButton = document.querySelector('#evaluateButton');
 const manifestButton = document.querySelector('#manifestButton');
 const downloadButton = document.querySelector('#downloadButton');
 const manifestPreview = document.querySelector('#manifestPreview');
+const profileSelect = document.querySelector('#profileSelect');
+const profileStatus = document.querySelector('#profileStatus');
+const profilePreview = document.querySelector('#profilePreview');
 
 let currentManifest = null;
+
+export const TARGET_PROJECT_PROFILES = Object.freeze({
+  'siedler-mini': Object.freeze({
+    profileVersion: '1',
+    profileId: 'siedler-mini',
+    profileName: 'Siedler Mini',
+    targetProject: 'DrHoschi/siedler-mini',
+    stagingPath: 'assets/characters/',
+    format: 'png',
+    outputFilename: 'carrier.png'
+  })
+});
+
+export function getTargetProjectProfile(profileId) {
+  const profile = TARGET_PROJECT_PROFILES[String(profileId || '').trim()];
+  return profile || null;
+}
+
+export function applyTargetProjectProfile(input, profile) {
+  if (!profile) return { ...input };
+  return {
+    ...input,
+    targetProject: profile.targetProject,
+    targetPath: profile.stagingPath,
+    format: profile.format,
+    outputFilename: profile.outputFilename
+  };
+}
 
 function readInput() {
   const data = new FormData(form);
@@ -23,6 +54,33 @@ function readInput() {
     outputFilename: String(data.get('outputFilename') || '').trim(),
     format: String(data.get('format') || '').trim()
   };
+}
+
+function writeProfileValues(profile) {
+  const current = readInput();
+  const applied = applyTargetProjectProfile(current, profile);
+  form.elements.targetProject.value = applied.targetProject;
+  form.elements.targetPath.value = applied.targetPath;
+  form.elements.format.value = applied.format;
+  form.elements.outputFilename.value = applied.outputFilename;
+}
+
+function clearProfileValues() {
+  form.elements.targetProject.value = '';
+  form.elements.targetPath.value = '';
+  form.elements.format.value = '';
+  form.elements.outputFilename.value = '';
+}
+
+function renderProfile(profile) {
+  if (!profile) {
+    profileStatus.textContent = 'Keine Profil-Autorität aktiv. Zielwerte werden nicht automatisch gesetzt.';
+    profilePreview.textContent = 'Noch kein Profil ausgewählt.';
+    return;
+  }
+
+  profileStatus.textContent = `Profil aktiv: ${profile.profileName} (${profile.profileId})`;
+  profilePreview.textContent = JSON.stringify(profile, null, 2);
 }
 
 export function validateHandoffInput(input) {
@@ -130,6 +188,16 @@ function exportManifest() {
   URL.revokeObjectURL(url);
 }
 
+profileSelect.addEventListener('change', () => {
+  const profile = getTargetProjectProfile(profileSelect.value);
+  if (profile) writeProfileValues(profile);
+  else clearProfileValues();
+  renderProfile(profile);
+  currentManifest = null;
+  downloadButton.disabled = true;
+  renderEvaluation();
+});
+
 form.addEventListener('input', () => {
   currentManifest = null;
   downloadButton.disabled = true;
@@ -143,4 +211,5 @@ manifestButton.addEventListener('click', () => {
 });
 downloadButton.addEventListener('click', exportManifest);
 
+renderProfile(null);
 renderEvaluation();
