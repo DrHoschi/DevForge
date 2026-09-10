@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DevForge · Controlled Asset Handoff</title>
+  <style>
+    :root { font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:#172033; background:#eef2f6; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; }
+    main { max-width:920px; margin:auto; padding:24px 18px 40px; }
+    a { color:inherit; }
+    h1 { margin:10px 0 6px; font-size:clamp(28px,5vw,42px); }
+    p { color:#526079; line-height:1.45; }
+    .build,.status { display:inline-block; padding:5px 9px; border-radius:999px; background:#dfe7ef; color:#435066; font-size:12px; font-weight:700; }
+    form,.panel { margin-top:18px; padding:18px; background:white; border:1px solid #d9e0e8; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.05); }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    label { display:flex; flex-direction:column; gap:6px; font-size:13px; font-weight:700; color:#435066; }
+    input,select { width:100%; min-height:42px; border:1px solid #cbd5df; border-radius:10px; padding:9px 10px; font:inherit; color:#172033; background:white; }
+    .wide { grid-column:1 / -1; }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+    button { min-height:42px; border:1px solid #bfc9d4; border-radius:10px; padding:9px 14px; font:inherit; font-weight:700; background:#f7f9fb; color:#172033; }
+    button:disabled { opacity:.45; }
+    .eligibility { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .errors { margin:10px 0 0; padding-left:20px; color:#7a2f2f; }
+    pre { margin:12px 0 0; padding:14px; overflow:auto; border-radius:12px; background:#f4f6f8; border:1px solid #dde3ea; font-size:12px; line-height:1.45; white-space:pre-wrap; word-break:break-word; }
+    .note { font-size:13px; }
+    @media(max-width:680px){ .grid{grid-template-columns:1fr}.wide{grid-column:auto} main{padding-top:18px} }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="../../">← Zurück zum Tool Hub</a></p>
+    <h1>Controlled Asset Handoff</h1>
+    <p>DF-05 Foundation: Handoff Eligibility prüfen und ein deterministisches Minimalmanifest für ein explizites Ziel/Staging erzeugen. Keine Datei-, GitHub- oder Runtime-Übertragung.</p>
+    <span class="build">DF-05 · TESTBUILD 1</span>
+
+    <form id="handoffForm" novalidate>
+      <div class="grid">
+        <label>Manifest Version<input name="manifestVersion" value="1" required /></label>
+        <label>Asset ID<input name="assetId" required /></label>
+        <label>Asset Name<input name="assetName" required /></label>
+        <label>Asset Type<input name="assetType" placeholder="CHARACTER" required /></label>
+        <label>Target Project<input name="targetProject" placeholder="DrHoschi/siedler-mini" required /></label>
+        <label>Approval Status<select name="approvalStatus" required><option value="NOT APPROVED">NOT APPROVED</option><option value="APPROVED">APPROVED</option></select></label>
+        <label class="wide">Source File / Asset Reference<input name="sourceRef" required /></label>
+        <label>Source Version / Identity<input name="sourceVersion" required /></label>
+        <label>Format<input name="format" placeholder="png" required /></label>
+        <label class="wide">Target / Staging Path<input name="targetPath" required /></label>
+        <label class="wide">Output Filename<input name="outputFilename" required /></label>
+      </div>
+      <div class="actions">
+        <button type="button" id="evaluateButton">Eligibility prüfen</button>
+        <button type="button" id="manifestButton" disabled>Manifest erzeugen</button>
+        <button type="button" id="downloadButton" disabled>Manifest exportieren</button>
+      </div>
+    </form>
+
+    <section class="panel" aria-live="polite">
+      <div class="eligibility"><strong>Eligibility:</strong><span class="status" id="eligibilityStatus">NOT EVALUATED</span></div>
+      <ul class="errors" id="errors"></ul>
+      <p class="note">`APPROVED` ist hier eine explizite DF-05-Eingabe und kein automatisch ermittelter Review- oder Approval-Status.</p>
+    </section>
+
+    <section class="panel">
+      <strong>Manifest Preview</strong>
+      <pre id="manifestPreview">Noch kein Manifest erzeugt.</pre>
+    </section>
+  </main>
+  <script type="module" src="app.js?v=df05-testbuild1"></script>
+</body>
+</html>
