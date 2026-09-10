@@ -2,16 +2,24 @@
 
 DevForge ist die zentrale webbasierte Entwickler-Toolbox für unterschiedliche Spiele- und Softwareprojekte. Das Werkzeug ist projektübergreifend gedacht und soll Assets, Prompts, Referenzen, Animationen, Reviews und spätere Übergaben strukturiert vorbereiten.
 
+## Tool Hub – eingefrorener Authority-Stand
+`DF-HUB-01 – PASS / 0 BLOCKER / FROZEN`
+
+Getestete sichtbare Hub-Kennung:
+`DF-HUB-01 · TESTBUILD 1`
+
+Der Tool Hub unterscheidet verbindlich zwischen `FROZEN / PRODUCTIVE`, `AVAILABLE`, `PROTOTYPE / HISTORICAL`, `PREPARED / NOT IMPLEMENTED` und `CONSOLIDATED / REDIRECT` und zeigt die jeweilige Workflow-Rolle an.
+
 ## Module
-- Animated 3D Reference Viewer – echte geriggte 3D-Animationsquellen laden, scrubben, Facing/Kamera festlegen und reproduzierbare Pose-Bookmarks erzeugen
-- Prompt Builder – Character Identity mit visueller Pose Control und expliziter Geometry Control zu einem Generation Package verbinden
-- Source / Result Compare View – Source und Result laden, vergleichen, überblenden, Result manuell ausrichten sowie RGBA-Difference, Silhouette Difference und Silhouette Geometry Guides anzeigen
-- Animation Tester – rohe Einzelbilder vor dem Atlas als Loop prüfen, inkl. FPS, Onion-Skin, Frame-Stepping und Bottom-Center-Anchor
-- Deterministic Pose Renderer – historischer DF-02E-Prototyp; nicht mehr die geplante Produktionsquelle
-- Sprite Lab – Sprites/Sprite-Sheets laden, Pivot/Anchor/Scale bearbeiten und Atlasdaten prüfen
-- Atlas Builder – Atlas-Funktionen und Metadaten vorbereiten
-- Asset Inspector – technische Eigenschaften von Bildern/Texturen/Sprites prüfen
-- Parameter Playground – Parameter verändern und Auswirkungen direkt sichtbar machen
+- Animated 3D Reference Viewer – `FROZEN / PRODUCTIVE` für die belegten DF-02F.1–F.5-Capabilities; echte geriggte 3D-Animationsquellen laden, scrubben, Facing/Kamera festlegen und Pose-Bookmarks erzeugen
+- Prompt Builder – `AVAILABLE`; Character Identity mit visueller Pose Control und expliziter Geometry Control zu einem Generation Package verbinden
+- Source / Result Compare View – `FROZEN / PRODUCTIVE`; Source und Result laden, vergleichen, überblenden, Result manuell ausrichten sowie RGBA-Difference, Silhouette Difference und Silhouette Geometry Guides anzeigen
+- Animation Tester – `AVAILABLE`; rohe Einzelbilder vor dem Atlas als Loop prüfen, inkl. FPS, Onion-Skin, Frame-Stepping und Bottom-Center-Anchor
+- Deterministic Pose Renderer – `PROTOTYPE / HISTORICAL`; historischer DF-02E-Prototyp, nicht mehr die geplante Produktionsquelle
+- Sprite Lab – `AVAILABLE`; Sprites/Sprite-Sheets laden, Pivot/Anchor/Scale bearbeiten und Atlasdaten prüfen
+- Atlas Builder – `CONSOLIDATED / REDIRECT`; keine eigenständige Capability-Autorität, Atlas-Funktionen sind im gemeinsamen technischen Werkzeug konsolidiert
+- Asset Inspector – `AVAILABLE`; technische Eigenschaften von Bildern/Texturen/Sprites prüfen
+- Parameter Playground – `PREPARED / NOT IMPLEMENTED`; noch keine aktive Produktionsrolle
 
 ## Aktueller Character-Workflow
 Der Character-Animationsworkflow wird anhand von `siedler-mini` / Carrier / WALK entwickelt.
@@ -34,36 +42,20 @@ Seit DF-02F ist eine echte geriggte 3D-Animation die autoritative Bewegungsquell
 Die reproduzierbare Pose-Auswahl innerhalb von DevForge funktioniert. Der offene Engpass liegt weiterhin beim externen Transfer dieser Pose in ein neu generiertes Character-Bild. Diese Grenze blockiert den unabhängigen Ausbau von DevForge als Review-, Prüf- und Asset-Produktionsplattform nicht.
 
 ## DF-04 – Asset Review Foundation
-Der Review-Layer wurde bis einschließlich DF-04F schrittweise auf realen Zielgeräten aufgebaut und eingefroren.
+DF-04A bis DF-04F sind `PASS / FROZEN`. DF-HUB-01 öffnet diese Contracts nicht wieder und verändert keine Dateien innerhalb der Tools.
 
-### DF-04A – Source / Result Compare View – PASS / FROZEN
-Zwei lokale Bildslots mit festen Source-/Result-Rollen, unabhängiger Ersetzung, proportionaler vollständiger Darstellung und responsiver Basisvergleichsansicht.
-
-### DF-04B – Overlay / Onion-Skin Compare Foundation – PASS / FROZEN
-Gemeinsame Vergleichsfläche, Source als Basis-Layer, Result als Overlay-Layer und manueller 0–100-%-Blend-Regler.
-
-### DF-04C – Manual Alignment Foundation – PASS / FROZEN
-Manuelle Ausrichtung ausschließlich des Result-Layers über X, Y und uniforme proportionale Skalierung mit sichtbaren Werten und `Reset Alignment`.
-
-### DF-04D – Difference View Foundation – PASS / FROZEN
-Deterministische pixelweise absolute RGBA-Difference auf gemeinsamer Review-Rasterfläche unter Verwendung des aktuellen DF-04C-Alignments. Kein Score.
-
-### DF-04E – Silhouette Difference Foundation – PASS / FROZEN
-Deterministische Silhouette Difference auf derselben Review-Rasterfläche. Die Maske wird ausschließlich aus gerendertem Alpha mit fester interner Grenze `16 / 255` gebildet. Überlappung, Source-only und Result-only werden visuell unterschieden.
-
-### DF-04F – Silhouette Geometry Guide Foundation – PASS / FROZEN
-Rein visuelle Geometry Guides auf derselben Silhouettengeometrie: achsenparallele Source-/Result-Bounding-Boxen, geometrische Center-Marker und ein gemeinsamer temporärer Ein-/Aus-Schalter. Result-Guides folgen dem bestehenden DF-04C-X/Y/Scale-Alignment; Source bleibt unverändert. Keine automatische Korrektur, kein Best-Fit und kein Score.
-
-Der reale iPhone-/Safari-Gerätetest und das Completion-/Freeze-Gate für DF-04F sind `PASS / 0 BLOCKER / FROZEN`.
+Ein möglicher `Silhouette Geometry Readout` bleibt ausschließlich `LATER / ONLY IF REAL REVIEW NEED IS PROVEN`.
 
 ## Aktueller Stand
-Aktueller Entwicklungs-/Freeze-Branch:
-`df-04f-silhouette-geometry-guide-foundation`
+Aktueller eingefrorener Branch:
+`df-hub-01-tool-hub-authority-workflow-reconciliation`
 
-Aktueller eingefrorener Review-Stand:
-`DF-04F – PASS / 0 BLOCKER / FROZEN`
+Aktueller Hub-Stand:
+`DF-HUB-01 – PASS / 0 BLOCKER / FROZEN`
 
-Kein Folgeblock ist automatisch freigegeben. Der nächste kleine Review-Schritt wird erst aus der realen DF-04F-Erfahrung fachlich abgeleitet und danach separat vertraglich definiert.
+Der reale iPhone-/Safari-Test vom 2026-09-10 bestätigte responsive Nutzbarkeit, Sichtbarkeit aller neun Hub-Türen, lesbare Authority-/Workflow-Kennzeichnung und funktionierende vorhandene Hub-Links.
+
+Kein Folgeblock ist automatisch freigegeben.
 
 ## Siedler-Mini
 Repository: `DrHoschi/siedler-mini`
@@ -73,12 +65,8 @@ Konkrete aktuelle Handoff-Pfade und Freigabegrenzen werden verbindlich in der Re
 ## Dokumentation
 - `docs/PROJECT_STATUS.md` – aktueller Gesamtstand, Branch, PASS/FAIL und exakt nächster zulässiger Schritt
 - `docs/ROADMAP.md` – Gesamtvision, Zielarchitektur und Entwicklungsgrenzen
-- `docs/DF-04A_SOURCE_RESULT_COMPARE_VIEW_CONTRACT.md` – eingefrorener Basisvergleich
-- `docs/DF-04B_OVERLAY_ONION_SKIN_COMPARE_CONTRACT.md` – eingefrorener Overlay-Vertrag
-- `docs/DF-04C_MANUAL_ALIGNMENT_FOUNDATION_CONTRACT.md` – eingefrorener Manual-Alignment-Vertrag
-- `docs/DF-04D_DIFFERENCE_VIEW_FOUNDATION_CONTRACT.md` – eingefrorener Difference-View-Vertrag
-- `docs/DF-04E_SILHOUETTE_DIFFERENCE_FOUNDATION_CONTRACT.md` – eingefrorener Silhouette-Difference-Vertrag
-- `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md` – eingefrorener Geometry-Guide-Vertrag
+- `docs/DF-HUB-01_TOOL_HUB_AUTHORITY_WORKFLOW_RECONCILIATION_CONTRACT.md` – eingefrorener Tool-Hub-Authority-/Workflow-Contract
+- `docs/DF-04A_SOURCE_RESULT_COMPARE_VIEW_CONTRACT.md` bis `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md` – eingefrorene Review-Contracts
 
 ## Projektprinzip
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
