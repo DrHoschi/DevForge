@@ -1,12 +1,12 @@
 # DF-06 – Target Project Handoff Profile Foundation Contract
 
 Stand: 2026-09-10
-Status: `IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + DEVICE GATE PASS / 0 BLOCKER / NOT FROZEN`
+Status: `PASS / 0 BLOCKER / FROZEN`
 Definition baseline: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
 Reconciled documentation head before implementation-scope recording: `825d77e4b4f320c13482b024e3b523946b1b18f7`
 Development branch: `df-06-target-project-handoff-profile-foundation`
 Development branch authorization baseline: `825d77e4b4f320c13482b024e3b523946b1b18f7`
-Implementation head: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
+Frozen Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 
 ## 1. Zweck
 DF-06 definiert die minimale wiederverwendbare Zielprojekt-Autorität für den bereits eingefrorenen DF-05-Handoff-Workflow.
@@ -84,35 +84,31 @@ Insbesondere gilt weiterhin:
 ## 8. Projektübergreifende Grenze
 DF-06 bleibt grundsätzlich projektübergreifend.
 
-Der erste Implementierungsscope enthält genau ein reales Target Project Handoff Profile für `DrHoschi/siedler-mini`, damit die Profilanwendung gegen einen realen Workflow geprüft werden kann.
+Der erste Implementierungsscope enthält genau ein reales Target Project Handoff Profile für `DrHoschi/siedler-mini`.
 
-Verbindliche Identität dieses ersten Profils:
+Verbindliche Identität dieses Profils:
 - `profileVersion: 1`
 - `profileId: siedler-mini`
 - `profileName: Siedler Mini`
 - `targetProject: DrHoschi/siedler-mini`
-
-Für TESTBUILD 1 werden die im bestehenden `siedler-mini`-Repository belegten Zielwerte verwendet:
 - `stagingPath: assets/characters/`
 - `format: png`
 - `outputFilename: carrier.png`
 
-Keine weiteren Projektprofile gehören in DF-06 TESTBUILD 1.
+Keine weiteren Projektprofile gehören zu DF-06 TESTBUILD 1.
 
 ## 9. Reconciled Implementation Scope
 `DF-06 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
 
-Der erste zulässige Produktscope ist eng begrenzt auf:
-- `tools/asset-handoff/index.html` – explizite Profilauswahl und sichtbare Darstellung bzw. Anwendung der deklarativen Profilwerte innerhalb des bestehenden Controlled Asset Handoff;
-- `tools/asset-handoff/app.js` – klar getrennte Project-Profile-Definition/-Anwendung zusätzlich zu den bestehenden DF-05-Funktionen; `validateHandoffInput(...)`, `isHandoffEligible(...)` und `buildHandoffManifest(...)` behalten ihre DF-05-Semantik;
-- Root `index.html` – ausschließlich soweit für sichtbare `DF-06 · TESTBUILD 1`-Kennung und notwendiges Cache-Busting erforderlich.
+Der Produktscope war verbindlich begrenzt auf:
+- `tools/asset-handoff/index.html`
+- `tools/asset-handoff/app.js`
+- Root `index.html` ausschließlich für `DF-06 · TESTBUILD 1` und Cache-Busting.
 
-`main.js` erhält keine neue Hub-Tür. `Controlled Asset Handoff` bleibt die bestehende Oberfläche für die Rolle `RUNTIME / REPOSITORY HANDOFF`.
-
-Nicht erforderlich und nicht freigegeben sind zusätzliche Service-, Datenbank-, Project-Registry-, Preset-Framework- oder ähnliche Infrastrukturmodule.
+`main.js` blieb unverändert. Keine neue Hub-Tür, kein zusätzlicher Service, keine Datenbank, keine Project Registry und kein Preset-Framework wurden eingeführt.
 
 ## 10. Implementierter Stand
-Implementation Head:
+Frozen Product Commit:
 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 
 DF-06 TESTBUILD 1 implementiert ausschließlich:
@@ -136,12 +132,21 @@ Reale Geräte-/Safari-Evidenz vom 2026-09-10 bestätigt:
 - der bestehende DF-05-Workflow bleibt verwendbar;
 - keine zusätzliche Capability oder Repository-/Runtime-Aktion wurde beobachtet.
 
-Der Nutzer hat das vollständige Completion-/Regression-/Device-Gate anschließend ausdrücklich mit `PASS / 0 BLOCKER` bestätigt.
+Der Nutzer hat das vollständige Completion-/Regression-/Device-Gate ausdrücklich mit `PASS / 0 BLOCKER` bestätigt.
 
-## 12. Harte Non-Goals
+## 12. Freeze Gate
+`DF-06 Freeze Gate = PASS / 0 BLOCKER / FROZEN`
+
+Der Produktdiff von der autorisierten Entwicklungsbaseline `825d77e4b4f320c13482b024e3b523946b1b18f7` bis zum getesteten Produktstand `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec` wurde erneut geprüft.
+
+Der Merge-Base ist exakt `825d77e4b4f320c13482b024e3b523946b1b18f7`. Die produktiven Änderungen entsprechen exakt dem freigegebenen Scope: Root `index.html`, `tools/asset-handoff/index.html` und `tools/asset-handoff/app.js`; zusätzliche Änderungen betreffen ausschließlich die zuvor autorisierte DF-06-Steuerdokumentation.
+
+Damit wird der bereits real getestete Commit `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec` verbindlich als `Frozen Product Commit` festgelegt. Nach diesem Commit erfolgen im Freeze-Schritt ausschließlich Dokumentationsänderungen.
+
+## 13. Harte Non-Goals
 DF-06 implementiert ausdrücklich nicht:
 - GitHub-API-Übertragung;
-- Commit, Push oder Pull Request;
+- Commit, Push oder Pull Request in Ziel-Repositories;
 - Dateiübertragung oder Kopie in ein Ziel-Repository;
 - Runtime-Integration;
 - automatische Projekterkennung;
@@ -157,15 +162,18 @@ DF-06 implementiert ausdrücklich nicht:
 - Parameter Playground;
 - erneute DF-04-Erweiterung;
 - Änderungen an den eingefrorenen DF-05-Contracts oder deren Produktlogik;
-- zusätzliche Projektprofile über das eine freigegebene `siedler-mini`-Testprofil hinaus.
+- zusätzliche Projektprofile über das eine freigegebene `siedler-mini`-Profil hinaus.
 
-## 13. Branch-Autorisierung
-Der Branch `df-06-target-project-handoff-profile-foundation` ist ab der autorisierten Entwicklungsbaseline `825d77e4b4f320c13482b024e3b523946b1b18f7` der DF-06-Entwicklungsbranch.
+## 14. Branch-Autorisierung
+Der Branch `df-06-target-project-handoff-profile-foundation` bleibt der dokumentierte DF-06-Branch. Die autorisierte Entwicklungsbaseline bleibt `825d77e4b4f320c13482b024e3b523946b1b18f7`.
 
-## 14. Aktueller Gate-Status
-`DF-06 – IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + DEVICE GATE PASS / 0 BLOCKER / NOT FROZEN`
+## 15. Aktueller Gate-Status
+`DF-06 – PASS / 0 BLOCKER / FROZEN`
 
-## 15. Nächster zulässiger Schritt
-Ausschließlich DF-06 Freeze Gate gegen den bestätigten Implementation Head `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`: Produktdiff und dokumentierte Device-Evidenz prüfen und nur bei weiterhin sauberem Scope den bestätigten Produktstand als Frozen Product Commit festlegen.
+Frozen Product Commit:
+`a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 
-Noch keine neue Capability, kein weiterer Profilumfang und keine Produktänderung im selben Schritt.
+## 16. Nächster zulässiger Schritt
+DF-06 ist geschlossen. Vor einer weiteren Produktänderung ist eine separate Capability Reconciliation gegen den eingefrorenen DF-06-Produktstand erforderlich.
+
+Keine DF-06-Erweiterung, kein zusätzliches Projektprofil und keine Produktänderung im selben Schritt.
