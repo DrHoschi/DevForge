@@ -36,7 +36,7 @@ Sprite Lab, Asset Inspector, Atlas-Funktionen, Pivot/Anchor/Scale, Alpha-/Abmess
 Projektbezogene Staging-Pfade, Manifest-Dateien, nur freigegebene Source Assets weitergeben und Atlas-/Runtime-Artefakte erst nach Review-Gate erzeugen.
 
 ## 3. Aktuelle Module / DF-HUB-01 Authority
-Der verbindliche Authority-Contract ist:
+Verbindlicher Authority-Contract:
 `docs/DF-HUB-01_TOOL_HUB_AUTHORITY_WORKFLOW_RECONCILIATION_CONTRACT.md`
 
 - Source / Result Compare View – `FROZEN / PRODUCTIVE`, Rolle `REVIEW`, autoritativ DF-04F.
@@ -51,7 +51,7 @@ Der verbindliche Authority-Contract ist:
 
 DF-HUB-01 Contract / Documentation Reconciliation: `PASS / 0 BLOCKER`.
 DF-HUB-01 Completion / Regression Gate: `PASS / 0 BLOCKER`.
-DF-HUB-01 ist noch nicht eingefroren.
+DF-HUB-01 Freeze Gate: `PASS / 0 BLOCKER / FROZEN`.
 
 ## 4. Character Animation Contract – erreichter Stand
 - DF-02F.1 Animated 3D Reference Asset Contract – PASS
@@ -70,37 +70,33 @@ Die reproduzierbare Pose-Auswahl in DevForge ist nicht mehr der Hauptengpass. De
 ## 5. DF-04 – Asset Review Foundation
 DF-04A bis DF-04F sind `PASS / FROZEN`.
 
-Autoritativer eingefrorener Produktstand vor DF-HUB-01:
-`17cec9ca4b399d1099be5bf4bb398a74ea27aff2`
-
-DF-04F umfasst zusätzlich zu A–E die rein visuellen Source-/Result-Bounding-Boxen und geometrischen Center-Guides auf derselben Silhouettengeometrie sowie genau einen gemeinsamen temporären Guide-Schalter. Keine automatische Korrektur, kein Best-Fit und kein Score.
-
-Ein möglicher `Silhouette Geometry Readout` wird als `LATER / ONLY IF REAL REVIEW NEED IS PROVEN` vorgemerkt. Es ist kein DF-04G freigegeben.
+Ein möglicher `Silhouette Geometry Readout` bleibt als `LATER / ONLY IF REAL REVIEW NEED IS PROVEN` vorgemerkt. Es ist kein DF-04G freigegeben.
 
 ## 6. DF-HUB-01 – Tool Hub Authority & Workflow Reconciliation
-Aktueller Entwicklungsbranch:
+Freeze-Branch:
 `df-hub-01-tool-hub-authority-workflow-reconciliation`
 
 Entwicklungsbaseline:
 `e3aea9ea8e492b7e2c7dca474b1350461383adcd`
 
-Sichtbare Build-Kennung:
+Getestete sichtbare Build-Kennung:
 `DF-HUB-01 · TESTBUILD 1`
 
-Status:
-`IMPLEMENTED / COMPLETION REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
+Getestetes Cache-Busting:
+`main.js?v=dfhub01-testbuild1`
 
-Die Implementierung beschränkt sich auf den Tool Hub selbst:
+Status:
+`PASS / 0 BLOCKER / FROZEN`
+
+Der eingefrorene Implementierungsumfang beschränkt sich auf den Tool Hub selbst:
 - `index.html` – DevForge-Hub-Identität, sichtbare Testbuild-Kennung, Status-/Rollen-Darstellung und Cache-Busting;
 - `main.js` – autoritative Authority-Klassen, Workflow-Rollen und reconciliierte Türtexte für alle neun inventarisierten Hub-Einträge.
 
-Keine Datei unter `tools/` wurde für DF-HUB-01 verändert. Keine neue Capability wurde eingeführt. Atlas Builder bleibt konsolidierter Redirect; Parameter Playground bleibt nicht implementiert; DF-04 bleibt geschlossen.
+Keine Datei unter `tools/` wurde durch DF-HUB-01 verändert. Keine neue Capability wurde eingeführt. Atlas Builder bleibt konsolidierter Redirect; Parameter Playground bleibt nicht implementiert; DF-04 bleibt geschlossen.
 
-### Completion / Regression Evidenz
-Der vollständige Branch-Diff gegen die Entwicklungsbaseline wurde geprüft. Vor Gate-Dokumentation stand der Branch bei `4 ahead / 0 behind` und enthielt ausschließlich `index.html`, `main.js`, `docs/PROJECT_STATUS.md` und `docs/ROADMAP.md`.
+Realer iPhone-/Safari-Test vom 2026-09-10: `PASS / 0 BLOCKER`. Bestätigt wurden responsive Nutzbarkeit, Sichtbarkeit aller neun Türen, lesbare Authority-/Workflow-Kennzeichnung und funktionierende vorhandene Hub-Links.
 
-Realer iPhone-/Safari-Test vom 2026-09-10: `PASS / 0 BLOCKER`.
-Bestätigt wurden responsive Nutzbarkeit, Sichtbarkeit aller neun Türen, lesbare Authority-/Workflow-Kennzeichnung, funktionierende vorhandene Hub-Links, korrekte Kennzeichnung des Atlas Builder als konsolidierter Redirect sowie der nicht verlinkte Parameter Playground. Unvollständige Zieltools sind davon unabhängig und kein DF-HUB-01-Blocker, solange die Hub-Navigation korrekt funktioniert.
+Der Freeze-Schritt ist dokumentarisch בלבד; der bestätigte Produktcode sowie die getestete Build-Kennung wurden nicht verändert.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -127,8 +123,7 @@ Soweit technisch sinnvoll: Alpha-Erkennung, Canvas-/Abmessungsvergleich, Root-/B
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- aktueller DF-HUB-01-Entwicklungsbranch: `df-hub-01-tool-hub-authority-workflow-reconciliation`
-- DF-HUB-01-Entwicklungsbaseline: `e3aea9ea8e492b7e2c7dca474b1350461383adcd`
+- aktueller eingefrorener DF-HUB-01-Stand: `df-hub-01-tool-hub-authority-workflow-reconciliation`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
@@ -142,4 +137,6 @@ Derzeit nicht parallel vorziehen: vollständige Animation Library, komplexe Atta
 Kleine klar benannte DF-Blöcke; ein beobachtetes Problem pro Block; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; Repository-Dokumentation nachziehen; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
 ## 16. Nächster zulässiger Schritt
-Ausschließlich `DF-HUB-01 – Freeze Gate`: den bestätigten DF-HUB-01-Stand ohne weitere Produktänderung dokumentarisch einfrieren. Keine neue Hub-Funktion, keine Tool-Änderung und kein Folgeblock im selben Schritt.
+Kein Folgeblock ist automatisch freigegeben.
+
+Ausschließlich den eingefrorenen DF-HUB-01-Stand und die offenen DevForge-Capability-Lücken fachlich reconciliieren und daraus genau einen kleinen nächsten Block definieren. Noch keine Implementierung oder Branch-Anlage im selben Schritt.
