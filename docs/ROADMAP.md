@@ -50,7 +50,8 @@ Der verbindliche Authority-Contract ist:
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`, noch keine aktive Produktionsrolle.
 
 DF-HUB-01 Contract / Documentation Reconciliation: `PASS / 0 BLOCKER`.
-DF-HUB-01 Implementierung: `IMPLEMENTED / TESTBUILD 1 / REGRESSION GATE PENDING`.
+DF-HUB-01 Completion / Regression Gate: `PASS / 0 BLOCKER`.
+DF-HUB-01 ist noch nicht eingefroren.
 
 ## 4. Character Animation Contract – erreichter Stand
 - DF-02F.1 Animated 3D Reference Asset Contract – PASS
@@ -83,14 +84,23 @@ Aktueller Entwicklungsbranch:
 Entwicklungsbaseline:
 `e3aea9ea8e492b7e2c7dca474b1350461383adcd`
 
+Sichtbare Build-Kennung:
+`DF-HUB-01 · TESTBUILD 1`
+
 Status:
-`IMPLEMENTED / TESTBUILD 1 / REGRESSION GATE PENDING`
+`IMPLEMENTED / COMPLETION REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
 
 Die Implementierung beschränkt sich auf den Tool Hub selbst:
 - `index.html` – DevForge-Hub-Identität, sichtbare Testbuild-Kennung, Status-/Rollen-Darstellung und Cache-Busting;
 - `main.js` – autoritative Authority-Klassen, Workflow-Rollen und reconciliierte Türtexte für alle neun inventarisierten Hub-Einträge.
 
 Keine Datei unter `tools/` wurde für DF-HUB-01 verändert. Keine neue Capability wurde eingeführt. Atlas Builder bleibt konsolidierter Redirect; Parameter Playground bleibt nicht implementiert; DF-04 bleibt geschlossen.
+
+### Completion / Regression Evidenz
+Der vollständige Branch-Diff gegen die Entwicklungsbaseline wurde geprüft. Vor Gate-Dokumentation stand der Branch bei `4 ahead / 0 behind` und enthielt ausschließlich `index.html`, `main.js`, `docs/PROJECT_STATUS.md` und `docs/ROADMAP.md`.
+
+Realer iPhone-/Safari-Test vom 2026-09-10: `PASS / 0 BLOCKER`.
+Bestätigt wurden responsive Nutzbarkeit, Sichtbarkeit aller neun Türen, lesbare Authority-/Workflow-Kennzeichnung, funktionierende vorhandene Hub-Links, korrekte Kennzeichnung des Atlas Builder als konsolidierter Redirect sowie der nicht verlinkte Parameter Playground. Unvollständige Zieltools sind davon unabhängig und kein DF-HUB-01-Blocker, solange die Hub-Navigation korrekt funktioniert.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -132,4 +142,4 @@ Derzeit nicht parallel vorziehen: vollständige Animation Library, komplexe Atta
 Kleine klar benannte DF-Blöcke; ein beobachtetes Problem pro Block; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; Repository-Dokumentation nachziehen; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
 ## 16. Nächster zulässiger Schritt
-Ausschließlich `DF-HUB-01 – Completion / Regression Gate`: vollständigen Branch-Diff gegen `e3aea9ea8e492b7e2c7dca474b1350461383adcd` prüfen, Contract-/Authority-Grenzen und unveränderte Tool-Dateien bestätigen sowie den Hub auf realem Zielgerät prüfen. Erst bei `PASS / 0 BLOCKER` darf ein separater Freeze-Schritt freigegeben werden.
+Ausschließlich `DF-HUB-01 – Freeze Gate`: den bestätigten DF-HUB-01-Stand ohne weitere Produktänderung dokumentarisch einfrieren. Keine neue Hub-Funktion, keine Tool-Änderung und kein Folgeblock im selben Schritt.
