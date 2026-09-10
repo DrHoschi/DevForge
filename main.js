@@ -80,6 +80,15 @@ const tools = [
     authority: 'PREPARED / NOT IMPLEMENTED',
     role: null,
     detail: 'Keine aktive Produktionsrolle'
+  },
+  {
+    id: 'asset-handoff',
+    title: 'Controlled Asset Handoff',
+    text: 'Freigegebene Source Assets gegen explizite Ziel-/Staging-Angaben prüfen und als deterministisches Minimalmanifest vorbereiten.',
+    href: 'tools/asset-handoff/',
+    authority: 'TESTBUILD',
+    role: 'RUNTIME / REPOSITORY HANDOFF',
+    detail: 'DF-05 · TESTBUILD 1 · keine Repository-Übertragung'
   }
 ];
 
