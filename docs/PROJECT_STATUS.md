@@ -24,7 +24,7 @@ Contract-/Documentation-Reconciliation:
 `PASS / 0 BLOCKER`
 
 Implementierungsstatus:
-`IMPLEMENTED / TESTBUILD 1 / REGRESSION GATE PENDING`
+`IMPLEMENTED / TESTBUILD 1 / COMPLETION REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
 
 Sichtbare Hub-Build-Kennung:
 `DF-HUB-01 · TESTBUILD 1`
@@ -47,16 +47,36 @@ Cache-Busting:
 - historische, vorbereitete und konsolidierte Türen werden visuell zurückhaltender dargestellt;
 - keine Capability innerhalb eines einzelnen Tools wurde verändert.
 
-## Geänderte Produktdateien
-- `index.html`
-- `main.js`
+## Completion / Regression Gate
+Vollständiger Branch-Diff gegen `e3aea9ea8e492b7e2c7dca474b1350461383adcd` geprüft:
+- `4 ahead / 0 behind` vor Aufnahme der Gate-Dokumentation;
+- geändert waren ausschließlich `index.html`, `main.js`, `docs/PROJECT_STATUS.md` und `docs/ROADMAP.md`;
+- keine Datei unter `tools/` wurde verändert;
+- keine neue Tool-Capability wurde eingeführt;
+- alle neun Authority-Klassen und Workflow-Rollen entsprechen dem DF-HUB-01-Contract;
+- Atlas Builder bleibt `CONSOLIDATED / REDIRECT`;
+- Parameter Playground bleibt `PREPARED / NOT IMPLEMENTED`;
+- Pose Renderer bleibt `PROTOTYPE / HISTORICAL`;
+- DF-04F bleibt geschlossen.
 
-Keine Datei unter `tools/` wurde geändert.
+### Reale Geräte-Evidenz
+Realer iPhone-/Safari-Test vom 2026-09-10: `PASS / 0 BLOCKER`.
+
+Bestätigt wurden:
+- Hub lädt mit sichtbarer Kennung `DF-HUB-01 · TESTBUILD 1`;
+- responsive Darstellung ist auf dem realen iPhone vollständig nutzbar;
+- alle neun Hub-Türen sind sichtbar;
+- Authority- und Workflow-Kennzeichnungen sind lesbar;
+- vorhandene Hub-Links reagieren und öffnen ihre jeweiligen Ziele;
+- einzelne Zieltools dürfen unabhängig davon noch unvollständig sein; DF-HUB-01 bewertet ausschließlich die Hub-Navigation;
+- Atlas Builder ist eindeutig als konsolidierter Redirect erkennbar;
+- Parameter Playground besitzt keinen aktiven Tool-Link.
+
+Gate-Ergebnis:
+`DF-HUB-01 – COMPLETION / REGRESSION PASS / 0 BLOCKER`
 
 # Aktueller Gate-Status
-`DF-HUB-01 – IMPLEMENTED / TESTBUILD 1 / REGRESSION GATE PENDING`
-
-Noch kein PASS/FROZEN. Die Implementierung muss gegen den DF-HUB-01-Contract, die Entwicklungsbaseline `e3aea9ea8e492b7e2c7dca474b1350461383adcd` und die bestehenden Tool-Grenzen regressiert werden.
+`DF-HUB-01 – IMPLEMENTED / TESTBUILD 1 / COMPLETION REGRESSION PASS / 0 BLOCKER / NOT FROZEN`
 
 # Nächster zulässiger Schritt
-Ausschließlich `DF-HUB-01 – Completion / Regression Gate`: vollständigen Branch-Diff gegen `e3aea9ea8e492b7e2c7dca474b1350461383adcd` prüfen, Contract-Grenzen und unveränderte `tools/`-Dateien bestätigen sowie die Hub-Darstellung auf realem Zielgerät prüfen. Erst bei `PASS / 0 BLOCKER` darf ein separater Freeze-Schritt freigegeben werden.
+Ausschließlich der separate `DF-HUB-01 – Freeze Gate`: den bestätigten DF-HUB-01-Stand ohne weitere Produktänderung dokumentarisch einfrieren. Keine neue Hub-Funktion, keine Tool-Änderung und kein Folgeblock im selben Schritt.
