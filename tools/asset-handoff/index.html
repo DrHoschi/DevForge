@@ -32,8 +32,8 @@
   <main>
     <p><a href="../../">← Zurück zum Tool Hub</a></p>
     <h1>Controlled Asset Handoff</h1>
-    <p>DF-05 Handoff mit DF-06 Target Project Profile Foundation: Profil ausdrücklich auswählen, deklarierte Zielwerte anwenden und danach die unveränderte DF-05-Eligibility bzw. das Minimalmanifest verwenden. Keine Datei-, GitHub- oder Runtime-Übertragung.</p>
-    <span class="build">DF-06 · TESTBUILD 1</span>
+    <p>DF-05 Handoff mit DF-06 Target Project Profile und DF-07 Source Asset Approval Authority: Zielprofil ausdrücklich auswählen, Approval Record explizit erzeugen und bei identischer Source-Identität auf die unveränderte DF-05-Approval-Eingabe anwenden. Keine Datei-, GitHub- oder Runtime-Übertragung.</p>
+    <span class="build">DF-07 · TESTBUILD 1</span>
 
     <section class="panel" aria-labelledby="profileHeading">
       <strong id="profileHeading">Target Project Profile</strong>
@@ -70,10 +70,31 @@
       </div>
     </form>
 
+    <section class="panel" aria-labelledby="approvalHeading">
+      <strong id="approvalHeading">Source Asset Approval Record</strong>
+      <p class="note">Der Record bindet die Entscheidung ausschließlich an die aktuell eingetragenen Werte Asset ID, Source Reference und Source Version. Keine automatische Freigabe.</p>
+      <div class="grid">
+        <label class="wide">Decision ausdrücklich auswählen
+          <select id="approvalDecision">
+            <option value="">— Keine Decision ausgewählt —</option>
+            <option value="NOT APPROVED">NOT APPROVED</option>
+            <option value="APPROVED">APPROVED</option>
+          </select>
+        </label>
+      </div>
+      <div class="actions">
+        <button type="button" id="createApprovalButton">Approval Record erzeugen</button>
+        <button type="button" id="applyApprovalButton" disabled>Decision auf DF-05 anwenden</button>
+      </div>
+      <p class="note"><strong>Approval Record Status:</strong> <span class="status" id="approvalRecordStatus">NO RECORD</span></p>
+      <ul class="errors" id="approvalErrors"></ul>
+      <pre id="approvalPreview">Noch kein Approval Record erzeugt.</pre>
+    </section>
+
     <section class="panel" aria-live="polite">
       <div class="eligibility"><strong>Eligibility:</strong><span class="status" id="eligibilityStatus">NOT EVALUATED</span></div>
       <ul class="errors" id="errors"></ul>
-      <p class="note">`APPROVED` ist weiterhin eine explizite DF-05-Eingabe und kein automatisch ermittelter Review- oder Approval-Status. DF-06 entscheidet kein Approval.</p>
+      <p class="note">DF-07 kann eine explizite, identitätsgebundene Decision auf die bestehende DF-05-Eingabe übertragen. Die DF-05-Eligibility selbst bleibt unverändert und allein autoritativ für den Handoff.</p>
     </section>
 
     <section class="panel">
@@ -81,6 +102,6 @@
       <pre id="manifestPreview">Noch kein Manifest erzeugt.</pre>
     </section>
   </main>
-  <script type="module" src="app.js?v=df06-testbuild1"></script>
+  <script type="module" src="app.js?v=df07-testbuild1"></script>
 </body>
 </html>
