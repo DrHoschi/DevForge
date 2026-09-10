@@ -1,12 +1,110 @@
 const tools = [
-  { id: 'source-result-compare', title: 'Source / Result Compare View', text: 'Autoritative Source-/Control-Referenz und Result gleichzeitig in einer stabilen Review-Ansicht vergleichen.', href: 'tools/source-result-compare/', status: 'DF-04A · TESTBUILD 1' },
-  { id: 'prompt-builder', title: 'Prompt Builder', text: 'Character-Referenz plus exakte Pose-Referenz zu einem schlanken Generation Package verbinden. Keine Previous Frames, keine Motion-History und keine Begrenzung auf acht Frames.', href: 'tools/prompt-builder/', status: 'DF-02F.6 · TESTBEREIT' },
-  { id: 'animation-reference-viewer', title: 'Animated 3D Reference Viewer', text: 'Echte geriggte FBX-Animationen laden, scrubben, Richtungen/Kamera festlegen und beliebige Pose-Bookmarks als Referenzen speichern.', href: 'tools/animation-reference-viewer/', status: 'DF-02F.5 · PASS' },
-  { id: 'pose-renderer', title: 'Deterministic Pose Renderer', text: 'Historischer DF-02E-Prototyp für deterministische technische Mannequin-Posen. Ab DF-02F nicht mehr die geplante Produktionsquelle.', href: 'tools/pose-renderer/', status: 'DF-02E.4 · PROTOTYP' },
-  { id: 'sprite-lab', title: 'Sprite Lab', text: 'Sprites/Sprite-Sheets laden, Frames zeichnen, Pivot/Anchor und Scale bearbeiten sowie Atlas-JSON importieren/exportieren.', href: 'tools/sprite-lab/', status: 'EINSATZBEREIT' },
-  { id: 'atlas-builder', title: 'Atlas Builder', text: 'Atlas-Funktionen sind bewusst mit dem Sprite Lab zusammengeführt: Frames definieren, Metadaten prüfen und JSON exportieren.', href: 'tools/atlas-builder/', status: 'EINSATZBEREIT' },
-  { id: 'animation-tester', title: 'Animation Tester', text: 'Einzelne Produktionsframes vor dem Atlas als Loop prüfen – mit FPS, gemeinsamem Bottom-Center-Anchor, Frame-Stepping und Onion-Skin; alternativ Manifest aus dem Projekt-Repository laden.', href: 'tools/animation-tester/', status: 'DF-02C · FRAME REVIEW' },
-  { id: 'asset-inspector', title: 'Asset Inspector', text: 'Bilder, Texturen, Sprites und Atlas-JSON technisch prüfen: Größe, Seitenverhältnis, Alpha, Dateigröße, Power-of-two und typische Atlas-Risiken.', href: 'tools/asset-inspector/', status: 'EINSATZBEREIT' },
-  { id: 'parameter-playground', title: 'Parameter Playground', text: 'Parameter verändern und Auswirkungen unmittelbar sichtbar machen.', href: null, status: 'VORBEREITET' }
+  {
+    id: 'source-result-compare',
+    title: 'Source / Result Compare View',
+    text: 'Autoritative Source-/Control-Referenz und Result in einer stabilen Review-Ansicht vergleichen.',
+    href: 'tools/source-result-compare/',
+    authority: 'FROZEN / PRODUCTIVE',
+    role: 'REVIEW',
+    detail: 'DF-04F · PASS / 0 BLOCKER / FROZEN'
+  },
+  {
+    id: 'prompt-builder',
+    title: 'Prompt Builder',
+    text: 'Character-Referenz und Pose-/Geometry-Control zu einem nachvollziehbaren Generation Package verbinden.',
+    href: 'tools/prompt-builder/',
+    authority: 'AVAILABLE',
+    role: 'GENERATION / HANDOFF',
+    detail: 'DF-02F.6 vorhanden · externe deterministische Bildgenerierung bleibt begrenzt'
+  },
+  {
+    id: 'animation-reference-viewer',
+    title: 'Animated 3D Reference Viewer',
+    text: 'Geriggte 3D-Animationen laden, scrubben, Facing/Kamera festlegen und Pose-Bookmarks als Referenzen speichern.',
+    href: 'tools/animation-reference-viewer/',
+    authority: 'FROZEN / PRODUCTIVE',
+    role: 'REFERENCE / CREATE',
+    detail: 'DF-02F.1–F.5 · belegte Capabilities'
+  },
+  {
+    id: 'pose-renderer',
+    title: 'Deterministic Pose Renderer',
+    text: 'Historischer DF-02E-Prototyp für technische Mannequin-Posen. Keine aktuelle Produktionsquelle.',
+    href: 'tools/pose-renderer/',
+    authority: 'PROTOTYPE / HISTORICAL',
+    role: 'REFERENCE / CREATE',
+    detail: 'DF-02E · historischer Stand'
+  },
+  {
+    id: 'sprite-lab',
+    title: 'Sprite Lab',
+    text: 'Sprites/Sprite-Sheets laden, Frames definieren, Pivot/Anchor und Scale bearbeiten sowie Atlas-JSON importieren/exportieren.',
+    href: 'tools/sprite-lab/',
+    authority: 'AVAILABLE',
+    role: 'TECHNICAL ASSET',
+    detail: 'Tool vorhanden · keine Atlas-Produktionsfreigabe'
+  },
+  {
+    id: 'atlas-builder',
+    title: 'Atlas Builder',
+    text: 'Die Atlas-Funktionen sind in das Sprite Lab konsolidiert. Diese Tür führt ausschließlich zum gemeinsamen Werkzeug.',
+    href: 'tools/atlas-builder/',
+    linkLabel: 'Zum konsolidierten Werkzeug →',
+    authority: 'CONSOLIDATED / REDIRECT',
+    role: 'TECHNICAL ASSET',
+    detail: 'Keine eigenständige Capability-Autorität'
+  },
+  {
+    id: 'animation-tester',
+    title: 'Animation Tester',
+    text: 'Einzelne Produktionsframes vor dem Atlas als Loop mit FPS, Frame-Stepping, Onion-Skin und Bottom-Center-Anchor prüfen.',
+    href: 'tools/animation-tester/',
+    authority: 'AVAILABLE',
+    role: 'REVIEW',
+    detail: 'Standalone Frame-/Manifest-Review'
+  },
+  {
+    id: 'asset-inspector',
+    title: 'Asset Inspector',
+    text: 'Bilder, Texturen, Sprites und Atlas-JSON technisch auf Abmessungen, Alpha und typische Asset-Risiken prüfen.',
+    href: 'tools/asset-inspector/',
+    authority: 'AVAILABLE',
+    role: 'TECHNICAL ASSET',
+    detail: 'Technische Prüfung · keine automatische fachliche Freigabe'
+  },
+  {
+    id: 'parameter-playground',
+    title: 'Parameter Playground',
+    text: 'Als spätere Parameter-Testfläche vorgesehen. Derzeit existiert keine freigegebene aktive Tool-Funktion.',
+    href: null,
+    authority: 'PREPARED / NOT IMPLEMENTED',
+    role: null,
+    detail: 'Keine aktive Produktionsrolle'
+  }
 ];
-const grid=document.querySelector('#toolGrid');for(const tool of tools){const article=document.createElement('article');article.className='tool';article.dataset.tool=tool.id;article.innerHTML=`<h2>${tool.title}</h2><p>${tool.text}</p>${tool.href?`<p><a href="${tool.href}">Werkzeug öffnen →</a></p>`:''}<span class="status">${tool.status}</span>`;grid.appendChild(article)}
+
+const grid = document.querySelector('#toolGrid');
+
+for (const tool of tools) {
+  const article = document.createElement('article');
+  article.className = 'tool';
+  article.dataset.tool = tool.id;
+  article.dataset.authority = tool.authority;
+
+  const link = tool.href
+    ? `<p class="open"><a href="${tool.href}">${tool.linkLabel || 'Werkzeug öffnen →'}</a></p>`
+    : '<p class="open"><strong>Nicht implementiert</strong></p>';
+  const role = tool.role ? `<span class="role">${tool.role}</span>` : '';
+
+  article.innerHTML = `
+    <h2>${tool.title}</h2>
+    <p>${tool.text}</p>
+    <p><small>${tool.detail}</small></p>
+    ${link}
+    <div class="meta">
+      <span class="status">${tool.authority}</span>
+      ${role}
+    </div>`;
+
+  grid.appendChild(article);
+}
