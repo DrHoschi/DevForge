@@ -96,7 +96,7 @@ Keine Datei unter `tools/` wurde durch DF-HUB-01 verändert. Keine neue Capabili
 
 Realer iPhone-/Safari-Test vom 2026-09-10: `PASS / 0 BLOCKER`. Bestätigt wurden responsive Nutzbarkeit, Sichtbarkeit aller neun Türen, lesbare Authority-/Workflow-Kennzeichnung und funktionierende vorhandene Hub-Links.
 
-Der Freeze-Schritt ist dokumentarisch בלבד; der bestätigte Produktcode sowie die getestete Build-Kennung wurden nicht verändert.
+Der Freeze-Schritt ist ausschließlich dokumentarisch; der bestätigte Produktcode sowie die getestete Build-Kennung wurden nicht verändert.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
