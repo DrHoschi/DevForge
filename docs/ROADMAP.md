@@ -77,21 +77,21 @@ Fachlicher Übergang:
 
 Der Frozen Product Stand enthält genau ein reales explizit auswählbares `Siedler Mini`-Profil. DF-06 erzeugt keine Approval-Autorität.
 
-## 7. Capability Reconciliation nach DF-06
-Gegen Frozen DF-06 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec` wurde als nächste kleine Capability-Lücke die fehlende explizite, identitätsgebundene Source-Asset-Freigabe zwischen Review und bestehender DF-05-Approval-Grenze identifiziert.
-
-Ausgewählt:
-`DF-07 – Source Asset Approval Authority Foundation`
-
-## 8. DF-07 – Source Asset Approval Authority Foundation
+## 7. DF-07 – Source Asset Approval Authority Foundation
 Verbindlicher Contract:
 `docs/DF-07_SOURCE_ASSET_APPROVAL_AUTHORITY_FOUNDATION_CONTRACT.md`
 
-Definition baseline:
+Definition baseline / Frozen DF-06 Product Commit:
 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 
+Development Branch:
+`df-07-source-asset-approval-authority-foundation`
+
+Development Branch Authorization Baseline:
+`8da923bf37f5005689918382560a893ca5cf0818`
+
 Status:
-`DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
+`DEFINED / IMPLEMENTATION SCOPE RECONCILED / DEVELOPMENT BRANCH AUTHORIZED / NOT IMPLEMENTED`
 
 Scope:
 `Approval Record Contract + Explicit Approval Decision Contract + Approval Identity Binding Contract + Approval Consumption Contract`
@@ -114,58 +114,59 @@ Eine Freigabe ist ausschließlich für die deklarierte Kombination aus `assetId`
 ### Explicit Decision
 Eine Approval-Autorität entsteht nur durch eine ausdrückliche Entscheidung. Review-Ansicht, technische Prüfung, Difference/Silhouette/Geometry, Score, KI, Profilwahl oder Manifest-Erzeugung dürfen nicht automatisch `APPROVED` erzeugen.
 
-### Approval Consumption
-Ein gültiger identitätsgebundener Approval Record darf die bestehende DF-05-Approval-Eingabegrenze bedienen. DF-05 bleibt geschlossen; es entsteht keine zweite Eligibility-Autorität.
-
 ### Reconciled Implementation Scope
 `DF-07 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
 
-Der erste zulässige TESTBUILD-1-Produktscope ist maximal:
+Der maximal zulässige TESTBUILD-1-Produktscope ist:
 - `tools/asset-handoff/index.html`
 - `tools/asset-handoff/app.js`
 - Root `index.html` ausschließlich für sichtbare `DF-07 · TESTBUILD 1`-Kennung und notwendiges Cache-Busting.
 
-`main.js` gehört nicht zum vorgesehenen Scope. Es wird keine neue Hub-Tür und keine neue eigenständige Tool-Oberfläche angelegt.
+`main.js` bleibt außerhalb des Scopes. Keine neue Hub-Tür, keine neue eigenständige Tool-Oberfläche, keine zusätzliche Service-/Datenbank-/Registry-Schicht.
 
-Die bestehende Controlled-Asset-Handoff-Oberfläche erhält lediglich einen klar abgegrenzten Approval-Record-Bereich. Dieser verwendet die vorhandenen Identitätswerte `assetId`, `sourceRef` und `sourceVersion`, verlangt eine explizite Decision und erzeugt einen Record mit exakt den fünf Contract-Mindestfeldern.
+Die bestehende Handoff-Oberfläche darf ausschließlich um einen klar getrennten Approval-Record-Bereich ergänzt werden. Ein gültiger identitätsgleicher Record darf ausschließlich seine `decision` explizit auf die bestehende DF-05-Eingabe `approvalStatus` anwenden. Danach bleibt DF-05 allein autoritativ für `ELIGIBLE` / `NOT ELIGIBLE`.
 
-Ändert sich nach Record-Erzeugung `assetId`, `sourceReference` oder `sourceVersion`, darf der Record nicht mehr als Approval-Autorität angewendet werden. Die Implementation muss den Record entweder invalidieren oder beim Anwenden deterministisch als `IDENTITY MISMATCH` ablehnen.
+Ändert sich `assetId`, `sourceReference` oder `sourceVersion`, darf ein vorher erzeugter Record nicht mehr als Approval-Autorität verwendet werden; er muss invalidiert oder deterministisch als `IDENTITY MISMATCH` abgelehnt werden.
 
-Ein gültiger identitätsgleicher Record darf ausschließlich seine `decision` explizit in die vorhandene DF-05-Eingabe `approvalStatus` übertragen. Danach bleibt die bestehende DF-05-Logik allein autoritativ für `ELIGIBLE` / `NOT ELIGIBLE`. `validateHandoffInput(...)`, `isHandoffEligible(...)` und `buildHandoffManifest(...)` behalten ihre eingefrorene Semantik.
+### Development Branch / Authorization
+`DF-07 DEVELOPMENT BRANCH / AUTHORIZATION – PASS / 0 BLOCKER`
 
-### Persistenz-/Infrastrukturgrenze
-TESTBUILD 1 enthält keine Persistenz zwischen Sessions, keinen Approval-Record-Export, keine Approval Registry, keine Asset Registry, keine Datenbank, keinen User-/Role Service und keine zusätzliche Service-/Framework-Schicht.
+Der separate Entwicklungsbranch `df-07-source-asset-approval-authority-foundation` wurde exakt vom reconcilierten Scope-Stand `8da923bf37f5005689918382560a893ca5cf0818` angelegt. Dieser Commit ist die verbindliche Development Branch Authorization Baseline.
+
+Der produktive Ausgangspunkt bleibt Frozen DF-06 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`; alle Commits zwischen diesem Frozen Product Commit und der Authorization Baseline sind ausschließlich autorisierte DF-07-Steuerdokumentation.
+
+Noch keine DF-07-Code-Implementierung ist Bestandteil dieses Authorization Steps.
 
 ### Harte Non-Goals
 Keine GitHub-/Repository-/Datei-/Runtime-Aktion, keine große Asset Library/Approval Database, keine Persistenz zwischen Sessions, kein Approval-Record-Export im ersten TESTBUILD, kein Benutzer-/Rollensystem, keine Signaturen, keine Approval-Historie, kein Batch-Approval, keine automatische oder KI-basierte Freigabe, keine automatische Identitätserkennung, keine Änderung an DF-04A–F, DF-05 oder DF-06, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine neue Tool-Oberfläche und keine neue Hub-Tür.
 
-## 9. DF-03 – Animation Atlas Contract
+## 8. DF-03 – Animation Atlas Contract
 Fachlich vorbereitet und nachgelagert. Vorhandene Atlas-Tool-Funktion ist keine automatische Produktionsfreigabe.
 
-## 10. Asset Library / Referenzverwaltung – später
+## 9. Asset Library / Referenzverwaltung – später
 Geplant sind Asset-ID/Name/Typ/Projektzuordnung, Authoritative References, Model-/Rig-/Animation-Source, Style-/Identity-/Material-Contracts, Kamera-/Richtungsregeln, Varianten, Tasks, technische Output-Profile, Staging-/Runtime-Pfade und Versions-/Freigabestatus. Keine große persistente Asset-Datenbank vorziehen.
 
-## 11. Building / Resource / Icon Workflows
+## 10. Building / Resource / Icon Workflows
 Gemeinsames Prinzip:
 `Authoritative Reference → veränderliche Parameter → feste Projektcontracts → Generation Package → Preview/Review → explicit APPROVAL → APPROVED Source Asset → technischer Handoff`
 
-## 12. Repository-Verknüpfungen
+## 11. Repository-Verknüpfungen
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
 - DF-06 Frozen Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
-- Aktueller Dokumentationsträger: `df-06-target-project-handoff-profile-foundation`
-- Noch kein DF-07-Entwicklungsbranch autorisiert oder angelegt.
+- DF-07 Development Branch: `df-07-source-asset-approval-authority-foundation`
+- DF-07 Development Branch Authorization Baseline: `8da923bf37f5005689918382560a893ca5cf0818`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
 - Default: `main`
-- DF-07-Scope-Dokumentation verändert dessen Dateien nicht.
+- Der DF-07 Authorization Step verändert dessen Dateien nicht.
 
-## 13. Git-/Dokumentations-Arbeitsweise
+## 12. Git-/Dokumentations-Arbeitsweise
 Kleine klar benannte DF-Blöcke; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
-## 14. Nächster zulässiger Schritt
-Ausschließlich ein separater `DF-07 Development Branch / Authorization Step` gegen den verbindlich dokumentierten und reconcilierten DF-07-Scope.
+## 13. Nächster zulässiger Schritt
+Ausschließlich die eigentliche DF-07-Implementierung auf `df-07-source-asset-approval-authority-foundation` gegen die Authorization Baseline `8da923bf37f5005689918382560a893ca5cf0818` und exakt innerhalb des reconcilierten TESTBUILD-1-Scopes.
 
-Noch keine DF-07-Code-Implementierung im selben Schritt.
+Keine zusätzliche Capability oder Scope-Erweiterung im selben Schritt.
