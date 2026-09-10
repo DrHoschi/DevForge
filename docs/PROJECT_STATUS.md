@@ -8,13 +8,11 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Aktueller DF-05-Branch: `df-05-controlled-asset-handoff-foundation`
-- Eingefrorener Produktstand vor DF-05: `415d44bf78be86a80c6437f6817a30a056d8ba15`
-- DF-05 Definition-Baseline: `415d44bf78be86a80c6437f6817a30a056d8ba15`
-- DF-05 reconciled documentation baseline: `14973c69f667873c16eedf33c1382274d89d37e9`
-- DF-05 Implementation Head: `22f8a59af510c508f0cbc5153a5af583ce352299`
-- DF-05 Frozen Product Commit: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
-- DF-05 Contract: `docs/DF-05_CONTROLLED_ASSET_HANDOFF_FOUNDATION_CONTRACT.md`
+- Autoritativer Frozen Product Stand: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
+- DF-05 Branch: `df-05-controlled-asset-handoff-foundation`
+- DF-05 Status: `PASS / 0 BLOCKER / FROZEN`
+- DF-06 Documentation Branch: `df-06-target-project-handoff-profile-foundation`
+- DF-06 Contract: `docs/DF-06_TARGET_PROJECT_HANDOFF_PROFILE_FOUNDATION_CONTRACT.md`
 
 # DF-04 – Asset Review Foundation
 DF-04A bis DF-04F bleiben `PASS / FROZEN`.
@@ -24,7 +22,7 @@ Ein möglicher `Silhouette Geometry Readout` bleibt ausschließlich `LATER / ONL
 # DF-HUB-01 – Tool Hub Authority & Workflow Reconciliation
 `PASS / 0 BLOCKER / FROZEN`
 
-DF-05 öffnet DF-HUB-01 nicht wieder. Bestehende Hub-Einträge bleiben fachlich unverändert; DF-05 ergänzt ausschließlich die neue Handoff-Tür außerhalb des eingefrorenen HUB-01-Blocks.
+DF-05 hat den Hub außerhalb des eingefrorenen HUB-01-Blocks ausschließlich um `Controlled Asset Handoff` ergänzt. Bestehende HUB-01-Capabilities bleiben unverändert.
 
 # DF-05 – Controlled Asset Handoff Foundation
 Status:
@@ -39,38 +37,64 @@ Scope:
 Fachlicher Übergang:
 `APPROVED SOURCE ASSET → Handoff Manifest → explizites Ziel/Staging → später separat autorisierte Übergabe`
 
-## Implementierter Scope
-Produktiv wurden ausschließlich umgesetzt:
-- `tools/asset-handoff/index.html`
-- `tools/asset-handoff/app.js`
-- `main.js` ausschließlich für den neuen `Controlled Asset Handoff`-Hub-Eintrag mit Rolle `RUNTIME / REPOSITORY HANDOFF`
-- Root `index.html` ausschließlich für sichtbare `DF-05 · TESTBUILD 1`-/Cache-Busting-Anpassung
+DF-05 bleibt geschlossen. Keine DF-06-Definition darf DF-05-Eligibility, Approval-Semantik, Manifest-Felder oder dessen Non-Goals verändern.
 
-`app.js` bleibt auf Eingabevalidierung, Handoff Eligibility und deterministischen Manifest-Bau begrenzt. Keine GitHub-, Repository-, Datei- oder Runtime-Übertragung wurde eingeführt.
+# Capability Reconciliation nach DF-05
+Gegen `c677f07773866dfe8f5c98dcb311ab1750538d9c` wurde als nächste kleine offene Capability-Lücke eine wiederverwendbare, ausdrücklich ausgewählte Zielprojekt-Autorität für den Handoff erkannt.
 
-## Completion / Device Evidence – 2026-09-10
-Realer iPhone-/Safari-Test gegen `DF-05 · TESTBUILD 1`:
-1. Build-Kennung sichtbar – PASS;
-2. Tool erreichbar und Rücknavigation zum Hub funktioniert – PASS;
-3. fehlende Pflichtfelder → `NOT ELIGIBLE`, Manifest gesperrt – PASS;
-4. vollständige Daten + `NOT APPROVED` → weiterhin `NOT ELIGIBLE` – PASS;
-5. nur Wechsel auf `APPROVED` → `ELIGIBLE`, Manifest-Erzeugung aktiv – PASS;
-6. Manifest enthält alle vertraglichen Mindestfelder – PASS;
-7. identische Eingaben erzeugen erneut identischen Manifest-Inhalt – PASS;
-8. JSON-Export funktioniert in Safari; keine GitHub-/Repository-/Runtime-Aktion – PASS.
+Ausgewählter Kandidat:
+`DF-06 – Target Project Handoff Profile Foundation`
 
-Completion-Ergebnis:
-`DF-05 – COMPLETION + REAL DEVICE REGRESSION PASS / 0 BLOCKER`
+Nicht vorgezogen werden große Asset-/Project-Datenbank, Parameter Playground, automatische Projekterkennung, Repository-Transfer, Atlas-Produktion, Konvertierung oder neuer Review-/Approval-Workflow.
 
-## Freeze Gate – 2026-09-10
-Der bestätigte Completion-/Device-Stand auf `c677f07773866dfe8f5c98dcb311ab1750538d9c` ist der autoritative DF-05 Frozen Product Stand.
+# DF-06 – Target Project Handoff Profile Foundation
+Status:
+`DEFINED / NOT IMPLEMENTED`
 
-Der Freeze Gate verändert keinen Produktcode. Die nachgelagerten Freeze-Commits dokumentieren ausschließlich den Frozen-Status.
+Definition-Baseline:
+`c677f07773866dfe8f5c98dcb311ab1750538d9c`
+
+Scope:
+`Project Profile Contract + Explicit Profile Selection Contract + Deterministic Profile Application Contract`
+
+Fachlicher Übergang:
+`EXPLICIT TARGET PROJECT PROFILE → deterministische Handoff-Vorgaben → DF-05 Minimalmanifest`
+
+## Verbindliche Profil-Autorität
+Ein Profil ist nur eine deklarierte, versionierbare Eingabe für Handoff-Vorgaben und keine automatische Projekterkennung.
+
+Minimale stabile Profilidentität:
+- `profileVersion`
+- `profileId`
+- `profileName`
+- `targetProject`
+
+Zusätzlich muss ein Profil explizite Staging-/Output-/Format-Vorgaben enthalten, soweit sie für den jeweiligen realen Workflow benötigt werden.
+
+## Auswahlsemantik
+Ohne ausdrückliche Profilauswahl gibt es keine Profil-Autorität.
+
+Nicht zulässig sind automatische Auswahl über vorherige Session, zuletzt verwendetes Projekt, URL, Toolzustand, Dateiname, Asset-Typ oder Repository-Historie sowie ein stiller Default-Fallback.
+
+## Deterministische Anwendung
+Gleiches autoritatives Profil plus gleicher deklarierter Asset-/Handoff-Eingang muss dieselben Handoff-Vorgaben liefern.
+
+Keine zufälligen oder timestampabhängigen Outputnamen, keine versteckten Sessionwerte und keine nicht deklarierten Defaults.
+
+## Harte Grenzen
+DF-06 führt keine GitHub-/Repository-/Datei-/Runtime-Aktion aus, entscheidet kein Approval, persistiert keinen Approval-Status und baut keine große Project-/Asset-Datenbank, keinen Batch-Handoff, Dependency Graph, Atlas, Konverter oder neue Review-Funktion.
+
+Ein konkretes erstes Profil für `DrHoschi/siedler-mini` ist durch die Definition noch nicht implementiert.
+
+# Dokumentationskorrektur
+Der README-Drift nach DF-05 wurde im selben reinen Dokumentationsschritt reconciliiert. README beschreibt nun DF-05 als FROZEN und DF-06 als `DEFINED / NOT IMPLEMENTED`.
+
+Der versehentlich vorzeitig angelegte Branch `df-06-target-project-handoff-profile-foundation` wird bis zu einer separaten Entwicklungsfreigabe ausschließlich als Dokumentationsbranch behandelt. Seine Existenz gilt nicht als Implementierungsfreigabe.
 
 # Aktueller Gate-Status
-`DF-05 – PASS / 0 BLOCKER / FROZEN`
+`DF-06 – DEFINED / NOT IMPLEMENTED / DOCUMENTATION RECONCILIATION PENDING`
 
 # Nächster zulässiger Schritt
-Kein DF-05-Folgeblock ist automatisch freigegeben. Der nächste Schritt darf ausschließlich eine neue Capability Reconciliation gegen den Frozen Product Commit `c677f07773866dfe8f5c98dcb311ab1750538d9c` sein.
+Ausschließlich `DF-06 Contract / Documentation Reconciliation Gate`: Contract, PROJECT_STATUS, ROADMAP und README gegen Frozen Product Commit `c677f07773866dfe8f5c98dcb311ab1750538d9c` auf fachliche Konsistenz, vollständige Scope-/Non-Goal-Grenzen und reinen Dokumentationsumfang prüfen.
 
-Keine neue Implementierung im selben Schritt.
+Noch keine DF-06-Implementierung. Erst nach `PASS / 0 BLOCKER` darf separat entschieden werden, ob der bereits existierende Branch als Entwicklungsbranch weiterverwendet oder ein neuer Entwicklungsbranch vom reconcilierten Dokumentationsstand angelegt wird.
