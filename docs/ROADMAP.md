@@ -15,7 +15,7 @@ Die fachlichen Workflow-Rollen für den Tool Hub sind:
 4. `TECHNICAL ASSET`
 5. `RUNTIME / REPOSITORY HANDOFF`
 
-Die Rollen beschreiben Capability-Verantwortung und legen noch kein konkretes Hub-Layout fest.
+Die Rollen beschreiben Capability-Verantwortung und legen kein starres Hub-Layout fest.
 
 ### A – Project & Preset Layer
 Mehrere Zielprojekte, projektspezifische Style-/Camera-/Direction-/Scale-/Output-/Naming-Contracts, definierte Repository-/Staging-Ziele und wiederverwendbare Presets.
@@ -50,7 +50,7 @@ Der verbindliche Authority-Contract ist:
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`, noch keine aktive Produktionsrolle.
 
 DF-HUB-01 Contract / Documentation Reconciliation: `PASS / 0 BLOCKER`.
-DF-HUB-01 ist noch `NOT IMPLEMENTED`.
+DF-HUB-01 Implementierung: `IMPLEMENTED / TESTBUILD 1 / REGRESSION GATE PENDING`.
 
 ## 4. Character Animation Contract – erreichter Stand
 - DF-02F.1 Animated 3D Reference Asset Contract – PASS
@@ -69,7 +69,7 @@ Die reproduzierbare Pose-Auswahl in DevForge ist nicht mehr der Hauptengpass. De
 ## 5. DF-04 – Asset Review Foundation
 DF-04A bis DF-04F sind `PASS / FROZEN`.
 
-Autoritativer eingefrorener Produktstand:
+Autoritativer eingefrorener Produktstand vor DF-HUB-01:
 `17cec9ca4b399d1099be5bf4bb398a74ea27aff2`
 
 DF-04F umfasst zusätzlich zu A–E die rein visuellen Source-/Result-Bounding-Boxen und geometrischen Center-Guides auf derselben Silhouettengeometrie sowie genau einen gemeinsamen temporären Guide-Schalter. Keine automatische Korrektur, kein Best-Fit und kein Score.
@@ -77,31 +77,20 @@ DF-04F umfasst zusätzlich zu A–E die rein visuellen Source-/Result-Bounding-B
 Ein möglicher `Silhouette Geometry Readout` wird als `LATER / ONLY IF REAL REVIEW NEED IS PROVEN` vorgemerkt. Es ist kein DF-04G freigegeben.
 
 ## 6. DF-HUB-01 – Tool Hub Authority & Workflow Reconciliation
+Aktueller Entwicklungsbranch:
+`df-hub-01-tool-hub-authority-workflow-reconciliation`
+
+Entwicklungsbaseline:
+`e3aea9ea8e492b7e2c7dca474b1350461383adcd`
+
 Status:
-`DEFINED / DOCUMENTATION RECONCILED / NOT IMPLEMENTED`
+`IMPLEMENTED / TESTBUILD 1 / REGRESSION GATE PENDING`
 
-Zweck:
-- reale Tool-Türen gegen Repository-/Contract-Autorität reconciliieren;
-- eindeutige Statusklassen verwenden;
-- Workflow-Rollen festlegen;
-- historische, vorbereitete und konsolidierte Tools von real aktiven Capabilities unterscheiden;
-- keine höhere Reife auf dem Hub suggerieren als tatsächlich belegt.
+Die Implementierung beschränkt sich auf den Tool Hub selbst:
+- `index.html` – DevForge-Hub-Identität, sichtbare Testbuild-Kennung, Status-/Rollen-Darstellung und Cache-Busting;
+- `main.js` – autoritative Authority-Klassen, Workflow-Rollen und reconciliierte Türtexte für alle neun inventarisierten Hub-Einträge.
 
-Authority-Klassen:
-- `FROZEN / PRODUCTIVE`
-- `AVAILABLE`
-- `PROTOTYPE / HISTORICAL`
-- `PREPARED / NOT IMPLEMENTED`
-- `CONSOLIDATED / REDIRECT`
-
-Noch nicht Teil von DF-HUB-01:
-- konkrete Hub-Kartenreihenfolge;
-- Farben/Icons/CSS/Layout;
-- Änderung an `index.html` oder `main.js`;
-- Tool-Codeänderungen;
-- neue Tools/Capabilities;
-- Redirect-Umbau;
-- Produktionsfreigabe von Atlas-/Repository-Handoff.
+Keine Datei unter `tools/` wurde für DF-HUB-01 verändert. Keine neue Capability wurde eingeführt. Atlas Builder bleibt konsolidierter Redirect; Parameter Playground bleibt nicht implementiert; DF-04 bleibt geschlossen.
 
 ## 7. 2D- und 3D-Wiederverwendung
 Dieselben 3D-Animationsquellen sollen später für 2D-Sprite-/Bildreferenzen, acht Gameplay-Richtungen, Generation-Referenzen, 3D-Animation-Review und spätere 3D-Projekte dienen können, sofern Rig/Retargeting kompatibel ist.
@@ -128,7 +117,8 @@ Soweit technisch sinnvoll: Alpha-Erkennung, Canvas-/Abmessungsvergleich, Root-/B
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- autoritativer eingefrorener Produktstand: `17cec9ca4b399d1099be5bf4bb398a74ea27aff2`
+- aktueller DF-HUB-01-Entwicklungsbranch: `df-hub-01-tool-hub-authority-workflow-reconciliation`
+- DF-HUB-01-Entwicklungsbaseline: `e3aea9ea8e492b7e2c7dca474b1350461383adcd`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
@@ -142,6 +132,4 @@ Derzeit nicht parallel vorziehen: vollständige Animation Library, komplexe Atta
 Kleine klar benannte DF-Blöcke; ein beobachtetes Problem pro Block; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; Repository-Dokumentation nachziehen; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
 ## 16. Nächster zulässiger Schritt
-Noch kein DF-HUB-01-Entwicklungsbranch und keine Implementierung automatisch freigegeben.
-
-Ausschließlich fachlich entscheiden, ob der reconciliierte DF-HUB-01-Contract in einem separaten kleinen Hub-Implementierungsblock umgesetzt werden soll. Falls freigegeben, zuerst separaten Entwicklungsbranch vom reconciliierten Dokumentationsstand anlegen; keine Implementierung im selben Schritt.
+Ausschließlich `DF-HUB-01 – Completion / Regression Gate`: vollständigen Branch-Diff gegen `e3aea9ea8e492b7e2c7dca474b1350461383adcd` prüfen, Contract-/Authority-Grenzen und unveränderte Tool-Dateien bestätigen sowie den Hub auf realem Zielgerät prüfen. Erst bei `PASS / 0 BLOCKER` darf ein separater Freeze-Schritt freigegeben werden.
