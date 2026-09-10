@@ -1,17 +1,18 @@
 # DF-HUB-01 – Tool Hub Authority & Workflow Reconciliation Contract
 
 Stand: 2026-09-10
-Status: DEFINED / NOT IMPLEMENTED
-Autoritative Produktbaseline: `17cec9ca4b399d1099be5bf4bb398a74ea27aff2`
+Status: PASS / 0 BLOCKER / FROZEN
+Autoritative Produktbaseline vor DF-HUB-01: `17cec9ca4b399d1099be5bf4bb398a74ea27aff2`
+DF-HUB-01 Entwicklungsbaseline: `e3aea9ea8e492b7e2c7dca474b1350461383adcd`
 
 ## 1. Zweck
-DF-HUB-01 reconciliiert ausschließlich die fachliche Autorität, den realen Status und die Workflow-Rolle der auf dem DevForge Tool Hub vorhandenen Türen. Der Block ist ein Dokumentations-/Authority-Contract und verändert weder Hub-UI noch Tool-Code.
+DF-HUB-01 reconciliiert ausschließlich die fachliche Autorität, den realen Status und die Workflow-Rolle der auf dem DevForge Tool Hub vorhandenen Türen. Der Block verändert keine Capability innerhalb der einzelnen Tools.
 
 ## 2. Ausgangslage
-Der eingefrorene DF-04F-Stand zeigt, dass einzelne DevForge-Werkzeuge schneller weiterentwickelt wurden als ihre gemeinsame Hub-Navigation. Insbesondere sind Hub-Statusangaben teilweise veraltet, konsolidierte Werkzeuge werden noch als getrennte Türen dargestellt und vorbereitete, aber nicht implementierte Werkzeuge sind nicht eindeutig von real nutzbaren Werkzeugen getrennt.
+Der eingefrorene DF-04F-Stand zeigte, dass einzelne DevForge-Werkzeuge schneller weiterentwickelt wurden als ihre gemeinsame Hub-Navigation. Insbesondere waren Hub-Statusangaben teilweise veraltet, konsolidierte Werkzeuge wurden noch als getrennte Türen dargestellt und vorbereitete, aber nicht implementierte Werkzeuge waren nicht eindeutig von real nutzbaren Werkzeugen getrennt.
 
 ## 3. Verbindliche Authority-Statusklassen
-Jede Hub-Tür muss genau einer fachlichen Klasse zugeordnet werden:
+Jede Hub-Tür ist genau einer fachlichen Klasse zugeordnet:
 
 - `FROZEN / PRODUCTIVE` – vertraglich geprüft, real getestet und eingefroren.
 - `AVAILABLE` – reale Funktion vorhanden und nutzbar, aber nicht als vollständig eingefrorener Produktionsworkflow autorisiert.
@@ -30,99 +31,96 @@ Aktive Capabilities werden einer primären Workflow-Rolle zugeordnet:
 4. `TECHNICAL ASSET`
 5. `RUNTIME / REPOSITORY HANDOFF`
 
-Die Zuordnung beschreibt die fachliche Rolle, nicht zwingend die spätere visuelle Reihenfolge oder das Layout des Hubs.
+Die Zuordnung beschreibt die fachliche Rolle, nicht zwingend die visuelle Reihenfolge oder das Layout des Hubs.
 
-## 5. Reconciliertes Tool-Inventar
+## 5. Eingefrorenes Tool-Inventar
 
 ### Source / Result Compare View
 - Authority: `FROZEN / PRODUCTIVE`
 - Autoritativer Stand: `DF-04F – PASS / 0 BLOCKER / FROZEN`
 - Workflow-Rolle: `REVIEW`
-- Hub-Reconciliation: Der aktuelle Hub-Status `DF-04A · TESTBUILD 1` ist veraltet und darf in einer später separat freigegebenen Hub-Implementierung nicht als aktueller Authority-Status bestehen bleiben.
 
 ### Prompt Builder
 - Authority: `AVAILABLE`
-- Belegter Stand: DF-02F.6 vorhanden; spätere Pose-Handoff-Verstärkungen haben die externe Generation nicht ausreichend deterministisch gemacht.
+- Belegter Stand: DF-02F.6 vorhanden; externe deterministische Bildgenerierung bleibt begrenzt.
 - Workflow-Rolle: `GENERATION / HANDOFF`
-- Grenze: Der Prompt Builder darf nicht als gelöste deterministische Bildgenerierung dargestellt werden.
 
 ### Animated 3D Reference Viewer
 - Authority: `FROZEN / PRODUCTIVE` für die belegten DF-02F.1–F.5-Capabilities
 - Workflow-Rolle: `REFERENCE / CREATE`
-- Grenze: Seine Autorität umfasst Intake, Timeline/Scrubbing, Facing/Kamera und Pose Bookmarks; nicht die externe Bildgenerierung.
 
 ### Deterministic Pose Renderer
 - Authority: `PROTOTYPE / HISTORICAL`
 - Workflow-Rolle: `REFERENCE / CREATE`
-- Navigation Authority: keine aktuelle Produktionsquelle; historischer DF-02E-Prototyp.
+- Keine aktuelle Produktionsquelle.
 
 ### Sprite Lab
 - Authority: `AVAILABLE`
 - Workflow-Rolle: `TECHNICAL ASSET`
-- Reale Capability: Bild/Sprite-Sheet laden, Atlas-JSON importieren, Frames definieren, Anchor/Scale bearbeiten und JSON exportieren.
-- Grenze: Vorhandene Tool-Funktion ist nicht gleichbedeutend mit freigegebener Atlas-Produktionsintegration.
+- Vorhandene Tool-Funktion ist keine automatische Atlas-Produktionsfreigabe.
 
 ### Atlas Builder
 - Authority: `CONSOLIDATED / REDIRECT`
 - Workflow-Rolle: `TECHNICAL ASSET`
-- Navigation Authority: keine eigenständige Capability-Autorität; die bestehende Seite verweist auf das konsolidierte Sprite Lab / Atlas Builder.
-- Grenze: Die spätere Hub-Darstellung darf nicht suggerieren, dass zwei unabhängige produktive Atlas-Werkzeuge existieren.
+- Keine eigenständige Capability-Autorität; die Tür verweist auf das konsolidierte Werkzeug.
 
 ### Animation Tester
 - Authority: `AVAILABLE`
 - Workflow-Rolle: `REVIEW`
-- Reale Capability: Standalone-Frames/Manifest, FPS, Loop, Frame-Stepping, Onion-Skin und Bottom-Center-Anchor-Review.
-- Grenze: Kein Atlas-/Runtime-Freigabegate allein durch seine Existenz.
 
 ### Asset Inspector
 - Authority: `AVAILABLE`
 - Workflow-Rolle: `TECHNICAL ASSET`
-- Reale Capability: technische Prüfung von Bild-/Textur-/Sprite-/Atlas-Eigenschaften.
-- Grenze: keine automatische fachliche Asset-Freigabe.
 
 ### Parameter Playground
 - Authority: `PREPARED / NOT IMPLEMENTED`
-- Workflow-Rolle: noch keine aktive Produktionsrolle
-- Navigation Authority: darf nicht als einsatzbereites Werkzeug erscheinen, solange keine reale Tool-Funktion implementiert und separat freigegeben ist.
+- Noch keine aktive Produktionsrolle und kein aktiver Tool-Link.
 
-## 6. Hub-Navigationsautorität
-Eine spätere, separat freizugebende Hub-Implementierung darf ausschließlich auf Grundlage dieses Contracts entscheiden:
-- welche aktiven Capability-Türen sichtbar bleiben;
-- wie Authority-Status dargestellt werden;
-- wie historische/prototypische Werkzeuge gekennzeichnet werden;
-- wie konsolidierte Redirects dargestellt oder in ihre Ziel-Capability integriert werden;
-- wie nicht implementierte vorbereitete Werkzeuge von real nutzbaren Werkzeugen getrennt werden;
-- wie Workflow-Rollen verständlich erkennbar gemacht werden.
+## 6. Eingefrorener Implementierungsumfang
+DF-HUB-01 änderte ausschließlich:
+- `index.html` – Hub-Identität, sichtbare Testbuild-Kennung, Status-/Rollen-Darstellung und Cache-Busting;
+- `main.js` – Authority-Klassen, Workflow-Rollen und reconciliierte Türtexte für alle neun Hub-Einträge;
+- Projektdokumentation.
 
-Dieser Contract legt ausdrücklich noch keine konkrete Kartenreihenfolge, Farben, Icons, CSS-Geometrie oder Smartphone-/Desktop-Anordnung fest.
+Keine Datei unter `tools/` wurde verändert. Keine neue Capability wurde eingeführt.
 
-## 7. Nicht Bestandteil von DF-HUB-01
-- keine Änderung an `index.html`;
-- keine Änderung an `main.js`;
-- keine Änderung an Dateien unter `tools/`;
-- kein neuer Entwicklungsbranch in diesem Contract-Schritt;
-- kein neues Werkzeug;
-- keine neue Capability;
+Die getestete sichtbare Kennung bleibt:
+`DF-HUB-01 · TESTBUILD 1`
+
+Das getestete Cache-Busting bleibt:
+`main.js?v=dfhub01-testbuild1`
+
+## 7. Completion / Regression Evidenz
+Der vollständige Branch-Diff gegen `e3aea9ea8e492b7e2c7dca474b1350461383adcd` wurde regressiert. Vor Gate-/Freeze-Dokumentation enthielt der Produktdiff ausschließlich `index.html` und `main.js`; alle weiteren Änderungen waren Dokumentation. Keine Datei unter `tools/` wurde verändert.
+
+Realer iPhone-/Safari-Test vom 2026-09-10: `PASS / 0 BLOCKER`.
+
+Bestätigt wurden:
+- responsive Nutzbarkeit;
+- Sichtbarkeit aller neun Hub-Türen;
+- lesbare Authority-/Workflow-Kennzeichnungen;
+- funktionierende vorhandene Hub-Links;
+- Atlas Builder eindeutig als `CONSOLIDATED / REDIRECT`;
+- Parameter Playground ohne aktiven Tool-Link;
+- einzelne unvollständige Zieltools sind kein DF-HUB-01-Blocker, solange die Hub-Navigation korrekt funktioniert.
+
+## 8. Nicht Bestandteil / weiterhin ausgeschlossen
+- keine Capability-Änderung innerhalb eines Tools;
 - kein Tool-Refactor;
 - kein Redirect-Umbau;
-- keine Statusänderung innerhalb eingefrorener Tool-Contracts;
 - keine Atlas-Produktionsfreigabe;
 - kein Repository-Handoff;
-- kein UI-/CSS-Umbau;
-- kein DF-04G.
+- kein DF-04G;
+- kein automatisches Scoring oder Auto-Alignment.
 
-## 8. Später vorgemerkt
-`Silhouette Geometry Readout` aus der DF-04F-Erfahrung wird ausschließlich als `LATER / ONLY IF REAL REVIEW NEED IS PROVEN` vorgemerkt. Daraus entsteht mit DF-HUB-01 weder DF-04G noch eine Implementierungsfreigabe.
+## 9. Später vorgemerkt
+`Silhouette Geometry Readout` bleibt ausschließlich `LATER / ONLY IF REAL REVIEW NEED IS PROVEN`.
 
-## 9. PASS-Kriterien für Contract / Documentation Reconciliation
-DF-HUB-01 ist als Contract reconciliiert, wenn:
-1. die Produktbaseline exakt `17cec9ca4b399d1099be5bf4bb398a74ea27aff2` bleibt;
-2. alle neun aktuell im Hub inventarisierten Türen fachlich klassifiziert sind;
-3. Authority-Status und Workflow-Rolle nicht über den belegten Repository-Stand hinausgehen;
-4. Atlas Builder als konsolidierter Redirect und Parameter Playground als nicht implementiert erkannt sind;
-5. DF-04F nicht wieder geöffnet wird;
-6. Geometry Readout nur als LATER vorgemerkt ist;
-7. keinerlei Produktcode oder Hub-UI im Contract-/Reconciliation-Schritt geändert wird.
+## 10. Freeze Gate
+Gate-Ergebnis:
+`DF-HUB-01 – PASS / 0 BLOCKER / FROZEN`
 
-## 10. Folgegrenze
-Nach erfolgreicher Contract-/Documentation-Reconciliation ist noch keine Hub-Implementierung automatisch freigegeben. Der nächste zulässige Schritt muss separat entschieden werden. Falls eine Umsetzung freigegeben wird, benötigt sie eine klar benannte neue Entwicklungsbaseline exakt vom eingefrorenen Produktstand beziehungsweise vom reconciliierten Dokumentationsstand und einen separaten Implementierungsbranch.
+Der bestätigte Produktcode wurde im Freeze-Schritt nicht verändert. Die sichtbare Testbuild-Kennung und das Cache-Busting bleiben unverändert erhalten.
+
+## 11. Folgegrenze
+Kein Folgeblock ist automatisch freigegeben. Der nächste fachliche Schritt muss gegen den eingefrorenen DF-HUB-01-Stand separat reconciliiert und ausdrücklich definiert werden.
