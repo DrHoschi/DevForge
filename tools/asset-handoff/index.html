@@ -32,8 +32,8 @@
   <main>
     <p><a href="../../">← Zurück zum Tool Hub</a></p>
     <h1>Controlled Asset Handoff</h1>
-    <p>DF-05 Handoff mit DF-06 Target Project Profile und DF-07 Source Asset Approval Authority: Zielprofil ausdrücklich auswählen, Approval Record explizit erzeugen und bei identischer Source-Identität auf die unveränderte DF-05-Approval-Eingabe anwenden. Keine Datei-, GitHub- oder Runtime-Übertragung.</p>
-    <span class="build">DF-07 · TESTBUILD 1</span>
+    <p>DF-05 Handoff mit DF-06 Target Project Profile, DF-07 Source Asset Approval Authority und DF-08 Source Asset Payload Binding: lokalen Source-Payload ausdrücklich auswählen und an die deklarierte Identität binden. Keine Datei-, GitHub- oder Runtime-Übertragung.</p>
+    <span class="build">DF-08 · TESTBUILD 1</span>
 
     <section class="panel" aria-labelledby="profileHeading">
       <strong id="profileHeading">Target Project Profile</strong>
@@ -91,10 +91,26 @@
       <pre id="approvalPreview">Noch kein Approval Record erzeugt.</pre>
     </section>
 
+    <section class="panel" aria-labelledby="payloadHeading">
+      <strong id="payloadHeading">Source Asset Payload Binding</strong>
+      <p class="note">Die lokale Datei wird nur als Browser-Laufzeitzustand gehalten. Dateiname, Dateigröße und MIME-Type sind rein informativ und erzeugen keine fachliche Identität, keinen Hash und keine Approval-Autorität.</p>
+      <div class="grid">
+        <label class="wide">Lokalen Source-Payload ausdrücklich auswählen
+          <input type="file" id="payloadFile" />
+        </label>
+      </div>
+      <div class="actions">
+        <button type="button" id="bindPayloadButton" disabled>Payload an aktuelle Identität binden</button>
+      </div>
+      <p class="note"><strong>Payload Binding Status:</strong> <span class="status" id="payloadBindingStatus">NO PAYLOAD</span></p>
+      <ul class="errors" id="payloadErrors"></ul>
+      <pre id="payloadPreview">Noch kein lokaler Source-Payload ausgewählt.</pre>
+    </section>
+
     <section class="panel" aria-live="polite">
       <div class="eligibility"><strong>Eligibility:</strong><span class="status" id="eligibilityStatus">NOT EVALUATED</span></div>
       <ul class="errors" id="errors"></ul>
-      <p class="note">DF-07 kann eine explizite, identitätsgebundene Decision auf die bestehende DF-05-Eingabe übertragen. Die DF-05-Eligibility selbst bleibt unverändert und allein autoritativ für den Handoff.</p>
+      <p class="note">DF-08 führt keine zweite Handoff-Eligibility ein. DF-07 bleibt Approval-Autorität; die unveränderte DF-05-Eligibility bleibt allein autoritativ für Manifest-Fähigkeit.</p>
     </section>
 
     <section class="panel">
@@ -102,6 +118,6 @@
       <pre id="manifestPreview">Noch kein Manifest erzeugt.</pre>
     </section>
   </main>
-  <script type="module" src="app.js?v=df07-testbuild1"></script>
+  <script type="module" src="app.js?v=df08-testbuild1"></script>
 </body>
 </html>
