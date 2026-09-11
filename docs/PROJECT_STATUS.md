@@ -10,10 +10,12 @@ DevForge ist eine projektübergreifende webbasierte Produktions-, Prüf- und Üb
 - Default Branch: `main`
 - DF-05 Status: `PASS / 0 BLOCKER / FROZEN`
 - DF-05 Frozen Product Commit: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
+- DF-06 Status: `PASS / 0 BLOCKER / FROZEN`
 - DF-06 Frozen Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
+- DF-07 Status: `PASS / 0 BLOCKER / FROZEN`
 - DF-07 Development Branch: `df-07-source-asset-approval-authority-foundation`
 - DF-07 Development Branch Authorization Baseline: `8da923bf37f5005689918382560a893ca5cf0818`
-- DF-07 TESTBUILD-1 Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+- DF-07 Frozen Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 - DF-07 Contract: `docs/DF-07_SOURCE_ASSET_APPROVAL_AUTHORITY_FOUNDATION_CONTRACT.md`
 
 # DF-04 – Asset Review Foundation
@@ -42,7 +44,10 @@ DF-06 erzeugt keine Approval-Autorität und bleibt geschlossen.
 
 # DF-07 – Source Asset Approval Authority Foundation
 Status:
-`IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + REAL DEVICE PASS / 0 BLOCKER / NOT FROZEN`
+`PASS / 0 BLOCKER / FROZEN`
+
+Frozen Product Commit:
+`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
 Definition baseline / Frozen DF-06 Product Commit:
 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
@@ -52,9 +57,6 @@ Development Branch:
 
 Development Branch Authorization Baseline:
 `8da923bf37f5005689918382560a893ca5cf0818`
-
-TESTBUILD-1 Product Commit:
-`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
 Contract:
 `docs/DF-07_SOURCE_ASSET_APPROVAL_AUTHORITY_FOUNDATION_CONTRACT.md`
@@ -80,14 +82,14 @@ Zulässige Entscheidungen:
 ## Reconciled Implementation Scope
 `DF-07 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
 
-Maximaler TESTBUILD-1-Produktscope:
+Frozen Produktscope:
 - `tools/asset-handoff/index.html`
 - `tools/asset-handoff/app.js`
-- Root `index.html` ausschließlich für sichtbare `DF-07 · TESTBUILD 1`-Kennung und notwendiges Cache-Busting.
+- Root `index.html` ausschließlich für sichtbare `DF-07 · TESTBUILD 1`-Kennung und Cache-Busting.
 
-`main.js` ist ausdrücklich außerhalb des Scopes. Keine neue Hub-Tür, keine neue eigenständige Tool-Oberfläche und keine zusätzliche Service-/Datenbank-/Registry-Schicht.
+`main.js` blieb außerhalb des Scopes. Keine neue Hub-Tür, keine neue eigenständige Tool-Oberfläche und keine zusätzliche Service-/Datenbank-/Registry-Schicht.
 
-Die bestehende Handoff-Oberfläche wurde ausschließlich um einen klar getrennten Approval-Record-Bereich ergänzt. Dieser verwendet die vorhandenen Identitätswerte `assetId`, `sourceRef` und `sourceVersion`, verlangt eine explizite Decision und erzeugt einen Record mit exakt den fünf Contract-Mindestfeldern.
+Die bestehende Handoff-Oberfläche wurde ausschließlich um einen klar getrennten Approval-Record-Bereich ergänzt. Dieser verwendet `assetId`, `sourceRef` und `sourceVersion`, verlangt eine explizite Decision und erzeugt einen Record mit exakt den fünf Contract-Mindestfeldern.
 
 ## Identity-Mismatch-Regel
 Ein erzeugter Record bleibt nur bei exakter Übereinstimmung von `assetId`, `sourceReference` und `sourceVersion` anwendbar. Ändert sich mindestens einer dieser Werte, wird der Record deterministisch als `IDENTITY MISMATCH` abgelehnt und kann nicht auf DF-05 angewendet werden.
@@ -103,12 +105,12 @@ Keine Persistenz zwischen Sessions, kein Approval-Record-Export im ersten TESTBU
 ## Development Branch / Authorization
 `DF-07 DEVELOPMENT BRANCH / AUTHORIZATION – PASS / 0 BLOCKER`
 
-Der separate Branch `df-07-source-asset-approval-authority-foundation` wurde exakt von `8da923bf37f5005689918382560a893ca5cf0818` angelegt. Dieser Stand enthält den reconcilierten DF-07-Implementation-Scope und ist die verbindliche Development Branch Authorization Baseline.
+Der separate Branch `df-07-source-asset-approval-authority-foundation` wurde exakt von `8da923bf37f5005689918382560a893ca5cf0818` angelegt.
 
 ## TESTBUILD-1 Implementation
 `DF-07 – IMPLEMENTED / TESTBUILD 1 / SCOPE CLEAN`
 
-Product Commit:
+Frozen Product Commit:
 `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
 Der Produkt-Diff blieb auf die drei freigegebenen Dateien begrenzt. Keine zusätzliche Capability wurde implementiert.
@@ -130,10 +132,16 @@ Reale iPhone-/Safari-Evidenz vom 2026-09-11 bestätigt:
 
 Der Manifest-Exportpfad wurde in DF-07 nicht verändert und war bereits im Frozen-DF-05-Gerätegate auf iPhone/Safari bestätigt. Im DF-07-Gerätegate wurde kein neuer Export-Blocker beobachtet.
 
+## Freeze Gate
+`DF-07 FREEZE GATE – PASS / 0 BLOCKER`
+
+Freeze-Basis ist exakt Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`. Vor dem Freeze war der Branch gegen diesen Stand `3 commits ahead / 0 behind`, Merge-Base exakt der Product Commit. Seit dem getesteten Stand waren ausschließlich Contract, PROJECT_STATUS und ROADMAP verändert. Keine Produktdatei wurde zwischen Gerätetest und Freeze verändert.
+
 # Aktueller Gate-Status
-`DF-07 – IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + REAL DEVICE PASS / 0 BLOCKER / NOT FROZEN`
+`DF-07 – PASS / 0 BLOCKER / FROZEN`
+
+Frozen Product Commit:
+`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
 # Nächster zulässiger Schritt
-Ausschließlich ein separates DF-07 Freeze Gate gegen den getesteten Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e` und die dokumentierte Completion-/Device-Evidenz.
-
-Noch kein Freeze innerhalb dieses Documentation Steps.
+DF-07 ist geschlossen. Der nächste Schritt darf ausschließlich eine neue Capability Reconciliation gegen den Frozen DF-07 Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e` sein. Noch keine neue Capability-Implementierung oder neuer Entwicklungsbranch im selben Schritt.
