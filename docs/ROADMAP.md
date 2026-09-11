@@ -31,7 +31,7 @@ Animierte 3D-Referenzvorschau, Einzelbildprüfung, Source-/Result-Vergleich, Ove
 Sprite Lab, Asset Inspector, Atlas-Funktionen, Pivot/Anchor/Scale, Alpha-/Abmessungsprüfung, Atlas-Zellen/Metadaten, deterministische Benennung und später Runtime-Handoff.
 
 ### F – Repository Handoff
-Projektbezogene Staging-Pfade, Manifest-Dateien, nur ausdrücklich freigegebene Source Assets weitergeben und Atlas-/Runtime-Artefakte erst nach Review-/Approval-Gate erzeugen.
+Projektbezogene Staging-Pfade, Manifest-Dateien, nur ausdrücklich freigegebene und an ihre deklarierte Identität gebundene Source Assets weitergeben und Atlas-/Runtime-Artefakte erst nach Review-/Approval-Gate erzeugen.
 
 ## 3. Aktuelle Module / Authority
 - Source / Result Compare View – `FROZEN / PRODUCTIVE`, Rolle `REVIEW`, autoritativ DF-04F.
@@ -43,7 +43,7 @@ Projektbezogene Staging-Pfade, Manifest-Dateien, nur ausdrücklich freigegebene 
 - Animation Tester – `AVAILABLE`, Rolle `REVIEW`.
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`.
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`.
-- Controlled Asset Handoff – DF-05 `FROZEN / PRODUCTIVE`; DF-06 `FROZEN / PRODUCTIVE`; DF-07 `FROZEN / PRODUCTIVE` erweitert denselben Handoff-Kontext um explizite identitätsgebundene Approval Records.
+- Controlled Asset Handoff – DF-05 `FROZEN / PRODUCTIVE`; DF-06 `FROZEN / PRODUCTIVE`; DF-07 `FROZEN / PRODUCTIVE`; DF-08 `DEFINED / NOT IMPLEMENTED`.
 
 DF-HUB-01 bleibt `PASS / 0 BLOCKER / FROZEN`.
 
@@ -51,26 +51,20 @@ DF-HUB-01 bleibt `PASS / 0 BLOCKER / FROZEN`.
 DF-04A bis DF-04F sind `PASS / FROZEN`. Ein möglicher `Silhouette Geometry Readout` bleibt `LATER / ONLY IF REAL REVIEW NEED IS PROVEN`.
 
 ## 5. DF-05 – Controlled Asset Handoff Foundation
-Frozen Product Commit:
-`c677f07773866dfe8f5c98dcb311ab1750538d9c`
+Frozen Product Commit: `c677f07773866dfe8f5c98dcb311ab1750538d9c`
 
-Status:
-`PASS / 0 BLOCKER / FROZEN`
+Status: `PASS / 0 BLOCKER / FROZEN`
 
-Scope:
-`Handoff Eligibility + Minimal Manifest Contract + Explicit Target Contract`
+Scope: `Handoff Eligibility + Minimal Manifest Contract + Explicit Target Contract`
 
 DF-05 bleibt geschlossen. Keine Folgefunktion darf seine Eligibility-, Approval- oder Manifest-Semantik nebenbei ändern.
 
 ## 6. DF-06 – Target Project Handoff Profile Foundation
-Frozen Product Commit:
-`a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
+Frozen Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 
-Status:
-`PASS / 0 BLOCKER / FROZEN`
+Status: `PASS / 0 BLOCKER / FROZEN`
 
-Scope:
-`Project Profile Contract + Explicit Profile Selection Contract + Deterministic Profile Application Contract`
+Scope: `Project Profile Contract + Explicit Profile Selection Contract + Deterministic Profile Application Contract`
 
 Fachlicher Übergang:
 `EXPLICIT TARGET PROJECT PROFILE → deterministische Handoff-Vorgaben → DF-05 Minimalmanifest`
@@ -78,116 +72,94 @@ Fachlicher Übergang:
 Der Frozen Product Stand enthält genau ein reales explizit auswählbares `Siedler Mini`-Profil. DF-06 erzeugt keine Approval-Autorität.
 
 ## 7. DF-07 – Source Asset Approval Authority Foundation
-Verbindlicher Contract:
-`docs/DF-07_SOURCE_ASSET_APPROVAL_AUTHORITY_FOUNDATION_CONTRACT.md`
+Verbindlicher Contract: `docs/DF-07_SOURCE_ASSET_APPROVAL_AUTHORITY_FOUNDATION_CONTRACT.md`
 
-Definition baseline / Frozen DF-06 Product Commit:
-`a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
+Frozen Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
-Development Branch:
-`df-07-source-asset-approval-authority-foundation`
+Status: `PASS / 0 BLOCKER / FROZEN`
 
-Development Branch Authorization Baseline:
-`8da923bf37f5005689918382560a893ca5cf0818`
-
-Frozen Product Commit:
-`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
-
-Status:
-`PASS / 0 BLOCKER / FROZEN`
-
-Scope:
-`Approval Record Contract + Explicit Approval Decision Contract + Approval Identity Binding Contract + Approval Consumption Contract`
+Scope: `Approval Record Contract + Explicit Approval Decision Contract + Approval Identity Binding Contract + Approval Consumption Contract`
 
 Fachlicher Übergang:
 `REVIEWED SOURCE ASSET + EXPLICIT IDENTITY → APPROVAL RECORD → DF-05 APPROVAL INPUT → Handoff Manifest`
 
-### Minimaler Approval Record
-- `approvalRecordVersion`
-- `assetId`
-- `sourceReference`
-- `sourceVersion`
-- `decision`
+Der minimale Approval Record enthält `approvalRecordVersion`, `assetId`, `sourceReference`, `sourceVersion` und `decision`. Entscheidungen sind ausschließlich `APPROVED` und `NOT APPROVED`. Die Approval-Autorität gilt nur für die exakte deklarierte Identität. Änderungen führen zu `IDENTITY MISMATCH`; eine Decision wird ausschließlich explizit auf die bestehende DF-05-Eingabe angewendet. DF-05 bleibt danach allein autoritativ für Eligibility und Manifest.
 
-Zulässige Entscheidungen im ersten Contract sind ausschließlich `APPROVED` und `NOT APPROVED`.
+TESTBUILD 1, Completion / Regression / Real Device Gate und Freeze Gate sind `PASS / 0 BLOCKER`. DF-07 ist geschlossen.
 
-### Identity Binding
-Eine Freigabe ist ausschließlich für die deklarierte Kombination aus `assetId`, `sourceReference` und `sourceVersion` autoritativ. Änderungen an Source oder Version übernehmen keine vorherige Freigabe automatisch.
-
-### Explicit Decision
-Eine Approval-Autorität entsteht nur durch eine ausdrückliche Entscheidung. Review-Ansicht, technische Prüfung, Difference/Silhouette/Geometry, Score, KI, Profilwahl oder Manifest-Erzeugung dürfen nicht automatisch `APPROVED` erzeugen.
-
-### Reconciled Implementation Scope
-`DF-07 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
-
-Frozen Produktscope:
-- `tools/asset-handoff/index.html`
-- `tools/asset-handoff/app.js`
-- Root `index.html` ausschließlich für sichtbare `DF-07 · TESTBUILD 1`-Kennung und Cache-Busting.
-
-`main.js` blieb außerhalb des Scopes. Keine neue Hub-Tür, keine neue eigenständige Tool-Oberfläche, keine zusätzliche Service-/Datenbank-/Registry-Schicht.
-
-Die bestehende Handoff-Oberfläche wurde ausschließlich um einen klar getrennten Approval-Record-Bereich ergänzt. Ein gültiger identitätsgleicher Record darf ausschließlich seine `decision` explizit auf die bestehende DF-05-Eingabe `approvalStatus` anwenden. Danach bleibt DF-05 allein autoritativ für `ELIGIBLE` / `NOT ELIGIBLE`.
-
-Ändert sich `assetId`, `sourceReference` oder `sourceVersion`, darf ein vorher erzeugter Record nicht mehr als Approval-Autorität verwendet werden; TESTBUILD 1 lehnt ihn deterministisch als `IDENTITY MISMATCH` ab.
-
-### Development Branch / Authorization
-`DF-07 DEVELOPMENT BRANCH / AUTHORIZATION – PASS / 0 BLOCKER`
-
-Der separate Entwicklungsbranch `df-07-source-asset-approval-authority-foundation` wurde exakt vom reconcilierten Scope-Stand `8da923bf37f5005689918382560a893ca5cf0818` angelegt.
-
-### TESTBUILD-1 Implementation
-`DF-07 – IMPLEMENTED / TESTBUILD 1 / SCOPE CLEAN`
-
-Frozen Product Commit:
-`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
-
-Der Produkt-Diff blieb innerhalb der drei freigegebenen Dateien. Keine zusätzliche Capability wurde eingeführt.
-
-### Completion / Regression / Real Device Evidence
-`DF-07 COMPLETION / REGRESSION / DEVICE GATE – PASS / 0 BLOCKER`
-
-Reale iPhone-/Safari-Evidenz vom 2026-09-11 bestätigt die sichtbare TESTBUILD-1-Kennung im Hub und Handoff-Tool, `INVALID` ohne Decision, `VALID` für explizites `NOT APPROVED` und `APPROVED`, die explizite statt automatische Übertragung auf DF-05, unveränderte DF-05-Eligibility, deterministischen `IDENTITY MISMATCH` bei `TEST-V1 → TEST-V2`, einen neuen gültigen Record für `TEST-V2` sowie die weiterhin funktionierende DF-05-Manifest-Erzeugung mit `approvalStatus: "APPROVED"`.
-
-Der Manifest-Exportpfad wurde durch DF-07 nicht verändert. Seine reale iPhone-/Safari-Funktion war bereits im Frozen-DF-05-Gate bestätigt; im DF-07-Gerätegate wurde kein neuer Export-Blocker beobachtet.
-
-### Freeze Gate
-`DF-07 FREEZE GATE – PASS / 0 BLOCKER`
-
-Freeze-Basis ist exakt Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`. Vor dem Freeze war der Branch gegen diesen Stand `3 commits ahead / 0 behind`, Merge-Base exakt der Product Commit. Seit dem getesteten Stand waren ausschließlich Contract, PROJECT_STATUS und ROADMAP verändert. Keine Produktdatei wurde zwischen Gerätetest und Freeze verändert.
-
-### Harte Non-Goals
+### Harte Non-Goals DF-07
 Keine GitHub-/Repository-/Datei-/Runtime-Aktion, keine große Asset Library/Approval Database, keine Persistenz zwischen Sessions, kein Approval-Record-Export im ersten TESTBUILD, kein Benutzer-/Rollensystem, keine Signaturen, keine Approval-Historie, kein Batch-Approval, keine automatische oder KI-basierte Freigabe, keine automatische Identitätserkennung, keine Änderung an DF-04A–F, DF-05 oder DF-06, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine neue Tool-Oberfläche und keine neue Hub-Tür.
 
-DF-07 ist damit geschlossen. Änderungen an dieser Capability benötigen einen neuen ausdrücklich autorisierten Folgeblock.
+## 8. DF-08 – Source Asset Payload Binding Foundation
+Verbindlicher Contract:
+`docs/DF-08_SOURCE_ASSET_PAYLOAD_BINDING_FOUNDATION_CONTRACT.md`
 
-## 8. DF-03 – Animation Atlas Contract
+Definition baseline / Frozen DF-07 Product Commit:
+`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+
+Status:
+`DEFINED / NOT IMPLEMENTED`
+
+Post-DF-07 Capability Reconciliation:
+`PASS / 0 PRODUCT BLOCKER`
+
+Scope:
+`Explicit Local Source Payload Selection Contract + Payload-to-Declared-Identity Binding Contract + Approval-/Identity Compatibility Contract + Bound Handoff Candidate Contract`
+
+Fachlicher Übergang:
+`APPROVED IDENTITY + EXPLICIT LOCAL SOURCE PAYLOAD → IDENTITY-BOUND HANDOFF CANDIDATE → bestehendes DF-05 Manifest`
+
+### Explicit Local Source Payload
+Ein Source-Payload muss ausdrücklich vom Benutzer ausgewählt werden. Dateiname, `sourceReference`, letzter Browser-/Sessionzustand, Projektprofil oder Repository-Historie wählen keinen Payload automatisch aus.
+
+### Payload / Identity Binding
+Der ausdrücklich ausgewählte Payload wird an die aktuell deklarierte Kombination aus `assetId`, `sourceReference` und `sourceVersion` gebunden. Wird ein Identitätswert geändert oder ein anderer Payload gewählt, gilt die alte Bindung nicht still weiter.
+
+### Approval Compatibility
+Ein gebundener Payload darf nur bei exakter Identitätsübereinstimmung mit einem aktuell gültigen DF-07 Approval Record als Handoff-Kandidat gelten. DF-08 erzeugt keine Approval-Entscheidung und darf keinen `IDENTITY MISMATCH` umgehen.
+
+DF-07 bleibt alleinige Approval-Autorität. DF-05 bleibt alleinige Eligibility-/Manifest-Autorität.
+
+### Payload-Identitätsgrenze
+DF-08 führt noch keinen verpflichtenden Content-Hash, Fingerprint oder kryptografischen Dateinachweis ein. Falls später binäre Dateigleichheit nachgewiesen werden muss, ist dafür eine separate Reconciliation erforderlich.
+
+### Persistenz-/Infrastrukturgrenze
+Keine Payload Library, Asset Registry, Upload Registry, Datenbank oder andere persistente Infrastruktur wird durch den Contract autorisiert. Die minimale technische Form eines ersten TESTBUILDs wird erst in einer separaten Implementation Scope Reconciliation festgelegt.
+
+### Harte Non-Goals DF-08
+Keine GitHub-API-Schreibaktion, kein Commit/Push/PR, keine Dateiübertragung in Ziel-Repositories, kein Runtime-Handoff, kein automatischer Repository-Download, keine große Asset-/Payload-Library oder Datenbank, kein Batch-Handoff, keine automatische Payload-Auswahl, keine automatische Approval-Entscheidung oder stille Approval-Übernahme, keine automatische Identitätserkennung, kein verpflichtender Hash/Fingerprint, keine Signaturen, Benutzer/Rollen oder Historien, kein Atlas/Sprite-Packing, keine Formatkonvertierung und keine Änderung an DF-04/05/06/07.
+
+Der bestehende Branch `df-07-source-asset-approval-authority-foundation` ist für diesen Definition-Step ausschließlich Dokumentationsträger und kein DF-08-Entwicklungsbranch. Kein DF-08-Code wurde in diesem Schritt autorisiert.
+
+## 9. DF-03 – Animation Atlas Contract
 Fachlich vorbereitet und nachgelagert. Vorhandene Atlas-Tool-Funktion ist keine automatische Produktionsfreigabe.
 
-## 9. Asset Library / Referenzverwaltung – später
+## 10. Asset Library / Referenzverwaltung – später
 Geplant sind Asset-ID/Name/Typ/Projektzuordnung, Authoritative References, Model-/Rig-/Animation-Source, Style-/Identity-/Material-Contracts, Kamera-/Richtungsregeln, Varianten, Tasks, technische Output-Profile, Staging-/Runtime-Pfade und Versions-/Freigabestatus. Keine große persistente Asset-Datenbank vorziehen.
 
-## 10. Building / Resource / Icon Workflows
+## 11. Building / Resource / Icon Workflows
 Gemeinsames Prinzip:
-`Authoritative Reference → veränderliche Parameter → feste Projektcontracts → Generation Package → Preview/Review → explicit APPROVAL → APPROVED Source Asset → technischer Handoff`
+`Authoritative Reference → veränderliche Parameter → feste Projektcontracts → Generation Package → Preview/Review → explicit APPROVAL → APPROVED Source Asset → explicit Payload Binding → technischer Handoff`
 
-## 11. Repository-Verknüpfungen
+## 12. Repository-Verknüpfungen
 ### DevForge
 - Repository: `DrHoschi/DevForge`
 - Default: `main`
-- DF-06 Frozen Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
-- DF-07 Development Branch: `df-07-source-asset-approval-authority-foundation`
 - DF-07 Frozen Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+- DF-08 Definition Baseline: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+- aktueller Dokumentationsträger: `df-07-source-asset-approval-authority-foundation`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
 - Default: `main`
-- DF-07 verändert dessen Dateien nicht.
+- DF-08 verändert dessen Dateien nicht.
 
-## 12. Git-/Dokumentations-Arbeitsweise
+## 13. Git-/Dokumentations-Arbeitsweise
 Kleine klar benannte DF-Blöcke; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
-## 13. Nächster zulässiger Schritt
-Ausschließlich eine neue Capability Reconciliation gegen den Frozen DF-07 Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`.
+## 14. Nächster zulässiger Schritt
+Ausschließlich das `DF-08 Contract / Documentation Reconciliation Gate` gegen Frozen DF-07 Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`.
 
-Noch keine neue Capability-Implementierung und kein neuer Entwicklungsbranch im selben Schritt.
+Dabei sind Scope, explizite Payload-Auswahl, Payload-/Identity-Bindung, Approval-Kompatibilität, Grenzen zu DF-05/06/07, Payload-Identitätsgrenze und harte Non-Goals auf Widerspruchsfreiheit zu prüfen.
+
+Noch keine DF-08 Implementation Scope Reconciliation, keine Code-Implementierung und kein DF-08-Entwicklungsbranch im selben Schritt.
