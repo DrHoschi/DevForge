@@ -1,6 +1,6 @@
 # DevForge – Master Roadmap & Entwicklungsgrenzen
 
-Stand: 2026-09-10
+Stand: 2026-09-11
 
 ## 1. Vision
 DevForge soll eine projektübergreifende Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets werden. Langfristig verbindet DevForge wiederverwendbare Asset-Definitionen, Referenzen, Generierungsverträge, Vorschau/Review, Freigaben, technische Prüfung, Atlas-/Metadaten-Erzeugung und kontrollierte Übergabe in Ziel-Repositories.
@@ -43,7 +43,7 @@ Projektbezogene Staging-Pfade, Manifest-Dateien, nur ausdrücklich freigegebene 
 - Animation Tester – `AVAILABLE`, Rolle `REVIEW`.
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`.
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`.
-- Controlled Asset Handoff – DF-05 `FROZEN / PRODUCTIVE`; DF-06 `FROZEN / PRODUCTIVE` erweitert denselben Handoff-Kontext um explizite Target Project Profiles.
+- Controlled Asset Handoff – DF-05 `FROZEN / PRODUCTIVE`; DF-06 `FROZEN / PRODUCTIVE`; DF-07 `IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + REAL DEVICE PASS / NOT FROZEN` erweitert denselben Handoff-Kontext um explizite identitätsgebundene Approval Records.
 
 DF-HUB-01 bleibt `PASS / 0 BLOCKER / FROZEN`.
 
@@ -90,8 +90,11 @@ Development Branch:
 Development Branch Authorization Baseline:
 `8da923bf37f5005689918382560a893ca5cf0818`
 
+TESTBUILD-1 Product Commit:
+`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+
 Status:
-`DEFINED / IMPLEMENTATION SCOPE RECONCILED / DEVELOPMENT BRANCH AUTHORIZED / NOT IMPLEMENTED`
+`IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + REAL DEVICE PASS / 0 BLOCKER / NOT FROZEN`
 
 Scope:
 `Approval Record Contract + Explicit Approval Decision Contract + Approval Identity Binding Contract + Approval Consumption Contract`
@@ -124,18 +127,31 @@ Der maximal zulässige TESTBUILD-1-Produktscope ist:
 
 `main.js` bleibt außerhalb des Scopes. Keine neue Hub-Tür, keine neue eigenständige Tool-Oberfläche, keine zusätzliche Service-/Datenbank-/Registry-Schicht.
 
-Die bestehende Handoff-Oberfläche darf ausschließlich um einen klar getrennten Approval-Record-Bereich ergänzt werden. Ein gültiger identitätsgleicher Record darf ausschließlich seine `decision` explizit auf die bestehende DF-05-Eingabe `approvalStatus` anwenden. Danach bleibt DF-05 allein autoritativ für `ELIGIBLE` / `NOT ELIGIBLE`.
+Die bestehende Handoff-Oberfläche wurde ausschließlich um einen klar getrennten Approval-Record-Bereich ergänzt. Ein gültiger identitätsgleicher Record darf ausschließlich seine `decision` explizit auf die bestehende DF-05-Eingabe `approvalStatus` anwenden. Danach bleibt DF-05 allein autoritativ für `ELIGIBLE` / `NOT ELIGIBLE`.
 
-Ändert sich `assetId`, `sourceReference` oder `sourceVersion`, darf ein vorher erzeugter Record nicht mehr als Approval-Autorität verwendet werden; er muss invalidiert oder deterministisch als `IDENTITY MISMATCH` abgelehnt werden.
+Ändert sich `assetId`, `sourceReference` oder `sourceVersion`, darf ein vorher erzeugter Record nicht mehr als Approval-Autorität verwendet werden; TESTBUILD 1 lehnt ihn deterministisch als `IDENTITY MISMATCH` ab.
 
 ### Development Branch / Authorization
 `DF-07 DEVELOPMENT BRANCH / AUTHORIZATION – PASS / 0 BLOCKER`
 
 Der separate Entwicklungsbranch `df-07-source-asset-approval-authority-foundation` wurde exakt vom reconcilierten Scope-Stand `8da923bf37f5005689918382560a893ca5cf0818` angelegt. Dieser Commit ist die verbindliche Development Branch Authorization Baseline.
 
-Der produktive Ausgangspunkt bleibt Frozen DF-06 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`; alle Commits zwischen diesem Frozen Product Commit und der Authorization Baseline sind ausschließlich autorisierte DF-07-Steuerdokumentation.
+### TESTBUILD-1 Implementation
+`DF-07 – IMPLEMENTED / TESTBUILD 1 / SCOPE CLEAN`
 
-Noch keine DF-07-Code-Implementierung ist Bestandteil dieses Authorization Steps.
+Product Commit:
+`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+
+Der Produkt-Diff blieb innerhalb der drei freigegebenen Dateien. Keine zusätzliche Capability wurde eingeführt.
+
+### Completion / Regression / Real Device Evidence
+`DF-07 COMPLETION / REGRESSION / DEVICE GATE – PASS / 0 BLOCKER`
+
+Reale iPhone-/Safari-Evidenz vom 2026-09-11 bestätigt die sichtbare TESTBUILD-1-Kennung im Hub und Handoff-Tool, `INVALID` ohne Decision, `VALID` für explizites `NOT APPROVED` und `APPROVED`, die explizite statt automatische Übertragung auf DF-05, unveränderte DF-05-Eligibility, deterministischen `IDENTITY MISMATCH` bei `TEST-V1 → TEST-V2`, einen neuen gültigen Record für `TEST-V2` sowie die weiterhin funktionierende DF-05-Manifest-Erzeugung mit `approvalStatus: "APPROVED"`.
+
+Der Manifest-Exportpfad wurde durch DF-07 nicht verändert. Seine reale iPhone-/Safari-Funktion war bereits im Frozen-DF-05-Gate bestätigt; im DF-07-Gerätegate wurde kein neuer Export-Blocker beobachtet.
+
+DF-07 bleibt trotz PASS dieses Gates ausdrücklich `NOT FROZEN`.
 
 ### Harte Non-Goals
 Keine GitHub-/Repository-/Datei-/Runtime-Aktion, keine große Asset Library/Approval Database, keine Persistenz zwischen Sessions, kein Approval-Record-Export im ersten TESTBUILD, kein Benutzer-/Rollensystem, keine Signaturen, keine Approval-Historie, kein Batch-Approval, keine automatische oder KI-basierte Freigabe, keine automatische Identitätserkennung, keine Änderung an DF-04A–F, DF-05 oder DF-06, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine neue Tool-Oberfläche und keine neue Hub-Tür.
@@ -157,16 +173,17 @@ Gemeinsames Prinzip:
 - DF-06 Frozen Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 - DF-07 Development Branch: `df-07-source-asset-approval-authority-foundation`
 - DF-07 Development Branch Authorization Baseline: `8da923bf37f5005689918382560a893ca5cf0818`
+- DF-07 TESTBUILD-1 Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
 - Default: `main`
-- Der DF-07 Authorization Step verändert dessen Dateien nicht.
+- DF-07 verändert dessen Dateien nicht.
 
 ## 12. Git-/Dokumentations-Arbeitsweise
 Kleine klar benannte DF-Blöcke; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
 ## 13. Nächster zulässiger Schritt
-Ausschließlich die eigentliche DF-07-Implementierung auf `df-07-source-asset-approval-authority-foundation` gegen die Authorization Baseline `8da923bf37f5005689918382560a893ca5cf0818` und exakt innerhalb des reconcilierten TESTBUILD-1-Scopes.
+Ausschließlich ein separates DF-07 Freeze Gate gegen den getesteten Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e` und die dokumentierte Completion-/Device-Evidenz.
 
-Keine zusätzliche Capability oder Scope-Erweiterung im selben Schritt.
+Noch kein Freeze innerhalb dieses Documentation Steps.
