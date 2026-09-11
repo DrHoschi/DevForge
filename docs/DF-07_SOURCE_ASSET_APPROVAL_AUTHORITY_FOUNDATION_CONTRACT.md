@@ -1,11 +1,11 @@
 # DF-07 – Source Asset Approval Authority Foundation Contract
 
 Stand: 2026-09-11
-Status: `IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + REAL DEVICE PASS / 0 BLOCKER / NOT FROZEN`
+Status: `PASS / 0 BLOCKER / FROZEN`
 Definition baseline / Frozen DF-06 Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 Reconciled implementation-scope head / Development branch authorization baseline: `8da923bf37f5005689918382560a893ca5cf0818`
 Development branch: `df-07-source-asset-approval-authority-foundation`
-DF-07 TESTBUILD-1 Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+Frozen Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
 ## 1. Zweck
 DF-07 definiert die minimale fachliche Autorität, mit der eine ausdrückliche Freigabe eindeutig an ein bestimmtes Source Asset und dessen deklarierte Version gebunden werden kann.
@@ -100,9 +100,9 @@ Für TESTBUILD 1 wird keine Persistenz zwischen Sessions vorausgesetzt. Der Appr
 Der erste zulässige Produktscope für DF-07 TESTBUILD 1 ist eng begrenzt auf:
 - `tools/asset-handoff/index.html` – klar abgegrenzter Approval-Record-Bereich innerhalb der bestehenden Controlled-Asset-Handoff-Oberfläche; explizite Decision-Auswahl, sichtbare Record-Identität, Record-Status sowie getrennte Aktionen zum Erzeugen und Anwenden des Records;
 - `tools/asset-handoff/app.js` – klar getrennte Approval-Record-Validierung/-Erzeugung, Identity-Matching und explizite Anwendung der Record-Decision auf die bestehende DF-05-Eingabe `approvalStatus`;
-- Root `index.html` – ausschließlich soweit für eine spätere sichtbare `DF-07 · TESTBUILD 1`-Kennung und notwendiges Cache-Busting erforderlich.
+- Root `index.html` – ausschließlich für sichtbare `DF-07 · TESTBUILD 1`-Kennung und notwendiges Cache-Busting.
 
-Keine neue Tool-Oberfläche und keine neue Hub-Tür sind erforderlich. `main.js` gehört nicht zum vorgesehenen Produktscope.
+Keine neue Tool-Oberfläche und keine neue Hub-Tür wurden eingeführt. `main.js` blieb außerhalb des Produktscopes.
 
 ### 10.1 Approval-Record-Oberfläche
 DF-07 verwendet die bereits vorhandenen Handoff-Identitätsfelder:
@@ -119,14 +119,10 @@ Der erzeugte Record enthält exakt die fünf Contract-Mindestfelder:
 - `sourceVersion`
 - `decision`
 
-Keine weiteren Record-Felder sind für TESTBUILD 1 erforderlich.
-
 ### 10.2 Identity-Mismatch-Regel
 Ein erzeugter Approval Record bleibt nur dann anwendbar, wenn die aktuell deklarierte Kombination aus `assetId`, `sourceReference` und `sourceVersion` exakt mit dem Record übereinstimmt.
 
-Wird nach Record-Erzeugung mindestens einer dieser drei Identitätswerte geändert, darf der Record nicht mehr als Approval-Autorität angewendet werden. Die technische Umsetzung darf ihn entweder unmittelbar invalidieren oder beim Anwenden deterministisch als `IDENTITY MISMATCH` ablehnen.
-
-Eine alte Decision darf dadurch niemals still auf eine andere Source oder Version übertragen werden.
+Wird nach Record-Erzeugung mindestens einer dieser drei Identitätswerte geändert, darf der Record nicht mehr als Approval-Autorität angewendet werden. TESTBUILD 1 lehnt ihn deterministisch als `IDENTITY MISMATCH` ab.
 
 ### 10.3 Approval Consumption
 Ein gültiger identitätsgleicher Approval Record darf ausschließlich seine `decision` explizit in die bereits vorhandene DF-05-Eingabe `approvalStatus` übertragen.
@@ -134,27 +130,6 @@ Ein gültiger identitätsgleicher Approval Record darf ausschließlich seine `de
 Danach bleibt ausschließlich die bestehende DF-05-Logik autoritativ für `ELIGIBLE` / `NOT ELIGIBLE`. DF-07 führt keine zweite Eligibility-Funktion und keine parallele Handoff-Freigabe ein.
 
 Die bestehenden Funktionen `validateHandoffInput(...)`, `isHandoffEligible(...)` und `buildHandoffManifest(...)` behalten ihre eingefrorene DF-05-Semantik.
-
-### 10.4 Vorgesehene technische Verantwortlichkeiten
-Die Implementation darf sinngemäß klar getrennte Funktionen für folgende Verantwortlichkeiten ergänzen:
-- Approval-Record-Eingabe validieren;
-- deterministischen Approval Record erzeugen;
-- aktuelle Source-Identität gegen den Record prüfen;
-- gültige Record-Decision explizit auf `approvalStatus` anwenden.
-
-Konkrete Funktionsnamen sind kein zusätzlicher Contract, solange die Verantwortlichkeiten und Grenzen eingehalten werden.
-
-### 10.5 Nicht erforderliche Infrastruktur
-Für TESTBUILD 1 werden ausdrücklich nicht benötigt:
-- neue Service-Dateien;
-- neue Datenbankmodule;
-- Approval Registry;
-- Asset Registry;
-- Repository Service;
-- User-/Role Service;
-- neues Preset-/Framework-System;
-- neue Review-Integration;
-- neue Hub-Tür.
 
 ## 11. Harte Non-Goals
 DF-07 implementiert ausdrücklich nicht:
@@ -184,22 +159,15 @@ DF-07 implementiert ausdrücklich nicht:
 ## 12. Development Branch / Authorization
 `DF-07 DEVELOPMENT BRANCH / AUTHORIZATION – PASS / 0 BLOCKER`
 
-Der separate Entwicklungsbranch lautet:
-`df-07-source-asset-approval-authority-foundation`
-
-Er wurde exakt vom reconcilierten Implementation-Scope-Stand
-`8da923bf37f5005689918382560a893ca5cf0818`
-angelegt.
-
-Dieser Commit ist die verbindliche DF-07 Development Branch Authorization Baseline. Der autoritative Produkt-Ausgangspunkt bleibt Frozen DF-06 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`; die dazwischenliegenden Commits bis `8da923bf...` sind ausschließlich freigegebene DF-07-Steuerdokumentation.
+Der separate Entwicklungsbranch `df-07-source-asset-approval-authority-foundation` wurde exakt vom reconcilierten Implementation-Scope-Stand `8da923bf37f5005689918382560a893ca5cf0818` angelegt.
 
 ## 13. TESTBUILD-1 Implementation
 `DF-07 – IMPLEMENTED / TESTBUILD 1 / SCOPE CLEAN`
 
-Der implementierte Product Commit lautet:
+Frozen Product Commit:
 `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
-Der Produkt-Diff bleibt innerhalb des reconcilierten Scopes: `tools/asset-handoff/index.html`, `tools/asset-handoff/app.js` und Root `index.html` für sichtbare Build-Kennung/Cache-Busting. Keine zusätzliche Capability wurde eingeführt.
+Der Produkt-Diff blieb innerhalb des reconcilierten Scopes. Keine zusätzliche Capability wurde eingeführt.
 
 ## 14. Completion / Regression / Real Device Evidence
 `DF-07 COMPLETION / REGRESSION / DEVICE GATE – PASS / 0 BLOCKER`
@@ -217,12 +185,24 @@ Reale iPhone-/Safari-Evidenz vom 2026-09-11 bestätigt:
 
 Der Manifest-Exportpfad wurde durch DF-07 nicht verändert. Seine reale iPhone-/Safari-Funktion war bereits im eingefrorenen DF-05-Gate bestätigt; im DF-07-Gerätegate wurde kein neuer Export-Blocker beobachtet.
 
-Diese Evidenz autorisiert noch keinen Freeze. DF-07 bleibt bis zu einem separaten Freeze Gate ausdrücklich `NOT FROZEN`.
+## 15. Freeze Gate
+`DF-07 FREEZE GATE – PASS / 0 BLOCKER`
 
-## 15. Aktueller Gate-Status
-`DF-07 – IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + REAL DEVICE PASS / 0 BLOCKER / NOT FROZEN`
+Freeze-Basis ist exakt der real getestete Product Commit:
+`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
-## 16. Nächster zulässiger Schritt
-Ausschließlich ein separates DF-07 Freeze Gate gegen den getesteten Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e` und die dokumentierte Completion-/Device-Evidenz.
+Vor dem Freeze wurde der Branch-Diff gegen diesen Product Commit erneut geprüft. Der Branch war `3 commits ahead / 0 behind`, Merge-Base exakt der Product Commit, und seit dem getesteten Product Stand waren ausschließlich diese drei Dokumentdateien verändert:
+- `docs/DF-07_SOURCE_ASSET_APPROVAL_AUTHORITY_FOUNDATION_CONTRACT.md`
+- `docs/PROJECT_STATUS.md`
+- `docs/ROADMAP.md`
 
-Noch kein Freeze innerhalb dieses Documentation Steps.
+Damit ist bestätigt, dass zwischen realem Gerätetest und Freeze keine Produktdatei verändert wurde. Der sichtbare TESTBUILD-1-Stand bleibt Bestandteil des Frozen Product Commits; kein Build-Badge wird im Freeze-Dokumentationsschritt nachträglich verändert.
+
+## 16. Finaler Status
+`DF-07 – PASS / 0 BLOCKER / FROZEN`
+
+Frozen Product Commit:
+`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+
+## 17. Nächster zulässiger Schritt
+DF-07 ist geschlossen. Eine weitere Capability darf erst in einem separaten Reconciliation-/Definition-Step gegen den Frozen DF-07-Stand ausgewählt werden. Kein stilles Weiterbauen innerhalb von DF-07.
