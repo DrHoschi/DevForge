@@ -43,7 +43,7 @@ Projektbezogene Staging-Pfade, Manifest-Dateien, nur ausdrücklich freigegebene 
 - Animation Tester – `AVAILABLE`, Rolle `REVIEW`.
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`.
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`.
-- Controlled Asset Handoff – DF-05 `FROZEN / PRODUCTIVE`; DF-06 `FROZEN / PRODUCTIVE`; DF-07 `IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + REAL DEVICE PASS / NOT FROZEN` erweitert denselben Handoff-Kontext um explizite identitätsgebundene Approval Records.
+- Controlled Asset Handoff – DF-05 `FROZEN / PRODUCTIVE`; DF-06 `FROZEN / PRODUCTIVE`; DF-07 `FROZEN / PRODUCTIVE` erweitert denselben Handoff-Kontext um explizite identitätsgebundene Approval Records.
 
 DF-HUB-01 bleibt `PASS / 0 BLOCKER / FROZEN`.
 
@@ -90,11 +90,11 @@ Development Branch:
 Development Branch Authorization Baseline:
 `8da923bf37f5005689918382560a893ca5cf0818`
 
-TESTBUILD-1 Product Commit:
+Frozen Product Commit:
 `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
 Status:
-`IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + REAL DEVICE PASS / 0 BLOCKER / NOT FROZEN`
+`PASS / 0 BLOCKER / FROZEN`
 
 Scope:
 `Approval Record Contract + Explicit Approval Decision Contract + Approval Identity Binding Contract + Approval Consumption Contract`
@@ -120,12 +120,12 @@ Eine Approval-Autorität entsteht nur durch eine ausdrückliche Entscheidung. Re
 ### Reconciled Implementation Scope
 `DF-07 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
 
-Der maximal zulässige TESTBUILD-1-Produktscope ist:
+Frozen Produktscope:
 - `tools/asset-handoff/index.html`
 - `tools/asset-handoff/app.js`
-- Root `index.html` ausschließlich für sichtbare `DF-07 · TESTBUILD 1`-Kennung und notwendiges Cache-Busting.
+- Root `index.html` ausschließlich für sichtbare `DF-07 · TESTBUILD 1`-Kennung und Cache-Busting.
 
-`main.js` bleibt außerhalb des Scopes. Keine neue Hub-Tür, keine neue eigenständige Tool-Oberfläche, keine zusätzliche Service-/Datenbank-/Registry-Schicht.
+`main.js` blieb außerhalb des Scopes. Keine neue Hub-Tür, keine neue eigenständige Tool-Oberfläche, keine zusätzliche Service-/Datenbank-/Registry-Schicht.
 
 Die bestehende Handoff-Oberfläche wurde ausschließlich um einen klar getrennten Approval-Record-Bereich ergänzt. Ein gültiger identitätsgleicher Record darf ausschließlich seine `decision` explizit auf die bestehende DF-05-Eingabe `approvalStatus` anwenden. Danach bleibt DF-05 allein autoritativ für `ELIGIBLE` / `NOT ELIGIBLE`.
 
@@ -134,12 +134,12 @@ Die bestehende Handoff-Oberfläche wurde ausschließlich um einen klar getrennte
 ### Development Branch / Authorization
 `DF-07 DEVELOPMENT BRANCH / AUTHORIZATION – PASS / 0 BLOCKER`
 
-Der separate Entwicklungsbranch `df-07-source-asset-approval-authority-foundation` wurde exakt vom reconcilierten Scope-Stand `8da923bf37f5005689918382560a893ca5cf0818` angelegt. Dieser Commit ist die verbindliche Development Branch Authorization Baseline.
+Der separate Entwicklungsbranch `df-07-source-asset-approval-authority-foundation` wurde exakt vom reconcilierten Scope-Stand `8da923bf37f5005689918382560a893ca5cf0818` angelegt.
 
 ### TESTBUILD-1 Implementation
 `DF-07 – IMPLEMENTED / TESTBUILD 1 / SCOPE CLEAN`
 
-Product Commit:
+Frozen Product Commit:
 `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
 Der Produkt-Diff blieb innerhalb der drei freigegebenen Dateien. Keine zusätzliche Capability wurde eingeführt.
@@ -151,10 +151,15 @@ Reale iPhone-/Safari-Evidenz vom 2026-09-11 bestätigt die sichtbare TESTBUILD-1
 
 Der Manifest-Exportpfad wurde durch DF-07 nicht verändert. Seine reale iPhone-/Safari-Funktion war bereits im Frozen-DF-05-Gate bestätigt; im DF-07-Gerätegate wurde kein neuer Export-Blocker beobachtet.
 
-DF-07 bleibt trotz PASS dieses Gates ausdrücklich `NOT FROZEN`.
+### Freeze Gate
+`DF-07 FREEZE GATE – PASS / 0 BLOCKER`
+
+Freeze-Basis ist exakt Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`. Vor dem Freeze war der Branch gegen diesen Stand `3 commits ahead / 0 behind`, Merge-Base exakt der Product Commit. Seit dem getesteten Stand waren ausschließlich Contract, PROJECT_STATUS und ROADMAP verändert. Keine Produktdatei wurde zwischen Gerätetest und Freeze verändert.
 
 ### Harte Non-Goals
 Keine GitHub-/Repository-/Datei-/Runtime-Aktion, keine große Asset Library/Approval Database, keine Persistenz zwischen Sessions, kein Approval-Record-Export im ersten TESTBUILD, kein Benutzer-/Rollensystem, keine Signaturen, keine Approval-Historie, kein Batch-Approval, keine automatische oder KI-basierte Freigabe, keine automatische Identitätserkennung, keine Änderung an DF-04A–F, DF-05 oder DF-06, kein Atlas-Build/Sprite-Packing, keine Konvertierung, keine neue Tool-Oberfläche und keine neue Hub-Tür.
+
+DF-07 ist damit geschlossen. Änderungen an dieser Capability benötigen einen neuen ausdrücklich autorisierten Folgeblock.
 
 ## 8. DF-03 – Animation Atlas Contract
 Fachlich vorbereitet und nachgelagert. Vorhandene Atlas-Tool-Funktion ist keine automatische Produktionsfreigabe.
@@ -172,8 +177,7 @@ Gemeinsames Prinzip:
 - Default: `main`
 - DF-06 Frozen Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 - DF-07 Development Branch: `df-07-source-asset-approval-authority-foundation`
-- DF-07 Development Branch Authorization Baseline: `8da923bf37f5005689918382560a893ca5cf0818`
-- DF-07 TESTBUILD-1 Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+- DF-07 Frozen Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
 ### Siedler Mini
 - Repository: `DrHoschi/siedler-mini`
@@ -184,6 +188,6 @@ Gemeinsames Prinzip:
 Kleine klar benannte DF-Blöcke; aktuellen Branch/Status prüfen; funktionierende Contracts nicht nebenbei umbauen; sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken; Cache-Busting bei JS-Änderungen; PASS/FAIL dokumentieren; GitHub ist Source of Truth; neue Entwicklungsblöcke starten nur von klar festgelegter Baseline.
 
 ## 13. Nächster zulässiger Schritt
-Ausschließlich ein separates DF-07 Freeze Gate gegen den getesteten Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e` und die dokumentierte Completion-/Device-Evidenz.
+Ausschließlich eine neue Capability Reconciliation gegen den Frozen DF-07 Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`.
 
-Noch kein Freeze innerhalb dieses Documentation Steps.
+Noch keine neue Capability-Implementierung und kein neuer Entwicklungsbranch im selben Schritt.
