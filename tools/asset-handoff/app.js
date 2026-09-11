@@ -14,9 +14,16 @@ const applyApprovalButton = document.querySelector('#applyApprovalButton');
 const approvalRecordStatus = document.querySelector('#approvalRecordStatus');
 const approvalErrors = document.querySelector('#approvalErrors');
 const approvalPreview = document.querySelector('#approvalPreview');
+const payloadFile = document.querySelector('#payloadFile');
+const bindPayloadButton = document.querySelector('#bindPayloadButton');
+const payloadBindingStatus = document.querySelector('#payloadBindingStatus');
+const payloadErrors = document.querySelector('#payloadErrors');
+const payloadPreview = document.querySelector('#payloadPreview');
 
 let currentManifest = null;
 let currentApprovalRecord = null;
+let selectedPayload = null;
+let currentPayloadBinding = null;
 
 export const TARGET_PROJECT_PROFILES = Object.freeze({
   'siedler-mini': Object.freeze({
@@ -202,11 +209,13 @@ function createApprovalRecord() {
     approvalRecordStatus.textContent = 'INVALID';
     approvalPreview.textContent = 'Kein gültiger Approval Record erzeugt.';
     applyApprovalButton.disabled = true;
+    renderPayloadBindingState();
     return;
   }
 
   currentApprovalRecord = buildApprovalRecord(input);
   renderApprovalRecordState();
+  renderPayloadBindingState();
 }
 
 function applyCurrentApprovalRecord() {
@@ -217,12 +226,160 @@ function applyCurrentApprovalRecord() {
     const applied = applyApprovalRecordToHandoff(input, currentApprovalRecord);
     form.elements.approvalStatus.value = applied.approvalStatus;
     renderApprovalRecordState();
+    renderPayloadBindingState();
     renderEvaluation();
   } catch (error) {
     approvalRecordStatus.textContent = 'IDENTITY MISMATCH';
     applyApprovalButton.disabled = true;
     renderApprovalErrors([error instanceof Error ? error.message : 'IDENTITY MISMATCH']);
+    renderPayloadBindingState();
   }
+}
+
+export function validatePayloadBindingInput(input, payload) {
+  const required = ['assetId', 'sourceReference', 'sourceVersion'];
+  const errors = [];
+
+  if (!payload) errors.push('payload fehlt.');
+  for (const field of required) {
+    if (!String(input[field] || '').trim()) errors.push(`${field} fehlt.`);
+  }
+
+  return { valid: errors.length === 0, errors };
+}
+
+export function buildPayloadBinding(input, payload) {
+  const validation = validatePayloadBindingInput(input, payload);
+  if (!validation.valid) {
+    throw new Error('Payload Binding ist ungültig.');
+  }
+
+  return {
+    payload,
+    assetId: String(input.assetId).trim(),
+    sourceReference: String(input.sourceReference).trim(),
+    sourceVersion: String(input.sourceVersion).trim()
+  };
+}
+
+export function matchesPayloadBindingIdentity(binding, input) {
+  if (!binding) return false;
+  return (
+    binding.assetId === String(input.assetId || '').trim() &&
+    binding.sourceReference === String(input.sourceReference || '').trim() &&
+    binding.sourceVersion === String(input.sourceVersion || '').trim()
+  );
+}
+
+export function isPayloadApprovalCompatible(binding, approvalRecord) {
+  if (!binding || !approvalRecord || approvalRecord.decision !== 'APPROVED') return false;
+  return (
+    approvalRecord.assetId === binding.assetId &&
+    approvalRecord.sourceReference === binding.sourceReference &&
+    approvalRecord.sourceVersion === binding.sourceVersion
+  );
+}
+
+function readPayloadIdentity() {
+  const input = readInput();
+  return {
+    assetId: input.assetId,
+    sourceReference: input.sourceRef,
+    sourceVersion: input.sourceVersion
+  };
+}
+
+function clearPayloadErrors() {
+  payloadErrors.replaceChildren();
+}
+
+function renderPayloadErrors(errors) {
+  clearPayloadErrors();
+  for (const error of errors) {
+    const item = document.createElement('li');
+    item.textContent = error;
+    payloadErrors.appendChild(item);
+  }
+}
+
+function payloadInfo(payload) {
+  if (!payload) return null;
+  return {
+    name: payload.name || '',
+    size: Number.isFinite(payload.size) ? payload.size : null,
+    type: payload.type || ''
+  };
+}
+
+function renderPayloadBindingState() {
+  clearPayloadErrors();
+
+  if (!selectedPayload) {
+    payloadBindingStatus.textContent = 'NO PAYLOAD';
+    bindPayloadButton.disabled = true;
+    payloadPreview.textContent = 'Noch kein lokaler Source-Payload ausgewählt.';
+    return;
+  }
+
+  bindPayloadButton.disabled = false;
+
+  if (!currentPayloadBinding) {
+    payloadBindingStatus.textContent = 'SELECTED / NOT BOUND';
+    payloadPreview.textContent = JSON.stringify({
+      payloadInfo: payloadInfo(selectedPayload),
+      note: 'Dateimetadaten sind rein informativ und keine fachliche Identität.'
+    }, null, 2);
+    return;
+  }
+
+  const currentIdentity = readPayloadIdentity();
+  const samePayloadObject = currentPayloadBinding.payload === selectedPayload;
+  const identityMatches = matchesPayloadBindingIdentity(currentPayloadBinding, currentIdentity);
+  const preview = {
+    boundIdentity: {
+      assetId: currentPayloadBinding.assetId,
+      sourceReference: currentPayloadBinding.sourceReference,
+      sourceVersion: currentPayloadBinding.sourceVersion
+    },
+    payloadInfo: payloadInfo(currentPayloadBinding.payload),
+    note: 'Payload bleibt lokaler Browser-Laufzeitzustand; kein Hash/Fingerprint.'
+  };
+  payloadPreview.textContent = JSON.stringify(preview, null, 2);
+
+  if (!samePayloadObject) {
+    payloadBindingStatus.textContent = 'PAYLOAD CHANGED';
+    renderPayloadErrors(['PAYLOAD CHANGED: Der ausgewählte Payload stimmt nicht mehr mit der bestehenden Bindung überein. Neu binden.']);
+    return;
+  }
+
+  if (!identityMatches) {
+    payloadBindingStatus.textContent = 'IDENTITY MISMATCH';
+    renderPayloadErrors(['IDENTITY MISMATCH: Asset ID, Source Reference oder Source Version stimmt nicht mehr mit der Payload-Bindung überein. Neu binden.']);
+    return;
+  }
+
+  if (!isPayloadApprovalCompatible(currentPayloadBinding, currentApprovalRecord)) {
+    payloadBindingStatus.textContent = 'BOUND / APPROVAL MISMATCH';
+    renderPayloadErrors(['APPROVAL MISMATCH: Für die gebundene Identität ist kein identischer aktuell gültiger APPROVED DF-07 Approval Record aktiv.']);
+    return;
+  }
+
+  payloadBindingStatus.textContent = 'BOUND / APPROVAL-COMPATIBLE';
+  bindPayloadButton.disabled = true;
+}
+
+function bindCurrentPayload() {
+  const identity = readPayloadIdentity();
+  const validation = validatePayloadBindingInput(identity, selectedPayload);
+  if (!validation.valid) {
+    currentPayloadBinding = null;
+    payloadBindingStatus.textContent = 'INVALID';
+    renderPayloadErrors(validation.errors);
+    return;
+  }
+
+  currentPayloadBinding = buildPayloadBinding(identity, selectedPayload);
+  renderPayloadBindingState();
 }
 
 export function validateHandoffInput(input) {
@@ -344,6 +501,7 @@ form.addEventListener('input', () => {
   currentManifest = null;
   downloadButton.disabled = true;
   renderApprovalRecordState();
+  renderPayloadBindingState();
   renderEvaluation();
 });
 
@@ -351,8 +509,15 @@ approvalDecision.addEventListener('change', () => {
   clearApprovalErrors();
 });
 
+payloadFile.addEventListener('change', () => {
+  selectedPayload = payloadFile.files && payloadFile.files.length > 0 ? payloadFile.files[0] : null;
+  currentPayloadBinding = null;
+  renderPayloadBindingState();
+});
+
 createApprovalButton.addEventListener('click', createApprovalRecord);
 applyApprovalButton.addEventListener('click', applyCurrentApprovalRecord);
+bindPayloadButton.addEventListener('click', bindCurrentPayload);
 evaluateButton.addEventListener('click', renderEvaluation);
 manifestButton.addEventListener('click', () => {
   if (!renderEvaluation()) return;
@@ -362,4 +527,5 @@ downloadButton.addEventListener('click', exportManifest);
 
 renderProfile(null);
 renderApprovalRecordState();
+renderPayloadBindingState();
 renderEvaluation();
