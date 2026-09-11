@@ -1,10 +1,11 @@
 # DF-07 – Source Asset Approval Authority Foundation Contract
 
-Stand: 2026-09-10
-Status: `DEFINED / IMPLEMENTATION SCOPE RECONCILED / DEVELOPMENT BRANCH AUTHORIZED / NOT IMPLEMENTED`
+Stand: 2026-09-11
+Status: `IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + REAL DEVICE PASS / 0 BLOCKER / NOT FROZEN`
 Definition baseline / Frozen DF-06 Product Commit: `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 Reconciled implementation-scope head / Development branch authorization baseline: `8da923bf37f5005689918382560a893ca5cf0818`
 Development branch: `df-07-source-asset-approval-authority-foundation`
+DF-07 TESTBUILD-1 Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
 ## 1. Zweck
 DF-07 definiert die minimale fachliche Autorität, mit der eine ausdrückliche Freigabe eindeutig an ein bestimmtes Source Asset und dessen deklarierte Version gebunden werden kann.
@@ -192,12 +193,36 @@ angelegt.
 
 Dieser Commit ist die verbindliche DF-07 Development Branch Authorization Baseline. Der autoritative Produkt-Ausgangspunkt bleibt Frozen DF-06 `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`; die dazwischenliegenden Commits bis `8da923bf...` sind ausschließlich freigegebene DF-07-Steuerdokumentation.
 
-Mit diesem Schritt wird ausschließlich der Entwicklungsbranch für den bereits reconcilierten TESTBUILD-1-Scope freigegeben. Es ist noch keine DF-07-Code-Implementierung erfolgt.
+## 13. TESTBUILD-1 Implementation
+`DF-07 – IMPLEMENTED / TESTBUILD 1 / SCOPE CLEAN`
 
-## 13. Aktueller Gate-Status
-`DF-07 – DEFINED / IMPLEMENTATION SCOPE RECONCILED / DEVELOPMENT BRANCH AUTHORIZED / NOT IMPLEMENTED`
+Der implementierte Product Commit lautet:
+`81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
 
-## 14. Nächster zulässiger Schritt
-Ausschließlich die eigentliche DF-07-Implementierung auf `df-07-source-asset-approval-authority-foundation` gegen die Authorization Baseline `8da923bf37f5005689918382560a893ca5cf0818` und exakt innerhalb des reconcilierten TESTBUILD-1-Scopes.
+Der Produkt-Diff bleibt innerhalb des reconcilierten Scopes: `tools/asset-handoff/index.html`, `tools/asset-handoff/app.js` und Root `index.html` für sichtbare Build-Kennung/Cache-Busting. Keine zusätzliche Capability wurde eingeführt.
 
-Keine zusätzliche Capability oder Scope-Erweiterung im selben Schritt.
+## 14. Completion / Regression / Real Device Evidence
+`DF-07 COMPLETION / REGRESSION / DEVICE GATE – PASS / 0 BLOCKER`
+
+Reale iPhone-/Safari-Evidenz vom 2026-09-11 bestätigt:
+- sichtbare `DF-07 · TESTBUILD 1`-Kennung im Tool Hub und im Controlled Asset Handoff;
+- explizite leere Decision führt zu `INVALID` und `decision fehlt.`;
+- `NOT APPROVED` erzeugt einen `VALID` Approval Record mit exakt den fünf Contract-Mindestfeldern;
+- `APPROVED` erzeugt ebenfalls einen `VALID` Approval Record;
+- ein gültiger `APPROVED` Record macht DF-05 nicht automatisch eligible; erst die explizite Aktion `Decision auf DF-05 anwenden` überträgt die Decision auf `approvalStatus`;
+- danach bestätigt die bestehende DF-05-Logik `ELIGIBLE`, sofern die übrigen Pflichtfelder vollständig sind;
+- Änderung der Source Version von `TEST-V1` auf `TEST-V2` bei bestehendem Record erzeugt deterministisch `IDENTITY MISMATCH` und sperrt die Anwendung des alten Records;
+- für `TEST-V2` kann anschließend ein neuer `VALID` Record erzeugt werden;
+- die bestehende DF-05-Manifest-Erzeugung bleibt funktionsfähig und erzeugt für `TEST-V2` ein Manifest mit `approvalStatus: "APPROVED"`.
+
+Der Manifest-Exportpfad wurde durch DF-07 nicht verändert. Seine reale iPhone-/Safari-Funktion war bereits im eingefrorenen DF-05-Gate bestätigt; im DF-07-Gerätegate wurde kein neuer Export-Blocker beobachtet.
+
+Diese Evidenz autorisiert noch keinen Freeze. DF-07 bleibt bis zu einem separaten Freeze Gate ausdrücklich `NOT FROZEN`.
+
+## 15. Aktueller Gate-Status
+`DF-07 – IMPLEMENTED / TESTBUILD 1 / COMPLETION + REGRESSION + REAL DEVICE PASS / 0 BLOCKER / NOT FROZEN`
+
+## 16. Nächster zulässiger Schritt
+Ausschließlich ein separates DF-07 Freeze Gate gegen den getesteten Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e` und die dokumentierte Completion-/Device-Evidenz.
+
+Noch kein Freeze innerhalb dieses Documentation Steps.
