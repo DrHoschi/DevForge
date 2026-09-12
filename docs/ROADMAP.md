@@ -1,6 +1,6 @@
 # DevForge – Master Roadmap & Entwicklungsgrenzen
 
-Stand: 2026-09-11
+Stand: 2026-09-12
 
 ## 1. Vision
 DevForge ist eine projektübergreifende Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets. Neue Funktionen werden in kleinen überprüfbaren Blöcken aus realen Produktionsproblemen entwickelt.
@@ -11,13 +11,22 @@ DevForge ist eine projektübergreifende Produktions-, Prüf- und Übergabeplattf
 - DF-05: Controlled Asset Handoff — `PASS / 0 BLOCKER / FROZEN`, Product Commit `c677f07773866dfe8f5c98dcb311ab1750538d9c`
 - DF-06: Target Project Handoff Profile — `PASS / 0 BLOCKER / FROZEN`, Product Commit `a33a48e07b1e88c8c4a57f3e4418eed16e22d0ec`
 - DF-07: Source Asset Approval Authority — `PASS / 0 BLOCKER / FROZEN`, Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
-- DF-08: Source Asset Payload Binding — `DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
+- DF-08: Source Asset Payload Binding — `PASS / 0 BLOCKER / FROZEN`, Product Commit `2c08b275f999f7467d5eb62a17515f39283b1f25`
 
 ## 3. DF-08 – Source Asset Payload Binding Foundation
 Contract: `docs/DF-08_SOURCE_ASSET_PAYLOAD_BINDING_FOUNDATION_CONTRACT.md`
 
 Definition baseline / Frozen DF-07 Product Commit:
 `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+
+Development Branch:
+`df-08-source-asset-payload-binding-foundation`
+
+Branch Authorization / Implementation Baseline:
+`6cbaac377a3080ad472adecb694d14716426d52b`
+
+Frozen Product Commit:
+`2c08b275f999f7467d5eb62a17515f39283b1f25`
 
 Fachlicher Übergang:
 `APPROVED IDENTITY + EXPLICIT LOCAL SOURCE PAYLOAD → IDENTITY-BOUND HANDOFF CANDIDATE → bestehendes DF-05 Manifest`
@@ -33,24 +42,49 @@ DF-08 erzeugt keine Approval-Entscheidung und keine zweite Eligibility. DF-07 bl
 ### Implementation Scope Reconciliation
 `DF-08 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
 
-Der maximale erste TESTBUILD-1-Produktscope ist:
+Der TESTBUILD-1-Produktscope ist exakt:
 - `tools/asset-handoff/index.html`
 - `tools/asset-handoff/app.js`
 
-Keine neue Tool-Oberfläche, keine neue Hub-Tür, kein `main.js`. Root `index.html` ist fachlich nicht erforderlich und nicht Teil des reconcilierten Produktscopes.
+Keine neue Tool-Oberfläche, keine neue Hub-Tür, kein `main.js`, kein Root-`index.html`.
 
-Die minimale UI wird innerhalb des bestehenden Controlled Asset Handoff ergänzt: expliziter lokaler Datei-Input, sichtbarer Payload-/Binding-Status und explizite Bind-Aktion.
+Die minimale UI wurde innerhalb des bestehenden Controlled Asset Handoff ergänzt: expliziter lokaler Datei-Input, sichtbarer Payload-/Binding-Status und explizite Bind-Aktion.
 
-Der minimale Laufzeitzustand hält das ausdrücklich ausgewählte Browser-`File`-Objekt lokal und bindet es bewusst an die beim Binding aktuellen Werte `assetId`, `sourceReference` und `sourceVersion`.
-
-Die technische Verantwortung bleibt auf vier Punkte begrenzt: Payload auswählen; Binding explizit erzeugen; Binding gegen aktuelle Payload/Identity prüfen; exakte Kompatibilität mit dem aktuell gültigen DF-07 Approval Record prüfen.
+Der Laufzeitzustand hält das ausdrücklich ausgewählte Browser-`File`-Objekt lokal und bindet es bewusst an die beim Binding aktuellen Werte `assetId`, `sourceReference` und `sourceVersion`.
 
 Änderung der deklarierten Identität oder Auswahl eines anderen Payloads invalidiert die alte Bindung für die neue Kombination. Keine stille Approval-Übernahme.
 
-Die Frozen-DF-05-Funktionen `validateHandoffInput(...)`, `isHandoffEligible(...)` und `buildHandoffManifest(...)` bleiben unverändert. Der DF-08-Status darf nicht als zweite Eligibility-Autorität dienen.
+Die Frozen-DF-05-Funktionen `validateHandoffInput(...)`, `isHandoffEligible(...)` und `buildHandoffManifest(...)` bleiben unverändert. Der DF-08-Status dient nicht als zweite Eligibility-Autorität.
 
-### TESTBUILD-1 Non-Goals
-Keine Persistenz via LocalStorage/IndexedDB; kein Payload-Export oder Upload; keine GitHub-/Repository-Aktion; kein Runtime-Handoff; kein Hash/Fingerprint; keine FileReader-Inhaltsprüfung; kein Preview/Rendering; kein Batch; keine Drag&Drop-Infrastruktur; keine neuen Service-/Registry-/Datenbankdateien; keine neue Hub-Tür; keine Formatkonvertierung. Dateiname, Größe und MIME-Type sind höchstens informative Metadaten.
+### TESTBUILD 1
+Sichtbare Tool-Kennung:
+`DF-08 · TESTBUILD 1`
+
+Product Commit:
+`2c08b275f999f7467d5eb62a17515f39283b1f25`
+
+Die Implementierung liegt vollständig innerhalb des reconcilierten Zwei-Dateien-Scopes.
+
+### Completion / Regression / Real Device Gate
+`DF-08 COMPLETION / REGRESSION / REAL DEVICE GATE – PASS / 0 BLOCKER`
+
+Reale iPhone-/Safari-Evidenz vom 2026-09-12 bestätigt lokale Dateiauswahl und Payload Binding, die erwarteten Identity-/Approval-Mismatch-Zustände sowie einen neuen gültigen Approval Record für die geänderte Source Version. DF-05 bleibt `ELIGIBLE` und die bestehende Manifest-Erzeugung funktioniert weiter.
+
+Die vorhandenen Screenshots und die Nutzerbestätigung sind als ausreichende Real-Device-Evidenz akzeptiert; ein erneuter kompletter Reload-/Dateneingabe-Durchlauf ist nicht erforderlich.
+
+### Completion / Freeze Gate
+`DF-08 COMPLETION / FREEZE GATE – PASS / 0 BLOCKER / FROZEN`
+
+Diff-Prüfung gegen die Branch-Authorization-Baseline `6cbaac377a3080ad472adecb694d14716426d52b` bis zum Frozen Product Commit `2c08b275f999f7467d5eb62a17515f39283b1f25`:
+- `2 commits ahead / 0 behind`;
+- Merge Base exakt die Authorization-Baseline;
+- ausschließlich `tools/asset-handoff/index.html` und `tools/asset-handoff/app.js` verändert;
+- keine Scope-fremde Produktdatei verändert.
+
+DF-08 ist damit geschlossen und eingefroren.
+
+### TESTBUILD-1 Non-Goals bleiben geschlossen
+Keine Persistenz via LocalStorage/IndexedDB; kein Payload-Export oder Upload; keine GitHub-/Repository-Aktion im Produkt; kein Runtime-Handoff; kein Hash/Fingerprint; keine FileReader-Inhaltsprüfung; kein Preview/Rendering; kein Batch; keine Drag&Drop-Infrastruktur; keine neuen Service-/Registry-/Datenbankdateien; keine neue Hub-Tür; keine Formatkonvertierung. Dateiname, Größe und MIME-Type bleiben ausschließlich informative Metadaten.
 
 ## 4. Spätere Capability-Grenzen
 Binärer Payload-Identitätsnachweis per Hash/Fingerprint benötigt eine eigene Reconciliation. Repository-Dateiübertragung, Runtime-Handoff, persistente Asset-/Payload-Library, Batch-Workflows, Atlas-/Sprite-Produktion und Formatkonvertierung bleiben separate spätere Blöcke.
@@ -59,9 +93,12 @@ Binärer Payload-Identitätsnachweis per Hash/Fingerprint benötigt eine eigene 
 GitHub ist Source of Truth. Kleine DF-Blöcke, klarer Baseline-/Branch-Nachweis, sichtbare Build-Kennung bei produktiven UI-/Code-Blöcken, reale Device-Gates und getrennte Freeze-Gates bleiben verbindlich. Eingefrorene Contracts werden nicht nebenbei geöffnet.
 
 ## 6. Aktueller Stand
-`DF-08 – DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
+`DF-08 – PASS / 0 BLOCKER / FROZEN`
 
-Der bestehende Branch `df-07-source-asset-approval-authority-foundation` ist weiterhin ausschließlich Dokumentationsträger. Kein DF-08-Entwicklungsbranch wurde in diesem Schritt angelegt und kein DF-08-Produktcode implementiert.
+Autoritativer DF-08 Frozen Product Stand:
+`2c08b275f999f7467d5eb62a17515f39283b1f25`
 
 ## 7. Nächster zulässiger Schritt
-Ausschließlich die separate Autorisierung/Anlage eines DF-08-Entwicklungsbranches gegen den verbindlich dokumentierten Implementation Scope. Noch keine DF-08-Implementierung im selben Schritt.
+Ausschließlich eine separate `Post-DF-08 Capability Reconciliation` gegen den Frozen DF-08 Product Commit `2c08b275f999f7467d5eb62a17515f39283b1f25`.
+
+Dabei darf nur die nächste reale Capability-Lücke bestimmt werden. Keine neue Implementierung, keine Erweiterung von DF-08 und kein neuer Entwicklungsbranch im selben Schritt.
