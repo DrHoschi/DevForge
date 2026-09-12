@@ -17,7 +17,7 @@ Der Hub wurde durch DF-05 außerhalb des eingefrorenen HUB-01-Blocks um `Control
 - Atlas Builder – `CONSOLIDATED / REDIRECT`
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`
-- Controlled Asset Handoff – DF-05, DF-06 und DF-07 `FROZEN / PRODUCTIVE`; DF-08 ist `DEFINED / NOT IMPLEMENTED`
+- Controlled Asset Handoff – DF-05, DF-06, DF-07 und DF-08 `FROZEN / PRODUCTIVE`; DF-09 ist `DEFINED / NOT IMPLEMENTED`
 
 ## Aktueller Character-Workflow
 Der Character-Animationsworkflow wird anhand von `siedler-mini` / Carrier / WALK entwickelt.
@@ -61,28 +61,44 @@ DF-07 stellt die explizite identitätsgebundene Approval-Autorität bereit:
 Der Approval Record bindet die Entscheidung an `assetId`, `sourceReference` und `sourceVersion`. Die reale iPhone-/Safari-Evidenz bestätigte explizite Decisions, `VALID`, `IDENTITY MISMATCH`, explizite Anwendung auf DF-05 und unveränderte DF-05-Eligibility.
 
 ## DF-08 – Source Asset Payload Binding Foundation
-Status: `DEFINED / NOT IMPLEMENTED`
+Status: `PASS / 0 BLOCKER / FROZEN`
 
-Definition baseline / Frozen DF-07 Product Commit: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+Frozen Product Commit: `2c08b275f999f7467d5eb62a17515f39283b1f25`
 
 Verbindlicher Contract: `docs/DF-08_SOURCE_ASSET_PAYLOAD_BINDING_FOUNDATION_CONTRACT.md`
 
-DF-08 definiert die nächste kleine Grenze:
+DF-08 stellt die explizite lokale Payload-Bindung bereit:
 `APPROVED IDENTITY + EXPLICIT LOCAL SOURCE PAYLOAD → IDENTITY-BOUND HANDOFF CANDIDATE → bestehendes DF-05 Manifest`
 
-Ein lokaler Source-Payload muss ausdrücklich gewählt und an die aktuell deklarierte Kombination aus `assetId`, `sourceReference` und `sourceVersion` gebunden werden. Ein gebundener Payload darf nur bei identischer gültiger DF-07-Approval-Identität als Handoff-Kandidat gelten. Eine neue Datei oder geänderte Identität übernimmt keine alte Approval-Autorität automatisch.
+Ein lokaler Source-Payload wird ausdrücklich gewählt und an die aktuell deklarierte Kombination aus `assetId`, `sourceReference` und `sourceVersion` gebunden. Ein gebundener Payload gilt nur bei identischer gültiger DF-07-Approval-Identität als approval-kompatibel. Eine neue Datei oder geänderte Identität übernimmt keine alte Approval-Autorität automatisch.
 
-DF-08 autorisiert noch keine Repository-/Datei-/Runtime-Übertragung und führt noch keinen verpflichtenden Content-Hash/Fingerprint ein.
+Der Frozen Stand enthält weiterhin keinen verpflichtenden Content-Hash/Fingerprint und führt keine Repository-/Datei-/Runtime-Übertragung aus.
+
+## DF-09 – Source Asset Payload Fingerprint Foundation
+Status: `DEFINED / NOT IMPLEMENTED`
+
+Definition baseline / Frozen DF-08 Product Commit: `2c08b275f999f7467d5eb62a17515f39283b1f25`
+
+Verbindlicher Contract: `docs/DF-09_SOURCE_ASSET_PAYLOAD_FINGERPRINT_FOUNDATION_CONTRACT.md`
+
+DF-09 definiert die nächste kleine technische Nachweisgrenze:
+`EXPLICITLY BOUND LOCAL PAYLOAD + DECLARED IDENTITY → DETERMINISTIC PAYLOAD FINGERPRINT → IDENTITY-BOUND PAYLOAD PROOF`
+
+Der Fingerprint wird ausschließlich aus dem Byte-Inhalt des ausdrücklich ausgewählten und nach DF-08 gebundenen lokalen Payloads berechnet. Verbindlicher Algorithmus ist `SHA-256`; der Digest wird vollständig als lowercase hexadecimal string dargestellt.
+
+Der Fingerprint ersetzt weder `assetId`, `sourceReference` oder `sourceVersion` noch die DF-07-Approval-Autorität. Er dient ausschließlich als technischer Nachweis für die Binäridentität des aktuell gebundenen Payloads.
+
+DF-09 autorisiert noch keine Repository-/Datei-/Runtime-Übertragung, keine Persistenz, keine Signaturen, keine semantische Inhaltsanalyse und keine Änderung der eingefrorenen DF-05/06/07/08-Semantik.
 
 ## Aktueller Stand
-Autoritativer Frozen Product Stand: `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`
+Autoritativer Frozen Product Stand: `2c08b275f999f7467d5eb62a17515f39283b1f25`
 
-Aktueller Dokumentationsstand definiert DF-08, implementiert aber noch nichts.
+DF-08 ist `PASS / 0 BLOCKER / FROZEN`. DF-09 ist gegen diesen Frozen Product Stand definiert, aber noch nicht implementiert.
 
 ## Siedler-Mini
 Repository: `DrHoschi/siedler-mini`
 
-DF-08 verändert dieses Repository nicht.
+DF-09 verändert dieses Repository nicht.
 
 ## Dokumentation
 - `docs/PROJECT_STATUS.md` – aktueller Gesamtstand, Branch, PASS/FAIL und exakt nächster zulässiger Schritt
@@ -90,7 +106,8 @@ DF-08 verändert dieses Repository nicht.
 - `docs/DF-05_CONTROLLED_ASSET_HANDOFF_FOUNDATION_CONTRACT.md` – eingefrorener DF-05-Handoff-Contract
 - `docs/DF-06_TARGET_PROJECT_HANDOFF_PROFILE_FOUNDATION_CONTRACT.md` – eingefrorener DF-06-Profil-Contract
 - `docs/DF-07_SOURCE_ASSET_APPROVAL_AUTHORITY_FOUNDATION_CONTRACT.md` – eingefrorener DF-07-Approval-Authority-Contract
-- `docs/DF-08_SOURCE_ASSET_PAYLOAD_BINDING_FOUNDATION_CONTRACT.md` – definierter DF-08-Payload-Binding-Contract
+- `docs/DF-08_SOURCE_ASSET_PAYLOAD_BINDING_FOUNDATION_CONTRACT.md` – eingefrorener DF-08-Payload-Binding-Contract
+- `docs/DF-09_SOURCE_ASSET_PAYLOAD_FINGERPRINT_FOUNDATION_CONTRACT.md` – definierter DF-09-Payload-Fingerprint-Contract
 - `docs/DF-HUB-01_TOOL_HUB_AUTHORITY_WORKFLOW_RECONCILIATION_CONTRACT.md` – eingefrorener Tool-Hub-Authority-/Workflow-Contract
 - `docs/DF-04A_SOURCE_RESULT_COMPARE_VIEW_CONTRACT.md` bis `docs/DF-04F_SILHOUETTE_GEOMETRY_GUIDE_FOUNDATION_CONTRACT.md` – eingefrorene Review-Contracts
 
@@ -98,11 +115,11 @@ DF-08 verändert dieses Repository nicht.
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
 
 ## Nächster zulässiger Schritt
-Ausschließlich das `DF-08 Contract / Documentation Reconciliation Gate` gegen Frozen DF-07 Product Commit `81e9fc42cf00a04e3f7fd89271b50f9ec44a1a3e`.
+Ausschließlich das `DF-09 Contract / Documentation Reconciliation Gate` gegen Frozen DF-08 Product Commit `2c08b275f999f7467d5eb62a17515f39283b1f25`.
 
-Dabei sind Scope, explizite Payload-Auswahl, Payload-/Identity-Bindung, Approval-Kompatibilität, Grenzen zu DF-05/06/07, Payload-Identitätsgrenze und harte Non-Goals auf Widerspruchsfreiheit zu prüfen.
+Dabei sind SHA-256-Fingerprint-Vertrag, Byte-Inhalt-Grenze, Bindung an den aktuellen DF-08-Payload, deklarierte Identity-Assoziation, Validity-/Invalidation-Regeln, Grenzen zu DF-05/06/07/08 und harte Non-Goals auf Widerspruchsfreiheit zu prüfen.
 
-Noch keine DF-08 Implementation Scope Reconciliation, keine Code-Implementierung und kein neuer Entwicklungsbranch im selben Schritt.
+Noch keine DF-09 Implementation Scope Reconciliation, keine Code-Implementierung und kein neuer Entwicklungsbranch im selben Schritt.
 
 ## Archivierter Altstand
 Der frühere parametrische Stahlträgerhallen-Prototyp ist unverändert auf folgendem Branch gesichert:
