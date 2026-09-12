@@ -19,11 +19,16 @@ const bindPayloadButton = document.querySelector('#bindPayloadButton');
 const payloadBindingStatus = document.querySelector('#payloadBindingStatus');
 const payloadErrors = document.querySelector('#payloadErrors');
 const payloadPreview = document.querySelector('#payloadPreview');
+const createFingerprintButton = document.querySelector('#createFingerprintButton');
+const fingerprintStatus = document.querySelector('#fingerprintStatus');
+const fingerprintErrors = document.querySelector('#fingerprintErrors');
+const fingerprintPreview = document.querySelector('#fingerprintPreview');
 
 let currentManifest = null;
 let currentApprovalRecord = null;
 let selectedPayload = null;
 let currentPayloadBinding = null;
+let currentFingerprintRecord = null;
 
 export const TARGET_PROJECT_PROFILES = Object.freeze({
   'siedler-mini': Object.freeze({
@@ -318,6 +323,7 @@ function renderPayloadBindingState() {
     payloadBindingStatus.textContent = 'NO PAYLOAD';
     bindPayloadButton.disabled = true;
     payloadPreview.textContent = 'Noch kein lokaler Source-Payload ausgewählt.';
+    renderFingerprintState();
     return;
   }
 
@@ -329,6 +335,7 @@ function renderPayloadBindingState() {
       payloadInfo: payloadInfo(selectedPayload),
       note: 'Dateimetadaten sind rein informativ und keine fachliche Identität.'
     }, null, 2);
+    renderFingerprintState();
     return;
   }
 
@@ -342,30 +349,34 @@ function renderPayloadBindingState() {
       sourceVersion: currentPayloadBinding.sourceVersion
     },
     payloadInfo: payloadInfo(currentPayloadBinding.payload),
-    note: 'Payload bleibt lokaler Browser-Laufzeitzustand; kein Hash/Fingerprint.'
+    note: 'Payload bleibt lokaler Browser-Laufzeitzustand.'
   };
   payloadPreview.textContent = JSON.stringify(preview, null, 2);
 
   if (!samePayloadObject) {
     payloadBindingStatus.textContent = 'PAYLOAD CHANGED';
     renderPayloadErrors(['PAYLOAD CHANGED: Der ausgewählte Payload stimmt nicht mehr mit der bestehenden Bindung überein. Neu binden.']);
+    renderFingerprintState();
     return;
   }
 
   if (!identityMatches) {
     payloadBindingStatus.textContent = 'IDENTITY MISMATCH';
     renderPayloadErrors(['IDENTITY MISMATCH: Asset ID, Source Reference oder Source Version stimmt nicht mehr mit der Payload-Bindung überein. Neu binden.']);
+    renderFingerprintState();
     return;
   }
 
   if (!isPayloadApprovalCompatible(currentPayloadBinding, currentApprovalRecord)) {
     payloadBindingStatus.textContent = 'BOUND / APPROVAL MISMATCH';
     renderPayloadErrors(['APPROVAL MISMATCH: Für die gebundene Identität ist kein identischer aktuell gültiger APPROVED DF-07 Approval Record aktiv.']);
+    renderFingerprintState();
     return;
   }
 
   payloadBindingStatus.textContent = 'BOUND / APPROVAL-COMPATIBLE';
   bindPayloadButton.disabled = true;
+  renderFingerprintState();
 }
 
 function bindCurrentPayload() {
@@ -373,13 +384,174 @@ function bindCurrentPayload() {
   const validation = validatePayloadBindingInput(identity, selectedPayload);
   if (!validation.valid) {
     currentPayloadBinding = null;
+    currentFingerprintRecord = null;
     payloadBindingStatus.textContent = 'INVALID';
     renderPayloadErrors(validation.errors);
+    renderFingerprintState();
     return;
   }
 
   currentPayloadBinding = buildPayloadBinding(identity, selectedPayload);
+  currentFingerprintRecord = null;
   renderPayloadBindingState();
+}
+
+function clearFingerprintErrors() {
+  fingerprintErrors.replaceChildren();
+}
+
+function renderFingerprintErrors(errors) {
+  clearFingerprintErrors();
+  for (const error of errors) {
+    const item = document.createElement('li');
+    item.textContent = error;
+    fingerprintErrors.appendChild(item);
+  }
+}
+
+export function matchesFingerprintIdentity(record, input) {
+  if (!record) return false;
+  return (
+    record.assetId === String(input.assetId || '').trim() &&
+    record.sourceReference === String(input.sourceReference || '').trim() &&
+    record.sourceVersion === String(input.sourceVersion || '').trim()
+  );
+}
+
+export function buildFingerprintRecord(binding, digest) {
+  if (!binding) throw new Error('DF-08 Payload Binding fehlt.');
+  const normalizedDigest = String(digest || '').trim().toLowerCase();
+  if (!/^[0-9a-f]{64}$/.test(normalizedDigest)) {
+    throw new Error('SHA-256 Digest ist ungültig.');
+  }
+
+  return {
+    fingerprintRecordVersion: '1',
+    assetId: binding.assetId,
+    sourceReference: binding.sourceReference,
+    sourceVersion: binding.sourceVersion,
+    algorithm: 'SHA-256',
+    digest: normalizedDigest
+  };
+}
+
+export async function calculateSha256Digest(payload) {
+  if (!payload) throw new Error('Payload fehlt.');
+  if (!globalThis.crypto || !globalThis.crypto.subtle) {
+    throw new Error('SHA-256 Browser-Krypto ist nicht verfügbar.');
+  }
+
+  const bytes = await payload.arrayBuffer();
+  const digestBuffer = await globalThis.crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(digestBuffer), byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function currentBindingIsValid() {
+  if (!selectedPayload || !currentPayloadBinding) return false;
+  if (currentPayloadBinding.payload !== selectedPayload) return false;
+  return matchesPayloadBindingIdentity(currentPayloadBinding, readPayloadIdentity());
+}
+
+function renderFingerprintState() {
+  clearFingerprintErrors();
+
+  if (!selectedPayload) {
+    fingerprintStatus.textContent = 'NO PAYLOAD';
+    createFingerprintButton.disabled = true;
+    fingerprintPreview.textContent = currentFingerprintRecord
+      ? JSON.stringify(currentFingerprintRecord, null, 2)
+      : 'Noch kein Fingerprint Record erzeugt.';
+    return;
+  }
+
+  if (!currentPayloadBinding) {
+    fingerprintStatus.textContent = 'NO VALID BINDING';
+    createFingerprintButton.disabled = true;
+    fingerprintPreview.textContent = currentFingerprintRecord
+      ? JSON.stringify(currentFingerprintRecord, null, 2)
+      : 'Noch kein Fingerprint Record erzeugt.';
+    if (currentFingerprintRecord) {
+      renderFingerprintErrors(['BINDING INVALIDATED: Der vorhandene Fingerprint ist ohne aktuelle DF-08-Bindung nicht gültig.']);
+    }
+    return;
+  }
+
+  if (currentPayloadBinding.payload !== selectedPayload) {
+    fingerprintStatus.textContent = 'PAYLOAD CHANGED';
+    createFingerprintButton.disabled = true;
+    fingerprintPreview.textContent = currentFingerprintRecord
+      ? JSON.stringify(currentFingerprintRecord, null, 2)
+      : 'Noch kein Fingerprint Record erzeugt.';
+    renderFingerprintErrors(['PAYLOAD CHANGED: Für den aktuell ausgewählten Payload ist eine neue DF-08-Bindung und danach ein neuer Fingerprint erforderlich.']);
+    return;
+  }
+
+  const identity = readPayloadIdentity();
+  if (!matchesPayloadBindingIdentity(currentPayloadBinding, identity)) {
+    fingerprintStatus.textContent = 'IDENTITY MISMATCH';
+    createFingerprintButton.disabled = true;
+    fingerprintPreview.textContent = currentFingerprintRecord
+      ? JSON.stringify(currentFingerprintRecord, null, 2)
+      : 'Noch kein Fingerprint Record erzeugt.';
+    renderFingerprintErrors(['IDENTITY MISMATCH: Die aktuelle Identität stimmt nicht mehr mit der DF-08-Payload-Bindung überein.']);
+    return;
+  }
+
+  createFingerprintButton.disabled = false;
+
+  if (!currentFingerprintRecord) {
+    fingerprintStatus.textContent = 'READY';
+    fingerprintPreview.textContent = 'Gültige DF-08-Bindung vorhanden. Noch kein Fingerprint Record erzeugt.';
+    return;
+  }
+
+  if (!matchesFingerprintIdentity(currentFingerprintRecord, identity)) {
+    fingerprintStatus.textContent = 'IDENTITY MISMATCH';
+    fingerprintPreview.textContent = JSON.stringify(currentFingerprintRecord, null, 2);
+    renderFingerprintErrors(['IDENTITY MISMATCH: Der vorhandene Fingerprint Record gehört zu einer anderen deklarierten Identität. Neu binden und neuen Fingerprint erzeugen.']);
+    return;
+  }
+
+  fingerprintStatus.textContent = 'VALID';
+  fingerprintPreview.textContent = JSON.stringify(currentFingerprintRecord, null, 2);
+  createFingerprintButton.disabled = true;
+}
+
+async function createCurrentFingerprint() {
+  if (!currentBindingIsValid()) {
+    renderFingerprintState();
+    return;
+  }
+
+  const bindingAtStart = currentPayloadBinding;
+  const payloadAtStart = selectedPayload;
+  createFingerprintButton.disabled = true;
+  fingerprintStatus.textContent = 'COMPUTING';
+  clearFingerprintErrors();
+  fingerprintPreview.textContent = 'SHA-256 wird aus den Payload-Bytes berechnet …';
+
+  try {
+    const digest = await calculateSha256Digest(payloadAtStart);
+
+    if (
+      currentPayloadBinding !== bindingAtStart ||
+      selectedPayload !== payloadAtStart ||
+      !currentBindingIsValid()
+    ) {
+      currentFingerprintRecord = null;
+      renderFingerprintState();
+      return;
+    }
+
+    currentFingerprintRecord = buildFingerprintRecord(bindingAtStart, digest);
+    renderFingerprintState();
+  } catch (error) {
+    currentFingerprintRecord = null;
+    fingerprintStatus.textContent = 'ERROR';
+    createFingerprintButton.disabled = !currentBindingIsValid();
+    fingerprintPreview.textContent = 'Kein Fingerprint Record erzeugt.';
+    renderFingerprintErrors([error instanceof Error ? error.message : 'Fingerprint-Berechnung fehlgeschlagen.']);
+  }
 }
 
 export function validateHandoffInput(input) {
@@ -512,12 +684,14 @@ approvalDecision.addEventListener('change', () => {
 payloadFile.addEventListener('change', () => {
   selectedPayload = payloadFile.files && payloadFile.files.length > 0 ? payloadFile.files[0] : null;
   currentPayloadBinding = null;
+  currentFingerprintRecord = null;
   renderPayloadBindingState();
 });
 
 createApprovalButton.addEventListener('click', createApprovalRecord);
 applyApprovalButton.addEventListener('click', applyCurrentApprovalRecord);
 bindPayloadButton.addEventListener('click', bindCurrentPayload);
+createFingerprintButton.addEventListener('click', createCurrentFingerprint);
 evaluateButton.addEventListener('click', renderEvaluation);
 manifestButton.addEventListener('click', () => {
   if (!renderEvaluation()) return;
@@ -528,4 +702,5 @@ downloadButton.addEventListener('click', exportManifest);
 renderProfile(null);
 renderApprovalRecordState();
 renderPayloadBindingState();
+renderFingerprintState();
 renderEvaluation();
