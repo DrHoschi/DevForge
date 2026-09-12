@@ -13,7 +13,7 @@ Stand: 2026-09-12
 - DF-08 Branch Authorization / Implementation Baseline: `6cbaac377a3080ad472adecb694d14716426d52b`
 - DF-08 Frozen Product Commit: `2c08b275f999f7467d5eb62a17515f39283b1f25`
 - DF-08 Contract: `docs/DF-08_SOURCE_ASSET_PAYLOAD_BINDING_FOUNDATION_CONTRACT.md`
-- DF-09: `DEFINED / NOT IMPLEMENTED`
+- DF-09: `DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
 - DF-09 Definition Baseline: `2c08b275f999f7467d5eb62a17515f39283b1f25`
 - DF-09 Contract: `docs/DF-09_SOURCE_ASSET_PAYLOAD_FINGERPRINT_FOUNDATION_CONTRACT.md`
 - DF-09 Documentation Carrier Branch: `df-08-source-asset-payload-binding-foundation`
@@ -102,7 +102,7 @@ Reale Lücke des Frozen DF-08-Stands: DF-08 hält und bindet ein konkretes lokal
 
 # DF-09 – Source Asset Payload Fingerprint Foundation
 Status:
-`DEFINED / NOT IMPLEMENTED`
+`DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
 
 Definition baseline / Frozen DF-08 Product Commit:
 `2c08b275f999f7467d5eb62a17515f39283b1f25`
@@ -113,57 +113,44 @@ Contract:
 Documentation carrier branch:
 `df-08-source-asset-payload-binding-foundation`
 
-Dieser Branch dient in diesem Definition-Step ausschließlich als Dokumentationsträger und ist kein DF-09-Entwicklungsbranch.
+Dieser Branch dient weiterhin ausschließlich als Dokumentationsträger und ist kein DF-09-Entwicklungsbranch.
 
-## Zweck und fachlicher Übergang
-DF-09 ergänzt die bestehende DF-08-Bindung um einen deterministischen technischen Binärnachweis:
+## Contract / Documentation Reconciliation
+`DF-09 CONTRACT / DOCUMENTATION RECONCILIATION – PASS / 0 BLOCKER`
 
-`EXPLICITLY BOUND LOCAL PAYLOAD + DECLARED IDENTITY → DETERMINISTIC PAYLOAD FINGERPRINT → IDENTITY-BOUND PAYLOAD PROOF`
+SHA-256-Fingerprint-Vertrag, Byte-Inhalt-Grenze, Bindung an den aktuellen DF-08-Payload, deklarierte Identity-Assoziation, Validity-/Invalidation-Regeln, Grenzen zu DF-05/06/07/08 und harte Non-Goals sind widerspruchsfrei.
 
-Der Fingerprint ersetzt die fachliche Source-Identität nicht. `assetId`, `sourceReference` und `sourceVersion` bleiben die fachlichen Identity-Felder.
+## Implementation Scope Reconciliation
+`DF-09 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
 
-## Deterministic Fingerprint Contract
-Verbindlicher Algorithmus ist `SHA-256`. Der Digest wird vollständig als lowercase hexadecimal string dargestellt und ausschließlich aus dem Byte-Inhalt des ausdrücklich ausgewählten lokalen Payloads berechnet.
+Maximaler TESTBUILD-1-Produktscope:
+- `tools/asset-handoff/index.html`
+- `tools/asset-handoff/app.js`
 
-Dateiname, MIME-Type, Dateigröße, UI-/Pfadtext und deklarierte Identity-Werte werden nicht als zusätzliche Daten in die Hash-Berechnung aufgenommen.
+Keine neue Tool-Oberfläche, keine neue Hub-Tür, kein `main.js` und kein Root-`index.html`.
 
-DF-09 darf den Payload ausschließlich soweit binär lesen, wie es für die Hash-Berechnung erforderlich ist. Keine semantische Inhaltsanalyse, Bildanalyse, Parsing- oder Formatprüfung.
+Die bestehende Controlled-Asset-Handoff-Oberfläche erhält ausschließlich eine getrennte Payload-Fingerprint-Fläche mit sichtbarem Fingerprint-Status, expliziter SHA-256-Erzeugungsaktion und Vorschau des minimalen Fingerprint Records. Kein zweiter Datei-Input wird hinzugefügt; verwendet wird ausschließlich der bereits nach DF-08 ausgewählte und gebundene Payload.
 
-## Fingerprint / Payload / Identity Binding
-Ein Fingerprint ist nur für einen aktuell nach DF-08 ausdrücklich ausgewählten und gültig gebundenen Payload vorgesehen. Payload-Wechsel, Identity-Wechsel oder Verlust der gültigen DF-08-Bindung dürfen einen alten Fingerprint nicht still weiter als gültig erscheinen lassen.
+TESTBUILD 1 hält zusätzlich genau einen aktuellen Fingerprint Record im lokalen Browser-Laufzeitzustand. Der Record enthält `fingerprintRecordVersion`, `assetId`, `sourceReference`, `sourceVersion`, `algorithm` und `digest`.
 
-Der minimale Fingerprint Record enthält:
-- `fingerprintRecordVersion`
-- `assetId`
-- `sourceReference`
-- `sourceVersion`
-- `algorithm`
-- `digest`
+Die Implementierung ist auf vier Verantwortlichkeiten begrenzt: passende DF-08-Bindung prüfen; SHA-256 ausschließlich über die Payload-Bytes berechnen; Record an dieselbe deklarierte Identity binden; den Record bei Payload-/Identity-/Binding-Wechsel als nicht mehr passend behandeln.
 
-Für Version 1 gilt `fingerprintRecordVersion = "1"` und `algorithm = "SHA-256"`.
+Der Browser-Krypto-Pfad darf ausschließlich für SHA-256 verwendet werden. Keine semantische Inhaltsanalyse wird dadurch eröffnet.
 
-## Authority-Grenzen
-DF-05 bleibt alleinige Eligibility-/Manifest-Autorität. DF-06 bleibt Target-Project-Profile-Autorität. DF-07 bleibt alleinige Approval-Autorität. DF-08 bleibt autoritativ für lokale Payload-Auswahl und Payload-/Identity-Bindung. DF-09 fügt ausschließlich den technischen Binärnachweis hinzu.
+`validateHandoffInput(...)`, `isHandoffEligible(...)` und `buildHandoffManifest(...)` bleiben semantisch unverändert. Der Fingerprint wird nicht zur zweiten Eligibility-Autorität, verändert keinen DF-07 Approval Record, kein DF-06 Target Profile und keine DF-08-Binding-Semantik. Er wird in TESTBUILD 1 nicht automatisch in das DF-05-Handoff-Manifest aufgenommen.
 
-Ein Fingerprint erzeugt keine Approval-Entscheidung, keine neue fachliche Identity und keine zweite Handoff-Eligibility.
-
-## Persistenz-/Infrastrukturgrenze
-Keine persistente Fingerprint Library, Asset Registry, Payload Registry oder Datenbank. Keine LocalStorage-/IndexedDB-/Backend-Persistenz wird mit der Contract-Definition autorisiert. Die minimale TESTBUILD-1-Darstellung wird erst in einer späteren Implementation Scope Reconciliation festgelegt.
-
-## Harte Non-Goals
-Keine GitHub-API-Schreibaktion, kein Commit/Push/PR, keine Dateiübertragung in Ziel-Repositories, kein Runtime-Handoff, kein automatischer Repository-Download, keine automatische Payload-Auswahl oder Approval-Entscheidung, keine Änderung an DF-05/06/07/08, keine neue fachliche Identity aus Hash oder Dateimetadaten, keine semantische Inhaltsanalyse, kein Malware-/Security-Scanning, keine Signaturen/PKI, keine Benutzer/Rollen/Rechte, keine Fingerprint-Historie, kein Batch-Fingerprinting, keine große persistente Registry/DB, kein Atlas/Sprite-Packing und keine neue Repository-/Runtime-Handoff-Aktion.
+## TESTBUILD-1 Non-Goals
+Keine Persistenz via LocalStorage/IndexedDB, keine neue Datei-Auswahl, kein zusätzlicher Payload-Import, kein Manifest-Schema-Upgrade, kein Payload-Export oder Upload, keine GitHub API im Produkt, kein Repository-Transfer, kein Runtime-Handoff, keine semantische Inhaltsprüfung, keine Bildanalyse, keine Formatvalidierung, keine Konvertierung, kein Batch, keine Drag&Drop-Infrastruktur, keine neuen Service-/Registry-/Datenbankdateien und keine neue Hub-Tür.
 
 # Aktueller Gate-Status
-`DF-09 – DEFINED / NOT IMPLEMENTED`
+`DF-09 – DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
 
 Autoritativer Frozen Product Stand:
 `2c08b275f999f7467d5eb62a17515f39283b1f25`
 
-In diesem Definition-Step wurde kein Produktcode verändert und kein DF-09-Entwicklungsbranch angelegt.
+Bis einschließlich dieses Schritts wurde kein DF-09-Produktcode verändert und kein DF-09-Entwicklungsbranch angelegt.
 
 # Nächster zulässiger Schritt
-Ausschließlich das `DF-09 Contract / Documentation Reconciliation Gate` gegen Frozen DF-08 Product Commit `2c08b275f999f7467d5eb62a17515f39283b1f25`.
+Ausschließlich die separate Autorisierung/Anlage eines DF-09-Entwicklungsbranches gegen den verbindlich dokumentierten reconcilierten Scope.
 
-Dabei sind SHA-256-Fingerprint-Vertrag, Byte-Inhalt-Grenze, Bindung an den aktuellen DF-08-Payload, deklarierte Identity-Assoziation, Validity-/Invalidation-Regeln, Grenzen zu DF-05/06/07/08 und harte Non-Goals auf Widerspruchsfreiheit zu prüfen.
-
-Noch keine DF-09 Implementation Scope Reconciliation, keine Code-Implementierung und kein DF-09-Entwicklungsbranch im selben Schritt.
+Noch keine DF-09-Implementierung im selben Schritt.
