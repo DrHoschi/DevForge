@@ -1,7 +1,7 @@
 # DF-09 – Source Asset Payload Fingerprint Foundation Contract
 
 Stand: 2026-09-12
-Status: `DEFINED / NOT IMPLEMENTED`
+Status: `DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
 Definition baseline / Frozen DF-08 Product Commit: `2c08b275f999f7467d5eb62a17515f39283b1f25`
 Documentation carrier branch: `df-08-source-asset-payload-binding-foundation`
 
@@ -101,9 +101,7 @@ DF-08 bleibt `PASS / 0 BLOCKER / FROZEN` auf Frozen Product Commit `2c08b275f999
 ## 10. Persistenz-/Infrastrukturgrenze
 DF-09 definiert keine persistente Fingerprint Library, Asset Registry, Payload Registry oder Datenbank.
 
-Ob und wie TESTBUILD 1 den Fingerprint ausschließlich im lokalen Browser-Laufzeitzustand hält und welche minimale technische Oberfläche dafür erforderlich ist, wird erst in einer separaten Implementation Scope Reconciliation festgelegt.
-
-Keine LocalStorage-/IndexedDB-/Backend-Persistenz wird durch diesen Contract autorisiert.
+TESTBUILD 1 hält den Fingerprint ausschließlich im lokalen Browser-Laufzeitzustand. Keine LocalStorage-/IndexedDB-/Backend-Persistenz wird autorisiert.
 
 ## 11. Harte Non-Goals
 DF-09 autorisiert ausdrücklich nicht:
@@ -129,19 +127,69 @@ DF-09 autorisiert ausdrücklich nicht:
 - Atlas-/Sprite-Packing;
 - neue Repository-/Runtime-Handoff-Aktion.
 
-## 12. Dokumentations-/Branch-Grenze
-Diese Definition erfolgt gegen den Frozen DF-08 Product Commit `2c08b275f999f7467d5eb62a17515f39283b1f25`.
+## 12. Contract / Documentation Reconciliation Gate
+`DF-09 CONTRACT / DOCUMENTATION RECONCILIATION – PASS / 0 BLOCKER`
+
+SHA-256-Fingerprint-Vertrag, Byte-Inhalt-Grenze, Bindung an den aktuellen DF-08-Payload, deklarierte Identity-Assoziation, Validity-/Invalidation-Regeln, Grenzen zu DF-05/06/07/08 und harte Non-Goals wurden gegen Frozen DF-08 geprüft und sind widerspruchsfrei.
+
+## 13. Reconciled Implementation Scope
+`DF-09 IMPLEMENTATION SCOPE RECONCILIATION – PASS / 0 BLOCKER`
+
+Der maximale erste TESTBUILD-1-Produktscope ist auf genau diese bestehenden Produktdateien begrenzt:
+- `tools/asset-handoff/index.html`
+- `tools/asset-handoff/app.js`
+
+Keine neue Tool-Oberfläche und keine neue Hub-Tür. `main.js` und Root `index.html` bleiben außerhalb des reconcilierten Produktscopes.
+
+### 13.1 Minimale Oberfläche
+Innerhalb des bestehenden Controlled Asset Handoff wird eine klar getrennte `Payload Fingerprint`-Sektion ergänzt mit:
+- sichtbarem Fingerprint-Status;
+- expliziter Aktion zur Erzeugung eines SHA-256-Fingerprints für den aktuell nach DF-08 ausgewählten und gebundenen Payload;
+- sichtbarer Vorschau des minimalen Fingerprint Records.
+
+Kein zweiter Datei-Input ist erforderlich. DF-09 verwendet ausschließlich den bereits durch DF-08 ausgewählten lokalen Payload.
+
+### 13.2 Minimaler Laufzeitzustand
+TESTBUILD 1 darf zusätzlich genau einen aktuellen Fingerprint Record im lokalen Browser-Laufzeitzustand halten, konzeptionell als `currentFingerprintRecord`.
+
+Der Record enthält ausschließlich:
+- `fingerprintRecordVersion`;
+- `assetId`;
+- `sourceReference`;
+- `sourceVersion`;
+- `algorithm`;
+- `digest`.
+
+### 13.3 Minimale technische Verantwortlichkeiten
+Die Implementierung trennt vier Verantwortlichkeiten:
+1. prüfen, ob ein aktuell ausgewählter Payload und eine zur aktuellen Identity passende DF-08-Bindung vorliegen;
+2. SHA-256 ausschließlich über die Bytes dieses gebundenen Payloads berechnen;
+3. den minimalen Fingerprint Record an dieselbe deklarierte Identity binden;
+4. bei Payload-Wechsel, Identity-Wechsel oder Verlust der passenden DF-08-Bindung den vorhandenen Record als nicht mehr passend behandeln.
+
+Die Hash-Berechnung darf den Browser-Krypto-Pfad verwenden. Sie autorisiert ausschließlich das binäre Lesen der Payload-Bytes für SHA-256 und keine zusätzliche Inhaltsanalyse.
+
+### 13.4 Geschlossene DF-05-/DF-06-/DF-07-/DF-08-Grenzen
+`validateHandoffInput(...)`, `isHandoffEligible(...)` und `buildHandoffManifest(...)` bleiben semantisch unverändert.
+
+Der Fingerprint wird nicht zur zweiten Eligibility-Autorität, erzeugt oder verändert keinen DF-07 Approval Record, verändert kein DF-06 Target Project Profile und definiert die DF-08-Payload-Bindung nicht neu.
+
+Der Fingerprint wird in TESTBUILD 1 nicht automatisch in das bestehende DF-05-Handoff-Manifest aufgenommen.
+
+### 13.5 Ausdrücklich außerhalb TESTBUILD 1
+Keine Persistenz via LocalStorage/IndexedDB; keine neue Datei-Auswahl; kein zusätzlicher Payload-Import; kein Manifest-Schema-Upgrade; kein Payload-Export oder Upload; keine GitHub API im Produkt; kein Repository-Transfer; kein Runtime-Handoff; keine semantische Inhaltsprüfung; keine Bildanalyse; keine Formatvalidierung; keine Konvertierung; kein Batch; keine Drag&Drop-Infrastruktur; keine neuen Service-/Registry-/Datenbankdateien; keine neue Hub-Tür.
+
+## 14. Dokumentations-/Branch-Grenze
+Diese Definition und Implementation-Scope-Reconciliation erfolgen gegen den Frozen DF-08 Product Commit `2c08b275f999f7467d5eb62a17515f39283b1f25`.
 
 Der bestehende Branch `df-08-source-asset-payload-binding-foundation` dient in diesem Schritt ausschließlich als Dokumentationsträger. Er wird dadurch nicht zum DF-09-Entwicklungsbranch.
 
-In diesem Schritt wird kein DF-09-Code implementiert und kein neuer DF-09-Entwicklungsbranch angelegt.
+Bis einschließlich dieses Schritts wurde kein DF-09-Code implementiert und kein neuer DF-09-Entwicklungsbranch angelegt.
 
-## 13. Status
-`DF-09 – DEFINED / NOT IMPLEMENTED`
+## 15. Status
+`DF-09 – DEFINED / IMPLEMENTATION SCOPE RECONCILED / NOT IMPLEMENTED`
 
-## 14. Nächster zulässiger Schritt
-Ausschließlich ein `DF-09 Contract / Documentation Reconciliation Gate` gegen Frozen DF-08 Product Commit `2c08b275f999f7467d5eb62a17515f39283b1f25`.
+## 16. Nächster zulässiger Schritt
+Ausschließlich die separate Autorisierung/Anlage eines DF-09-Entwicklungsbranches gegen den verbindlich dokumentierten reconcilierten Scope.
 
-Dabei sind SHA-256-Fingerprint-Vertrag, Byte-Inhalt-Grenze, Bindung an den aktuellen DF-08-Payload, deklarierte Identity-Assoziation, Validity-/Invalidation-Regeln, Grenzen zu DF-05/06/07/08 und harte Non-Goals auf Widerspruchsfreiheit zu prüfen.
-
-Noch keine DF-09 Implementation Scope Reconciliation, keine Code-Implementierung und kein DF-09-Entwicklungsbranch im selben Schritt.
+Noch keine DF-09-Implementierung im selben Schritt.
