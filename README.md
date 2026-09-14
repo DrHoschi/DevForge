@@ -13,11 +13,22 @@ Der Hub wurde durch DF-05 außerhalb des eingefrorenen HUB-01-Blocks um `Control
 - Source / Result Compare View – `FROZEN / PRODUCTIVE`, Rolle `REVIEW`, autoritativ DF-04F
 - Animation Tester – `AVAILABLE`, Rolle `REVIEW`
 - Deterministic Pose Renderer – `PROTOTYPE / HISTORICAL`
-- Sprite Lab – `AVAILABLE`, Rolle `TECHNICAL ASSET`
+- Sprite Lab – Responsive Layout `PASS / 0 BLOCKER / FROZEN`, Rolle `TECHNICAL ASSET`, Frozen Product Commit `fc25cc51147dcd7493dc84c42887a434519a422c`
 - Atlas Builder – `CONSOLIDATED / REDIRECT`
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`
 - Controlled Asset Handoff – DF-05, DF-06, DF-07 und DF-08 `FROZEN / PRODUCTIVE`; DF-09 ist `DEFINED / NOT IMPLEMENTED`
+
+## Sprite Lab – Responsive Layout
+Status: `PASS / 0 BLOCKER / FROZEN`
+
+Frozen Product Commit: `fc25cc51147dcd7493dc84c42887a434519a422c`
+
+Geprüfter sichtbarer Stand: `SPRITE LAB · TESTBUILD 5.4.1`
+
+Verbindlicher Freeze-Nachweis: `docs/SPRITE_LAB_RESPONSIVE_LAYOUT_FREEZE.md`
+
+Der Frozen Stand umfasst das responsive iPhone-/iPad-Layout, Tablet-Rail-Tabs, die mobile `Auswahl | Eigenschaften`-Navigation, direkten Inspector-Zugriff und den Erhalt des bestehenden Atlas-/Frame-Zustands beim Bereichswechsel. Undo/Redo, Frame-Kopieren, direkte Canvas-Move/Resize-Bearbeitung und Animationsvorschau sind ausdrücklich nicht Teil dieses Frozen Blocks.
 
 ## Aktueller Character-Workflow
 Der Character-Animationsworkflow wird anhand von `siedler-mini` / Carrier / WALK entwickelt.
@@ -91,9 +102,9 @@ Der Fingerprint ersetzt weder `assetId`, `sourceReference` oder `sourceVersion` 
 DF-09 autorisiert noch keine Repository-/Datei-/Runtime-Übertragung, keine Persistenz, keine Signaturen, keine semantische Inhaltsanalyse und keine Änderung der eingefrorenen DF-05/06/07/08-Semantik.
 
 ## Aktueller Stand
-Autoritativer Frozen Product Stand: `2c08b275f999f7467d5eb62a17515f39283b1f25`
+Der Sprite Lab Responsive Layout Block ist `PASS / 0 BLOCKER / FROZEN` auf Frozen Product Commit `fc25cc51147dcd7493dc84c42887a434519a422c`.
 
-DF-08 ist `PASS / 0 BLOCKER / FROZEN`. DF-09 ist gegen diesen Frozen Product Stand definiert, aber noch nicht implementiert.
+DF-08 bleibt `PASS / 0 BLOCKER / FROZEN`. DF-09 bleibt definiert, aber nicht implementiert und wird durch den Sprite-Lab-Freeze nicht geöffnet.
 
 ## Siedler-Mini
 Repository: `DrHoschi/siedler-mini`
@@ -103,6 +114,7 @@ DF-09 verändert dieses Repository nicht.
 ## Dokumentation
 - `docs/PROJECT_STATUS.md` – aktueller Gesamtstand, Branch, PASS/FAIL und exakt nächster zulässiger Schritt
 - `docs/ROADMAP.md` – Gesamtvision, Zielarchitektur und Entwicklungsgrenzen
+- `docs/SPRITE_LAB_RESPONSIVE_LAYOUT_FREEZE.md` – eingefrorener Sprite-Lab-Responsive-Layout-Stand
 - `docs/DF-05_CONTROLLED_ASSET_HANDOFF_FOUNDATION_CONTRACT.md` – eingefrorener DF-05-Handoff-Contract
 - `docs/DF-06_TARGET_PROJECT_HANDOFF_PROFILE_FOUNDATION_CONTRACT.md` – eingefrorener DF-06-Profil-Contract
 - `docs/DF-07_SOURCE_ASSET_APPROVAL_AUTHORITY_FOUNDATION_CONTRACT.md` – eingefrorener DF-07-Approval-Authority-Contract
@@ -115,11 +127,9 @@ DF-09 verändert dieses Repository nicht.
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
 
 ## Nächster zulässiger Schritt
-Ausschließlich das `DF-09 Contract / Documentation Reconciliation Gate` gegen Frozen DF-08 Product Commit `2c08b275f999f7467d5eb62a17515f39283b1f25`.
+Für das Sprite Lab ausschließlich ein neuer, separat reconciliierter Folgeblock oberhalb des Frozen Responsive-Layout-Stands. Ein späterer Mockup-/Capability-Gap-Abgleich darf Undo/Redo, Frame-Kopieren, direkte Canvas-Bearbeitung und Animationsvorschau bewerten, ist aber nicht Bestandteil dieses Freeze-Schritts.
 
-Dabei sind SHA-256-Fingerprint-Vertrag, Byte-Inhalt-Grenze, Bindung an den aktuellen DF-08-Payload, deklarierte Identity-Assoziation, Validity-/Invalidation-Regeln, Grenzen zu DF-05/06/07/08 und harte Non-Goals auf Widerspruchsfreiheit zu prüfen.
-
-Noch keine DF-09 Implementation Scope Reconciliation, keine Code-Implementierung und kein neuer Entwicklungsbranch im selben Schritt.
+DF-09 bleibt davon unabhängig `DEFINED / NOT IMPLEMENTED` und wird nicht durch diesen Schritt autorisiert.
 
 ## Archivierter Altstand
 Der frühere parametrische Stahlträgerhallen-Prototyp ist unverändert auf folgendem Branch gesichert:
