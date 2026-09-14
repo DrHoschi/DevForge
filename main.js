@@ -40,9 +40,9 @@ const tools = [
     title: 'Sprite Lab',
     text: 'Sprites/Sprite-Sheets laden, Frames definieren, Pivot/Anchor und Scale bearbeiten sowie Atlas-JSON importieren/exportieren.',
     href: 'tools/sprite-lab/?v=sprite-lab-tb5-4-1',
-    authority: 'AVAILABLE',
+    authority: 'FROZEN / PRODUCTIVE',
     role: 'TECHNICAL ASSET',
-    detail: 'Tool vorhanden · keine Atlas-Produktionsfreigabe'
+    detail: 'Responsive Layout TESTBUILD 5.4.1 · PASS / 0 BLOCKER / FROZEN'
   },
   {
     id: 'atlas-builder',
