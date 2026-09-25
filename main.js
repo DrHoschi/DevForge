@@ -8,7 +8,7 @@ const tools = [
   {id:'animation-tester',title:'Animation Tester',text:'Einzelne Produktionsframes vor dem Atlas als Loop mit FPS, Frame-Stepping, Onion-Skin und Bottom-Center-Anchor prüfen.',href:'tools/animation-tester/',authority:'AVAILABLE',role:'REVIEW',detail:'Standalone Frame-/Manifest-Review',areas:['game','film']},
   {id:'asset-inspector',title:'Asset Inspector',text:'Bilder, Texturen, Sprites und Atlas-JSON technisch auf Abmessungen, Alpha und typische Asset-Risiken prüfen.',href:'tools/asset-inspector/',authority:'AVAILABLE',role:'TECHNICAL ASSET',detail:'Technische Prüfung · keine automatische fachliche Freigabe',areas:['game','film']},
   {id:'parameter-playground',title:'Parameter Playground',text:'Als spätere Parameter-Testfläche vorgesehen. Derzeit existiert keine freigegebene aktive Tool-Funktion.',href:null,authority:'PREPARED / NOT IMPLEMENTED',role:null,detail:'Keine aktive Produktionsrolle',areas:[]},
-  {id:'asset-handoff',title:'Controlled Asset Handoff',text:'Freigegebene Source Assets gegen explizite Ziel-/Staging-Angaben prüfen und als deterministisches Minimalmanifest vorbereiten.',href:'tools/asset-handoff/',authority:'TESTBUILD',role:'RUNTIME / REPOSITORY HANDOFF',detail:'DF-05 · TESTBUILD 1 · keine Repository-Übertragung',areas:['game','film']}
+  {id:'asset-handoff',title:'Controlled Asset Handoff',text:'Freigegebene Source Assets gegen explizite Ziel-/Staging-Angaben prüfen und als deterministisches Minimalmanifest vorbereiten.',href:'tools/asset-handoff/',authority:'FROZEN / PRODUCTIVE',role:'RUNTIME / REPOSITORY HANDOFF',detail:'DF-05–DF-08 · PASS / 0 BLOCKER / FROZEN',areas:['game','film']}
 ];
 
 const views={
