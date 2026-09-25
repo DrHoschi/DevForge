@@ -52,6 +52,7 @@ function showView(view){
   const config=views[view]||views.all;
   homeView.hidden=true;
   catalogView.hidden=false;
+  document.querySelector('#viewHero').dataset.area=view;
   document.querySelector('#viewKicker').textContent=config.kicker;
   document.querySelector('#viewTitle').textContent=config.title;
   document.querySelector('#viewText').textContent=config.text;
