@@ -31,7 +31,8 @@ function toolCard(tool){
   article.dataset.authority=tool.authority;
   const link=tool.href?'<p class="open"><a href="'+tool.href+'">'+(tool.linkLabel||'Werkzeug öffnen →')+'</a></p>':'<p class="open"><strong>Nicht implementiert</strong></p>';
   const role=tool.role?'<span class="role">'+tool.role+'</span>':'';
-  article.innerHTML='<h2>'+tool.title+'</h2><p>'+tool.text+'</p><p><small>'+tool.detail+'</small></p>'+link+'<div class="meta"><span class="status">'+tool.authority+'</span>'+role+'</div>';
+  const icon='<img class="tool-icon" src="assets/tool-icons/'+tool.id+'.png" alt="" aria-hidden="true">';
+  article.innerHTML=icon+'<h2>'+tool.title+'</h2><p>'+tool.text+'</p><p><small>'+tool.detail+'</small></p>'+link+'<div class="meta"><span class="status">'+tool.authority+'</span>'+role+'</div>';
   return article;
 }
 
