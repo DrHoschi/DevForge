@@ -14,7 +14,7 @@ const tools = [
 ];
 
 const views={
-  industry:{kicker:'Industry',title:'Plan real systems.',text:'Industrielle Planung ist Teil der DevForge-Zielstruktur. Aktuell ist hier noch kein produktives Tool autorisiert.'},
+  industry:{kicker:'Industry',title:'Plan real systems.',text:'Eigenständige Werkzeuge für reale Baustellenplanung und technisches 3D-Engineering.'},
   game:{kicker:'Game Development',title:'Build interactive worlds.',text:'Werkzeuge für Asset-Erstellung, technische Vorbereitung, Animation, Review und kontrollierten Handoff.'},
   film:{kicker:'Film & Animation',title:'Bring worlds to life.',text:'Werkzeuge für visuelle Referenzen, Animation, Review und produktionsnahe Asset-Workflows.'},
   all:{kicker:'DevForge Workshop',title:'All Tools',text:'Der vollständige aktuelle Tool-Bestand – einschließlich historischer, konsolidierter und vorbereiteter Einträge.'}
