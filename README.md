@@ -1,6 +1,6 @@
 # DevForge
 
-DevForge ist die zentrale webbasierte Entwickler-Toolbox für unterschiedliche Spiele- und Softwareprojekte. Das Werkzeug ist projektübergreifend gedacht und soll Assets, Prompts, Referenzen, Animationen, Reviews und spätere Übergaben strukturiert vorbereiten.
+DevForge ist die zentrale webbasierte Entwickler-Toolbox für unterschiedliche Spiele- und Softwareprojekte. Das Werkzeug ist projektübergreifend gedacht und soll Assets, Prompts, Referenzen, Animationen, Reviews, Texturen und spätere Übergaben strukturiert vorbereiten.
 
 ## Tool Hub – Authority-Stand
 `DF-HUB-01 – PASS / 0 BLOCKER / FROZEN`
@@ -16,6 +16,7 @@ Der Hub wurde durch DF-05 außerhalb des eingefrorenen HUB-01-Blocks um `Control
 - Sprite Lab – `AVAILABLE`, Rolle `TECHNICAL ASSET`
 - Atlas Builder – `CONSOLIDATED / REDIRECT`
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`
+- Texture Lab – `AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`, Rolle `MATERIAL / TEXTURE REVIEW`
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`
 - Controlled Asset Handoff – DF-05, DF-06, DF-07 und DF-08 `FROZEN / PRODUCTIVE`; DF-09 ist `DEFINED / NOT IMPLEMENTED`
 
@@ -90,19 +91,36 @@ Der Fingerprint ersetzt weder `assetId`, `sourceReference` oder `sourceVersion` 
 
 DF-09 autorisiert noch keine Repository-/Datei-/Runtime-Übertragung, keine Persistenz, keine Signaturen, keine semantische Inhaltsanalyse und keine Änderung der eingefrorenen DF-05/06/07/08-Semantik.
 
-## Aktueller Stand
-Autoritativer Frozen Product Stand: `2c08b275f999f7467d5eb62a17515f39283b1f25`
+## Texture Lab – Product Priority / Minimal V1 Scope
+Status: `AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
 
-DF-08 ist `PASS / 0 BLOCKER / FROZEN`. DF-09 ist gegen diesen Frozen Product Stand definiert, aber noch nicht implementiert.
+Verbindlicher Scope:
+`docs/TEXTURE_LAB_PRODUCT_PRIORITY_MINIMAL_V1_SCOPE.md`
+
+Texture Lab ist als nächster praktischer Produktkandidat priorisiert. Minimal V1 ist ein Texture Tester für lokale Bild-/Texturquellen:
+
+- PNG/JPG/WebP laden;
+- Base-Color-/Diffuse-Textur auf Fläche, Würfel und Kugel prüfen;
+- Repeat, Scale, Rotation, Offset, Alpha und einfache Beleuchtung visuell bewerten;
+- keine KI-Generierung;
+- keine automatische Normal-/Roughness-/Metalness-/AO-Erzeugung;
+- keine Änderung an DF-05–DF-09;
+- keine Sprite-, Atlas-, Rig-, Skeleton- oder Animation-Authority.
+
+Ein späterer Texture Creator bleibt ein separater Folgeblock.
+
+## Aktueller Stand
+DF-08 ist `PASS / 0 BLOCKER / FROZEN`. DF-09 ist definiert, aber nicht implementiert. Texture Lab Minimal V1 ist als nächster praktischer Produktkandidat dokumentiert, aber nicht implementiert.
 
 ## Siedler-Mini
 Repository: `DrHoschi/siedler-mini`
 
-DF-09 verändert dieses Repository nicht.
+DF-09 und Texture Lab verändern dieses Repository nicht.
 
 ## Dokumentation
 - `docs/PROJECT_STATUS.md` – aktueller Gesamtstand, Branch, PASS/FAIL und exakt nächster zulässiger Schritt
 - `docs/ROADMAP.md` – Gesamtvision, Zielarchitektur und Entwicklungsgrenzen
+- `docs/TEXTURE_LAB_PRODUCT_PRIORITY_MINIMAL_V1_SCOPE.md` – priorisierter Texture-Lab-Minimal-V1-Scope
 - `docs/DF-05_CONTROLLED_ASSET_HANDOFF_FOUNDATION_CONTRACT.md` – eingefrorener DF-05-Handoff-Contract
 - `docs/DF-06_TARGET_PROJECT_HANDOFF_PROFILE_FOUNDATION_CONTRACT.md` – eingefrorener DF-06-Profil-Contract
 - `docs/DF-07_SOURCE_ASSET_APPROVAL_AUTHORITY_FOUNDATION_CONTRACT.md` – eingefrorener DF-07-Approval-Authority-Contract
@@ -115,11 +133,9 @@ DF-09 verändert dieses Repository nicht.
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
 
 ## Nächster zulässiger Schritt
-Ausschließlich das `DF-09 Contract / Documentation Reconciliation Gate` gegen Frozen DF-08 Product Commit `2c08b275f999f7467d5eb62a17515f39283b1f25`.
+Ausschließlich ein separater `Texture Lab – Minimal V1 Implementation Scope / Branch Authorization` gegen den nach diesem Dokumentationsblock aktuellen `main`.
 
-Dabei sind SHA-256-Fingerprint-Vertrag, Byte-Inhalt-Grenze, Bindung an den aktuellen DF-08-Payload, deklarierte Identity-Assoziation, Validity-/Invalidation-Regeln, Grenzen zu DF-05/06/07/08 und harte Non-Goals auf Widerspruchsfreiheit zu prüfen.
-
-Noch keine DF-09 Implementation Scope Reconciliation, keine Code-Implementierung und kein neuer Entwicklungsbranch im selben Schritt.
+Dabei müssen Branch, konkrete Datei-/Testgrenze, Hub-Registrierung und Evidence-Anforderungen bestimmt werden. Noch keine Implementation ohne separate Freigabe.
 
 ## Archivierter Altstand
 Der frühere parametrische Stahlträgerhallen-Prototyp ist unverändert auf folgendem Branch gesichert:
