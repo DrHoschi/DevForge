@@ -1,6 +1,6 @@
 # DevForge – Master Roadmap & Entwicklungsgrenzen
 
-Stand: 2026-09-26
+Stand: 2026-10-05
 
 ## 1. Vision
 DevForge ist eine projektübergreifende Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets und ein Hub für eigenständige Entwicklungswerkzeuge. Neue Funktionen werden in kleinen überprüfbaren Blöcken aus realen Produktionsproblemen entwickelt.
@@ -8,7 +8,7 @@ DevForge ist eine projektübergreifende Produktions-, Prüf- und Übergabeplattf
 ## 2. Aktuelle Repository-Authority
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Reconciled baseline vor diesem Dokumentationsupdate: `80a01b03ea649e007873e0859c16c68187ab4774`
+- Texture Lab Scope Baseline: `d270bb80834eb285de776733dffedab3d28efb8c`
 - GitHub bleibt Source of Truth.
 - Eingefrorene Contracts und Produktblöcke werden nicht durch Roadmap-Pflege neu geöffnet.
 
@@ -47,7 +47,7 @@ Der DevForge-Hub enthält jetzt 12 Tool-/Produkt-Einträge. Industry enthält ge
 
 Beide besitzen eigene Produkt-Authority außerhalb von DevForge. DevForge registriert und startet sie, dupliziert aber weder ihren Produktcode noch ihren Produktstatus.
 
-Industry Tools sind auf dem reconcilierten Stand vollständig integriert und `FROZEN`. Completion-/Evidence-Dokument: `docs/DEVFORGE_INDUSTRY_TOOLS_COMPLETION_EVIDENCE_FREEZE.md`.
+Industry Tools sind vollständig integriert und `FROZEN`. Completion-/Evidence-Dokument: `docs/DEVFORGE_INDUSTRY_TOOLS_COMPLETION_EVIDENCE_FREEZE.md`.
 
 ## 6. DF-09 – definierter Core-Capability-Kandidat
 Contract: `docs/DF-09_SOURCE_ASSET_PAYLOAD_FINGERPRINT_FOUNDATION_CONTRACT.md`
@@ -69,11 +69,40 @@ Vorgesehen sind ausschließlich SHA-256 über die Bytes des bereits nach DF-08 g
 
 Keine neue Hub-Tür, kein `main.js`, kein Root-`index.html`, kein Upload/Repository-Transfer, kein Runtime-Handoff, kein Manifest-Schema-Upgrade und keine Änderung der DF-05–08-Authorities.
 
-DF-09 ist damit der **bereits vollständig definierte nächste Core-Capability-Kandidat**. Diese Roadmap-Reconciliation legt jedoch ausdrücklich **keine globale Produktpriorität** gegenüber anderen offenen Produktbereichen fest.
+DF-09 bleibt ein gültiger Core-Capability-Kandidat, ist aber nach der aktuellen Produktpriorisierung nicht der nächste ausgewählte Produktblock.
 
-## 7. Weitere offene Produktbereiche
+## 7. Texture Lab – priorisierter Produktkandidat
+Scope-Dokument:
+`docs/TEXTURE_LAB_PRODUCT_PRIORITY_MINIMAL_V1_SCOPE.md`
+
+Status:
+`AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+
+Texture Lab wird als nächster praktischer Produktkandidat priorisiert, weil es einen unmittelbar sichtbaren Produktionsschritt abdeckt: Texturen und Materialquellen sollen vor Verwendung in Assets, importierten Modellen oder Zielprojekten schnell geprüft werden können.
+
+Minimal V1 ist ein Texture Tester:
+
+- lokale Bilddateien laden: PNG, JPG/JPEG, WebP soweit browserseitig verfügbar;
+- Base-Color-/Diffuse-Textur auf Fläche, Würfel und Kugel anzeigen;
+- Repeat/Kachelung, Scale, Rotation, Offset und Alpha prüfen;
+- einfache Licht-/Preview-Kontrolle bereitstellen;
+- Map-Slots für spätere Material-Maps höchstens vorbereiten, aber nicht automatisch erzeugen.
+
+Harte V1-Grenzen:
+
+- keine KI-Textur-Generierung;
+- keine automatische Normal-/Roughness-/Metalness-/AO-Erzeugung;
+- kein Prompt-basierter Texture Creator;
+- keine persistente Library;
+- kein Repository-/Runtime-Handoff;
+- keine Änderung an DF-05–DF-09;
+- keine Sprite-, Atlas-, Character-Layer-, Rig-, Skeleton- oder Animation-Authority.
+
+Ein späterer Texture Creator bleibt ein separater Folgeblock und darf erst nach bewährtem Texture Tester neu autorisiert werden.
+
+## 8. Weitere offene Produktbereiche
 ### Sprite Lab
-Der Frozen Asset Contract / Persistence schließt Marker/Sockets, Layer/Z-Order, Rig/Skeleton, GLB/LOD/Collision und weitere spätere Capabilities ausdrücklich aus. Diese bleiben mögliche separate Folgeblöcke. Der bekannte native Dateiinput-Anzeigepunkt bleibt `KNOWN UI ISSUE / NON-BLOCKING`; die iPad-Persistence-Wiederholung bleibt eine dokumentierte Device Limitation.
+Der Frozen Asset Contract / Persistence schließt Layer/Z-Order, Rig/Skeleton, GLB/LOD/Collision und weitere spätere Capabilities ausdrücklich aus. Marker/Sockets-Folgeblöcke sind bereits separat dokumentiert und eröffnen keinen bestehenden Freeze automatisch neu. Der bekannte native Dateiinput-Anzeigepunkt bleibt `KNOWN UI ISSUE / NON-BLOCKING`; die iPad-Persistence-Wiederholung bleibt eine dokumentierte Device Limitation.
 
 ### Visual / Hub Polish
 Kleinere visuelle oder textliche Follow-ups bleiben möglich, soweit sie in Freeze-Dokumenten ausdrücklich als non-blocking festgehalten wurden. Sie eröffnen keinen bestehenden Freeze automatisch neu.
@@ -81,17 +110,15 @@ Kleinere visuelle oder textliche Follow-ups bleiben möglich, soweit sie in Free
 ### Spätere Core-Grenzen
 Repository-Dateiübertragung, Runtime-Handoff, persistente Asset-/Payload-/Fingerprint-Library, Batch-Workflows, Atlas-/Sprite-Produktion, Signaturen/PKI und Formatkonvertierung bleiben separate spätere Blöcke.
 
-## 8. Prioritätsgrenze
-Aus dem dokumentierten Status allein folgt nicht, dass DF-09 gegenüber allen anderen offenen DevForge-, Sprite-Lab- oder externen Produktarbeiten den größten praktischen Nutzen besitzt.
+## 9. Prioritätsgrenze
+Die aktuelle Prioritätsentscheidung wählt Texture Lab Minimal V1 als nächsten praktischen Produktkandidaten aus.
 
-Vor neuer Implementation ist daher eine separate Prioritätsentscheidung zulässig, die reale Einsatzbedürfnisse gegen die bereits definierten offenen Capabilities abgleicht. Diese Entscheidung darf Frozen Contracts nicht still verändern.
+Diese Entscheidung verändert keine Frozen Contracts. DF-09 bleibt definiert und kann später separat implementiert werden, wenn sein technischer Nachweisnutzen wieder priorisiert wird.
 
-## 9. Arbeitsweise
+## 10. Arbeitsweise
 Kleine Blöcke, Exact-Head-/Baseline-Nachweis, getrennte Definition/Authorization/Implementation/Verification/Freeze/Integration-Gates, reale Device-Evidence bei produktiven UI-/Code-Blöcken und explizite Non-Goals bleiben verbindlich.
 
-## 10. Nächster zulässiger Schritt
-Nach Abschluss dieser reinen Dokumentations-Reconciliation ist der nächste fachliche Schritt **noch nicht automatisch DF-09 Implementation**.
+## 11. Nächster zulässiger Schritt
+Ausschließlich ein separater **Texture Lab – Minimal V1 Implementation Scope / Branch Authorization** gegen den nach diesem Dokumentationsblock aktuellen `main`.
 
-Zulässig ist zunächst ein separater **Open Capability / Product Priority Reconciliation** gegen den dann aktuellen `main`, um DF-09 und die übrigen tatsächlich offenen Produktbereiche nach aktuellem Einsatznutzen einzuordnen.
-
-Falls dabei DF-09 ausgewählt wird, bleibt dessen nächster eigener Gate ausschließlich die separate Autorisierung/Anlage eines DF-09-Entwicklungsbranches gegen den bereits reconcilierten Scope. Noch keine Implementation im selben Schritt.
+Falls dabei Texture Lab implementiert werden soll, müssen Branch, konkrete Datei-/Testgrenze, Hub-Registrierung und Device-/Build-Evidence-Anforderungen vorher festgelegt werden. Noch keine Implementation im selben Schritt.
