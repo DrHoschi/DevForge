@@ -1,12 +1,12 @@
 # DevForge – Project Status
 
-Stand: 2026-09-26
+Stand: 2026-10-05
 
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
-- Reconciled baseline vor diesem Dokumentationsupdate: `80a01b03ea649e007873e0859c16c68187ab4774`
-- Status-/Roadmap-Reconciliation: `PASS / 0 BLOCKER`
+- Texture Lab Scope Baseline: `d270bb80834eb285de776733dffedab3d28efb8c`
+- Texture Lab Product Priority / Minimal V1 Scope: `AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
 
 ## Frozen Core Foundations
 - DF-04A–F: `PASS / FROZEN`
@@ -73,20 +73,43 @@ Reconciled maximaler TESTBUILD-1-Produktscope:
 
 Der Block ergänzt ausschließlich SHA-256 des bereits gebundenen lokalen Payloads, einen minimalen Fingerprint Record sowie die definierte Validity-/Invalidation-Logik. Keine neue Tool-Oberfläche, keine neue Hub-Tür und keine Änderung der DF-05–08-Semantik.
 
-DF-09 ist der bereits vollständig definierte nächste **Core-Capability-Kandidat**, aber durch diesen Statusabgleich nicht als höchste globale Produktpriorität festgelegt.
+DF-09 bleibt ein vollständig definierter Core-Capability-Kandidat, ist aber aktuell nicht als höchste Produktpriorität ausgewählt.
+
+## Texture Lab – Product Priority / Minimal V1 Scope
+Status:
+`AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+
+Scope-Dokument:
+`docs/TEXTURE_LAB_PRODUCT_PRIORITY_MINIMAL_V1_SCOPE.md`
+
+Baseline:
+`d270bb80834eb285de776733dffedab3d28efb8c`
+
+Texture Lab ist als nächster praktischer Produktkandidat priorisiert. Minimal V1 ist ausschließlich ein Texture Tester:
+
+- lokale PNG/JPG/WebP-Texturen laden;
+- Base-Color-/Diffuse-Wirkung auf Fläche, Würfel und Kugel prüfen;
+- Repeat, Scale, Rotation, Offset, Alpha und einfache Beleuchtung visuell bewerten;
+- keine KI-Generierung;
+- keine automatische Normal-/Roughness-/Metalness-/AO-Erzeugung;
+- keine Änderung an DF-05–DF-09;
+- keine Sprite-, Atlas-, Rig-, Skeleton- oder Animation-Authority.
+
+Ein späterer Texture Creator bleibt ausdrücklich ein separater Folgeblock.
 
 ## Tatsächlich offene Bereiche
+- Texture Lab Minimal V1 ist dokumentiert, aber nicht implementiert.
 - DF-09 Implementation ist noch nicht begonnen.
 - Sprite-Lab-Folgefähigkeiten wie Marker/Sockets, Layer/Z-Order und Rig/Skeleton bleiben separate spätere Blöcke.
 - Dokumentierte non-blocking UI-/Visual-Polish-Punkte bleiben optional.
 - Repository-Transfer, Runtime-Handoff, persistente Libraries, Batch, Signaturen/PKI und Formatkonvertierung bleiben spätere Core-Grenzen.
 
 ## Aktueller Gate-Status
-`DEVFORGE ROADMAP / PROJECT STATUS DOCUMENTATION RECONCILIATION – AUTHORIZED`
+`TEXTURE LAB – PRODUCT PRIORITY / MINIMAL V1 SCOPE AUTHORIZATION – DOCUMENTED`
 
-Dieses Update zieht ausschließlich `docs/ROADMAP.md` und `docs/PROJECT_STATUS.md` auf den dokumentierten Stand vom 2026-09-26 nach. Es verändert keinen Contract und keinen Produktcode.
+Dieses Update dokumentiert ausschließlich die Prioritätsentscheidung und den Minimal-V1-Scope für Texture Lab. Es verändert keinen Produktcode, keinen Frozen Contract und keine DF-05–DF-09-Semantik.
 
 ## Nächster zulässiger Schritt
-Nach Verifikation dieses Dokumentationsupdates ausschließlich ein separater **Open Capability / Product Priority Reconciliation** gegen den aktuellen `main`.
+Ausschließlich ein separater **Texture Lab – Minimal V1 Implementation Scope / Branch Authorization** gegen den nach diesem Dokumentationsblock aktuellen `main`.
 
-Dabei darf festgestellt werden, welcher tatsächlich offene Bereich jetzt den größten praktischen Nutzen besitzt. Noch keine DF-09- oder andere Produktimplementation im selben Schritt.
+Dabei müssen Branch, konkrete Datei-/Testgrenze und Hub-Registrierung bestimmt werden. Noch keine Implementation ohne separate Freigabe.
