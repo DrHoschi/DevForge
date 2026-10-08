@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DevForge · Texture Lab</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0d1117;--panel:#151b24;--text:#eef4ff;--muted:#9fb0c7;--line:#2a3442;--accent:#ffb347;--accent-2:#8bd5ff}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#26364d 0,#0d1117 42%,#070a0f 100%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+    a{color:var(--accent-2)}header{padding:22px clamp(16px,4vw,48px);border-bottom:1px solid var(--line);background:rgba(7,10,15,.72);backdrop-filter:blur(16px)}
+    .topline{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}.back{font-size:.92rem;text-decoration:none;color:var(--muted)}
+    h1{margin:10px 0 8px;font-size:clamp(2rem,5vw,4.4rem);letter-spacing:-.06em;line-height:.94}.lead{max-width:900px;margin:0;color:var(--muted);font-size:1.03rem;line-height:1.55}
+    main{display:grid;grid-template-columns:minmax(320px,420px) minmax(0,1fr);gap:18px;padding:18px clamp(12px,3vw,32px) 32px}
+    .panel{background:linear-gradient(180deg,rgba(21,27,36,.94),rgba(12,17,24,.96));border:1px solid var(--line);border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.32)}
+    .controls{padding:18px;display:grid;gap:16px;align-content:start}.viewer{min-height:620px;position:relative;overflow:hidden}#viewport{position:absolute;inset:0}
+    .drop{border:1px dashed #526176;background:rgba(255,255,255,.035);border-radius:18px;padding:18px;text-align:center;transition:.18s border-color,.18s background}.drop.drag{border-color:var(--accent);background:rgba(255,179,71,.12)}
+    .drop strong{display:block;font-size:1.05rem}.drop span{display:block;margin-top:6px;color:var(--muted);font-size:.9rem}input[type=file]{width:100%;margin-top:14px;color:var(--muted)}
+    .group{display:grid;gap:10px;padding:14px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.025)}.group h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin:0}
+    .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.seg label,button,select{border:1px solid var(--line);background:#111925;color:var(--text);border-radius:12px;padding:10px 12px;font:inherit}.seg label{text-align:center;cursor:pointer;color:var(--muted)}.seg input{position:absolute;opacity:0;pointer-events:none}.seg label:has(input:checked){border-color:var(--accent);color:var(--text);background:rgba(255,179,71,.12)}
+    label.row{display:grid;grid-template-columns:1fr minmax(120px,48%);gap:10px;align-items:center;color:var(--muted);font-size:.92rem}input[type=range]{width:100%}
+    .readout{font-size:.88rem;color:var(--muted);line-height:1.45;word-break:break-word}.slots{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.slot{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px;color:#6f7d91;background:rgba(255,255,255,.02);font-size:.86rem}.slot.active{color:var(--text);border-color:rgba(255,179,71,.55);background:rgba(255,179,71,.10)}
+    .badge{display:inline-flex;border:1px solid rgba(255,179,71,.45);color:var(--accent);border-radius:999px;padding:6px 10px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+    .hint{position:absolute;left:16px;bottom:16px;right:16px;color:var(--muted);font-size:.88rem;background:rgba(7,10,15,.66);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px;backdrop-filter:blur(12px)}
+    @media (max-width:900px){main{grid-template-columns:1fr}.viewer{min-height:58vh}.controls{order:2}.viewer{order:1}}
+  </style>
+</head>
+<body>
+  <header><div class="topline"><a class="back" href="../../">← DevForge Hub</a><span class="badge">Minimal V1 · Base Color Tester</span></div><h1>Texture Lab</h1><p class="lead">Lokale PNG-, JPG- und WebP-Texturen sicher im Browser laden und als Base-Color-/Diffuse-Textur auf Fläche, Würfel oder Kugel prüfen. Dieses V1 erzeugt noch keine Normal-, Roughness-, Metalness- oder AO-Maps.</p></header>
+  <main>
+    <section class="panel controls" aria-label="Texture controls">
+      <div id="dropZone" class="drop"><strong>Textur hier ablegen</strong><span>oder lokale PNG/JPG/WebP auswählen. Dateien bleiben lokal im Browser.</span><input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp"></div>
+      <div class="group"><h2>Prüfkörper</h2><div class="seg"><label><input type="radio" name="shape" value="plane" checked>Fläche</label><label><input type="radio" name="shape" value="box">Würfel</label><label><input type="radio" name="shape" value="sphere">Kugel</label></div></div>
+      <div class="group"><h2>Texture Transform</h2><label class="row">Repeat X <input id="repeatX" type="range" min="0.1" max="8" step="0.1" value="1"></label><label class="row">Repeat Y <input id="repeatY" type="range" min="0.1" max="8" step="0.1" value="1"></label><label class="row">Scale <input id="scale" type="range" min="0.35" max="2.5" step="0.05" value="1"></label><label class="row">Rotation <input id="rotation" type="range" min="-180" max="180" step="1" value="0"></label><label class="row">Offset X <input id="offsetX" type="range" min="-1" max="1" step="0.01" value="0"></label><label class="row">Offset Y <input id="offsetY" type="range" min="-1" max="1" step="0.01" value="0"></label></div>
+      <div class="group"><h2>Preview</h2><label class="row">Alpha/Transparenz <input id="opacity" type="range" min="0.15" max="1" step="0.01" value="1"></label><label class="row">Licht <input id="light" type="range" min="0.1" max="2.2" step="0.05" value="1"></label><label class="row">Hintergrund <select id="background"><option value="dark">Dunkel</option><option value="neutral">Neutral</option><option value="light">Hell</option><option value="checker">Checker</option></select></label><button id="resetParams" type="button">Parameter zurücksetzen</button><button id="resetView" type="button">Kamera zurücksetzen</button></div>
+      <div class="group"><h2>Map-Slots</h2><div class="slots"><div class="slot active">Base Color aktiv</div><div class="slot">Normal später</div><div class="slot">Roughness später</div><div class="slot">Metalness später</div><div class="slot">AO später</div></div></div>
+      <div id="readout" class="readout">Noch keine Textur geladen.</div>
+    </section>
+    <section class="panel viewer" aria-label="3D texture preview"><div id="viewport"></div><div class="hint">Maus/Touch: drehen, zoomen und schwenken. V1 ist ein lokaler Tester, kein Generator und kein Asset-Handoff.</div></section>
+  </main>
+  <script type="module">
+    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+    import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+    const viewport=document.querySelector("#viewport"),renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;viewport.appendChild(renderer.domElement);
+    const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(45,1,.1,100),controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;
+    const hemi=new THREE.HemisphereLight(0xffffff,0x2a3140,1.2),key=new THREE.DirectionalLight(0xffffff,1.4);key.position.set(3,4,5);scene.add(hemi,key);
+    const checker=(()=>{const c=document.createElement("canvas");c.width=c.height=128;const x=c.getContext("2d");for(let y=0;y<8;y++)for(let i=0;i<8;i++){x.fillStyle=(i+y)%2?"#1b2430":"#5a6676";x.fillRect(i*16,y*16,16,16)}const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(8,8);return t})();
+    const material=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.72,metalness:0,transparent:true,side:THREE.DoubleSide});
+    const geometries={plane:new THREE.PlaneGeometry(2.7,2.7),box:new THREE.BoxGeometry(2,2,2),sphere:new THREE.SphereGeometry(1.35,64,32)};let mesh=new THREE.Mesh(geometries.plane,material);scene.add(mesh);
+    let activeTexture=null,activeObjectUrl=null;const els={input:document.querySelector("#fileInput"),drop:document.querySelector("#dropZone"),readout:document.querySelector("#readout"),repeatX:document.querySelector("#repeatX"),repeatY:document.querySelector("#repeatY"),scale:document.querySelector("#scale"),rotation:document.querySelector("#rotation"),offsetX:document.querySelector("#offsetX"),offsetY:document.querySelector("#offsetY"),opacity:document.querySelector("#opacity"),light:document.querySelector("#light"),background:document.querySelector("#background")};
+    function resetCamera(){camera.position.set(0,1.2,4.4);controls.target.set(0,0,0);controls.update()}
+    function setShape(name){scene.remove(mesh);mesh=new THREE.Mesh(geometries[name]||geometries.plane,material);scene.add(mesh);applyParams()}
+    function setBackground(){const v=els.background.value;if(v==="light")scene.background=new THREE.Color(0xe8edf5);else if(v==="neutral")scene.background=new THREE.Color(0x5a6472);else if(v==="checker")scene.background=checker;else scene.background=new THREE.Color(0x0d1117)}
+    function applyParams(){if(activeTexture){activeTexture.wrapS=activeTexture.wrapT=THREE.RepeatWrapping;activeTexture.center.set(.5,.5);activeTexture.repeat.set(Number(els.repeatX.value),Number(els.repeatY.value));activeTexture.rotation=THREE.MathUtils.degToRad(Number(els.rotation.value));activeTexture.offset.set(Number(els.offsetX.value),Number(els.offsetY.value));activeTexture.needsUpdate=true}mesh.scale.setScalar(Number(els.scale.value));material.opacity=Number(els.opacity.value);hemi.intensity=Number(els.light.value)*1.1;key.intensity=Number(els.light.value)*1.4;setBackground()}
+    function loadFile(file){if(!file||!/^image\/(png|jpeg|webp)$/.test(file.type)){els.readout.textContent="Bitte PNG, JPG oder WebP laden.";return}if(activeObjectUrl)URL.revokeObjectURL(activeObjectUrl);activeObjectUrl=URL.createObjectURL(file);const img=new Image();img.onload=()=>{const tex=new THREE.Texture(img);tex.colorSpace=THREE.SRGBColorSpace;tex.needsUpdate=true;if(activeTexture)activeTexture.dispose();activeTexture=tex;material.map=activeTexture;material.needsUpdate=true;applyParams();els.readout.innerHTML="<strong>"+file.name+"</strong><br>"+img.naturalWidth+" × "+img.naturalHeight+" px · "+file.type+" · "+(file.size/1024).toFixed(1)+" KB<br>Base Color aktiv · lokale Preview ohne Upload."};img.onerror=()=>{els.readout.textContent="Die Bilddatei konnte nicht geladen werden."};img.src=activeObjectUrl}
+    function resize(){const r=viewport.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/Math.max(r.height,1);camera.updateProjectionMatrix()}
+    document.querySelectorAll("input[name=shape]").forEach(i=>i.addEventListener("change",e=>setShape(e.target.value)));["repeatX","repeatY","scale","rotation","offsetX","offsetY","opacity","light"].forEach(id=>els[id].addEventListener("input",applyParams));els.background.addEventListener("change",applyParams);els.input.addEventListener("change",e=>loadFile(e.target.files[0]));els.drop.addEventListener("dragover",e=>{e.preventDefault();els.drop.classList.add("drag")});els.drop.addEventListener("dragleave",()=>els.drop.classList.remove("drag"));els.drop.addEventListener("drop",e=>{e.preventDefault();els.drop.classList.remove("drag");loadFile(e.dataTransfer.files[0])});document.querySelector("#resetParams").addEventListener("click",()=>{els.repeatX.value=1;els.repeatY.value=1;els.scale.value=1;els.rotation.value=0;els.offsetX.value=0;els.offsetY.value=0;els.opacity.value=1;els.light.value=1;els.background.value="dark";applyParams()});document.querySelector("#resetView").addEventListener("click",resetCamera);
+    function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera)}window.addEventListener("resize",resize);resetCamera();resize();applyParams();animate();
+  </script>
+</body>
+</html>
