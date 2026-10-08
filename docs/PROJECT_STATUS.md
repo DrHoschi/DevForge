@@ -1,12 +1,13 @@
 # DevForge – Project Status
 
-Stand: 2026-10-05
+Stand: 2026-10-08
 
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
 - Texture Lab Scope Baseline: `d270bb80834eb285de776733dffedab3d28efb8c`
 - Texture Lab Product Priority / Minimal V1 Scope: `IMPLEMENTED / TESTBUILD / VERIFICATION PENDING`
+- Texture Lab Minimal V1 Implementation Baseline: `203b6c3ab9697d5f9243fde2af0d315227f55f7b`
 
 ## Frozen Core Foundations
 - DF-04A–F: `PASS / FROZEN`
@@ -32,7 +33,7 @@ Auf dem reconcilierten `main` sind folgende späteren Blöcke zusätzlich abgesc
 - Tool Identity Icons — `PASS / 0 BLOCKER / FROZEN`
 - Industry Tools — `PASS / 0 BLOCKER / FROZEN`
 
-Der Hub umfasst aktuell 12 Registry-Einträge. Industry enthält genau:
+Der Hub umfasst aktuell 13 Registry-Einträge. Industry enthält genau:
 - `virtual-baustellenplaner` → Virtual Baustellenplaner
 - `cybermotion-3d` → CyberMotion 3D Web Designer
 
@@ -82,8 +83,11 @@ Status:
 Scope-Dokument:
 `docs/TEXTURE_LAB_PRODUCT_PRIORITY_MINIMAL_V1_SCOPE.md`
 
-Baseline:
+Scope Baseline:
 `d270bb80834eb285de776733dffedab3d28efb8c`
+
+Implementation Baseline:
+`203b6c3ab9697d5f9243fde2af0d315227f55f7b`
 
 Texture Lab Minimal V1 ist auf `feature/texture-lab-minimal-v1` als isolierter Texture Tester implementiert:
 
