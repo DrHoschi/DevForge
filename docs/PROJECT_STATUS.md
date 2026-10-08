@@ -33,7 +33,7 @@ Auf dem reconcilierten `main` sind folgende späteren Blöcke zusätzlich abgesc
 - Tool Identity Icons — `PASS / 0 BLOCKER / FROZEN`
 - Industry Tools — `PASS / 0 BLOCKER / FROZEN`
 
-Der Hub umfasst aktuell 13 Registry-Einträge. Industry enthält genau:
+Der Hub umfasst auf diesem Testbuild-Branch aktuell 13 Registry-Einträge. Industry enthält genau:
 - `virtual-baustellenplaner` → Virtual Baustellenplaner
 - `cybermotion-3d` → CyberMotion 3D Web Designer
 
