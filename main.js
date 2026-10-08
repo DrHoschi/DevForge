@@ -9,6 +9,7 @@ const tools = [
   {id:'atlas-builder',title:'Atlas Builder',text:'Die Atlas-Funktionen sind in das Sprite Lab konsolidiert. Diese Tür führt ausschließlich zum gemeinsamen Werkzeug.',href:'tools/atlas-builder/',linkLabel:'Zum konsolidierten Werkzeug →',authority:'CONSOLIDATED / REDIRECT',role:'TECHNICAL ASSET',detail:'Keine eigenständige Capability-Autorität',areas:['game','film']},
   {id:'animation-tester',title:'Animation Tester',text:'Einzelne Produktionsframes vor dem Atlas als Loop mit FPS, Frame-Stepping, Onion-Skin und Bottom-Center-Anchor prüfen.',href:'tools/animation-tester/',authority:'AVAILABLE',role:'REVIEW',detail:'Standalone Frame-/Manifest-Review',areas:['game','film']},
   {id:'asset-inspector',title:'Asset Inspector',text:'Bilder, Texturen, Sprites und Atlas-JSON technisch auf Abmessungen, Alpha und typische Asset-Risiken prüfen.',href:'tools/asset-inspector/',authority:'AVAILABLE',role:'TECHNICAL ASSET',detail:'Technische Prüfung · keine automatische fachliche Freigabe',areas:['game','film']},
+  {id:'texture-lab',icon:'asset-inspector',title:'Texture Lab',text:'Lokale Bild- und Texturquellen als Base-Color-Textur auf Fläche, Würfel und Kugel prüfen.',href:'tools/texture-lab/',authority:'AVAILABLE / TESTBUILD',role:'MATERIAL / TEXTURE REVIEW',detail:'Minimal V1 · Texture Tester ohne Map-Generation',areas:['game','film']},
   {id:'parameter-playground',title:'Parameter Playground',text:'Als spätere Parameter-Testfläche vorgesehen. Derzeit existiert keine freigegebene aktive Tool-Funktion.',href:null,authority:'PREPARED / NOT IMPLEMENTED',role:null,detail:'Keine aktive Produktionsrolle',areas:[]},
   {id:'asset-handoff',title:'Controlled Asset Handoff',text:'Freigegebene Source Assets gegen explizite Ziel-/Staging-Angaben prüfen und als deterministisches Minimalmanifest vorbereiten.',href:'tools/asset-handoff/',authority:'FROZEN / PRODUCTIVE',role:'RUNTIME / REPOSITORY HANDOFF',detail:'DF-05–DF-08 · PASS / 0 BLOCKER / FROZEN',areas:['game','film']}
 ];
@@ -33,7 +34,8 @@ function toolCard(tool){
   article.dataset.authority=tool.authority;
   const link=tool.href?'<p class="open"><a href="'+tool.href+'">'+(tool.linkLabel||'Werkzeug öffnen →')+'</a></p>':'<p class="open"><strong>Nicht implementiert</strong></p>';
   const role=tool.role?'<span class="role">'+tool.role+'</span>':'';
-  const icon='<img class="tool-icon" src="assets/tool-icons/'+tool.id+'.png" alt="" aria-hidden="true">';
+  const iconId=tool.icon||tool.id;
+  const icon='<img class="tool-icon" src="assets/tool-icons/'+iconId+'.png" alt="" aria-hidden="true">';
   article.innerHTML=icon+'<h2>'+tool.title+'</h2><p>'+tool.text+'</p><p><small>'+tool.detail+'</small></p>'+link+'<div class="meta"><span class="status">'+tool.authority+'</span>'+role+'</div>';
   return article;
 }
