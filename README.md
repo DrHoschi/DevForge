@@ -16,7 +16,7 @@ Der Hub wurde durch DF-05 außerhalb des eingefrorenen HUB-01-Blocks um `Control
 - Sprite Lab – `AVAILABLE`, Rolle `TECHNICAL ASSET`
 - Atlas Builder – `CONSOLIDATED / REDIRECT`
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`
-- Texture Lab – `AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`, Rolle `MATERIAL / TEXTURE REVIEW`
+- Texture Lab – `AVAILABLE / TESTBUILD`, Rolle `MATERIAL / TEXTURE REVIEW`
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`
 - Controlled Asset Handoff – DF-05, DF-06, DF-07 und DF-08 `FROZEN / PRODUCTIVE`; DF-09 ist `DEFINED / NOT IMPLEMENTED`
 
@@ -91,13 +91,13 @@ Der Fingerprint ersetzt weder `assetId`, `sourceReference` oder `sourceVersion` 
 
 DF-09 autorisiert noch keine Repository-/Datei-/Runtime-Übertragung, keine Persistenz, keine Signaturen, keine semantische Inhaltsanalyse und keine Änderung der eingefrorenen DF-05/06/07/08-Semantik.
 
-## Texture Lab – Product Priority / Minimal V1 Scope
-Status: `AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+## Texture Lab – Minimal V1
+Status: `AVAILABLE / TESTBUILD`
 
 Verbindlicher Scope:
 `docs/TEXTURE_LAB_PRODUCT_PRIORITY_MINIMAL_V1_SCOPE.md`
 
-Texture Lab ist als nächster praktischer Produktkandidat priorisiert. Minimal V1 ist ein Texture Tester für lokale Bild-/Texturquellen:
+Texture Lab Minimal V1 ist ein Texture Tester für lokale Bild-/Texturquellen:
 
 - PNG/JPG/WebP laden;
 - Base-Color-/Diffuse-Textur auf Fläche, Würfel und Kugel prüfen;
@@ -110,7 +110,7 @@ Texture Lab ist als nächster praktischer Produktkandidat priorisiert. Minimal V
 Ein späterer Texture Creator bleibt ein separater Folgeblock.
 
 ## Aktueller Stand
-DF-08 ist `PASS / 0 BLOCKER / FROZEN`. DF-09 ist definiert, aber nicht implementiert. Texture Lab Minimal V1 ist als nächster praktischer Produktkandidat dokumentiert, aber nicht implementiert.
+DF-08 ist `PASS / 0 BLOCKER / FROZEN`. DF-09 ist definiert, aber nicht implementiert. Texture Lab Minimal V1 ist als Testbuild auf `feature/texture-lab-minimal-v1` implementiert und benötigt noch Verification/Evidence vor Freeze.
 
 ## Siedler-Mini
 Repository: `DrHoschi/siedler-mini`
@@ -133,9 +133,9 @@ DF-09 und Texture Lab verändern dieses Repository nicht.
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater `Texture Lab – Minimal V1 Implementation Scope / Branch Authorization` gegen den nach diesem Dokumentationsblock aktuellen `main`.
+Ausschließlich ein separater `Texture Lab – Minimal V1 Verification / Evidence Gate` gegen `feature/texture-lab-minimal-v1`.
 
-Dabei müssen Branch, konkrete Datei-/Testgrenze, Hub-Registrierung und Evidence-Anforderungen bestimmt werden. Noch keine Implementation ohne separate Freigabe.
+Dabei müssen Hub-Link, lokale PNG/JPG/WebP-Loads, Fläche/Würfel/Kugel, Transform-/Alpha-/Preview-Regler und Boundary gegen Generator-/Handoff-Funktionen geprüft werden.
 
 ## Archivierter Altstand
 Der frühere parametrische Stahlträgerhallen-Prototyp ist unverändert auf folgendem Branch gesichert:
