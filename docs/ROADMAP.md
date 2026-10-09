@@ -1,6 +1,6 @@
 # DevForge – Master Roadmap & Entwicklungsgrenzen
 
-Stand: 2026-10-05
+Stand: 2026-10-09
 
 ## 1. Vision
 DevForge ist eine projektübergreifende Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets und ein Hub für eigenständige Entwicklungswerkzeuge. Neue Funktionen werden in kleinen überprüfbaren Blöcken aus realen Produktionsproblemen entwickelt.
@@ -9,6 +9,8 @@ DevForge ist eine projektübergreifende Produktions-, Prüf- und Übergabeplattf
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
 - Texture Lab Scope Baseline: `d270bb80834eb285de776733dffedab3d28efb8c`
+- Texture Lab Minimal V1 Implementation Baseline: `203b6c3ab9697d5f9243fde2af0d315227f55f7b`
+- Texture Lab Testbuild Branch: `feature/texture-lab-minimal-v1`
 - GitHub bleibt Source of Truth.
 - Eingefrorene Contracts und Produktblöcke werden nicht durch Roadmap-Pflege neu geöffnet.
 
@@ -40,7 +42,7 @@ Der frühere Roadmap-Stand vom 2026-09-12 bildete die inzwischen integrierte Ent
 Diese Einträge sind Statusabgleich, keine neue Autorisierung.
 
 ## 5. Hub / Industry aktueller Stand
-Der DevForge-Hub enthält jetzt 12 Tool-/Produkt-Einträge. Industry enthält genau zwei eigenständige externe Produkte:
+Der DevForge-Hub enthält auf `main` 12 Tool-/Produkt-Einträge. Der Texture-Lab-Testbuild-Branch registriert zusätzlich Texture Lab und umfasst dort 13 Registry-Einträge. Industry enthält genau zwei eigenständige externe Produkte:
 
 - Virtual Baustellenplaner — `EXTERNAL PRODUCT` / `PLANNING / SITE WORKFLOW`
 - CyberMotion 3D Web Designer — `EXTERNAL PRODUCT` / `3D DESIGN / ENGINEERING`
@@ -71,16 +73,22 @@ Keine neue Hub-Tür, kein `main.js`, kein Root-`index.html`, kein Upload/Reposit
 
 DF-09 bleibt ein gültiger Core-Capability-Kandidat, ist aber nach der aktuellen Produktpriorisierung nicht der nächste ausgewählte Produktblock.
 
-## 7. Texture Lab – priorisierter Produktkandidat
+## 7. Texture Lab – Minimal V1 Testbuild
 Scope-Dokument:
 `docs/TEXTURE_LAB_PRODUCT_PRIORITY_MINIMAL_V1_SCOPE.md`
 
 Status:
-`AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+`IMPLEMENTED / TESTBUILD / VERIFICATION PENDING`
 
-Texture Lab wird als nächster praktischer Produktkandidat priorisiert, weil es einen unmittelbar sichtbaren Produktionsschritt abdeckt: Texturen und Materialquellen sollen vor Verwendung in Assets, importierten Modellen oder Zielprojekten schnell geprüft werden können.
+Branch:
+`feature/texture-lab-minimal-v1`
 
-Minimal V1 ist ein Texture Tester:
+Aktueller vorbereiteter Verification-Head vor Roadmap-Korrektur:
+`937df35ae0d76356254ab47a8fe3ea5209321441`
+
+Texture Lab Minimal V1 ist als isolierter Texture Tester implementiert, weil es einen unmittelbar sichtbaren Produktionsschritt abdeckt: Texturen und Materialquellen sollen vor Verwendung in Assets, importierten Modellen oder Zielprojekten schnell geprüft werden können.
+
+Minimal V1 kann:
 
 - lokale Bilddateien laden: PNG, JPG/JPEG, WebP soweit browserseitig verfügbar;
 - Base-Color-/Diffuse-Textur auf Fläche, Würfel und Kugel anzeigen;
@@ -119,6 +127,6 @@ Diese Entscheidung verändert keine Frozen Contracts. DF-09 bleibt definiert und
 Kleine Blöcke, Exact-Head-/Baseline-Nachweis, getrennte Definition/Authorization/Implementation/Verification/Freeze/Integration-Gates, reale Device-Evidence bei produktiven UI-/Code-Blöcken und explizite Non-Goals bleiben verbindlich.
 
 ## 11. Nächster zulässiger Schritt
-Ausschließlich ein separater **Texture Lab – Minimal V1 Implementation Scope / Branch Authorization** gegen den nach diesem Dokumentationsblock aktuellen `main`.
+Ausschließlich ein separater **Texture Lab – Minimal V1 Verification / Evidence Gate** gegen `feature/texture-lab-minimal-v1`.
 
-Falls dabei Texture Lab implementiert werden soll, müssen Branch, konkrete Datei-/Testgrenze, Hub-Registrierung und Device-/Build-Evidence-Anforderungen vorher festgelegt werden. Noch keine Implementation im selben Schritt.
+Vor Freeze erforderlich: Manual-Test-Deploy des Branches ausführen, Hub-Link öffnen, lokale PNG/JPG/WebP laden, Fläche/Würfel/Kugel prüfen, Transform-/Alpha-/Hintergrund-/Lichtregler sichtbar verifizieren und bestätigen, dass keine Generator-, Creator- oder Handoff-Funktion angeboten wird.
