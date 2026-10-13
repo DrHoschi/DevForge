@@ -33,28 +33,136 @@
       <div class="group"><h2>Texture Transform</h2><label class="row">Repeat X <input id="repeatX" type="range" min="0.1" max="8" step="0.1" value="1"></label><label class="row">Repeat Y <input id="repeatY" type="range" min="0.1" max="8" step="0.1" value="1"></label><label class="row">Scale <input id="scale" type="range" min="0.35" max="2.5" step="0.05" value="1"></label><label class="row">Rotation <input id="rotation" type="range" min="-180" max="180" step="1" value="0"></label><label class="row">Offset X <input id="offsetX" type="range" min="-1" max="1" step="0.01" value="0"></label><label class="row">Offset Y <input id="offsetY" type="range" min="-1" max="1" step="0.01" value="0"></label></div>
       <div class="group"><h2>Preview</h2><label class="row">Alpha/Transparenz <input id="opacity" type="range" min="0.15" max="1" step="0.01" value="1"></label><label class="row">Licht <input id="light" type="range" min="0.1" max="2.2" step="0.05" value="1"></label><label class="row">Hintergrund <select id="background"><option value="dark">Dunkel</option><option value="neutral">Neutral</option><option value="light">Hell</option><option value="checker">Checker</option></select></label><button id="resetParams" type="button">Parameter zurücksetzen</button><button id="resetView" type="button">Kamera zurücksetzen</button></div>
       <div class="group"><h2>Map-Slots</h2><div class="slots"><div class="slot active">Base Color aktiv</div><div class="slot">Normal später</div><div class="slot">Roughness später</div><div class="slot">Metalness später</div><div class="slot">AO später</div></div></div>
-      <div id="readout" class="readout">Noch keine Textur geladen.</div>
+      <div id="readout" class="readout">Preview Engine lädt…</div>
     </section>
     <section class="panel viewer" aria-label="3D texture preview"><div id="viewport"></div><div class="hint">Maus/Touch: drehen, zoomen und schwenken. V1 ist ein lokaler Tester, kein Generator und kein Asset-Handoff.</div></section>
   </main>
   <script type="module">
-    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-    import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
-    const viewport=document.querySelector("#viewport"),renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;viewport.appendChild(renderer.domElement);
-    const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(45,1,.1,100),controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;
-    const hemi=new THREE.HemisphereLight(0xffffff,0x2a3140,1.2),key=new THREE.DirectionalLight(0xffffff,1.4);key.position.set(3,4,5);scene.add(hemi,key);
-    const checker=(()=>{const c=document.createElement("canvas");c.width=c.height=128;const x=c.getContext("2d");for(let y=0;y<8;y++)for(let i=0;i<8;i++){x.fillStyle=(i+y)%2?"#1b2430":"#5a6676";x.fillRect(i*16,y*16,16,16)}const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(8,8);return t})();
-    const material=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.72,metalness:0,transparent:true,side:THREE.DoubleSide});
-    const geometries={plane:new THREE.PlaneGeometry(2.7,2.7),box:new THREE.BoxGeometry(2,2,2),sphere:new THREE.SphereGeometry(1.35,64,32)};let mesh=new THREE.Mesh(geometries.plane,material);scene.add(mesh);
-    let activeTexture=null,activeObjectUrl=null;const els={input:document.querySelector("#fileInput"),drop:document.querySelector("#dropZone"),readout:document.querySelector("#readout"),repeatX:document.querySelector("#repeatX"),repeatY:document.querySelector("#repeatY"),scale:document.querySelector("#scale"),rotation:document.querySelector("#rotation"),offsetX:document.querySelector("#offsetX"),offsetY:document.querySelector("#offsetY"),opacity:document.querySelector("#opacity"),light:document.querySelector("#light"),background:document.querySelector("#background")};
-    function resetCamera(){camera.position.set(0,1.2,4.4);controls.target.set(0,0,0);controls.update()}
-    function setShape(name){scene.remove(mesh);mesh=new THREE.Mesh(geometries[name]||geometries.plane,material);scene.add(mesh);applyParams()}
-    function setBackground(){const v=els.background.value;if(v==="light")scene.background=new THREE.Color(0xe8edf5);else if(v==="neutral")scene.background=new THREE.Color(0x5a6472);else if(v==="checker")scene.background=checker;else scene.background=new THREE.Color(0x0d1117)}
-    function applyParams(){if(activeTexture){activeTexture.wrapS=activeTexture.wrapT=THREE.RepeatWrapping;activeTexture.center.set(.5,.5);activeTexture.repeat.set(Number(els.repeatX.value),Number(els.repeatY.value));activeTexture.rotation=THREE.MathUtils.degToRad(Number(els.rotation.value));activeTexture.offset.set(Number(els.offsetX.value),Number(els.offsetY.value));activeTexture.needsUpdate=true}mesh.scale.setScalar(Number(els.scale.value));material.opacity=Number(els.opacity.value);hemi.intensity=Number(els.light.value)*1.1;key.intensity=Number(els.light.value)*1.4;setBackground()}
-    function loadFile(file){if(!file||!/^image\/(png|jpeg|webp)$/.test(file.type)){els.readout.textContent="Bitte PNG, JPG oder WebP laden.";return}if(activeObjectUrl)URL.revokeObjectURL(activeObjectUrl);activeObjectUrl=URL.createObjectURL(file);const img=new Image();img.onload=()=>{const tex=new THREE.Texture(img);tex.colorSpace=THREE.SRGBColorSpace;tex.needsUpdate=true;if(activeTexture)activeTexture.dispose();activeTexture=tex;material.map=activeTexture;material.needsUpdate=true;applyParams();els.readout.innerHTML="<strong>"+file.name+"</strong><br>"+img.naturalWidth+" × "+img.naturalHeight+" px · "+file.type+" · "+(file.size/1024).toFixed(1)+" KB<br>Base Color aktiv · lokale Preview ohne Upload."};img.onerror=()=>{els.readout.textContent="Die Bilddatei konnte nicht geladen werden."};img.src=activeObjectUrl}
-    function resize(){const r=viewport.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/Math.max(r.height,1);camera.updateProjectionMatrix()}
-    document.querySelectorAll("input[name=shape]").forEach(i=>i.addEventListener("change",e=>setShape(e.target.value)));["repeatX","repeatY","scale","rotation","offsetX","offsetY","opacity","light"].forEach(id=>els[id].addEventListener("input",applyParams));els.background.addEventListener("change",applyParams);els.input.addEventListener("change",e=>loadFile(e.target.files[0]));els.drop.addEventListener("dragover",e=>{e.preventDefault();els.drop.classList.add("drag")});els.drop.addEventListener("dragleave",()=>els.drop.classList.remove("drag"));els.drop.addEventListener("drop",e=>{e.preventDefault();els.drop.classList.remove("drag");loadFile(e.dataTransfer.files[0])});document.querySelector("#resetParams").addEventListener("click",()=>{els.repeatX.value=1;els.repeatY.value=1;els.scale.value=1;els.rotation.value=0;els.offsetX.value=0;els.offsetY.value=0;els.opacity.value=1;els.light.value=1;els.background.value="dark";applyParams()});document.querySelector("#resetView").addEventListener("click",resetCamera);
-    function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera)}window.addEventListener("resize",resize);resetCamera();resize();applyParams();animate();
+    const els={
+      input:document.querySelector("#fileInput"),
+      drop:document.querySelector("#dropZone"),
+      readout:document.querySelector("#readout"),
+      repeatX:document.querySelector("#repeatX"),
+      repeatY:document.querySelector("#repeatY"),
+      scale:document.querySelector("#scale"),
+      rotation:document.querySelector("#rotation"),
+      offsetX:document.querySelector("#offsetX"),
+      offsetY:document.querySelector("#offsetY"),
+      opacity:document.querySelector("#opacity"),
+      light:document.querySelector("#light"),
+      background:document.querySelector("#background"),
+      resetParams:document.querySelector("#resetParams"),
+      resetView:document.querySelector("#resetView")
+    };
+    const viewport=document.querySelector("#viewport");
+    let THREE,OrbitControls,renderer,scene,camera,controls,hemi,key,checker,material,geometries,mesh;
+    let engineReady=false,engineError=null,pendingFile=null,activeTexture=null,activeObjectUrl=null;
+
+    function writeReadout(text){els.readout.textContent=text}
+    function writeTextureReadout(file,img){
+      els.readout.replaceChildren();
+      const name=document.createElement("strong");
+      name.textContent=file.name;
+      els.readout.append(name,document.createElement("br"),`${img.naturalWidth} x ${img.naturalHeight} px · ${file.type||"MIME unbekannt"} · ${(file.size/1024).toFixed(1)} KB`,document.createElement("br"),"Base Color aktiv · lokale Preview ohne Upload.");
+    }
+    function isSupportedImage(file){
+      if(!file)return false;
+      const mimeOk=/^image\/(png|jpeg|webp)$/i.test(file.type||"");
+      const extOk=/\.(png|jpe?g|webp)$/i.test(file.name||"");
+      return mimeOk||extOk;
+    }
+    function handleFile(file){
+      if(!file){writeReadout("Keine Datei ausgewählt.");return}
+      if(!isSupportedImage(file)){writeReadout("Bitte PNG, JPG oder WebP laden.");return}
+      pendingFile=file;
+      if(engineError){writeReadout(`Preview Engine Fehler: ${engineError}`);return}
+      if(!engineReady){writeReadout(`${file.name} ausgewählt. Preview Engine lädt…`);return}
+      loadFile(file);
+    }
+    function bindInputs(){
+      els.input.addEventListener("change",e=>handleFile(e.target.files&&e.target.files[0]));
+      els.drop.addEventListener("dragover",e=>{e.preventDefault();els.drop.classList.add("drag")});
+      els.drop.addEventListener("dragleave",()=>els.drop.classList.remove("drag"));
+      els.drop.addEventListener("drop",e=>{e.preventDefault();els.drop.classList.remove("drag");handleFile(e.dataTransfer.files&&e.dataTransfer.files[0])});
+      document.querySelectorAll("input[name=shape]").forEach(i=>i.addEventListener("change",e=>setShape(e.target.value)));
+      ["repeatX","repeatY","scale","rotation","offsetX","offsetY","opacity","light"].forEach(id=>els[id].addEventListener("input",applyParams));
+      els.background.addEventListener("change",applyParams);
+      els.resetParams.addEventListener("click",()=>{els.repeatX.value=1;els.repeatY.value=1;els.scale.value=1;els.rotation.value=0;els.offsetX.value=0;els.offsetY.value=0;els.opacity.value=1;els.light.value=1;els.background.value="dark";applyParams()});
+      els.resetView.addEventListener("click",resetCamera);
+    }
+    function requireEngine(){return engineReady&&THREE&&renderer&&scene&&camera&&controls}
+    function resetCamera(){
+      if(!requireEngine())return;
+      camera.position.set(0,1.2,4.4);controls.target.set(0,0,0);controls.update();
+    }
+    function setShape(name){
+      if(!requireEngine())return;
+      scene.remove(mesh);mesh=new THREE.Mesh(geometries[name]||geometries.plane,material);scene.add(mesh);applyParams();
+    }
+    function setBackground(){
+      if(!requireEngine())return;
+      const v=els.background.value;
+      if(v==="light")scene.background=new THREE.Color(0xe8edf5);else if(v==="neutral")scene.background=new THREE.Color(0x5a6472);else if(v==="checker")scene.background=checker;else scene.background=new THREE.Color(0x0d1117);
+    }
+    function applyParams(){
+      if(!requireEngine())return;
+      if(activeTexture){
+        activeTexture.wrapS=activeTexture.wrapT=THREE.RepeatWrapping;activeTexture.center.set(.5,.5);activeTexture.repeat.set(Number(els.repeatX.value),Number(els.repeatY.value));activeTexture.rotation=THREE.MathUtils.degToRad(Number(els.rotation.value));activeTexture.offset.set(Number(els.offsetX.value),Number(els.offsetY.value));activeTexture.needsUpdate=true;
+      }
+      mesh.scale.setScalar(Number(els.scale.value));material.opacity=Number(els.opacity.value);hemi.intensity=Number(els.light.value)*1.1;key.intensity=Number(els.light.value)*1.4;setBackground();
+    }
+    function loadFile(file){
+      if(!requireEngine()){handleFile(file);return}
+      if(activeObjectUrl)URL.revokeObjectURL(activeObjectUrl);
+      activeObjectUrl=URL.createObjectURL(file);
+      const img=new Image();
+      img.onload=()=>{
+        try{
+          const tex=new THREE.Texture(img);tex.colorSpace=THREE.SRGBColorSpace;tex.needsUpdate=true;
+          if(activeTexture)activeTexture.dispose();
+          activeTexture=tex;material.map=activeTexture;material.needsUpdate=true;applyParams();writeTextureReadout(file,img);
+        }catch(error){writeReadout(`Preview Texture Fehler: ${error&&error.message?error.message:String(error)}`)}
+      };
+      img.onerror=()=>writeReadout("Die Bilddatei konnte nicht geladen werden.");
+      img.src=activeObjectUrl;
+    }
+    function resize(){
+      if(!requireEngine())return;
+      const r=viewport.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/Math.max(r.height,1);camera.updateProjectionMatrix();
+    }
+    function animate(){
+      if(!requireEngine())return;
+      requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);
+    }
+    function createChecker(){
+      const c=document.createElement("canvas");c.width=c.height=128;const x=c.getContext("2d");
+      for(let y=0;y<8;y++)for(let i=0;i<8;i++){x.fillStyle=(i+y)%2?"#1b2430":"#5a6676";x.fillRect(i*16,y*16,16,16)}
+      const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(8,8);return t;
+    }
+    async function initPreviewEngine(){
+      writeReadout("Preview Engine lädt…");
+      try{
+        const modules=await Promise.all([
+          import("https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"),
+          import("https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js")
+        ]);
+        THREE=modules[0];OrbitControls=modules[1].OrbitControls;
+        renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;viewport.appendChild(renderer.domElement);
+        scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(45,1,.1,100);controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;
+        hemi=new THREE.HemisphereLight(0xffffff,0x2a3140,1.2);key=new THREE.DirectionalLight(0xffffff,1.4);key.position.set(3,4,5);scene.add(hemi,key);
+        checker=createChecker();material=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.72,metalness:0,transparent:true,side:THREE.DoubleSide});
+        geometries={plane:new THREE.PlaneGeometry(2.7,2.7),box:new THREE.BoxGeometry(2,2,2),sphere:new THREE.SphereGeometry(1.35,64,32)};
+        mesh=new THREE.Mesh(geometries.plane,material);scene.add(mesh);engineReady=true;
+        window.addEventListener("resize",resize);resetCamera();resize();applyParams();animate();
+        if(pendingFile)loadFile(pendingFile);else writeReadout("Preview Engine bereit. Noch keine Textur geladen.");
+      }catch(error){
+        engineError=error&&error.message?error.message:String(error);
+        writeReadout(`Preview Engine Fehler: ${engineError}`);
+      }
+    }
+
+    bindInputs();
+    initPreviewEngine();
   </script>
 </body>
 </html>
