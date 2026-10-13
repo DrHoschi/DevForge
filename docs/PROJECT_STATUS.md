@@ -109,10 +109,13 @@ Ein späterer Texture Creator bleibt ausdrücklich ein separater Folgeblock.
 
 ## Texture Lab – Multi Map Preview
 Status:
-`AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+`IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
 
 Scope-Dokument:
 `docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_SCOPE.md`
+
+Implementation-/Verification-Dokument:
+`docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_IMPLEMENTATION_VERIFICATION.md`
 
 Scope Authorization Baseline:
 `bc506a0b6ed155c617a23e7578eecc28390edfe2`
@@ -128,7 +131,12 @@ Ziel ist ausschließlich die Preview vorhandener lokaler Material-Maps im besteh
 
 Nicht Teil dieses Blocks sind Map-Erzeugung, Texture Creator / Map Generator, Export, Download, Handoff, Projekt-Persistenz, dediziertes Icon, GLB-Import oder DF-05–DF-09-Änderungen.
 
-Die zuvor technisch mögliche Main-Integration wird produktfachlich zurückgestellt, bis Multi Map Preview implementiert und auf Gerät verifiziert ist.
+Die zuvor technisch mögliche Main-Integration bleibt produktfachlich zurückgestellt, bis Multi Map Preview auf Gerät verifiziert ist.
+
+Implementation Commit:
+`060793be662a9fa33e0fb6508c855226b52b1c89`
+
+Statisch verifiziert sind zusätzliche Slots für Normal, Roughness, Metalness und AO, Map-Zuweisung auf `MeshStandardMaterial`, synchronisierte Texture-Transforms, iOS-Dateiendungsfallback, sichtbare Slot-Readouts und unveränderte Non-Goals ohne Generator, Export oder Handoff.
 
 ## Tatsächlich offene Bereiche
 - DF-09 Implementation ist noch nicht begonnen.
@@ -137,11 +145,11 @@ Die zuvor technisch mögliche Main-Integration wird produktfachlich zurückgeste
 - Repository-Transfer, Runtime-Handoff, persistente Libraries, Batch, Signaturen/PKI und Formatkonvertierung bleiben spätere Core-Grenzen.
 
 ## Aktueller Gate-Status
-`TEXTURE LAB – MULTI MAP PREVIEW DOCUMENTATION / SCOPE AUTHORIZATION – AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+`TEXTURE LAB – MULTI MAP PREVIEW IMPLEMENTATION / VERIFICATION – IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
 
 Der aktuelle Block ergänzt ausschließlich Scope-/Statusdokumentation. Er verändert keinen Frozen Contract, keine DF-05–DF-09-Semantik, keine Hub-Registrierung und keine Tool-Implementation. Texture Lab Minimal V1 bleibt `PASS / FROZEN`; die Main-Integration wird bis nach Multi-Map-Verification zurückgestellt.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater **Texture Lab – Multi Map Preview Implementation / Verification** gegen `feature/texture-lab-minimal-v1`.
+Ausschließlich ein separater **Texture Lab – Multi Map Preview Device Evidence Gate** gegen den aktuellen Branch-Head.
 
-Dabei werden vorhandene lokale Base-Color-, Normal-, Roughness-, Metalness- und AO-Maps gemeinsam im Texture Lab geprüft. Erwarteter Startpunkt ist `tools/texture-lab/index.html`; keine Map-Erzeugung, kein Export, kein Handoff, kein Icon und keine Main-Integration in diesem Schritt.
+Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen. Erwartung: Base Color plus mindestens eine zusätzliche Map laden, Readouts mit Dateiname/Pixelgröße/Dateigröße prüfen, Preview auf Fläche/Würfel/Kugel sichtbar bestätigen. Keine Main-Integration vor dieser Device-Evidence.
