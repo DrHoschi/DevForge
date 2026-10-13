@@ -127,10 +127,28 @@ Die aktuelle Prioritätsentscheidung wählt Texture Lab Minimal V1 als nächsten
 
 Diese Entscheidung verändert keine Frozen Contracts. DF-09 bleibt definiert und kann später separat implementiert werden, wenn sein technischer Nachweisnutzen wieder priorisiert wird.
 
-## 10. Arbeitsweise
+## 10. Texture Lab – Multi Map Preview
+
+Status:
+`AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+
+Scope-Dokument:
+`docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_SCOPE.md`
+
+Der eingefrorene Texture Lab Minimal V1 bleibt Fundament. Vor der Main-Integration wird der Produktumfang um die Preview vorhandener lokaler Material-Maps erweitert:
+
+- Base Color bleibt wie in V1;
+- Normal, Roughness, Metalness und AO werden als optionale lokale Map-Slots ergänzt;
+- alle geladenen Maps werden gemeinsam auf Fläche, Würfel oder Kugel geprüft;
+- Transform-Parameter bleiben materialweit synchron;
+- iPhone-Safari-Dateiauswahl, Readouts und sichtbares Preview-Rendering bleiben Gate-Nachweis.
+
+Nicht enthalten sind Map-Erzeugung, Texture Creator / Map Generator, Export, Handoff, Projekt-Persistenz, dediziertes Icon oder neue Core-Authority.
+
+## 11. Arbeitsweise
 Kleine Blöcke, Exact-Head-/Baseline-Nachweis, getrennte Definition/Authorization/Implementation/Verification/Freeze/Integration-Gates, reale Device-Evidence bei produktiven UI-/Code-Blöcken und explizite Non-Goals bleiben verbindlich.
 
-## 11. Nächster zulässiger Schritt
-Ausschließlich ein separater **Texture Lab – Minimal V1 Integration Reconciliation** gegen `feature/texture-lab-minimal-v1` und den aktuellen `main`.
+## 12. Nächster zulässiger Schritt
+Ausschließlich ein separater **Texture Lab – Multi Map Preview Implementation / Verification** gegen `feature/texture-lab-minimal-v1`.
 
-Dabei wird read-only geprüft, ob der Frozen Product Commit `200b769c3b4fff5f236dee4ca791a2f5867a40c0` linear und ohne Fremdänderungen auf `main` integriert werden kann. Keine Texture-Creator-, Map-Generator- oder Icon-Implementation in diesem Schritt.
+Dabei werden vorhandene lokale Base-Color-, Normal-, Roughness-, Metalness- und AO-Maps gemeinsam im Texture Lab geprüft. Keine Texture-Creator-, Map-Generator-, Export-, Handoff-, Icon- oder Main-Integration in diesem Schritt.
