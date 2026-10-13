@@ -143,8 +143,8 @@
       writeReadout("Preview Engine lädt…");
       try{
         const modules=await Promise.all([
-          import("https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"),
-          import("https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js")
+          import("https://esm.sh/three@0.160.0"),
+          import("https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js")
         ]);
         THREE=modules[0];OrbitControls=modules[1].OrbitControls;
         renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;viewport.appendChild(renderer.domElement);
