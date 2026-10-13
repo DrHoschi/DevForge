@@ -48,3 +48,20 @@ Minimaler Test vor Freeze wurde erfüllt:
 6. Sicherstellen, dass keine Generator- oder Handoff-Funktion angeboten wird.
 
 Gate Result: `Texture Lab – Minimal V1 Completion / Evidence / Freeze: PASS / FROZEN`
+
+## Next Authorized Follow-up – Multi Map Preview
+
+Status: `AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+
+Scope-Dokument: `docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_SCOPE.md`
+
+Der nächste erlaubte Produktblock erweitert Texture Lab vom Base-Color-Tester zum Preview-Tester vorhandener Material-Maps:
+
+- Base Color bleibt wie in Minimal V1;
+- zusätzliche lokale Slots für Normal, Roughness, Metalness und AO;
+- alle geladenen Maps werden gemeinsam auf Fläche, Würfel oder Kugel geprüft;
+- Transform-Parameter bleiben materialweit synchron;
+- pro Slot muss ein sichtbarer Readout mit Dateiname, Pixelgröße und Dateigröße möglich sein;
+- iPhone-Safari-Dateiauswahl und Preview-Rendering bleiben Acceptance-relevant.
+
+Nicht enthalten: Map-Erzeugung, Texture Creator / Map Generator, Export, Download, Asset-Handoff, Projekt-Persistenz, dediziertes Icon, GLB-Import oder DF-05–DF-09-Änderung.
