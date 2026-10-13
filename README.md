@@ -16,7 +16,7 @@ Der Hub wurde durch DF-05 außerhalb des eingefrorenen HUB-01-Blocks um `Control
 - Sprite Lab – `AVAILABLE`, Rolle `TECHNICAL ASSET`
 - Atlas Builder – `CONSOLIDATED / REDIRECT`
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`
-- Texture Lab – `AVAILABLE / TESTBUILD`, Rolle `MATERIAL / TEXTURE REVIEW`
+- Texture Lab – `PASS / FROZEN`, Rolle `MATERIAL / TEXTURE REVIEW`
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`
 - Controlled Asset Handoff – DF-05, DF-06, DF-07 und DF-08 `FROZEN / PRODUCTIVE`; DF-09 ist `DEFINED / NOT IMPLEMENTED`
 
@@ -92,7 +92,7 @@ Der Fingerprint ersetzt weder `assetId`, `sourceReference` oder `sourceVersion` 
 DF-09 autorisiert noch keine Repository-/Datei-/Runtime-Übertragung, keine Persistenz, keine Signaturen, keine semantische Inhaltsanalyse und keine Änderung der eingefrorenen DF-05/06/07/08-Semantik.
 
 ## Texture Lab – Minimal V1
-Status: `AVAILABLE / TESTBUILD`
+Status: `PASS / FROZEN`
 
 Verbindlicher Scope:
 `docs/TEXTURE_LAB_PRODUCT_PRIORITY_MINIMAL_V1_SCOPE.md`
@@ -110,7 +110,7 @@ Texture Lab Minimal V1 ist ein Texture Tester für lokale Bild-/Texturquellen:
 Ein späterer Texture Creator bleibt ein separater Folgeblock.
 
 ## Aktueller Stand
-DF-08 ist `PASS / 0 BLOCKER / FROZEN`. DF-09 ist definiert, aber nicht implementiert. Texture Lab Minimal V1 ist als Testbuild auf `feature/texture-lab-minimal-v1` implementiert und benötigt noch Verification/Evidence vor Freeze.
+DF-08 ist `PASS / 0 BLOCKER / FROZEN`. DF-09 ist definiert, aber nicht implementiert. Texture Lab Minimal V1 ist auf `feature/texture-lab-minimal-v1` mit Frozen Product Commit `200b769c3b4fff5f236dee4ca791a2f5867a40c0` als `PASS / FROZEN` dokumentiert.
 
 ## Siedler-Mini
 Repository: `DrHoschi/siedler-mini`
@@ -121,6 +121,7 @@ DF-09 und Texture Lab verändern dieses Repository nicht.
 - `docs/PROJECT_STATUS.md` – aktueller Gesamtstand, Branch, PASS/FAIL und exakt nächster zulässiger Schritt
 - `docs/ROADMAP.md` – Gesamtvision, Zielarchitektur und Entwicklungsgrenzen
 - `docs/TEXTURE_LAB_PRODUCT_PRIORITY_MINIMAL_V1_SCOPE.md` – priorisierter Texture-Lab-Minimal-V1-Scope
+- `docs/TEXTURE_LAB_MINIMAL_V1_COMPLETION_EVIDENCE_FREEZE.md` – Texture-Lab-Minimal-V1-Completion-/Evidence-/Freeze
 - `docs/DF-05_CONTROLLED_ASSET_HANDOFF_FOUNDATION_CONTRACT.md` – eingefrorener DF-05-Handoff-Contract
 - `docs/DF-06_TARGET_PROJECT_HANDOFF_PROFILE_FOUNDATION_CONTRACT.md` – eingefrorener DF-06-Profil-Contract
 - `docs/DF-07_SOURCE_ASSET_APPROVAL_AUTHORITY_FOUNDATION_CONTRACT.md` – eingefrorener DF-07-Approval-Authority-Contract
@@ -133,9 +134,9 @@ DF-09 und Texture Lab verändern dieses Repository nicht.
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater `Texture Lab – Minimal V1 Verification / Evidence Gate` gegen `feature/texture-lab-minimal-v1`.
+Ausschließlich ein separater `Texture Lab – Minimal V1 Integration Reconciliation` gegen `feature/texture-lab-minimal-v1` und den aktuellen `main`.
 
-Dabei müssen Hub-Link, lokale PNG/JPG/WebP-Loads, Fläche/Würfel/Kugel, Transform-/Alpha-/Preview-Regler und Boundary gegen Generator-/Handoff-Funktionen geprüft werden.
+Dabei wird read-only geprüft, ob der Frozen Product Commit `200b769c3b4fff5f236dee4ca791a2f5867a40c0` linear und ohne Fremdänderungen auf `main` integriert werden kann. Texture Creator / Map Generator und ein dediziertes Texture-Lab-Icon bleiben separate spätere Blöcke.
 
 ## Archivierter Altstand
 Der frühere parametrische Stahlträgerhallen-Prototyp ist unverändert auf folgendem Branch gesichert:
