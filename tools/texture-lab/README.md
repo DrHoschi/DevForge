@@ -1,6 +1,6 @@
 # Texture Lab
 
-Status: `MINIMAL V1 / TESTBUILD`
+Status: `MINIMAL V1 / PASS / FROZEN`
 
 Texture Lab Minimal V1 ist ein lokaler Texture Tester für DevForge. Er dient dazu, normale Bild-/Texturquellen schnell im Browser zu prüfen, bevor daraus spätere Material- oder Pipeline-Schritte entstehen.
 
@@ -32,9 +32,13 @@ Nicht enthalten in Minimal V1:
 - Animation Tester prüft Frame-Loops und Animationstiming.
 - Texture Lab prüft ausschließlich Material-/Texturwirkung auf einfachen 3D-Prüfkörpern.
 
-## Manual Test Evidence
+## Completion Evidence
 
-Minimaler Test vor Freeze:
+Frozen Product Commit: `200b769c3b4fff5f236dee4ca791a2f5867a40c0`
+
+Completion-/Evidence-Dokument: `docs/TEXTURE_LAB_MINIMAL_V1_COMPLETION_EVIDENCE_FREEZE.md`
+
+Minimaler Test vor Freeze wurde erfüllt:
 
 1. Texture Lab aus dem Hub öffnen.
 2. PNG, JPG und WebP einzeln laden.
@@ -42,3 +46,5 @@ Minimaler Test vor Freeze:
 4. Repeat, Scale, Rotation und Offset sichtbar verändern.
 5. Alpha/Opacity und Hintergründe prüfen.
 6. Sicherstellen, dass keine Generator- oder Handoff-Funktion angeboten wird.
+
+Gate Result: `Texture Lab – Minimal V1 Completion / Evidence / Freeze: PASS / FROZEN`
