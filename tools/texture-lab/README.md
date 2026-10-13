@@ -1,6 +1,6 @@
 # Texture Lab
 
-Status: `MINIMAL V1 / PASS / FROZEN`
+Status: `MULTI MAP PREVIEW / IMPLEMENTED / DEVICE EVIDENCE PENDING`
 
 Texture Lab Minimal V1 ist ein lokaler Texture Tester für DevForge. Er dient dazu, normale Bild-/Texturquellen schnell im Browser zu prüfen, bevor daraus spätere Material- oder Pipeline-Schritte entstehen.
 
@@ -51,7 +51,7 @@ Gate Result: `Texture Lab – Minimal V1 Completion / Evidence / Freeze: PASS / 
 
 ## Next Authorized Follow-up – Multi Map Preview
 
-Status: `AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+Status: `IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
 
 Scope-Dokument: `docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_SCOPE.md`
 
@@ -65,3 +65,12 @@ Der nächste erlaubte Produktblock erweitert Texture Lab vom Base-Color-Tester z
 - iPhone-Safari-Dateiauswahl und Preview-Rendering bleiben Acceptance-relevant.
 
 Nicht enthalten: Map-Erzeugung, Texture Creator / Map Generator, Export, Download, Asset-Handoff, Projekt-Persistenz, dediziertes Icon, GLB-Import oder DF-05–DF-09-Änderung.
+
+
+## Multi Map Preview Verification
+
+Implementation Commit: `060793be662a9fa33e0fb6508c855226b52b1c89`
+
+Verification-Dokument: `docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_IMPLEMENTATION_VERIFICATION.md`
+
+Statisch bestanden sind Slot-UI, iOS-Dateiendungsfallback, Map-Zuweisung auf `MeshStandardMaterial`, synchronisierte Texture-Transforms und sichtbare Readouts. Reale iPhone-Safari-Device-Evidence steht noch aus.
