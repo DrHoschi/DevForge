@@ -18,28 +18,35 @@
     .group{display:grid;gap:10px;padding:14px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.025)}.group h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin:0}
     .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.seg label,button,select{border:1px solid var(--line);background:#111925;color:var(--text);border-radius:12px;padding:10px 12px;font:inherit}.seg label{text-align:center;cursor:pointer;color:var(--muted)}.seg input{position:absolute;opacity:0;pointer-events:none}.seg label:has(input:checked){border-color:var(--accent);color:var(--text);background:rgba(255,179,71,.12)}
     label.row{display:grid;grid-template-columns:1fr minmax(120px,48%);gap:10px;align-items:center;color:var(--muted);font-size:.92rem}input[type=range]{width:100%}
-    .readout{font-size:.88rem;color:var(--muted);line-height:1.45;word-break:break-word}.slots{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.slot{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px;color:#6f7d91;background:rgba(255,255,255,.02);font-size:.86rem}.slot.active{color:var(--text);border-color:rgba(255,179,71,.55);background:rgba(255,179,71,.10)}
+    .readout{font-size:.88rem;color:var(--muted);line-height:1.45;word-break:break-word}.readout strong{color:var(--text)}
+    .slots{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.slot{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;color:#6f7d91;background:rgba(255,255,255,.02);font-size:.86rem;display:grid;gap:7px}.slot.active,.slot.loaded{color:var(--text);border-color:rgba(255,179,71,.55);background:rgba(255,179,71,.10)}.slot span{font-weight:700}.slot small{color:var(--muted);line-height:1.35}.slot input{width:100%;color:var(--muted);font-size:.82rem}
     .badge{display:inline-flex;border:1px solid rgba(255,179,71,.45);color:var(--accent);border-radius:999px;padding:6px 10px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
     .hint{position:absolute;left:16px;bottom:16px;right:16px;color:var(--muted);font-size:.88rem;background:rgba(7,10,15,.66);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px;backdrop-filter:blur(12px)}
     @media (max-width:900px){main{grid-template-columns:1fr}.viewer{min-height:58vh}.controls{order:2}.viewer{order:1}}
   </style>
 </head>
 <body>
-  <header><div class="topline"><a class="back" href="../../">← DevForge Hub</a><span class="badge">Minimal V1 · Base Color Tester</span></div><h1>Texture Lab</h1><p class="lead">Lokale PNG-, JPG- und WebP-Texturen sicher im Browser laden und als Base-Color-/Diffuse-Textur auf Fläche, Würfel oder Kugel prüfen. Dieses V1 erzeugt noch keine Normal-, Roughness-, Metalness- oder AO-Maps.</p></header>
+  <header><div class="topline"><a class="back" href="../../">← DevForge Hub</a><span class="badge">Multi Map Preview · Texture Tester</span></div><h1>Texture Lab</h1><p class="lead">Lokale PNG-, JPG- und WebP-Texturen sicher im Browser laden und vorhandene Base-Color-, Normal-, Roughness-, Metalness- und AO-Maps gemeinsam auf Fläche, Würfel oder Kugel prüfen. Dieses Tool erzeugt keine Maps und exportiert keine Assets.</p></header>
   <main>
     <section class="panel controls" aria-label="Texture controls">
-      <div id="dropZone" class="drop"><strong>Textur hier ablegen</strong><span>oder lokale PNG/JPG/WebP auswählen. Dateien bleiben lokal im Browser.</span><input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp"></div>
+      <div id="dropZone" class="drop"><strong>Base Color hier ablegen</strong><span>oder lokale PNG/JPG/WebP auswählen. Dateien bleiben lokal im Browser.</span><input id="fileInput" data-map-input="baseColor" type="file" accept="image/png,image/jpeg,image/webp"></div>
       <div class="group"><h2>Prüfkörper</h2><div class="seg"><label><input type="radio" name="shape" value="plane" checked>Fläche</label><label><input type="radio" name="shape" value="box">Würfel</label><label><input type="radio" name="shape" value="sphere">Kugel</label></div></div>
       <div class="group"><h2>Texture Transform</h2><label class="row">Repeat X <input id="repeatX" type="range" min="0.1" max="8" step="0.1" value="1"></label><label class="row">Repeat Y <input id="repeatY" type="range" min="0.1" max="8" step="0.1" value="1"></label><label class="row">Scale <input id="scale" type="range" min="0.35" max="2.5" step="0.05" value="1"></label><label class="row">Rotation <input id="rotation" type="range" min="-180" max="180" step="1" value="0"></label><label class="row">Offset X <input id="offsetX" type="range" min="-1" max="1" step="0.01" value="0"></label><label class="row">Offset Y <input id="offsetY" type="range" min="-1" max="1" step="0.01" value="0"></label></div>
       <div class="group"><h2>Preview</h2><label class="row">Alpha/Transparenz <input id="opacity" type="range" min="0.15" max="1" step="0.01" value="1"></label><label class="row">Licht <input id="light" type="range" min="0.1" max="2.2" step="0.05" value="1"></label><label class="row">Hintergrund <select id="background"><option value="dark">Dunkel</option><option value="neutral">Neutral</option><option value="light">Hell</option><option value="checker">Checker</option></select></label><button id="resetParams" type="button">Parameter zurücksetzen</button><button id="resetView" type="button">Kamera zurücksetzen</button></div>
-      <div class="group"><h2>Map-Slots</h2><div class="slots"><div class="slot active">Base Color aktiv</div><div class="slot">Normal später</div><div class="slot">Roughness später</div><div class="slot">Metalness später</div><div class="slot">AO später</div></div></div>
+      <div class="group"><h2>Map-Slots</h2><div class="slots">
+          <label class="slot active" data-map-slot="baseColor"><span>Base Color</span><small>Farbe / Diffuse</small><input data-map-input="baseColor" type="file" accept="image/png,image/jpeg,image/webp"></label>
+          <label class="slot" data-map-slot="normal"><span>Normal</span><small>Reliefwirkung</small><input data-map-input="normal" type="file" accept="image/png,image/jpeg,image/webp"></label>
+          <label class="slot" data-map-slot="roughness"><span>Roughness</span><small>Glanzverteilung</small><input data-map-input="roughness" type="file" accept="image/png,image/jpeg,image/webp"></label>
+          <label class="slot" data-map-slot="metalness"><span>Metalness</span><small>Metall-Anteil</small><input data-map-input="metalness" type="file" accept="image/png,image/jpeg,image/webp"></label>
+          <label class="slot" data-map-slot="ao"><span>AO</span><small>Kontaktabdunklung</small><input data-map-input="ao" type="file" accept="image/png,image/jpeg,image/webp"></label>
+        </div></div>
       <div id="readout" class="readout">Preview Engine lädt…</div>
     </section>
     <section class="panel viewer" aria-label="3D texture preview"><div id="viewport"></div><div class="hint">Maus/Touch: drehen, zoomen und schwenken. V1 ist ein lokaler Tester, kein Generator und kein Asset-Handoff.</div></section>
   </main>
   <script type="module">
     const els={
-      input:document.querySelector("#fileInput"),
+      inputs:Array.from(document.querySelectorAll("[data-map-input]")),
       drop:document.querySelector("#dropZone"),
       readout:document.querySelector("#readout"),
       repeatX:document.querySelector("#repeatX"),
@@ -55,15 +62,32 @@
       resetView:document.querySelector("#resetView")
     };
     const viewport=document.querySelector("#viewport");
+    const mapSlots={
+      baseColor:{label:"Base Color",materialKey:"map",colorSpace:"srgb",status:"Farbe / Diffuse"},
+      normal:{label:"Normal",materialKey:"normalMap",status:"Reliefwirkung"},
+      roughness:{label:"Roughness",materialKey:"roughnessMap",status:"Glanzverteilung"},
+      metalness:{label:"Metalness",materialKey:"metalnessMap",status:"Metall-Anteil"},
+      ao:{label:"AO",materialKey:"aoMap",status:"Kontaktabdunklung"}
+    };
     let THREE,OrbitControls,renderer,scene,camera,controls,hemi,key,checker,material,geometries,mesh;
-    let engineReady=false,engineError=null,pendingFile=null,activeTexture=null,activeObjectUrl=null;
+    let engineReady=false,engineError=null;
+    const pendingFiles={},textures={},objectUrls={},metadata={};
 
     function writeReadout(text){els.readout.textContent=text}
-    function writeTextureReadout(file,img){
+    function formatSize(bytes){return bytes>=1048576?(bytes/1048576).toFixed(2)+" MB":(bytes/1024).toFixed(1)+" KB"}
+    function renderReadout(message){
       els.readout.replaceChildren();
-      const name=document.createElement("strong");
-      name.textContent=file.name;
-      els.readout.append(name,document.createElement("br"),`${img.naturalWidth} x ${img.naturalHeight} px · ${file.type||"MIME unbekannt"} · ${(file.size/1024).toFixed(1)} KB`,document.createElement("br"),"Base Color aktiv · lokale Preview ohne Upload.");
+      if(message){const msg=document.createElement("div");msg.textContent=message;els.readout.append(msg)}
+      for(const id of Object.keys(mapSlots)){
+        const info=metadata[id];
+        const row=document.createElement("div");
+        if(info){
+          const title=document.createElement("strong");
+          title.textContent=mapSlots[id].label+": "+info.name;
+          row.append(title,document.createElement("br"),info.width+" x "+info.height+" px · "+info.mime+" · "+info.size);
+        }else row.textContent=mapSlots[id].label+": noch keine Map geladen.";
+        els.readout.append(row);
+      }
     }
     function isSupportedImage(file){
       if(!file)return false;
@@ -71,19 +95,27 @@
       const extOk=/\.(png|jpe?g|webp)$/i.test(file.name||"");
       return mimeOk||extOk;
     }
-    function handleFile(file){
-      if(!file){writeReadout("Keine Datei ausgewählt.");return}
-      if(!isSupportedImage(file)){writeReadout("Bitte PNG, JPG oder WebP laden.");return}
-      pendingFile=file;
-      if(engineError){writeReadout(`Preview Engine Fehler: ${engineError}`);return}
-      if(!engineReady){writeReadout(`${file.name} ausgewählt. Preview Engine lädt…`);return}
-      loadFile(file);
+    function updateSlotState(slotId){
+      const el=document.querySelector("[data-map-slot=\""+slotId+"\"]");
+      if(!el)return;
+      el.classList.toggle("loaded",Boolean(metadata[slotId]));
+      const small=el.querySelector("small");
+      if(small)small.textContent=metadata[slotId]?metadata[slotId].width+" x "+metadata[slotId].height+" px":mapSlots[slotId].status;
+    }
+    function handleFile(slotId,file){
+      const slot=mapSlots[slotId]||mapSlots.baseColor;
+      if(!file){renderReadout("Keine Datei ausgewählt.");return}
+      if(!isSupportedImage(file)){renderReadout(slot.label+": Bitte PNG, JPG oder WebP laden.");return}
+      pendingFiles[slotId]=file;
+      if(engineError){renderReadout("Preview Engine Fehler: "+engineError);return}
+      if(!engineReady){renderReadout(slot.label+": "+file.name+" ausgewählt. Preview Engine lädt…");return}
+      loadMap(slotId,file);
     }
     function bindInputs(){
-      els.input.addEventListener("change",e=>handleFile(e.target.files&&e.target.files[0]));
+      els.inputs.forEach(input=>input.addEventListener("change",e=>handleFile(e.target.dataset.mapInput,e.target.files&&e.target.files[0])));
       els.drop.addEventListener("dragover",e=>{e.preventDefault();els.drop.classList.add("drag")});
       els.drop.addEventListener("dragleave",()=>els.drop.classList.remove("drag"));
-      els.drop.addEventListener("drop",e=>{e.preventDefault();els.drop.classList.remove("drag");handleFile(e.dataTransfer.files&&e.dataTransfer.files[0])});
+      els.drop.addEventListener("drop",e=>{e.preventDefault();els.drop.classList.remove("drag");handleFile("baseColor",e.dataTransfer.files&&e.dataTransfer.files[0])});
       document.querySelectorAll("input[name=shape]").forEach(i=>i.addEventListener("change",e=>setShape(e.target.value)));
       ["repeatX","repeatY","scale","rotation","offsetX","offsetY","opacity","light"].forEach(id=>els[id].addEventListener("input",applyParams));
       els.background.addEventListener("change",applyParams);
@@ -104,27 +136,37 @@
       const v=els.background.value;
       if(v==="light")scene.background=new THREE.Color(0xe8edf5);else if(v==="neutral")scene.background=new THREE.Color(0x5a6472);else if(v==="checker")scene.background=checker;else scene.background=new THREE.Color(0x0d1117);
     }
+    function applyTextureParams(tex){
+      tex.wrapS=tex.wrapT=THREE.RepeatWrapping;tex.center.set(.5,.5);tex.repeat.set(Number(els.repeatX.value),Number(els.repeatY.value));tex.rotation=THREE.MathUtils.degToRad(Number(els.rotation.value));tex.offset.set(Number(els.offsetX.value),Number(els.offsetY.value));tex.needsUpdate=true;
+    }
     function applyParams(){
       if(!requireEngine())return;
-      if(activeTexture){
-        activeTexture.wrapS=activeTexture.wrapT=THREE.RepeatWrapping;activeTexture.center.set(.5,.5);activeTexture.repeat.set(Number(els.repeatX.value),Number(els.repeatY.value));activeTexture.rotation=THREE.MathUtils.degToRad(Number(els.rotation.value));activeTexture.offset.set(Number(els.offsetX.value),Number(els.offsetY.value));activeTexture.needsUpdate=true;
-      }
-      mesh.scale.setScalar(Number(els.scale.value));material.opacity=Number(els.opacity.value);hemi.intensity=Number(els.light.value)*1.1;key.intensity=Number(els.light.value)*1.4;setBackground();
+      Object.values(textures).forEach(applyTextureParams);
+      mesh.scale.setScalar(Number(els.scale.value));material.opacity=Number(els.opacity.value);
+      material.roughness=textures.roughness?1:.72;material.metalness=textures.metalness?1:0;material.aoMapIntensity=textures.ao?1:0;material.normalScale.set(1,1);material.needsUpdate=true;
+      hemi.intensity=Number(els.light.value)*1.1;key.intensity=Number(els.light.value)*1.4;setBackground();
     }
-    function loadFile(file){
-      if(!requireEngine()){handleFile(file);return}
-      if(activeObjectUrl)URL.revokeObjectURL(activeObjectUrl);
-      activeObjectUrl=URL.createObjectURL(file);
+    function assignTexture(slotId,tex){
+      const slot=mapSlots[slotId];
+      if(textures[slotId])textures[slotId].dispose();
+      textures[slotId]=tex;material[slot.materialKey]=tex;material.needsUpdate=true;applyParams();
+    }
+    function loadMap(slotId,file){
+      if(!requireEngine()){handleFile(slotId,file);return}
+      const slot=mapSlots[slotId]||mapSlots.baseColor;
+      if(objectUrls[slotId])URL.revokeObjectURL(objectUrls[slotId]);
+      objectUrls[slotId]=URL.createObjectURL(file);
       const img=new Image();
       img.onload=()=>{
         try{
-          const tex=new THREE.Texture(img);tex.colorSpace=THREE.SRGBColorSpace;tex.needsUpdate=true;
-          if(activeTexture)activeTexture.dispose();
-          activeTexture=tex;material.map=activeTexture;material.needsUpdate=true;applyParams();writeTextureReadout(file,img);
-        }catch(error){writeReadout(`Preview Texture Fehler: ${error&&error.message?error.message:String(error)}`)}
+          const tex=new THREE.Texture(img);tex.colorSpace=slot.colorSpace==="srgb"?THREE.SRGBColorSpace:THREE.NoColorSpace;tex.needsUpdate=true;
+          assignTexture(slotId,tex);
+          metadata[slotId]={name:file.name,width:img.naturalWidth,height:img.naturalHeight,mime:file.type||"MIME unbekannt",size:formatSize(file.size)};
+          delete pendingFiles[slotId];updateSlotState(slotId);renderReadout(slot.label+" geladen. Preview aktualisiert.");
+        }catch(error){renderReadout(slot.label+": Preview Texture Fehler: "+(error&&error.message?error.message:String(error)))}
       };
-      img.onerror=()=>writeReadout("Die Bilddatei konnte nicht geladen werden.");
-      img.src=activeObjectUrl;
+      img.onerror=()=>renderReadout(slot.label+": Die Bilddatei konnte nicht geladen werden.");
+      img.src=objectUrls[slotId];
     }
     function resize(){
       if(!requireEngine())return;
@@ -139,6 +181,10 @@
       for(let y=0;y<8;y++)for(let i=0;i<8;i++){x.fillStyle=(i+y)%2?"#1b2430":"#5a6676";x.fillRect(i*16,y*16,16,16)}
       const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(8,8);return t;
     }
+    function addAoUv(geometry){
+      if(geometry.attributes.uv&&!geometry.attributes.uv2)geometry.setAttribute("uv2",geometry.attributes.uv);
+      return geometry;
+    }
     async function initPreviewEngine(){
       writeReadout("Preview Engine lädt…");
       try{
@@ -151,13 +197,14 @@
         scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(45,1,.1,100);controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;
         hemi=new THREE.HemisphereLight(0xffffff,0x2a3140,1.2);key=new THREE.DirectionalLight(0xffffff,1.4);key.position.set(3,4,5);scene.add(hemi,key);
         checker=createChecker();material=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.72,metalness:0,transparent:true,side:THREE.DoubleSide});
-        geometries={plane:new THREE.PlaneGeometry(2.7,2.7),box:new THREE.BoxGeometry(2,2,2),sphere:new THREE.SphereGeometry(1.35,64,32)};
+        geometries={plane:addAoUv(new THREE.PlaneGeometry(2.7,2.7)),box:addAoUv(new THREE.BoxGeometry(2,2,2)),sphere:addAoUv(new THREE.SphereGeometry(1.35,64,32))};
         mesh=new THREE.Mesh(geometries.plane,material);scene.add(mesh);engineReady=true;
         window.addEventListener("resize",resize);resetCamera();resize();applyParams();animate();
-        if(pendingFile)loadFile(pendingFile);else writeReadout("Preview Engine bereit. Noch keine Textur geladen.");
+        const queued=Object.entries(pendingFiles);
+        if(queued.length)queued.forEach(([slotId,file])=>loadMap(slotId,file));else renderReadout("Preview Engine bereit. Noch keine Textur geladen.");
       }catch(error){
         engineError=error&&error.message?error.message:String(error);
-        writeReadout(`Preview Engine Fehler: ${engineError}`);
+        renderReadout("Preview Engine Fehler: "+engineError);
       }
     }
 
