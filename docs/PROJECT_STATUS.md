@@ -107,6 +107,29 @@ Texture Lab Minimal V1 ist auf `feature/texture-lab-minimal-v1` als isolierter T
 
 Ein späterer Texture Creator bleibt ausdrücklich ein separater Folgeblock.
 
+## Texture Lab – Multi Map Preview
+Status:
+`AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+
+Scope-Dokument:
+`docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_SCOPE.md`
+
+Scope Authorization Baseline:
+`bc506a0b6ed155c617a23e7578eecc28390edfe2`
+
+Ziel ist ausschließlich die Preview vorhandener lokaler Material-Maps im bestehenden Texture Lab:
+
+- Base Color bleibt wie in Minimal V1;
+- zusätzliche Slots für Normal, Roughness, Metalness und AO;
+- lokale PNG/JPG/JPEG/WebP-Dateien pro Slot;
+- gemeinsames Material auf Fläche, Würfel und Kugel prüfen;
+- gemeinsame Transform-Parameter bleiben synchron, damit Maps ausgerichtet bleiben;
+- iPhone-Safari-Dateiauswahl und sichtbare Readouts bleiben Acceptance-relevant.
+
+Nicht Teil dieses Blocks sind Map-Erzeugung, Texture Creator / Map Generator, Export, Download, Handoff, Projekt-Persistenz, dediziertes Icon, GLB-Import oder DF-05–DF-09-Änderungen.
+
+Die zuvor technisch mögliche Main-Integration wird produktfachlich zurückgestellt, bis Multi Map Preview implementiert und auf Gerät verifiziert ist.
+
 ## Tatsächlich offene Bereiche
 - DF-09 Implementation ist noch nicht begonnen.
 - Sprite-Lab-Folgefähigkeiten wie Marker/Sockets, Layer/Z-Order und Rig/Skeleton bleiben separate spätere Blöcke.
@@ -119,6 +142,6 @@ Ein späterer Texture Creator bleibt ausdrücklich ein separater Folgeblock.
 Der Block ergänzt ausschließlich `tools/texture-lab/`, die Hub-Registrierung und Statusdokumentation. Er verändert keinen Frozen Contract und keine DF-05–DF-09-Semantik.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater **Texture Lab – Minimal V1 Integration Reconciliation** gegen `feature/texture-lab-minimal-v1` und den aktuellen `main`.
+Ausschließlich ein separater **Texture Lab – Multi Map Preview Implementation / Verification** gegen `feature/texture-lab-minimal-v1`.
 
-Dabei wird read-only geprüft, ob der Frozen Product Commit `200b769c3b4fff5f236dee4ca791a2f5867a40c0` linear und ohne Fremdänderungen auf `main` integriert werden kann. Keine Texture-Creator-, Map-Generator- oder Icon-Implementation in diesem Schritt.
+Dabei werden vorhandene lokale Base-Color-, Normal-, Roughness-, Metalness- und AO-Maps gemeinsam im Texture Lab geprüft. Erwarteter Startpunkt ist `tools/texture-lab/index.html`; keine Map-Erzeugung, kein Export, kein Handoff, kein Icon und keine Main-Integration in diesem Schritt.
