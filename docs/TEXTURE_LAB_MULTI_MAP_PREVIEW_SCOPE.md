@@ -3,7 +3,7 @@
 Stand: 2026-10-13
 
 Status:
-`AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+`IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
 
 Branch:
 `feature/texture-lab-minimal-v1`
@@ -93,8 +93,19 @@ Der nächste Implementierungs-/Verifikationsblock ist erst bestanden, wenn minde
 7. Fehlende Zusatz-Maps blockieren Base Color nicht.
 8. Kein Generator-, Export- oder Handoff-UI ist sichtbar.
 
+## Implementation / Verification
+
+Implementation Commit:
+`060793be662a9fa33e0fb6508c855226b52b1c89`
+
+Statische Verification:
+`PASS`
+
+Details:
+`docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_IMPLEMENTATION_VERIFICATION.md`
+
 ## Nächster zulässiger Schritt
 
-Ausschließlich ein separater **Texture Lab – Multi Map Preview Implementation / Verification** gegen `feature/texture-lab-minimal-v1`.
+Ausschließlich ein separater **Texture Lab – Multi Map Preview Device Evidence Gate** gegen den aktuellen Branch-Head.
 
-Der Block darf mit `tools/texture-lab/index.html` beginnen und muss die iPhone-Safari-Basisfunktion erneut nachweisen. Main-Integration bleibt bis nach erfolgreicher Multi-Map-Verification zurückgestellt.
+Der aktualisierte Pages/Testbuild muss auf iPhone Safari hart neu geladen und mit Base Color plus mindestens einer zusätzlichen Map geprüft werden. Main-Integration bleibt bis nach erfolgreicher Device-Evidence zurückgestellt.
