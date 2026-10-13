@@ -134,9 +134,9 @@ DF-09 und Texture Lab verändern dieses Repository nicht.
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater `Texture Lab – Multi Map Preview Implementation / Verification` gegen `feature/texture-lab-minimal-v1`.
+Ausschließlich ein separater `Texture Lab – Multi Map Preview Device Evidence Gate` gegen den aktuellen Branch-Head.
 
-Dabei werden vorhandene lokale Base-Color-, Normal-, Roughness-, Metalness- und AO-Maps gemeinsam im Texture Lab geprüft. Keine Map-Erzeugung, kein Export, kein Handoff, kein dediziertes Icon und keine Main-Integration in diesem Schritt.
+Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen und mit Base Color plus mindestens einer Zusatz-Map geprüft. Keine Map-Erzeugung, kein Export, kein Handoff, kein dediziertes Icon und keine Main-Integration in diesem Schritt.
 
 ## Archivierter Altstand
 Der frühere parametrische Stahlträgerhallen-Prototyp ist unverändert auf folgendem Branch gesichert:
