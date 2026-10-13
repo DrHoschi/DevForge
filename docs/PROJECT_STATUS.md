@@ -137,9 +137,9 @@ Die zuvor technisch mögliche Main-Integration wird produktfachlich zurückgeste
 - Repository-Transfer, Runtime-Handoff, persistente Libraries, Batch, Signaturen/PKI und Formatkonvertierung bleiben spätere Core-Grenzen.
 
 ## Aktueller Gate-Status
-`TEXTURE LAB – MINIMAL V1 COMPLETION / EVIDENCE / FREEZE – PASS / FROZEN`
+`TEXTURE LAB – MULTI MAP PREVIEW DOCUMENTATION / SCOPE AUTHORIZATION – AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
 
-Der Block ergänzt ausschließlich `tools/texture-lab/`, die Hub-Registrierung und Statusdokumentation. Er verändert keinen Frozen Contract und keine DF-05–DF-09-Semantik.
+Der aktuelle Block ergänzt ausschließlich Scope-/Statusdokumentation. Er verändert keinen Frozen Contract, keine DF-05–DF-09-Semantik, keine Hub-Registrierung und keine Tool-Implementation. Texture Lab Minimal V1 bleibt `PASS / FROZEN`; die Main-Integration wird bis nach Multi-Map-Verification zurückgestellt.
 
 ## Nächster zulässiger Schritt
 Ausschließlich ein separater **Texture Lab – Multi Map Preview Implementation / Verification** gegen `feature/texture-lab-minimal-v1`.
