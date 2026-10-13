@@ -1,12 +1,12 @@
 # DevForge – Project Status
 
-Stand: 2026-10-08
+Stand: 2026-10-13
 
 ## Repository
 - Repository: `DrHoschi/DevForge`
 - Default Branch: `main`
 - Texture Lab Scope Baseline: `d270bb80834eb285de776733dffedab3d28efb8c`
-- Texture Lab Product Priority / Minimal V1 Scope: `IMPLEMENTED / TESTBUILD / VERIFICATION PENDING`
+- Texture Lab Product Priority / Minimal V1 Scope: `PASS / FROZEN`
 - Texture Lab Minimal V1 Implementation Baseline: `203b6c3ab9697d5f9243fde2af0d315227f55f7b`
 
 ## Frozen Core Foundations
@@ -76,9 +76,9 @@ Der Block ergänzt ausschließlich SHA-256 des bereits gebundenen lokalen Payloa
 
 DF-09 bleibt ein vollständig definierter Core-Capability-Kandidat, ist aber aktuell nicht als höchste Produktpriorität ausgewählt.
 
-## Texture Lab – Minimal V1 Implementation
+## Texture Lab – Minimal V1
 Status:
-`IMPLEMENTED / TESTBUILD / VERIFICATION PENDING`
+`PASS / FROZEN`
 
 Scope-Dokument:
 `docs/TEXTURE_LAB_PRODUCT_PRIORITY_MINIMAL_V1_SCOPE.md`
@@ -88,6 +88,12 @@ Scope Baseline:
 
 Implementation Baseline:
 `203b6c3ab9697d5f9243fde2af0d315227f55f7b`
+
+Frozen Product Commit:
+`200b769c3b4fff5f236dee4ca791a2f5867a40c0`
+
+Completion-/Evidence:
+`docs/TEXTURE_LAB_MINIMAL_V1_COMPLETION_EVIDENCE_FREEZE.md`
 
 Texture Lab Minimal V1 ist auf `feature/texture-lab-minimal-v1` als isolierter Texture Tester implementiert:
 
@@ -102,18 +108,17 @@ Texture Lab Minimal V1 ist auf `feature/texture-lab-minimal-v1` als isolierter T
 Ein späterer Texture Creator bleibt ausdrücklich ein separater Folgeblock.
 
 ## Tatsächlich offene Bereiche
-- Texture Lab Minimal V1 benötigt noch Pages-/Device-Evidence vor Freeze.
 - DF-09 Implementation ist noch nicht begonnen.
 - Sprite-Lab-Folgefähigkeiten wie Marker/Sockets, Layer/Z-Order und Rig/Skeleton bleiben separate spätere Blöcke.
 - Dokumentierte non-blocking UI-/Visual-Polish-Punkte bleiben optional.
 - Repository-Transfer, Runtime-Handoff, persistente Libraries, Batch, Signaturen/PKI und Formatkonvertierung bleiben spätere Core-Grenzen.
 
 ## Aktueller Gate-Status
-`TEXTURE LAB – MINIMAL V1 IMPLEMENTATION – TESTBUILD / VERIFICATION PENDING`
+`TEXTURE LAB – MINIMAL V1 COMPLETION / EVIDENCE / FREEZE – PASS / FROZEN`
 
 Der Block ergänzt ausschließlich `tools/texture-lab/`, die Hub-Registrierung und Statusdokumentation. Er verändert keinen Frozen Contract und keine DF-05–DF-09-Semantik.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater **Texture Lab – Minimal V1 Verification / Evidence Gate** gegen `feature/texture-lab-minimal-v1`.
+Ausschließlich ein separater **Texture Lab – Minimal V1 Integration Reconciliation** gegen `feature/texture-lab-minimal-v1` und den aktuellen `main`.
 
-Vor Freeze erforderlich: Hub-Link öffnen, lokale PNG/JPG/WebP laden, Fläche/Würfel/Kugel prüfen, Transform-/Alpha-/Hintergrund-/Lichtregler sichtbar verifizieren und bestätigen, dass keine Generator- oder Handoff-Funktion angeboten wird.
+Dabei wird read-only geprüft, ob der Frozen Product Commit `200b769c3b4fff5f236dee4ca791a2f5867a40c0` linear und ohne Fremdänderungen auf `main` integriert werden kann. Keine Texture-Creator-, Map-Generator- oder Icon-Implementation in diesem Schritt.
