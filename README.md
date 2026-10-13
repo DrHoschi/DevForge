@@ -134,9 +134,9 @@ DF-09 und Texture Lab verändern dieses Repository nicht.
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater `Texture Lab – Minimal V1 Integration Reconciliation` gegen `feature/texture-lab-minimal-v1` und den aktuellen `main`.
+Ausschließlich ein separater `Texture Lab – Multi Map Preview Implementation / Verification` gegen `feature/texture-lab-minimal-v1`.
 
-Dabei wird read-only geprüft, ob der Frozen Product Commit `200b769c3b4fff5f236dee4ca791a2f5867a40c0` linear und ohne Fremdänderungen auf `main` integriert werden kann. Texture Creator / Map Generator und ein dediziertes Texture-Lab-Icon bleiben separate spätere Blöcke.
+Dabei werden vorhandene lokale Base-Color-, Normal-, Roughness-, Metalness- und AO-Maps gemeinsam im Texture Lab geprüft. Keine Map-Erzeugung, kein Export, kein Handoff, kein dediziertes Icon und keine Main-Integration in diesem Schritt.
 
 ## Archivierter Altstand
 Der frühere parametrische Stahlträgerhallen-Prototyp ist unverändert auf folgendem Branch gesichert:
