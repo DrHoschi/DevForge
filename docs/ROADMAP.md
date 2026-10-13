@@ -130,12 +130,15 @@ Diese Entscheidung verändert keine Frozen Contracts. DF-09 bleibt definiert und
 ## 10. Texture Lab – Multi Map Preview
 
 Status:
-`AUTHORIZED / DOCUMENTED / NOT IMPLEMENTED`
+`IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
 
 Scope-Dokument:
 `docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_SCOPE.md`
 
-Der eingefrorene Texture Lab Minimal V1 bleibt Fundament. Vor der Main-Integration wird der Produktumfang um die Preview vorhandener lokaler Material-Maps erweitert:
+Implementation-/Verification-Dokument:
+`docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_IMPLEMENTATION_VERIFICATION.md`
+
+Der eingefrorene Texture Lab Minimal V1 bleibt Fundament. Vor der Main-Integration wurde der Produktumfang um die Preview vorhandener lokaler Material-Maps erweitert:
 
 - Base Color bleibt wie in V1;
 - Normal, Roughness, Metalness und AO werden als optionale lokale Map-Slots ergänzt;
@@ -143,12 +146,12 @@ Der eingefrorene Texture Lab Minimal V1 bleibt Fundament. Vor der Main-Integrati
 - Transform-Parameter bleiben materialweit synchron;
 - iPhone-Safari-Dateiauswahl, Readouts und sichtbares Preview-Rendering bleiben Gate-Nachweis.
 
-Nicht enthalten sind Map-Erzeugung, Texture Creator / Map Generator, Export, Handoff, Projekt-Persistenz, dediziertes Icon oder neue Core-Authority.
+Nicht enthalten sind Map-Erzeugung, Texture Creator / Map Generator, Export, Handoff, Projekt-Persistenz, dediziertes Icon oder neue Core-Authority. Die statische Verification ist bestanden; reale iPhone-Safari-Device-Evidence steht noch aus.
 
 ## 11. Arbeitsweise
 Kleine Blöcke, Exact-Head-/Baseline-Nachweis, getrennte Definition/Authorization/Implementation/Verification/Freeze/Integration-Gates, reale Device-Evidence bei produktiven UI-/Code-Blöcken und explizite Non-Goals bleiben verbindlich.
 
 ## 12. Nächster zulässiger Schritt
-Ausschließlich ein separater **Texture Lab – Multi Map Preview Implementation / Verification** gegen `feature/texture-lab-minimal-v1`.
+Ausschließlich ein separater **Texture Lab – Multi Map Preview Device Evidence Gate** gegen den aktuellen Branch-Head.
 
-Dabei werden vorhandene lokale Base-Color-, Normal-, Roughness-, Metalness- und AO-Maps gemeinsam im Texture Lab geprüft. Keine Texture-Creator-, Map-Generator-, Export-, Handoff-, Icon- oder Main-Integration in diesem Schritt.
+Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen und mit Base Color plus mindestens einer Zusatz-Map geprüft. Keine Texture-Creator-, Map-Generator-, Export-, Handoff-, Icon- oder Main-Integration in diesem Schritt.
