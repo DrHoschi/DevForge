@@ -1,9 +1,9 @@
 # Texture Lab – Multi Map Preview Implementation / Verification
 
-Stand: 2026-10-13
+Stand: 2026-10-14
 
 Status:
-`IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
+`PASS WITH EVIDENCE LIMITATIONS / FROZEN`
 
 Branch:
 `feature/texture-lab-minimal-v1`
@@ -59,20 +59,14 @@ Statisch geprüft:
 | Dynamischer Three-/OrbitControls-Import erhalten | PASS |
 | Keine Generator-/Export-/Handoff-UI ergänzt | PASS |
 
-## Device Evidence Status
+## Device Evidence / Freeze
 
-Noch offen:
+Alle fünf Maps sowie Fläche, Würfel und Kugel wurden vom Nutzer auf iPhone Safari erfolgreich getestet. Die Screenshots zeigen fünf geladene Slots (512 x 512 px) und den texturierten Würfel. Die vollständige Evidence einschließlich Nachweisgrenzen und erweitertem V1-Freeze steht in `docs/TEXTURE_LAB_MATERIAL_CONTROLS_SLOT_CLEANUP_ICON_VERIFICATION.md`.
 
-- Pages/Testbuild aktualisieren;
-- iPhone Safari hart neu laden;
-- Base Color laden;
-- mindestens eine zusätzliche Map laden;
-- Readout pro Slot prüfen;
-- Preview auf Fläche, Würfel und Kugel prüfen;
-- Transform-Parameter sichtbar prüfen.
+Frozen Product Commit: `be9534c62cc48c21e664aed84b0476e590364d16`.
+
+Das dedizierte Icon gehört zum nachfolgenden Material-Controls-/Slot-Cleanup-Block und ist inzwischen enthalten; die obige Nicht-Ziele-Liste beschreibt den ursprünglichen Multi-Map-Implementationsscope.
 
 ## Nächster zulässiger Schritt
 
-Ausschließlich ein separater **Texture Lab – Multi Map Preview Device Evidence Gate** gegen den aktuellen Branch-Head.
-
-Erst nach realer iPhone-Safari-Evidence darf ein Freeze- oder Main-Integration-Gate vorbereitet werden.
+Ausschließlich **Texture Lab V1 – main Integration Reconciliation**, read-only: den vollständigen Freeze-Stand auf `feature/texture-lab-minimal-v1` mit dem dann aktuellen `main` vergleichen. Keine Main-Integration in diesem Gate; eine Integration bleibt separat zu autorisieren.
