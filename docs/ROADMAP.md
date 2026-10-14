@@ -146,12 +146,12 @@ Der eingefrorene Texture Lab Minimal V1 bleibt Fundament. Vor der Main-Integrati
 - Transform-Parameter bleiben materialweit synchron;
 - iPhone-Safari-Dateiauswahl, Readouts und sichtbares Preview-Rendering bleiben Gate-Nachweis.
 
-Nicht enthalten sind Map-Erzeugung, Texture Creator / Map Generator, Export, Handoff, Projekt-Persistenz, dediziertes Icon oder neue Core-Authority. Die statische Verification ist bestanden; reale iPhone-Safari-Device-Evidence steht noch aus.
+Nicht enthalten sind Map-Erzeugung, Texture Creator / Map Generator, Export, Handoff, Projekt-Persistenz, dediziertes Icon oder neue Core-Authority. Die Multi-Map-Preview ist um Material Controls, Slot Cleanup und ein dediziertes Texture-Lab-Icon erweitert. Die statische Verification ist bestanden; reale iPhone-Safari-Device-Evidence steht noch aus.
 
 ## 11. Arbeitsweise
 Kleine Blöcke, Exact-Head-/Baseline-Nachweis, getrennte Definition/Authorization/Implementation/Verification/Freeze/Integration-Gates, reale Device-Evidence bei produktiven UI-/Code-Blöcken und explizite Non-Goals bleiben verbindlich.
 
 ## 12. Nächster zulässiger Schritt
-Ausschließlich ein separater **Texture Lab – Multi Map Preview Device Evidence Gate** gegen den aktuellen Branch-Head.
+Ausschließlich ein separater **Texture Lab – Material Controls / Slot Cleanup + Icon Device Evidence Gate** gegen den aktuellen Branch-Head.
 
-Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen und mit Base Color plus mindestens einer Zusatz-Map geprüft. Keine Texture-Creator-, Map-Generator-, Export-, Handoff-, Icon- oder Main-Integration in diesem Schritt.
+Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen und mit neuem Hub-/Tool-Icon, Base Color plus mindestens einer Zusatz-Map, Slot aktiv/deaktiv, Map entfernen und Materialreglern geprüft. Keine Texture-Creator-, Map-Generator-, Export-, Handoff- oder Main-Integration in diesem Schritt.
