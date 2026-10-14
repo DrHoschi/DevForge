@@ -1,6 +1,6 @@
 # DevForge – Project Status
 
-Stand: 2026-10-13
+Stand: 2026-10-14
 
 ## Repository
 - Repository: `DrHoschi/DevForge`
@@ -109,7 +109,7 @@ Ein späterer Texture Creator bleibt ausdrücklich ein separater Folgeblock.
 
 ## Texture Lab – Multi Map Preview
 Status:
-`IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
+`PASS WITH EVIDENCE LIMITATIONS / FROZEN`
 
 Scope-Dokument:
 `docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_SCOPE.md`
@@ -131,7 +131,7 @@ Ziel ist ausschließlich die Preview vorhandener lokaler Material-Maps im besteh
 
 Nicht Teil dieses Blocks sind Map-Erzeugung, Texture Creator / Map Generator, Export, Download, Handoff, Projekt-Persistenz, dediziertes Icon, GLB-Import oder DF-05–DF-09-Änderungen.
 
-Die zuvor technisch mögliche Main-Integration bleibt produktfachlich zurückgestellt, bis Multi Map Preview auf Gerät verifiziert ist.
+Multi Map Preview ist über Nutzer-Evidence auf iPhone Safari funktional verifiziert und im erweiterten V1-Freeze enthalten. Main-Integration bleibt separat.
 
 Implementation Commit:
 `060793be662a9fa33e0fb6508c855226b52b1c89`
@@ -145,16 +145,18 @@ Statisch verifiziert sind zusätzliche Slots für Normal, Roughness, Metalness u
 - Repository-Transfer, Runtime-Handoff, persistente Libraries, Batch, Signaturen/PKI und Formatkonvertierung bleiben spätere Core-Grenzen.
 
 ## Aktueller Gate-Status
-`TEXTURE LAB – MATERIAL CONTROLS / SLOT CLEANUP + ICON – IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
+`TEXTURE LAB V1 – TEXTURE TESTER – PASS WITH EVIDENCE LIMITATIONS / FROZEN`
 
-Der aktuelle Block ergänzt ausschließlich Texture-Lab-Tester-Bedienung und Icon-Verdrahtung. Er verändert keinen Frozen Contract und keine DF-05–DF-09-Semantik. Texture Lab Minimal V1 bleibt `PASS / FROZEN`; die Main-Integration bleibt bis nach Device-Evidence zurückgestellt.
+Arbeitsbranch: `feature/texture-lab-minimal-v1`.
+Frozen Product Commit: `be9534c62cc48c21e664aed84b0476e590364d16`.
 
-Material Controls / Slot Cleanup + Icon Verification:
+Completion-/Evidence-/Freeze:
 `docs/TEXTURE_LAB_MATERIAL_CONTROLS_SLOT_CLEANUP_ICON_VERIFICATION.md`
 
-Implementiert sind Map entfernen, Slot aktiv/deaktiv, Normal Strength, AO Intensity, Roughness-/Metalness-Basisregler, Hub-Icon `assets/tool-icons/texture-lab.png` und Tool-Header-Icon.
+Der Nutzer bestätigte auf iPhone Safari alle fünf Map-Slots, sichtbare Preview, Entfernen, Aktiv/Deaktiv, Materialregler und Fläche/Würfel/Kugel. Screenshots belegen geladene Slots und den texturierten Würfel mit Tool-Icon. Nachweisgrenzen: keine unabhängig ermittelte Pages-SHA, keine separate neue Reset-/Format-/iPad-/Desktop-Regression; Details im Evidence-Dokument. Keine weiteren Funktionen für diesen Freeze erforderlich.
+
+Der erweiterte V1-Stand ergänzt den historischen Base-Color-Minimal-V1-Freeze. Texture Creator / Map Generator bleibt separat. Main ist weiterhin `203b6c3ab9697d5f9243fde2af0d315227f55f7b`; keine Integration in diesem Gate.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater **Texture Lab – Material Controls / Slot Cleanup + Icon Device Evidence Gate** gegen den aktuellen Branch-Head.
 
-Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen. Erwartung: neues Hub-Icon sichtbar, Tool-Header-Icon sichtbar, Base Color plus mindestens eine Zusatz-Map laden, Slot aktiv/deaktiv prüfen, Map entfernen prüfen, Normal Strength / AO Intensity / Roughness Basis / Metalness Basis sichtbar prüfen, Preview auf Fläche/Würfel/Kugel bestätigen. Keine Main-Integration vor dieser Device-Evidence.
+Ausschließlich **Texture Lab V1 – main Integration Reconciliation**, read-only: den vollständigen Freeze-Stand auf `feature/texture-lab-minimal-v1` mit dem dann aktuellen `main` vergleichen. Keine Main-Integration in diesem Gate; eine Integration bleibt separat zu autorisieren.
