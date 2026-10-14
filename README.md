@@ -16,7 +16,7 @@ Der Hub wurde durch DF-05 außerhalb des eingefrorenen HUB-01-Blocks um `Control
 - Sprite Lab – `AVAILABLE`, Rolle `TECHNICAL ASSET`
 - Atlas Builder – `CONSOLIDATED / REDIRECT`
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`
-- Texture Lab – `PASS / FROZEN`, Rolle `MATERIAL / TEXTURE REVIEW`
+- Texture Lab – `MATERIAL CONTROLS / DEVICE EVIDENCE PENDING`, Rolle `MATERIAL / TEXTURE REVIEW`
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`
 - Controlled Asset Handoff – DF-05, DF-06, DF-07 und DF-08 `FROZEN / PRODUCTIVE`; DF-09 ist `DEFINED / NOT IMPLEMENTED`
 
@@ -134,9 +134,9 @@ DF-09 und Texture Lab verändern dieses Repository nicht.
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater `Texture Lab – Multi Map Preview Device Evidence Gate` gegen den aktuellen Branch-Head.
+Ausschließlich ein separater `Texture Lab – Material Controls / Slot Cleanup + Icon Device Evidence Gate` gegen den aktuellen Branch-Head.
 
-Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen und mit Base Color plus mindestens einer Zusatz-Map geprüft. Keine Map-Erzeugung, kein Export, kein Handoff, kein dediziertes Icon und keine Main-Integration in diesem Schritt.
+Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen und mit neuem Hub-/Tool-Icon, Base Color plus mindestens einer Zusatz-Map, Slot aktiv/deaktiv, Map entfernen und Materialreglern geprüft. Keine Map-Erzeugung, kein Export, kein Handoff und keine Main-Integration in diesem Schritt.
 
 ## Archivierter Altstand
 Der frühere parametrische Stahlträgerhallen-Prototyp ist unverändert auf folgendem Branch gesichert:
