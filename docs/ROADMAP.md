@@ -1,6 +1,6 @@
 # DevForge – Master Roadmap & Entwicklungsgrenzen
 
-Stand: 2026-10-13
+Stand: 2026-10-14
 
 ## 1. Vision
 DevForge ist eine projektübergreifende Produktions-, Prüf- und Übergabeplattform für Entwicklungsassets und ein Hub für eigenständige Entwicklungswerkzeuge. Neue Funktionen werden in kleinen überprüfbaren Blöcken aus realen Produktionsproblemen entwickelt.
@@ -130,7 +130,7 @@ Diese Entscheidung verändert keine Frozen Contracts. DF-09 bleibt definiert und
 ## 10. Texture Lab – Multi Map Preview
 
 Status:
-`IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
+`PASS WITH EVIDENCE LIMITATIONS / FROZEN`
 
 Scope-Dokument:
 `docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_SCOPE.md`
@@ -146,12 +146,11 @@ Der eingefrorene Texture Lab Minimal V1 bleibt Fundament. Vor der Main-Integrati
 - Transform-Parameter bleiben materialweit synchron;
 - iPhone-Safari-Dateiauswahl, Readouts und sichtbares Preview-Rendering bleiben Gate-Nachweis.
 
-Nicht enthalten sind Map-Erzeugung, Texture Creator / Map Generator, Export, Handoff, Projekt-Persistenz, dediziertes Icon oder neue Core-Authority. Die Multi-Map-Preview ist um Material Controls, Slot Cleanup und ein dediziertes Texture-Lab-Icon erweitert. Die statische Verification ist bestanden; reale iPhone-Safari-Device-Evidence steht noch aus.
+Nicht enthalten sind Map-Erzeugung, Texture Creator / Map Generator, Export, Handoff, Projekt-Persistenz, dediziertes Icon oder neue Core-Authority. Die Multi-Map-Preview ist um Material Controls, Slot Cleanup und ein dediziertes Texture-Lab-Icon erweitert. Die statische Verification und der funktionale iPhone-Safari-Nutzertest sind bestanden. Der erweiterte Texture-Tester-V1-Stand ist mit Nachweisgrenzen eingefroren: `be9534c62cc48c21e664aed84b0476e590364d16`. Evidence und Grenzen: `docs/TEXTURE_LAB_MATERIAL_CONTROLS_SLOT_CLEANUP_ICON_VERIFICATION.md`. Der Generator bleibt ein separates Tool; Main-Integration bleibt separat.
 
 ## 11. Arbeitsweise
 Kleine Blöcke, Exact-Head-/Baseline-Nachweis, getrennte Definition/Authorization/Implementation/Verification/Freeze/Integration-Gates, reale Device-Evidence bei produktiven UI-/Code-Blöcken und explizite Non-Goals bleiben verbindlich.
 
 ## 12. Nächster zulässiger Schritt
-Ausschließlich ein separater **Texture Lab – Material Controls / Slot Cleanup + Icon Device Evidence Gate** gegen den aktuellen Branch-Head.
 
-Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen und mit neuem Hub-/Tool-Icon, Base Color plus mindestens einer Zusatz-Map, Slot aktiv/deaktiv, Map entfernen und Materialreglern geprüft. Keine Texture-Creator-, Map-Generator-, Export-, Handoff- oder Main-Integration in diesem Schritt.
+Ausschließlich **Texture Lab V1 – main Integration Reconciliation**, read-only: den vollständigen Freeze-Stand auf `feature/texture-lab-minimal-v1` mit dem dann aktuellen `main` vergleichen. Keine Main-Integration in diesem Gate; eine Integration bleibt separat zu autorisieren.
