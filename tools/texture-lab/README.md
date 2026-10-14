@@ -1,6 +1,6 @@
 # Texture Lab
 
-Status: `MATERIAL CONTROLS / IMPLEMENTED / DEVICE EVIDENCE PENDING`
+Status: `V1 TEXTURE TESTER / PASS WITH EVIDENCE LIMITATIONS / FROZEN`
 
 Texture Lab Minimal V1 ist ein lokaler Texture Tester für DevForge. Er dient dazu, normale Bild-/Texturquellen schnell im Browser zu prüfen, bevor daraus spätere Material- oder Pipeline-Schritte entstehen.
 
@@ -49,13 +49,13 @@ Minimaler Test vor Freeze wurde erfüllt:
 
 Gate Result: `Texture Lab – Minimal V1 Completion / Evidence / Freeze: PASS / FROZEN`
 
-## Next Authorized Follow-up – Multi Map Preview
+## Abgeschlossene Erweiterung – Multi Map Preview
 
-Status: `IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
+Status: `PASS WITH EVIDENCE LIMITATIONS / FROZEN`
 
 Scope-Dokument: `docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_SCOPE.md`
 
-Der nächste erlaubte Produktblock erweitert Texture Lab vom Base-Color-Tester zum Preview-Tester vorhandener Material-Maps:
+Der abgeschlossene Produktblock erweitert Texture Lab vom Base-Color-Tester zum Preview-Tester vorhandener Material-Maps:
 
 - Base Color bleibt wie in Minimal V1;
 - zusätzliche lokale Slots für Normal, Roughness, Metalness und AO;
@@ -73,12 +73,12 @@ Implementation Commit: `060793be662a9fa33e0fb6508c855226b52b1c89`
 
 Verification-Dokument: `docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_IMPLEMENTATION_VERIFICATION.md`
 
-Statisch bestanden sind Slot-UI, iOS-Dateiendungsfallback, Map-Zuweisung auf `MeshStandardMaterial`, synchronisierte Texture-Transforms und sichtbare Readouts. Reale iPhone-Safari-Device-Evidence steht noch aus.
+Statisch bestanden sind Slot-UI, iOS-Dateiendungsfallback, Map-Zuweisung auf `MeshStandardMaterial`, synchronisierte Texture-Transforms und sichtbare Readouts. Der funktionale Nutzertest auf iPhone Safari ist bestanden; Evidence und Grenzen sind im Material-Controls-Verification-Dokument dokumentiert.
 
 
 ## Material Controls / Slot Cleanup + Icon
 
-Status: `IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
+Status: `PASS WITH EVIDENCE LIMITATIONS / FROZEN`
 
 Verification-Dokument: `docs/TEXTURE_LAB_MATERIAL_CONTROLS_SLOT_CLEANUP_ICON_VERIFICATION.md`
 
@@ -94,3 +94,17 @@ Ergänzt wurden:
 - Metalness-Basiswert.
 
 Nicht enthalten bleiben Map-Erzeugung, Texture Creator / Map Generator, Export, Download, Asset-Handoff, Projekt-Persistenz, GLB-Import oder DF-05–DF-09-Änderung.
+
+## Erweiterter V1 Completion / Evidence / Freeze
+
+Frozen Product Commit: `be9534c62cc48c21e664aed84b0476e590364d16`.
+
+Nutzer bestätigt: alle fünf Maps laden, Preview sichtbar, Maps entfernen, Slots aktiv/deaktiv, Materialregler und Fläche/Würfel/Kugel. Status: `PASS WITH EVIDENCE LIMITATIONS / FROZEN`.
+
+Vollständige Evidence einschließlich nicht separat bestätigter Reset-/Format-Regression und weiterer Device-Grenzen: `docs/TEXTURE_LAB_MATERIAL_CONTROLS_SLOT_CLEANUP_ICON_VERIFICATION.md`.
+
+Der ursprüngliche Base-Color-Minimal-V1-Freeze oben bleibt historische Grundlage. Das Icon ist im nachfolgenden Material-Controls-Block ergänzt worden. Main-Integration bleibt separat.
+
+## Nächster zulässiger Schritt
+
+Ausschließlich **Texture Lab V1 – main Integration Reconciliation**, read-only: den vollständigen Freeze-Stand auf `feature/texture-lab-minimal-v1` mit dem dann aktuellen `main` vergleichen. Keine Main-Integration in diesem Gate; eine Integration bleibt separat zu autorisieren.
