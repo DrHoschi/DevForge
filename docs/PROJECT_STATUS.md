@@ -145,11 +145,16 @@ Statisch verifiziert sind zusätzliche Slots für Normal, Roughness, Metalness u
 - Repository-Transfer, Runtime-Handoff, persistente Libraries, Batch, Signaturen/PKI und Formatkonvertierung bleiben spätere Core-Grenzen.
 
 ## Aktueller Gate-Status
-`TEXTURE LAB – MULTI MAP PREVIEW IMPLEMENTATION / VERIFICATION – IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
+`TEXTURE LAB – MATERIAL CONTROLS / SLOT CLEANUP + ICON – IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
 
-Der aktuelle Block ergänzt ausschließlich Scope-/Statusdokumentation. Er verändert keinen Frozen Contract, keine DF-05–DF-09-Semantik, keine Hub-Registrierung und keine Tool-Implementation. Texture Lab Minimal V1 bleibt `PASS / FROZEN`; die Main-Integration wird bis nach Multi-Map-Verification zurückgestellt.
+Der aktuelle Block ergänzt ausschließlich Texture-Lab-Tester-Bedienung und Icon-Verdrahtung. Er verändert keinen Frozen Contract und keine DF-05–DF-09-Semantik. Texture Lab Minimal V1 bleibt `PASS / FROZEN`; die Main-Integration bleibt bis nach Device-Evidence zurückgestellt.
+
+Material Controls / Slot Cleanup + Icon Verification:
+`docs/TEXTURE_LAB_MATERIAL_CONTROLS_SLOT_CLEANUP_ICON_VERIFICATION.md`
+
+Implementiert sind Map entfernen, Slot aktiv/deaktiv, Normal Strength, AO Intensity, Roughness-/Metalness-Basisregler, Hub-Icon `assets/tool-icons/texture-lab.png` und Tool-Header-Icon.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater **Texture Lab – Multi Map Preview Device Evidence Gate** gegen den aktuellen Branch-Head.
+Ausschließlich ein separater **Texture Lab – Material Controls / Slot Cleanup + Icon Device Evidence Gate** gegen den aktuellen Branch-Head.
 
-Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen. Erwartung: Base Color plus mindestens eine zusätzliche Map laden, Readouts mit Dateiname/Pixelgröße/Dateigröße prüfen, Preview auf Fläche/Würfel/Kugel sichtbar bestätigen. Keine Main-Integration vor dieser Device-Evidence.
+Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen. Erwartung: neues Hub-Icon sichtbar, Tool-Header-Icon sichtbar, Base Color plus mindestens eine Zusatz-Map laden, Slot aktiv/deaktiv prüfen, Map entfernen prüfen, Normal Strength / AO Intensity / Roughness Basis / Metalness Basis sichtbar prüfen, Preview auf Fläche/Würfel/Kugel bestätigen. Keine Main-Integration vor dieser Device-Evidence.
