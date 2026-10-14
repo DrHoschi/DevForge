@@ -3,7 +3,7 @@
 Stand: 2026-10-14
 
 Status:
-`IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
+`PASS WITH EVIDENCE LIMITATIONS / FROZEN`
 
 Branch:
 `feature/texture-lab-minimal-v1`
@@ -59,24 +59,41 @@ Bewusst nicht enthalten:
 | Metalness-Basiswert vorhanden | PASS |
 | Keine Export-/Creator-Funktion ergänzt | PASS |
 
-## Device Evidence Status
+## Geräte-Evidence / Completion / Freeze
 
-Noch offen:
+Datum: 2026-10-14
+Gerät / Browser: iPhone / Safari.
+Evidence-Quelle: Nutzerberichte und die im Chat sichtbaren Screenshots `IMG_5783.png` / `IMG_5784.jpeg`. Die Bilddateien werden hier nicht als im Repository archiviert ausgegeben.
 
-1. Pages/Testbuild aktualisieren.
-2. iPhone Safari hart neu laden.
-3. Texture Lab aus dem Hub öffnen.
-4. Prüfen, ob das neue Texture-Lab-Icon im Hub sichtbar ist.
-5. Prüfen, ob das Icon im Texture-Lab-Header sichtbar ist.
-6. Base Color laden.
-7. Mindestens eine Zusatz-Map laden.
-8. Slot deaktivieren/aktivieren.
-9. Map entfernen.
-10. Normal Strength, AO Intensity, Roughness Basis und Metalness Basis sichtbar verändern.
-11. Preview auf Fläche, Würfel und Kugel prüfen.
+| Prüfschritt | Nachweis / Ergebnis |
+| --- | --- |
+| Texture-Lab-Icon sichtbar | Nutzer bestätigt; Tool-Header im Screenshot sichtbar — PASS |
+| Base Color, Normal, Roughness, Metalness und AO laden | Nutzer bestätigt; alle fünf Slots mit 512 x 512 px im Screenshot — PASS |
+| Sichtbare Material-Preview | Texturierter Würfel im Screenshot — PASS |
+| Maps entfernen | Nutzer bestätigt — PASS |
+| Slots aktiv/deaktiv schalten | Nutzer bestätigt — PASS |
+| Materialregler | Nutzer bestätigt: „mit den Reglern … das funktioniert auch“ — PASS als funktionaler Nutzertest |
+| Fläche, Würfel und Kugel | Nutzer bestätigt alle drei — PASS |
+
+### Nachweisgrenzen
+- Kein unabhängiger Browser-/WebGL-Test durch Codex in diesem Gate.
+- Die genaue ausgelieferte Pages-Commit-SHA wurde nicht unabhängig aus dem Deployment ermittelt. Der unveränderte Repository-Head ist `be9534c62cc48c21e664aed84b0476e590364d16`; Nutzerberichte und Screenshots zeigen die implementierte Oberfläche.
+- Hub-Icon nur über allgemeine Nutzerbestätigung „Icon ist da“, kein separater Hub-Screenshot.
+- Die vier Materialregler wurden gemeinsam bestätigt; kein einzeln protokollierter Zahlenwerttest.
+- Parameter-/Kamera-Reset sowie ein neuer Format-Roundtrip für PNG/JPEG/WebP sind für diese Erweiterung nicht separat bestätigt. Historische Minimal-V1-Evidence bleibt bestehen.
+- Kein zusätzlicher iPad-/Desktop-Test; keine quantitative Prüfung der physikalischen Map-Wirkung.
+Diese Grenzen werden transparent dokumentiert und blockieren den vom Nutzer autorisierten funktionalen V1-Freeze nicht.
+
+### Freeze
+Ergebnis: `PASS WITH EVIDENCE LIMITATIONS / FROZEN`.
+
+Frozen Product / geprüfter Repository-Head:
+`be9534c62cc48c21e664aed84b0476e590364d16`
+
+Der Freeze umfasst den lokalen Texture Tester mit fünf Map-Slots, gemeinsamem Material-Preview auf Fläche/Würfel/Kugel, Slot Cleanup, Material Controls und dediziertem Icon. Der frühere Base-Color-Minimal-V1-Freeze `200b769c3b4fff5f236dee4ca791a2f5867a40c0` bleibt historische Grundlage und wird durch diesen erweiterten V1-Produktstand ergänzt.
+
+In diesem Completion-Gate werden ausschließlich Dokumente geändert. Keine Produktcode-, Asset-, Branchschutz- oder Main-Änderung. Kein zusätzlicher Frozen-Branch oder Tag angelegt; der unveränderliche Commit oben ist die Freeze-Referenz.
 
 ## Nächster zulässiger Schritt
 
-Ausschließlich ein separater **Texture Lab – Material Controls / Slot Cleanup + Icon Device Evidence Gate** gegen den aktuellen Branch-Head.
-
-Keine Main-Integration vor erfolgreicher Device-Evidence.
+Ausschließlich **Texture Lab V1 – main Integration Reconciliation**, read-only: den vollständigen Freeze-Stand auf `feature/texture-lab-minimal-v1` mit dem dann aktuellen `main` vergleichen. Keine Main-Integration in diesem Gate; eine Integration bleibt separat zu autorisieren.
