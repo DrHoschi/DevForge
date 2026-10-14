@@ -1,6 +1,6 @@
 # Texture Lab
 
-Status: `MULTI MAP PREVIEW / IMPLEMENTED / DEVICE EVIDENCE PENDING`
+Status: `MATERIAL CONTROLS / IMPLEMENTED / DEVICE EVIDENCE PENDING`
 
 Texture Lab Minimal V1 ist ein lokaler Texture Tester für DevForge. Er dient dazu, normale Bild-/Texturquellen schnell im Browser zu prüfen, bevor daraus spätere Material- oder Pipeline-Schritte entstehen.
 
@@ -74,3 +74,23 @@ Implementation Commit: `060793be662a9fa33e0fb6508c855226b52b1c89`
 Verification-Dokument: `docs/TEXTURE_LAB_MULTI_MAP_PREVIEW_IMPLEMENTATION_VERIFICATION.md`
 
 Statisch bestanden sind Slot-UI, iOS-Dateiendungsfallback, Map-Zuweisung auf `MeshStandardMaterial`, synchronisierte Texture-Transforms und sichtbare Readouts. Reale iPhone-Safari-Device-Evidence steht noch aus.
+
+
+## Material Controls / Slot Cleanup + Icon
+
+Status: `IMPLEMENTED / STATIC VERIFICATION PASS / DEVICE EVIDENCE PENDING`
+
+Verification-Dokument: `docs/TEXTURE_LAB_MATERIAL_CONTROLS_SLOT_CLEANUP_ICON_VERIFICATION.md`
+
+Ergänzt wurden:
+
+- dediziertes Hub-Icon `assets/tool-icons/texture-lab.png`;
+- Tool-Header-Icon;
+- Map entfernen pro Slot;
+- Slot aktiv/deaktiv pro Slot;
+- Normal Strength;
+- AO Intensity;
+- Roughness-Basiswert;
+- Metalness-Basiswert.
+
+Nicht enthalten bleiben Map-Erzeugung, Texture Creator / Map Generator, Export, Download, Asset-Handoff, Projekt-Persistenz, GLB-Import oder DF-05–DF-09-Änderung.
