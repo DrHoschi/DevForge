@@ -16,7 +16,7 @@ Der Hub wurde durch DF-05 außerhalb des eingefrorenen HUB-01-Blocks um `Control
 - Sprite Lab – `AVAILABLE`, Rolle `TECHNICAL ASSET`
 - Atlas Builder – `CONSOLIDATED / REDIRECT`
 - Asset Inspector – `AVAILABLE`, Rolle `TECHNICAL ASSET`
-- Texture Lab – `MATERIAL CONTROLS / DEVICE EVIDENCE PENDING`, Rolle `MATERIAL / TEXTURE REVIEW`
+- Texture Lab – `V1 TEXTURE TESTER / FROZEN WITH EVIDENCE LIMITATIONS`, Rolle `MATERIAL / TEXTURE REVIEW`
 - Parameter Playground – `PREPARED / NOT IMPLEMENTED`
 - Controlled Asset Handoff – DF-05, DF-06, DF-07 und DF-08 `FROZEN / PRODUCTIVE`; DF-09 ist `DEFINED / NOT IMPLEMENTED`
 
@@ -112,6 +112,8 @@ Ein späterer Texture Creator bleibt ein separater Folgeblock.
 ## Aktueller Stand
 DF-08 ist `PASS / 0 BLOCKER / FROZEN`. DF-09 ist definiert, aber nicht implementiert. Texture Lab Minimal V1 ist auf `feature/texture-lab-minimal-v1` mit Frozen Product Commit `200b769c3b4fff5f236dee4ca791a2f5867a40c0` als `PASS / FROZEN` dokumentiert.
 
+Der erweiterte Texture-Lab-V1-Tester (Multi Map Preview, Material Controls, Slot Cleanup und eigenes Icon) ist auf demselben Feature-Branch mit Frozen Product Commit `be9534c62cc48c21e664aed84b0476e590364d16` eingefroren. Nutzer-Evidence auf iPhone Safari und Nachweisgrenzen: `docs/TEXTURE_LAB_MATERIAL_CONTROLS_SLOT_CLEANUP_ICON_VERIFICATION.md`. Keine Main-Integration erfolgt.
+
 ## Siedler-Mini
 Repository: `DrHoschi/siedler-mini`
 
@@ -134,10 +136,5 @@ DF-09 und Texture Lab verändern dieses Repository nicht.
 DevForge wird nicht als große theoretische All-in-one-Anwendung vorgebaut. Neue Funktionen entstehen in kleinen nachprüfbaren Blöcken aus realen Produktionsproblemen. Ein bestätigter Contract wird nicht nebenbei wieder geöffnet.
 
 ## Nächster zulässiger Schritt
-Ausschließlich ein separater `Texture Lab – Material Controls / Slot Cleanup + Icon Device Evidence Gate` gegen den aktuellen Branch-Head.
 
-Dabei wird der aktualisierte Pages/Testbuild auf iPhone Safari hart neu geladen und mit neuem Hub-/Tool-Icon, Base Color plus mindestens einer Zusatz-Map, Slot aktiv/deaktiv, Map entfernen und Materialreglern geprüft. Keine Map-Erzeugung, kein Export, kein Handoff und keine Main-Integration in diesem Schritt.
-
-## Archivierter Altstand
-Der frühere parametrische Stahlträgerhallen-Prototyp ist unverändert auf folgendem Branch gesichert:
-`archive/baustellenplaner-halle-legacy`
+Ausschließlich **Texture Lab V1 – main Integration Reconciliation**, read-only: den vollständigen Freeze-Stand auf `feature/texture-lab-minimal-v1` mit dem dann aktuellen `main` vergleichen. Keine Main-Integration in diesem Gate; eine Integration bleibt separat zu autorisieren.
