@@ -9,7 +9,8 @@
     *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#26364d 0,#0d1117 42%,#070a0f 100%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
     a{color:var(--accent-2)}header{padding:22px clamp(16px,4vw,48px);border-bottom:1px solid var(--line);background:rgba(7,10,15,.72);backdrop-filter:blur(16px)}
     .topline{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}.back{font-size:.92rem;text-decoration:none;color:var(--muted)}
-    h1{margin:10px 0 8px;font-size:clamp(2rem,5vw,4.4rem);letter-spacing:-.06em;line-height:.94}.lead{max-width:900px;margin:0;color:var(--muted);font-size:1.03rem;line-height:1.55}
+    .title-row{display:flex;align-items:center;gap:14px;margin:10px 0 8px}.tool-mark{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 12px 24px rgba(0,0,0,.34));flex:0 0 auto}
+    h1{margin:0;font-size:clamp(2rem,5vw,4.4rem);letter-spacing:-.06em;line-height:.94}.lead{max-width:900px;margin:0;color:var(--muted);font-size:1.03rem;line-height:1.55}
     main{display:grid;grid-template-columns:minmax(320px,420px) minmax(0,1fr);gap:18px;padding:18px clamp(12px,3vw,32px) 32px}
     .panel{background:linear-gradient(180deg,rgba(21,27,36,.94),rgba(12,17,24,.96));border:1px solid var(--line);border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.32)}
     .controls{padding:18px;display:grid;gap:16px;align-content:start}.viewer{min-height:620px;position:relative;overflow:hidden}#viewport{position:absolute;inset:0}
@@ -19,14 +20,14 @@
     .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.seg label,button,select{border:1px solid var(--line);background:#111925;color:var(--text);border-radius:12px;padding:10px 12px;font:inherit}.seg label{text-align:center;cursor:pointer;color:var(--muted)}.seg input{position:absolute;opacity:0;pointer-events:none}.seg label:has(input:checked){border-color:var(--accent);color:var(--text);background:rgba(255,179,71,.12)}
     label.row{display:grid;grid-template-columns:1fr minmax(120px,48%);gap:10px;align-items:center;color:var(--muted);font-size:.92rem}input[type=range]{width:100%}
     .readout{font-size:.88rem;color:var(--muted);line-height:1.45;word-break:break-word}.readout strong{color:var(--text)}
-    .slots{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.slot{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;color:#6f7d91;background:rgba(255,255,255,.02);font-size:.86rem;display:grid;gap:7px}.slot.active,.slot.loaded{color:var(--text);border-color:rgba(255,179,71,.55);background:rgba(255,179,71,.10)}.slot span{font-weight:700}.slot small{color:var(--muted);line-height:1.35}.slot input{width:100%;color:var(--muted);font-size:.82rem}
+    .slots{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.slot{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;color:#6f7d91;background:rgba(255,255,255,.02);font-size:.86rem;display:grid;gap:7px}.slot.active,.slot.loaded{color:var(--text);border-color:rgba(255,179,71,.55);background:rgba(255,179,71,.10)}.slot.disabled{opacity:.62}.slot span{font-weight:700}.slot small{color:var(--muted);line-height:1.35}.slot input[type=file]{width:100%;color:var(--muted);font-size:.82rem}.slot-tools{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.slot-tools label{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:.8rem}.slot-tools button{padding:7px 9px;border-radius:10px;font-size:.8rem}
     .badge{display:inline-flex;border:1px solid rgba(255,179,71,.45);color:var(--accent);border-radius:999px;padding:6px 10px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
     .hint{position:absolute;left:16px;bottom:16px;right:16px;color:var(--muted);font-size:.88rem;background:rgba(7,10,15,.66);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px;backdrop-filter:blur(12px)}
-    @media (max-width:900px){main{grid-template-columns:1fr}.viewer{min-height:58vh}.controls{order:2}.viewer{order:1}}
+    @media (max-width:900px){main{grid-template-columns:1fr}.viewer{min-height:58vh}.controls{order:2}.viewer{order:1}.tool-mark{width:52px;height:52px}}
   </style>
 </head>
 <body>
-  <header><div class="topline"><a class="back" href="../../">← DevForge Hub</a><span class="badge">Multi Map Preview · Texture Tester</span></div><h1>Texture Lab</h1><p class="lead">Lokale PNG-, JPG- und WebP-Texturen sicher im Browser laden und vorhandene Base-Color-, Normal-, Roughness-, Metalness- und AO-Maps gemeinsam auf Fläche, Würfel oder Kugel prüfen. Dieses Tool erzeugt keine Maps und exportiert keine Assets.</p></header>
+  <header><div class="topline"><a class="back" href="../../">← DevForge Hub</a><span class="badge">Material Controls · Texture Tester</span></div><div class="title-row"><img class="tool-mark" src="../../assets/tool-icons/texture-lab.png" alt="" aria-hidden="true"><h1>Texture Lab</h1></div><p class="lead">Lokale PNG-, JPG- und WebP-Texturen sicher im Browser laden und vorhandene Base-Color-, Normal-, Roughness-, Metalness- und AO-Maps gemeinsam auf Fläche, Würfel oder Kugel prüfen. Dieses Tool erzeugt keine Maps und exportiert keine Assets.</p></header>
   <main>
     <section class="panel controls" aria-label="Texture controls">
       <div id="dropZone" class="drop"><strong>Base Color hier ablegen</strong><span>oder lokale PNG/JPG/WebP auswählen. Dateien bleiben lokal im Browser.</span><input id="fileInput" data-map-input="baseColor" type="file" accept="image/png,image/jpeg,image/webp"></div>
@@ -34,12 +35,13 @@
       <div class="group"><h2>Texture Transform</h2><label class="row">Repeat X <input id="repeatX" type="range" min="0.1" max="8" step="0.1" value="1"></label><label class="row">Repeat Y <input id="repeatY" type="range" min="0.1" max="8" step="0.1" value="1"></label><label class="row">Scale <input id="scale" type="range" min="0.35" max="2.5" step="0.05" value="1"></label><label class="row">Rotation <input id="rotation" type="range" min="-180" max="180" step="1" value="0"></label><label class="row">Offset X <input id="offsetX" type="range" min="-1" max="1" step="0.01" value="0"></label><label class="row">Offset Y <input id="offsetY" type="range" min="-1" max="1" step="0.01" value="0"></label></div>
       <div class="group"><h2>Preview</h2><label class="row">Alpha/Transparenz <input id="opacity" type="range" min="0.15" max="1" step="0.01" value="1"></label><label class="row">Licht <input id="light" type="range" min="0.1" max="2.2" step="0.05" value="1"></label><label class="row">Hintergrund <select id="background"><option value="dark">Dunkel</option><option value="neutral">Neutral</option><option value="light">Hell</option><option value="checker">Checker</option></select></label><button id="resetParams" type="button">Parameter zurücksetzen</button><button id="resetView" type="button">Kamera zurücksetzen</button></div>
       <div class="group"><h2>Map-Slots</h2><div class="slots">
-          <label class="slot active" data-map-slot="baseColor"><span>Base Color</span><small>Farbe / Diffuse</small><input data-map-input="baseColor" type="file" accept="image/png,image/jpeg,image/webp"></label>
-          <label class="slot" data-map-slot="normal"><span>Normal</span><small>Reliefwirkung</small><input data-map-input="normal" type="file" accept="image/png,image/jpeg,image/webp"></label>
-          <label class="slot" data-map-slot="roughness"><span>Roughness</span><small>Glanzverteilung</small><input data-map-input="roughness" type="file" accept="image/png,image/jpeg,image/webp"></label>
-          <label class="slot" data-map-slot="metalness"><span>Metalness</span><small>Metall-Anteil</small><input data-map-input="metalness" type="file" accept="image/png,image/jpeg,image/webp"></label>
-          <label class="slot" data-map-slot="ao"><span>AO</span><small>Kontaktabdunklung</small><input data-map-input="ao" type="file" accept="image/png,image/jpeg,image/webp"></label>
+          <div class="slot active" data-map-slot="baseColor"><span>Base Color</span><small>Farbe / Diffuse</small><input data-map-input="baseColor" type="file" accept="image/png,image/jpeg,image/webp"><div class="slot-tools"><label><input data-map-toggle="baseColor" type="checkbox" checked> aktiv</label><button data-map-clear="baseColor" type="button">Entfernen</button></div></div>
+          <div class="slot" data-map-slot="normal"><span>Normal</span><small>Reliefwirkung</small><input data-map-input="normal" type="file" accept="image/png,image/jpeg,image/webp"><div class="slot-tools"><label><input data-map-toggle="normal" type="checkbox" checked> aktiv</label><button data-map-clear="normal" type="button">Entfernen</button></div></div>
+          <div class="slot" data-map-slot="roughness"><span>Roughness</span><small>Glanzverteilung</small><input data-map-input="roughness" type="file" accept="image/png,image/jpeg,image/webp"><div class="slot-tools"><label><input data-map-toggle="roughness" type="checkbox" checked> aktiv</label><button data-map-clear="roughness" type="button">Entfernen</button></div></div>
+          <div class="slot" data-map-slot="metalness"><span>Metalness</span><small>Metall-Anteil</small><input data-map-input="metalness" type="file" accept="image/png,image/jpeg,image/webp"><div class="slot-tools"><label><input data-map-toggle="metalness" type="checkbox" checked> aktiv</label><button data-map-clear="metalness" type="button">Entfernen</button></div></div>
+          <div class="slot" data-map-slot="ao"><span>AO</span><small>Kontaktabdunklung</small><input data-map-input="ao" type="file" accept="image/png,image/jpeg,image/webp"><div class="slot-tools"><label><input data-map-toggle="ao" type="checkbox" checked> aktiv</label><button data-map-clear="ao" type="button">Entfernen</button></div></div>
         </div></div>
+      <div class="group"><h2>Material Controls</h2><label class="row">Normal Strength <input id="normalStrength" type="range" min="0" max="3" step="0.05" value="1"></label><label class="row">AO Intensity <input id="aoIntensity" type="range" min="0" max="3" step="0.05" value="1"></label><label class="row">Roughness Basis <input id="roughnessBase" type="range" min="0" max="1" step="0.01" value="0.72"></label><label class="row">Metalness Basis <input id="metalnessBase" type="range" min="0" max="1" step="0.01" value="0"></label></div>
       <div id="readout" class="readout">Preview Engine lädt…</div>
     </section>
     <section class="panel viewer" aria-label="3D texture preview"><div id="viewport"></div><div class="hint">Maus/Touch: drehen, zoomen und schwenken. V1 ist ein lokaler Tester, kein Generator und kein Asset-Handoff.</div></section>
@@ -47,6 +49,8 @@
   <script type="module">
     const els={
       inputs:Array.from(document.querySelectorAll("[data-map-input]")),
+      toggles:Array.from(document.querySelectorAll("[data-map-toggle]")),
+      clearButtons:Array.from(document.querySelectorAll("[data-map-clear]")),
       drop:document.querySelector("#dropZone"),
       readout:document.querySelector("#readout"),
       repeatX:document.querySelector("#repeatX"),
@@ -59,7 +63,11 @@
       light:document.querySelector("#light"),
       background:document.querySelector("#background"),
       resetParams:document.querySelector("#resetParams"),
-      resetView:document.querySelector("#resetView")
+      resetView:document.querySelector("#resetView"),
+      normalStrength:document.querySelector("#normalStrength"),
+      aoIntensity:document.querySelector("#aoIntensity"),
+      roughnessBase:document.querySelector("#roughnessBase"),
+      metalnessBase:document.querySelector("#metalnessBase")
     };
     const viewport=document.querySelector("#viewport");
     const mapSlots={
@@ -75,6 +83,10 @@
 
     function writeReadout(text){els.readout.textContent=text}
     function formatSize(bytes){return bytes>=1048576?(bytes/1048576).toFixed(2)+" MB":(bytes/1024).toFixed(1)+" KB"}
+    function isEnabled(slotId){
+      const toggle=document.querySelector("[data-map-toggle=\""+slotId+"\"]");
+      return !toggle||toggle.checked;
+    }
     function renderReadout(message){
       els.readout.replaceChildren();
       if(message){const msg=document.createElement("div");msg.textContent=message;els.readout.append(msg)}
@@ -83,7 +95,7 @@
         const row=document.createElement("div");
         if(info){
           const title=document.createElement("strong");
-          title.textContent=mapSlots[id].label+": "+info.name;
+          title.textContent=mapSlots[id].label+": "+info.name+(isEnabled(id)?"":" · deaktiviert");
           row.append(title,document.createElement("br"),info.width+" x "+info.height+" px · "+info.mime+" · "+info.size);
         }else row.textContent=mapSlots[id].label+": noch keine Map geladen.";
         els.readout.append(row);
@@ -99,9 +111,14 @@
       const el=document.querySelector("[data-map-slot=\""+slotId+"\"]");
       if(!el)return;
       el.classList.toggle("loaded",Boolean(metadata[slotId]));
+      el.classList.toggle("disabled",!isEnabled(slotId));
       const small=el.querySelector("small");
-      if(small)small.textContent=metadata[slotId]?metadata[slotId].width+" x "+metadata[slotId].height+" px":mapSlots[slotId].status;
+      if(small){
+        if(metadata[slotId]) small.textContent=(isEnabled(slotId)?"aktiv · ":"pausiert · ")+metadata[slotId].width+" x "+metadata[slotId].height+" px";
+        else small.textContent=mapSlots[slotId].status;
+      }
     }
+    function updateAllSlotStates(){Object.keys(mapSlots).forEach(updateSlotState)}
     function handleFile(slotId,file){
       const slot=mapSlots[slotId]||mapSlots.baseColor;
       if(!file){renderReadout("Keine Datei ausgewählt.");return}
@@ -111,15 +128,28 @@
       if(!engineReady){renderReadout(slot.label+": "+file.name+" ausgewählt. Preview Engine lädt…");return}
       loadMap(slotId,file);
     }
+    function clearMap(slotId){
+      const slot=mapSlots[slotId];
+      if(!slot)return;
+      if(textures[slotId]){textures[slotId].dispose();delete textures[slotId]}
+      if(objectUrls[slotId]){URL.revokeObjectURL(objectUrls[slotId]);delete objectUrls[slotId]}
+      delete metadata[slotId];delete pendingFiles[slotId];
+      if(material)material[slot.materialKey]=null;
+      updateSlotState(slotId);
+      applyParams();
+      renderReadout(slot.label+" entfernt.");
+    }
     function bindInputs(){
       els.inputs.forEach(input=>input.addEventListener("change",e=>handleFile(e.target.dataset.mapInput,e.target.files&&e.target.files[0])));
+      els.toggles.forEach(toggle=>toggle.addEventListener("change",()=>{updateSlotState(toggle.dataset.mapToggle);applyParams();renderReadout(mapSlots[toggle.dataset.mapToggle].label+(toggle.checked?" aktiviert.":" deaktiviert."))}));
+      els.clearButtons.forEach(button=>button.addEventListener("click",()=>clearMap(button.dataset.mapClear)));
       els.drop.addEventListener("dragover",e=>{e.preventDefault();els.drop.classList.add("drag")});
       els.drop.addEventListener("dragleave",()=>els.drop.classList.remove("drag"));
       els.drop.addEventListener("drop",e=>{e.preventDefault();els.drop.classList.remove("drag");handleFile("baseColor",e.dataTransfer.files&&e.dataTransfer.files[0])});
       document.querySelectorAll("input[name=shape]").forEach(i=>i.addEventListener("change",e=>setShape(e.target.value)));
-      ["repeatX","repeatY","scale","rotation","offsetX","offsetY","opacity","light"].forEach(id=>els[id].addEventListener("input",applyParams));
+      ["repeatX","repeatY","scale","rotation","offsetX","offsetY","opacity","light","normalStrength","aoIntensity","roughnessBase","metalnessBase"].forEach(id=>els[id].addEventListener("input",applyParams));
       els.background.addEventListener("change",applyParams);
-      els.resetParams.addEventListener("click",()=>{els.repeatX.value=1;els.repeatY.value=1;els.scale.value=1;els.rotation.value=0;els.offsetX.value=0;els.offsetY.value=0;els.opacity.value=1;els.light.value=1;els.background.value="dark";applyParams()});
+      els.resetParams.addEventListener("click",()=>{els.repeatX.value=1;els.repeatY.value=1;els.scale.value=1;els.rotation.value=0;els.offsetX.value=0;els.offsetY.value=0;els.opacity.value=1;els.light.value=1;els.normalStrength.value=1;els.aoIntensity.value=1;els.roughnessBase.value=.72;els.metalnessBase.value=0;els.background.value="dark";applyParams()});
       els.resetView.addEventListener("click",resetCamera);
     }
     function requireEngine(){return engineReady&&THREE&&renderer&&scene&&camera&&controls}
@@ -139,17 +169,27 @@
     function applyTextureParams(tex){
       tex.wrapS=tex.wrapT=THREE.RepeatWrapping;tex.center.set(.5,.5);tex.repeat.set(Number(els.repeatX.value),Number(els.repeatY.value));tex.rotation=THREE.MathUtils.degToRad(Number(els.rotation.value));tex.offset.set(Number(els.offsetX.value),Number(els.offsetY.value));tex.needsUpdate=true;
     }
+    function assignMaterialMaps(){
+      if(!material)return;
+      for(const [slotId,slot] of Object.entries(mapSlots)) material[slot.materialKey]=textures[slotId]&&isEnabled(slotId)?textures[slotId]:null;
+      material.roughness=textures.roughness&&isEnabled("roughness")?1:Number(els.roughnessBase.value);
+      material.metalness=textures.metalness&&isEnabled("metalness")?1:Number(els.metalnessBase.value);
+      material.aoMapIntensity=textures.ao&&isEnabled("ao")?Number(els.aoIntensity.value):0;
+      const normal=Number(els.normalStrength.value);
+      material.normalScale.set(isEnabled("normal")?normal:0,isEnabled("normal")?normal:0);
+      material.needsUpdate=true;
+    }
     function applyParams(){
       if(!requireEngine())return;
       Object.values(textures).forEach(applyTextureParams);
+      assignMaterialMaps();
+      updateAllSlotStates();
       mesh.scale.setScalar(Number(els.scale.value));material.opacity=Number(els.opacity.value);
-      material.roughness=textures.roughness?1:.72;material.metalness=textures.metalness?1:0;material.aoMapIntensity=textures.ao?1:0;material.normalScale.set(1,1);material.needsUpdate=true;
       hemi.intensity=Number(els.light.value)*1.1;key.intensity=Number(els.light.value)*1.4;setBackground();
     }
     function assignTexture(slotId,tex){
-      const slot=mapSlots[slotId];
       if(textures[slotId])textures[slotId].dispose();
-      textures[slotId]=tex;material[slot.materialKey]=tex;material.needsUpdate=true;applyParams();
+      textures[slotId]=tex;assignMaterialMaps();applyParams();
     }
     function loadMap(slotId,file){
       if(!requireEngine()){handleFile(slotId,file);return}
@@ -196,7 +236,7 @@
         renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputColorSpace=THREE.SRGBColorSpace;viewport.appendChild(renderer.domElement);
         scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(45,1,.1,100);controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;
         hemi=new THREE.HemisphereLight(0xffffff,0x2a3140,1.2);key=new THREE.DirectionalLight(0xffffff,1.4);key.position.set(3,4,5);scene.add(hemi,key);
-        checker=createChecker();material=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.72,metalness:0,transparent:true,side:THREE.DoubleSide});
+        checker=createChecker();material=new THREE.MeshStandardMaterial({color:0xffffff,roughness:Number(els.roughnessBase.value),metalness:Number(els.metalnessBase.value),transparent:true,side:THREE.DoubleSide});
         geometries={plane:addAoUv(new THREE.PlaneGeometry(2.7,2.7)),box:addAoUv(new THREE.BoxGeometry(2,2,2)),sphere:addAoUv(new THREE.SphereGeometry(1.35,64,32))};
         mesh=new THREE.Mesh(geometries.plane,material);scene.add(mesh);engineReady=true;
         window.addEventListener("resize",resize);resetCamera();resize();applyParams();animate();
